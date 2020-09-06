@@ -1,2 +1,1 @@
-# loperntu
-SK's personal website
+# SK's Notes
