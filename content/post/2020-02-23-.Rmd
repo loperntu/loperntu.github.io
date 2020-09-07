@@ -1,0 +1,10 @@
+---
+title: រីករាយ​ដែល​បាន​ជួប​អ្នក
+author: Shu-Kai
+date: '2020-02-23'
+slug: ''
+categories:
+  - typology
+tags:
+  - khmer
+---
