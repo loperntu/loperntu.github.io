@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>notes on Minimalist blogging</title>
-    <link>/categories/notes/</link>
+    <link>https://loperntu.github.io/categories/notes/</link>
     <description>Recent content in notes on Minimalist blogging</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="/categories/notes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://loperntu.github.io/categories/notes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>The Righteous Mind</title>
-      <link>/post/1/01/01/the-righteous-mind/</link>
+      <link>https://loperntu.github.io/post/1/01/01/the-righteous-mind/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/post/1/01/01/the-righteous-mind/</guid>
+      <guid>https://loperntu.github.io/post/1/01/01/the-righteous-mind/</guid>
       <description> Why Good People are divided by politics and religion (J.Haidt, 2012)
 好人總是自以為是  終生致力於研究的人往往會認為，自己著迷研究的某樣東西就是了解一切的關鍵所在。
  至道無難，唯嫌揀擇。但莫憎愛，洞然明白。
