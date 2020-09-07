@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/khmer/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/typology/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020/02/23/%E1%9E%9A%E1%9E%B8%E1%9E%80%E1%9E%9A%E1%9E%B6%E1%9E%99%E1%9E%8A%E1%9F%82%E1%9E%9B%E1%9E%94%E1%9E%B6%E1%9E%93%E1%9E%87%E1%9E%BD%E1%9E%94%E1%9E%A2%E1%9F%92%E1%9E%93%E1%9E%80/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/reading/</loc>
+    <lastmod>2019-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/%E5%AE%9A/</loc>
+    <lastmod>2019-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2019/10/20/%E7%99%82%E7%99%92%E5%AF%AB%E4%BD%9C%E7%94%9F%E5%91%BD%E8%88%87%E8%AA%9E%E8%A8%80%E7%9A%84%E9%87%8D%E6%96%B0%E9%80%A3%E7%B5%90/</loc>
+    <lastmod>2019-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/note/2017/06/13/a-quick-note/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/example/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/note/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/humans/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/notes/</loc>
+  </url>
+  
+  <url>
+    <loc>/post/1/01/01/the-righteous-mind/</loc>
+  </url>
+  
+</urlset>
