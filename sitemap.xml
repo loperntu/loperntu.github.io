@@ -54,6 +54,21 @@
   </url>
   
   <url>
+    <loc>/note/2017/06/13/a-quick-note/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/example/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/note/</loc>
+    <lastmod>2017-06-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/about/</loc>
     <priority>0</priority>
   </url>
