@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "謝舒凱 | Shu-Kai Hsieh",
     "section": "",
-    "text": "Hi!\nI am an Associate Professor of Linguistics at National Taiwan University, Taiwan.\nI am interested in language-related everything, and the computational modeling of language."
+    "text": "Hi!\nI am Shu-Kai Hsieh, an Associate Professor of Linguistics at National Taiwan University, Taiwan.\nI am interested in language-related everything, and the computational modeling of language."
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,19 @@
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "My Blog",
+    "section": "",
+    "text": "量子語言學筆記\n\n\n\nQuantum Semantics\n\n\nPython\n\n\n\nquantum semantics\n\n\n\nShu-Kai Hsieh\n\n\nOct 24, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/2023-03-05/index.html",
+    "href": "posts/2023-03-05/index.html",
+    "title": "量子語言學筆記",
+    "section": "",
+    "text": "CitationBibTeX citation:@online{hsieh2022,\n  author = {Shu-Kai Hsieh},\n  title = {量子語言學筆記},\n  date = {2022-10-24},\n  url = {https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nShu-Kai Hsieh. 2022. “量子語言學筆記.” October 24, 2022. https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/."
   }
 ]

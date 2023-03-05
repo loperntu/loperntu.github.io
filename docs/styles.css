@@ -1,1 +1,24 @@
 /* css styles */
+/*-- use vars in CSS rules (we'll learn more about how to write CSS soon!) --*/
+
+
+h1 {
+    font-color: $darkblue;
+}
+  
+.button-styling {
+  background: $teal;
+  color: $darkblue; 
+  border-color: $darkgray;
+}
+
+
+.blue-italicized {
+    color: blue;
+    font-style: italic;
+}
+/* <p class="blue-italicized">My first paragraph is styled</p> */
+
+.blue-text {
+    color: blue;
+}

@@ -21,6 +21,7 @@ $magenta: #900C3F;
 $off-white: #F7F7F7; 
 $gray: #ADADAD; 
 
+
 // scss variables
 $presentation-title-slide-text-align: "left";
 $body-bg: $white;
@@ -29,6 +30,12 @@ $code-color: $magenta;
 $code-bg: $off-white;
 $code-block-font-size: 0.4em;
 $code-block-bg: $off-white;
+
+// Inline code
+// $code-bg: $cream; // inline code background color
+// $code-color: $purple; // inline code text color
+
+
 
 /*-- scss:rules --*/
 
