@@ -15,6 +15,9 @@ about:
     - icon: github
       text: GitHub
       href: https://github.com/loperntu
+    - icon: instagram
+      text: Instagram
+      href: https://www.instagram.com/iakuhs/
     - icon: envelope
       text: Email
       href: mailto:shukaihsieh@ntu.edu.tw
@@ -22,7 +25,7 @@ about:
 
 # Hi!
 
-I am Associate Professor of Linguistics at National Taiwan University, Taiwan.
+I am an Associate Professor of Linguistics at National Taiwan University, Taiwan.
 
 I am interested in language-related everything, and the computational modeling of language. 
 

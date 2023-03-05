@@ -4,14 +4,28 @@ project:
 
 website:
   title: "謝舒凱 | Shu-Kai Hsieh"
+  favicon: me.png
   navbar:
    background: primary
    left:
      - href: index.qmd
        text: Home
-     - about.qmd
-    #  - resourcesa.qmd # my new navbar page
-
+     - href: about.qmd
+       text: About
+     - href: research.qmd
+       text: Research
+     - href: CV/sk_CV.pdf
+       text: CV
+     
+   page-footer: 
+    background: light
+    left: 
+      - "Copyright 2023, Shu-Kai Hsieh"
+    right: 
+      - icon: github
+        href: https://github.com/loperntu
+      - icon: Instagram
+        href: https://www.instagram.com/iakuhs/
 
 format:
   html:
