@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "謝舒凱 | Shu-Kai Hsieh"
+  navbar:
+   background: primary
+   left:
+     - href: index.qmd
+       text: Home
+     - about.qmd
+    #  - resourcesa.qmd # my new navbar page
+
+
+format:
+  html:
+    theme: [yeti,my_styles.scss]    
+    css: styles.css
+    toc: true
+
+
