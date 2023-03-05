@@ -7,7 +7,7 @@ author:
     orcid: 0000-0001-9674-1249
     affiliation: 台大語言學研究所 LOPE Lab
     affiliation-url: https://lope.github.io/ 
-date: 10-24-2022
+date: 03-05-2023
 categories: [Quantum Semantics, Python] # self-defined categories
 citation: 
   url: https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/ 
