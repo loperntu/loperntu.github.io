@@ -6,13 +6,17 @@ about:
   image-shape: rounded
   image-width: 15em
   links:
-    - text: LinkedIn
+    - icon: linkedin
+      text: LinkedIn
       href: https://www.linkedin.com/in/shu-kai-hsieh-0a08b945/
-    - text: Twitter
+    - icon: twitter
+      text: Twitter
       href: https://twitter.com/shukaihsieh
-    - text: GitHub
+    - icon: github
+      text: GitHub
       href: https://github.com/loperntu
-    - text: Email
+    - icon: envelope
+      text: Email
       href: mailto:shukaihsieh@ntu.edu.tw
 ---
 
