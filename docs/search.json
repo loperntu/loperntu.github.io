@@ -16,9 +16,9 @@
   {
     "objectID": "posts.html",
     "href": "posts.html",
-    "title": "My Blog-Notes",
+    "title": "Blog and Note",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2023-03-05/index.html",
@@ -26,5 +26,75 @@
     "title": "量子語言學筆記",
     "section": "",
     "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Shu-Kai Hsieh},\n  title = {量子語言學筆記},\n  date = {2023-03-05},\n  url = {https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nShu-Kai Hsieh. 2023. “量子語言學筆記.” March 5, 2023. https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/."
+  },
+  {
+    "objectID": "posts/2023-04-23/index.html",
+    "href": "posts/2023-04-23/index.html",
+    "title": "Prompting as a linguistic object",
+    "section": "",
+    "text": "Prompting as a linguistic object\nPrompting LLMs has\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Prompting as a Linguistic Object},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-04-23-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Prompting as a Linguistic Object.”\nMarch 5, 2023. https://loperntu.github.io/posts/2023-04-23-quarto-blogs/."
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html",
+    "href": "posts/2023-05-20/field_work.html",
+    "title": "布農語田調隨行記",
+    "section": "",
+    "text": "等到今年終於圓夢。感謝同事麗梅老師的包容，讓我有機會一起參加台大語言所碩一必修的語言田調工作。"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#merriweather",
+    "href": "posts/2023-05-20/field_work.html#merriweather",
+    "title": "布農語田調",
+    "section": "Merriweather",
+    "text": "Merriweather\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit est nec dui eleifend, at dictum elit ullamcorper. Aliquam feugiat dictum bibendum. Praesent fermentum laoreet quam, cursus volutpat odio dapibus in. Fusce luctus porttitor vehicula. Donec ac tortor nisi. Donec at lectus tortor. Morbi tempor, nibh non euismod viverra, metus arcu aliquet elit, sed fringilla urna leo vel purus."
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#columns",
+    "href": "posts/2023-05-20/field_work.html#columns",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "geom_density(\n  mapping = NULL,\n  data = NULL,\n  stat = \"density\",\n  position = \"identity\",\n  ...,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE,\n  outline.type = \"upper\"\n)\n\n\nstat_density(\n  mapping = NULL,\n  data = NULL,\n  geom = \"area\",\n  position = \"stack\",\n  ...,\n  bw = \"nrd0\",\n  adjust = 1,\n  kernel = \"gaussian\",\n  n = 512,\n  trim = FALSE,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE\n)"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#margin-captions",
+    "href": "posts/2023-05-20/field_work.html#margin-captions",
+    "title": "This is a dummy blog posts",
+    "section": "",
+    "text": "ggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#引語技術-elicitation-是田調工作者的拿手本事對於向來習慣語料用爬的我有現場衝擊感",
+    "href": "posts/2023-05-20/field_work.html#引語技術-elicitation-是田調工作者的拿手本事對於向來習慣語料用爬的我有現場衝擊感",
+    "title": "布農語田調隨行記",
+    "section": "引語技術 (elicitation) 是田調工作者的拿手本事。對於向來習慣語料用爬的我，有現場衝擊感。",
+    "text": "引語技術 (elicitation) 是田調工作者的拿手本事。對於向來習慣語料用爬的我，有現場衝擊感。\n你不用工作，怎麼說？爲什麼不用工作 (你們絕對不能撒謊 )"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#引語技術-elicitation",
+    "href": "posts/2023-05-20/field_work.html#引語技術-elicitation",
+    "title": "布農語田調隨行記",
+    "section": "引語技術 (elicitation)",
+    "text": "引語技術 (elicitation)\n引語技術是有經驗的田調工作者之拿手本領。對於向來習慣語料用爬的我，蠻有現場衝擊感。在台灣因爲有了前人的努力，其實可以預先準備的材料（詞表、簡單語料）算是不匱乏，族語老師的中文也算流利。\n清楚自己要詢問或確認什麼語言結構與表達，如何 frame 這個 prompt，小心歧義，保持語言與文化偏見的警覺，從不同老師確認（是否有別的說法）等。 需要講故事、製造情景，善用肢體與可能的道具 stimuli。最理想是用族語進行。\n好幾串對話大家都笑到不行。\n\n學生：樹上有許多桃子，怎麼說？ 老師：什麼樹？\n\n\n學生：小孩子都不喜歡吃香蕉，怎麼說？ 老師：怎麼會不喜歡？香蕉很甜啊\n\n\n學生：你不用工作，怎麼說？ 老師：爲什麼不用工作？年紀輕輕的。要去工作啊。 學生：那假裝說你不用工作。 老師：爲什麼要撒謊？不要說謊啊"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#觀察者悖倫",
+    "href": "posts/2023-05-20/field_work.html#觀察者悖倫",
+    "title": "布農語田調隨行記",
+    "section": "觀察者悖倫",
+    "text": "觀察者悖倫\n\nTo obtain the data most important for linguistic theory, we have to observe how people speak when they are not being observed. (Labov 1972:113)\n\n面對觀察者悖論，我們得下好的 prompt，營造自然的對話環境，讓族語老師共同參與了自然語料生成的過程，而不是把實驗室搬到戶外。"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#語音發音儀器言談多模態與認知實驗",
+    "href": "posts/2023-05-20/field_work.html#語音發音儀器言談多模態與認知實驗",
+    "title": "布農語田調隨行記",
+    "section": "語音發音儀器、言談、多模態與認知實驗",
+    "text": "語音發音儀器、言談、多模態與認知實驗\n這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n1"
+  },
+  {
+    "objectID": "posts/2023-05-20/field_work.html#fine-tune-the-whisper-model-for-multilingual-asr",
+    "href": "posts/2023-05-20/field_work.html#fine-tune-the-whisper-model-for-multilingual-asr",
+    "title": "布農語田調隨行記",
+    "section": "Fine-tune the Whisper model for multilingual ASR",
+    "text": "Fine-tune the Whisper model for multilingual ASR\n接近尾聲，我的工作還來不及完成。隨行錄音的經驗與技術不佳，但是錄到這種實際的田調言談，混着不同腔調的中文 (還有兩位日籍同學)、布農語，甚至夾雜一些日文，讓我覺得很興奮。這是一個語音辨識的大挑戰（？）。 也許過幾天等看看 Universal Speech Model 或其他大廠的模型釋出，遷移學習是否奏效。\n語音發音儀器、言談、多模態與認知實驗 這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n大家準備回家時，每個人都收贈一本熱心的全校長翻譯的巒群布農聖經。 在回高鐵車上只因爲我開玩笑讚美了布農族司機看不出來的年紀，他就把原本要帶回家的一大袋李子給我了。一位敏感的同學分享給我，雖然這幾天收到的熱情招待很感動，但是覺得自己不值得被這樣對待，我們好像就只是在做一次性消費。的確是的，希望漢族在台的掠奪史，不要再用別的形式重現。"
   }
 ]

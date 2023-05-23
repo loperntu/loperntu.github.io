@@ -1,0 +1,14 @@
+{
+  "hash": "c339ffedceeeeb5a36f8554f6a3d272d",
+  "result": {
+    "markdown": "---\ntitle: '布農語田調隨行記'\ndate: '2023-05-18'\ncategories: ['bunun', 'field work']\ndescription: '南投信義鄉卡里布安村'\nexecute: \n  message: false\n  warning: false\neditor_options: \n  chunk_output_type: console\n---\n\n\n\n> 等到今年終於圓夢。感謝同事麗梅老師的包容，讓我有機會一起參加台大語言所碩一必修的語言田調工作。\n\n\n# Day 1\n\n第一天下午抵達，午餐後大家就開工了。我比同學的基礎還差，只好邊錄音邊閱讀一本 【台灣原住民族語言的書面化歷程】。很詳盡。此行我的任務是備料，希望能開發巒群布農的語音自動轉寫。\n\n# Day 2\n\n明媚風光，鳥語花香，與山羌的神奇叫聲。有種回家的感覺。kincentric ecology，山林保育其實是保育自己。\n在住宿處幸運的看到了玉山，忝爲台灣人至今還沒造訪。\n\n\n\n![](../../images/day2.png){width=\"50%\"}\n\n\n**引語技術** (elicitation) 是有經驗的田調工作者之拿手本領。對於向來習慣語料用爬的我，蠻有現場衝擊感。在台灣因爲有了前人的努力，其實可以預先準備的材料（詞表、簡單語料）算是不匱乏，族語老師的中文也算流利。\n\n清楚自己要詢問或確認什麼語言結構與表達，如何 frame 這個 prompt，小心歧義，保持語言與文化偏見的警覺，從不同老師確認（是否有別的說法）等。\n需要講故事、製造情景，善用肢體與可能的道具 stimuli。最理想是用族語進行。\n\n\n好幾串對話大家都笑到不行。\n\n> 學生：樹上有許多桃子，怎麼說？\n> 老師：什麼樹？\n\n> 學生：小孩子都不喜歡吃香蕉，怎麼說？\n  老師：怎麼會不喜歡？香蕉很甜啊\n\n> 學生：你不用工作，怎麼說？\n  老師：爲什麼不用工作？年紀輕輕的。要去工作啊。\n  學生：那假裝說你不用工作。\n  老師：爲什麼要撒謊？不要說謊啊\n\n\n# Day 3\n\n宋老師安排了一個文化導覽活動，去走了獵人古道。有真正的獵人帶路解說，添增不同文化風采。途中見到了台灣杉 (Taiwania cryptomerioides)，台灣最高的樹種，也是植物學界唯一以台灣當屬名的植物。聽聞魯凱語稱它們爲**撞到月亮的樹** (`wa driwru ki Dramare Ka angatu`)，真可愛。\n\n![](../../images/day3.png){width=\"45%\"}\n\n晚上迎來聽起來很可怕的**拷打會**，就是每位同學報告目前進度與研究主題的進展。\n從空間方位表達（布農語沒有只有東西沒有南北的詞！）否定結構、副動詞、存現結構、名物化、等等，我聽得津津有味。\n\n![陪伴大家報告的小蝸牛](../../images/day4.png){width=\"40%\"}\n\n\n\n# Day 4\n\n大家都稱 informant 爲老師。短短幾天，從中文詢問族語，到產生族語來讓 informant 確認，到可以簡易的族語對話，逗老師開心。很爲我們語言所的學生驕傲。\n\n到今天我更體會到了所謂的 **觀察者悖倫**\n\n> To obtain the data most important for linguistic theory, we have to observe how people speak when they are not being observed. (Labov 1972:113)\n\n面對觀察者悖論，我們得下好的 `prompt`，營造自然的對話環境，讓族語老師共同參與了自然語料生成的過程，而不是把實驗室搬到戶外。\n\n\n\n# Day 5\n\n## Fine-tune the `Whisper` model for multilingual ASR\n\n接近尾聲，我的工作還來不及完成。隨行錄音的經驗與技術不佳，但是錄到這種實際的田調言談，混着不同腔調的中文 (還有兩位日籍同學)、布農語，甚至夾雜一些日文，讓我覺得很興奮。這是一個語音辨識的大挑戰（？）。\n也許過幾天等看看 [Universal Speech Model](https://sites.research.google/usm/) 或其他大廠的模型釋出，遷移學習是否奏效。\n\n\n**語音發音儀器、言談、多模態與認知實驗** 這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n\n大家準備回家時，每個人都收贈一本熱心的全校長翻譯的巒群布農聖經。\n在回高鐵車上只因爲我開玩笑讚美了布農族司機看不出來的年紀，他就把原本要帶回家的一大袋李子給我了。一位敏感的同學分享給我，雖然這幾天收到的熱情招待很感動，但是覺得自己不值得被這樣對待，我們好像就只是在做一次性消費。的確是的，希望漢族在台的掠奪史，不要再用別的形式重現。\n\n![](../../images/plunder.png){width=\"40%\"}\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
