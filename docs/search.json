@@ -18,7 +18,7 @@
     "href": "posts.html",
     "title": "Blog and Note",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nModern language models refute Chomsky’s approach to language (Steven T. Piantadosi)\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2023-03-05/index.html",
@@ -100,8 +100,8 @@
   {
     "objectID": "posts/2023-10-09/index.html",
     "href": "posts/2023-10-09/index.html",
-    "title": "Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)",
+    "title": "Notes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’",
     "section": "",
-    "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Modern Language Models Refute {Chomsky’s} Approach to\n    Language {(Steven} {T.} {Piantadosi)}},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Modern Language Models Refute Chomsky’s\nApproach to Language (Steven T. Piantadosi).” March 5, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
+    "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Notes on “{Modern} Language Models Refute {Chomsky’s}\n    Approach to Language {(Steven} {T.} {Piantadosi)}”},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Notes on ‘Modern Language Models\nRefute Chomsky’s Approach to Language (Steven T.\nPiantadosi)’.” March 5, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
   }
 ]
