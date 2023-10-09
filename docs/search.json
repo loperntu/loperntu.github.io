@@ -4,28 +4,28 @@
     "href": "index.html",
     "title": "謝舒凱 | Shu-Kai Hsieh",
     "section": "",
-    "text": "Hi!\nI am Shu-Kai Hsieh, an Associate Professor of Linguistics at National Taiwan University, Taiwan.\nI am interested in language-related everything, and the computational modeling of language."
+    "text": "Hi!\nI am Shu-Kai Hsieh, a Professor of Linguistics at National Taiwan University, Taiwan.\nI am interested in language-related everything, and the computational modeling of language."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
+    "text": "This website documents my learning journey."
   },
   {
     "objectID": "posts.html",
     "href": "posts.html",
     "title": "Blog and Note",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nModern language models refute Chomsky’s approach to language (Steven T. Piantadosi)\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2023-03-05/index.html",
     "href": "posts/2023-03-05/index.html",
     "title": "量子語言學筆記",
     "section": "",
-    "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Shu-Kai Hsieh},\n  title = {量子語言學筆記},\n  date = {2023-03-05},\n  url = {https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nShu-Kai Hsieh. 2023. “量子語言學筆記.” March 5, 2023. https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/."
+    "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {量子語言學筆記},\n  date = {2023-03-05},\n  url = {https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “量子語言學筆記.” March 5, 2023. https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/."
   },
   {
     "objectID": "posts/2023-04-23/index.html",
@@ -96,5 +96,12 @@
     "title": "布農語田調隨行記",
     "section": "Fine-tune the Whisper model for multilingual ASR",
     "text": "Fine-tune the Whisper model for multilingual ASR\n接近尾聲，我的工作還來不及完成。隨行錄音的經驗與技術不佳，但是錄到這種實際的田調言談，混着不同腔調的中文 (還有兩位日籍同學)、布農語，甚至夾雜一些日文，讓我覺得很興奮。這是一個語音辨識的大挑戰（？）。 也許過幾天等看看 Universal Speech Model 或其他大廠的模型釋出，遷移學習是否奏效。\n語音發音儀器、言談、多模態與認知實驗 這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n大家準備回家時，每個人都收贈一本熱心的全校長翻譯的巒群布農聖經。 在回高鐵車上只因爲我開玩笑讚美了布農族司機看不出來的年紀，他就把原本要帶回家的一大袋李子給我了。一位敏感的同學分享給我，雖然這幾天收到的熱情招待很感動，但是覺得自己不值得被這樣對待，我們好像就只是在做一次性消費。的確是的，希望漢族在台的掠奪史，不要再用別的形式重現。"
+  },
+  {
+    "objectID": "posts/2023-10-09/index.html",
+    "href": "posts/2023-10-09/index.html",
+    "title": "Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)",
+    "section": "",
+    "text": "CitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Modern Language Models Refute {Chomsky’s} Approach to\n    Language {(Steven} {T.} {Piantadosi)}},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Modern Language Models Refute Chomsky’s\nApproach to Language (Steven T. Piantadosi).” March 5, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
   }
 ]

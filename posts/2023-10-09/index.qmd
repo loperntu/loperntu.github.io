@@ -1,0 +1,18 @@
+---
+title: "Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)"
+description: "LLM and Linguistics"
+author:
+  - name: Shu-Kai Hsieh
+    url: https://loperntu.github.io/
+    orcid: 0000-0001-9674-1249
+    affiliation: 台大語言學研究所 LOPE Lab
+    affiliation-url: https://lope.github.io/ 
+date: 03-05-2023
+categories: [LLM and Linguistics] # self-defined categories
+citation: 
+  url: https://loperntu.github.io/posts/2023-10-09-quarto-blogs/ 
+image: preview_image.jpg
+draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+
