@@ -25,7 +25,7 @@ about:
 
 # Hi!
 
-I am Shu-Kai Hsieh, an Associate Professor of Linguistics at National Taiwan University, Taiwan.
+I am Shu-Kai Hsieh, a Professor of Linguistics at National Taiwan University, Taiwan.
 
 I am interested in <span class= "blue-text">language-related everything</span>, and the computational modeling of language. 
 
