@@ -1,0 +1,3 @@
+[submodule "ychch"]
+	path = ychch
+	url = https://github.com/loperntu/ychch.git
