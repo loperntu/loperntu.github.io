@@ -25,9 +25,10 @@ about:
 
 # Hi!
 
-I am Shu-Kai Hsieh, a Professor of Linguistics at National Taiwan University, Taiwan.
+I am Shu-Kai Hsieh.
 
-I am interested in <span class= "blue-text">language-related everything</span>, and the computational modeling of language. 
+I am currently a joint-appointed professor at the Graduate Institute of Linguistics and the Brain and Mind Research Institute at National Taiwan University, Taiwan.
 
+I am interested in <span class= "blue-text">language-related everything</span>, and the computational modeling of language. I am leading a laboratory [LOPE](https://lope.linguistics.ntu.edu.tw/). 
 
-
+At my sapre time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs.
