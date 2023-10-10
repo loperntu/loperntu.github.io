@@ -7,7 +7,7 @@ author:
     orcid: 0000-0001-9674-1249
     affiliation: 台大語言學研究所 LOPE Lab
     affiliation-url: https://lope.github.io/ 
-date: 03-05-2023
+date: 10-10-2023
 categories: [LLM and Linguistics] # self-defined categories
 citation: 
   url: https://loperntu.github.io/posts/2023-10-09-quarto-blogs/ 
@@ -16,6 +16,22 @@ draft: true # setting this to `true` will prevent your post from appearing on yo
 ---
 
 
+[Nature Machine Intelligence](https://www.nature.com/articles/s42256-023-00703-8) 在最近的主編的話 *Language models and linguistic theories beyond words* 再度把 LLM 和語言學的（沒有）關係拿到檯面上。雖然浮光掠影的談過，但是對於語言學知識較為友善的計算語言學家心裡的疑惑，是時候該拿出來討論了。
+
+簡單說，語言學在當前的AI語言模型發展進程中，基本上處在邊陲的角色。為什麼？是語言學（或主流的形式語言學範式）有什麼問題？我們又需要什麼樣的語言學？還是 LLM 只是曇花一現的隨機鸚鵡？
+
+姑且不論背後的語言與心智假說是否合理，
+
+- 以 Noam Choamsky 馬首是瞻的 **形式語言學**長期以來，對於句法規則的撰寫與觀察，有很好的掌握。對於抽離語意的符碼運算與系統化有高度的成就。
+- LLM 的訓練與運作機制，並不是由規則導入的方式；那是什麼樣的語言觀/語言理論可以用來解釋，這些無法以「語言學方式」卻能達到目前的成就？
+
+這些都是大問題，我想嘗試開始用寫作筆記的方式幫自己整理頭緒。
+
+首先是 UC Berkeley 心理與腦神經科學教授 Steven t. Piantadosi 今年三月開始在[LingBuzz](https://lingbuzz.net/lingbuzz/007180)上的一篇標題即開戰的文章：`Modern language models refute Chomsky’s approach to language`.
+
+摘要幾個重點
+
+- 
 
 
 
