@@ -131,3 +131,4 @@ dmypy.json
 /.quarto/
 
 /.luarc.json
+.Rproj.user

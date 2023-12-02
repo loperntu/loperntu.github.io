@@ -25,10 +25,10 @@ about:
 
 # Hi!
 
-I am Shu-Kai Hsieh.
+I am Shu-Kai Hsieh [IPA: ɕjɛ].
 
 I am currently a joint-appointed professor at the Graduate Institute of Linguistics and the Brain and Mind Research Institute at National Taiwan University, Taiwan.
 
-I am interested in <span class= "blue-text">language-related everything</span>, and the computational modeling of language. I am leading a laboratory [LOPE](https://lope.linguistics.ntu.edu.tw/). 
+I am interested in <span class= "blue-text">all things language, physics and consciousness</span>, as well as the computational modeling of language in various aspects. I am leading a laboratory [LOPE](https://lope.linguistics.ntu.edu.tw/). 
 
-At my sapre time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs.
+At my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs.
