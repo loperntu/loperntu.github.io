@@ -3,3 +3,5 @@ title: "About"
 ---
 
 This website documents my learning journey.
+
+![](./images/about.png){width="45%"}
