@@ -1,0 +1,31 @@
+---
+title: "光"
+description: "光與縫隙"
+author:
+  - name: Shu-Kai Hsieh
+    url: https://loperntu.github.io/
+    orcid: 0000-0001-9674-1249
+    affiliation: 台大語言學研究所 LOPE Lab
+    affiliation-url: https://lope.github.io/ 
+date: 03-05-2023
+categories: [Life] # self-defined categories
+citation: 
+  url: https://loperntu.github.io/posts/2023-04-23-quarto-blogs/ 
+image: preview_image.jpg
+draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+
+# 雜思筆記  
+
+首先，你是看不到光的。任何透光的東西你也看不到。
+你看得到我的手，是因為它擋住光。是因為我們的視覺器官只看得到擋住光的東西。
+
+有光，才知道有縫隙。
+
+> 夫門當夜閉，閉而見月光，是有間隙也。~ 徐鍇繫傳。
+
+不過，因為有縫，才見得到光；
+
+> There is a crack in everything, that's how the light gets in. ~ Leonard Cohen
+

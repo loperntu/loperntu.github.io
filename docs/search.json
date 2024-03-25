@@ -18,7 +18,7 @@
     "href": "posts.html",
     "title": "Blog and Note",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n \n\n\n\n\nMar 5, 2023\n\n\n光\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2023-03-05/index.html",
@@ -103,5 +103,12 @@
     "title": "Notes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’",
     "section": "",
     "text": "Nature Machine Intelligence 在最近的主編的話 Language models and linguistic theories beyond words 再度把 LLM 和語言學的（沒有）關係拿到檯面上。雖然浮光掠影的談過，但是對於語言學知識較為友善的計算語言學家心裡的疑惑，是時候該拿出來討論了。\n簡單說，語言學在當前的AI語言模型發展進程中，基本上處在邊陲的角色。為什麼？是語言學（或主流的形式語言學範式）有什麼問題？我們又需要什麼樣的語言學？還是 LLM 只是曇花一現的隨機鸚鵡？\n姑且不論背後的語言與心智假說是否合理，\n\n以 Noam Choamsky 馬首是瞻的 形式語言學長期以來，對於句法規則的撰寫與觀察，有很好的掌握。對於抽離語意的符碼運算與系統化有高度的成就。\nLLM 的訓練與運作機制，並不是由規則導入的方式；那是什麼樣的語言觀/語言理論可以用來解釋，這些無法以「語言學方式」卻能達到目前的成就？\n\n這些都是大問題，我想嘗試開始用寫作筆記的方式幫自己整理頭緒。\n首先是 UC Berkeley 心理與腦神經科學教授 Steven t. Piantadosi 今年三月開始在LingBuzz上的一篇標題即開戰的文章：Modern language models refute Chomsky’s approach to language.\n摘要幾個重點\n\n\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Notes on “{Modern} Language Models Refute {Chomsky’s}\n    Approach to Language {(Steven} {T.} {Piantadosi)}”},\n  date = {2023-10-10},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Notes on ‘Modern Language Models\nRefute Chomsky’s Approach to Language (Steven T.\nPiantadosi)’.” October 10, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
+  },
+  {
+    "objectID": "posts/2023-03-25/index.html",
+    "href": "posts/2023-03-25/index.html",
+    "title": "光",
+    "section": "",
+    "text": "雜思筆記\n首先，你是看不到光的。任何透光的東西你也看不到。 你看得到我的手，是因為它擋住光。是因為我們的視覺器官只看得到擋住光的東西。\n有光，才知道有縫隙。\n\n夫門當夜閉，閉而見月光，是有間隙也。~ 徐鍇繫傳。\n\n不過，因為有縫，才見得到光；\n\nThere is a crack in everything, that’s how the light gets in. ~ Leonard Cohen\n\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {光},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-04-23-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “光.” March 5, 2023. https://loperntu.github.io/posts/2023-04-23-quarto-blogs/."
   }
 ]
