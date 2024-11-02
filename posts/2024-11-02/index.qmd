@@ -1,0 +1,23 @@
+---
+title: "量子語言學筆記：波粒二象的啟示"
+description: "quantum semantics"
+author:
+  - name: Shu-Kai Hsieh
+    url: https://loperntu.github.io/
+    orcid: 0000-0001-9674-1249
+    affiliation: 台大語言學研究所 LOPE Lab
+    affiliation-url: https://lope.github.io/ 
+date: 08-15-2024
+categories: [Quantum Semantics] # self-defined categories
+citation: 
+  url: https://loperntu.github.io/posts/2024-08-15-quarto-blogs/ 
+image: preview_image.jpg
+draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+## 形式與意義的關係
+
+波粒二象性可能可以提供一種視角來理解語言中「語意（meaning）」與「形式（form）」之間的轉換關係。波的連續性代表語意的流動性和多義性，而一旦語意被「使用」或「表達」出來，它便會透過語言形式具象化，類似於波的坍縮成粒子，成為一個個具體的詞語或句子。
+
+從物理學的角度來看，這與量子力學中「測量」帶來的波函數坍縮概念有相似之處。當語意處於未被明確表達的狀態時，它像波一樣具有連續的潛在性（continuous potentiality）；而當我們將它「測量」或表達出來時，它便轉化為離散的語言單位。這樣的比喻不僅可以用於理解語言的雙重特性，也可能提供探索語言如何在意識中被感知和使用的一種新視角。
+
