@@ -18,7 +18,7 @@
     "href": "posts.html",
     "title": "Blog and Note",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 10, 2024\n\n\n在空中相會：從佛學到大型語言模型的跨學科對話\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：波粒二象的啟示\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n \n\n\n\n\nMar 5, 2023\n\n\n光\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 10, 2024\n\n\n在空中相會：從佛學到大型語言模型的跨學科對話\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：波粒二象的啟示\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：Lagrangian submanifold？\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n \n\n\n\n\nMar 5, 2023\n\n\n光\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/2023-03-05/index.html",
@@ -159,5 +159,54 @@
     "title": "量子語言學筆記：波粒二象的啟示",
     "section": "",
     "text": "波粒二象性可能可以提供一種視角來理解語言中「語意（meaning）」與「形式（form）」之間的轉換關係。波的連續性代表語意的流動性和多義性，而一旦語意被「使用」或「表達」出來，它便會透過語言形式具象化，類似於波的坍縮成粒子，成為一個個具體的詞語或句子。\n從物理學的角度來看，這與量子力學中「測量」帶來的波函數坍縮概念有相似之處。當語意處於未被明確表達的狀態時，它像波一樣具有連續的潛在性（continuous potentiality）；而當我們將它「測量」或表達出來時，它便轉化為離散的語言單位。這樣的比喻不僅可以用於理解語言的雙重特性，也可能提供探索語言如何在意識中被感知和使用的一種新視角。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#相空間不是狀態空間",
+    "href": "posts/2025-01-13/index.html#相空間不是狀態空間",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "相空間：不是「狀態空間」",
+    "text": "相空間：不是「狀態空間」\n通常，人們提到「相空間」時，其實說的是「狀態空間」（state space），這其實是不正確的。因此，我們先正確定義相空間：相空間是一種抽象空間（注意，不是時空），每個點代表一個粒子的狀態，由位置 \\(q\\) 和動量 \\(p\\) 描述。\n\n想像有一個世界叫做「辛幾何世界」(symplectic)，它跟一般的平面或空間不一樣，這個世界裡的每個點都同時代表兩件事情：一個位置（像座標 \\(q\\)) 和它的變化速度（像動量 \\(𝑝\\))。所以，這個世界就像是物理課上的「相空間」，用來描述東西在哪裡和怎麼動。\n\n目前，我們只是有了一個「沒有幾何結構的空間」。你可以給它附加某種度量，讓它變成黎曼空間（Riemannian space），或者給它一種不同的結構，讓它變成辛幾何空間（symplectic space）。\n我們選擇後者，這樣會給相空間賦予一種特殊的結構：一個稱為辛形式（symplectic form）的二形式，通常記為 \\(\\omega\\)。這個 \\(\\omega\\) 允許我們在相空間中定義「面積」，並且（更重要的是）規定了系統如何隨時間演化。這個規則非常簡潔優雅：\n\\[ \\{f, H\\} = \\frac{df}{dt} \\]\n\n你可以把辛幾何世界想像成一個大的溜冰場，滑冰的每個人都有兩個方向：往前滑（位置）和轉圈圈（動量）。而 Lagrangian 子流形就像是一條特別的滑冰路線： 它很聰明，只需要控制一部分動作（比如只專注於直線滑，或者只專注於轉圈圈）。 而且在這條路線上，滑冰的人之間不會互相干擾，大家的動作都協調得非常好。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#辛幾何與哈密頓動力學",
+    "href": "posts/2025-01-13/index.html#辛幾何與哈密頓動力學",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "辛幾何與哈密頓動力學",
+    "text": "辛幾何與哈密頓動力學\n\n這裡 \\(H\\) 是哈密頓量（Hamiltonian，描述系統的能量），而 \\(\\{f, H\\}\\) 是泊松括號（Poisson bracket）。泊松括號使用 ( ) 測量函數 \\(f\\) 沿著由 \\(H\\) 產生的流的變化。\n如果 \\(\\{f, H\\} = 0\\)，那麼 \\(f\\) 是一個守恆量。例如，時間 \\(t\\) 必須滿足 \\(\\{t, H\\} = 1\\)。這意味著時間必須以自己為基準線性演化——這是一個非常美妙的條件。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#那麼lagrangian-子流形是什麼",
+    "href": "posts/2025-01-13/index.html#那麼lagrangian-子流形是什麼",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "那麼，Lagrangian 子流形是什麼？",
+    "text": "那麼，Lagrangian 子流形是什麼？\nLagrangian 子流形 \\(L\\) 是相空間中一個特殊的子空間，滿足以下條件：\n\n它是辛形式 \\(\\omega\\) 的核（null space），也就是說，\\(\\omega\\) 在這個子空間上完全消失。\n用簡單的話說，在這個子空間上，\\(\\omega\\) 測量的所有「面積」都是零。\n\n在物理上，Lagrangian 子流形通常對應於某些具有物理意義的狀態集合，例如一個系統的可能狀態。Lagrangian 子流形幫助我們找到一個系統的平衡點或特殊運動方式。比如： 如果你丟一個球，它的路徑可以看成是一條 Lagrangian 子流形；在一些更複雜的世界裡，比如研究量子力學或宇宙的運動，Lagrangian 子流形也能幫助我們理解那些看起來很複雜的規律。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#物理中的應用從約束到量子化",
+    "href": "posts/2025-01-13/index.html#物理中的應用從約束到量子化",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "物理中的應用：從約束到量子化",
+    "text": "物理中的應用：從約束到量子化\n\n1. 約束系統\n大多數情況下，物理系統（甚至現實生活中的系統）都會有某些約束。例如，擺錘的運動受到固定長度的限制。在這種情況下，系統的可能狀態可能位於某個 Lagrangian 子流形上。許多物理約束都可以用這種幾何語言來表達。\n\n\n2. 量子化\n從經典物理到量子物理的過渡（即量子化）通常是一個難以精確定義的過程。但即便如此，量子化的某些條件也可以用 Lagrangian 子流形來描述。特定的「量子化條件」選出了一些特定的 Lagrangian 子流形，對應於允許的量子態。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#為什麼-weinstein-說一切都是-lagrangian-子流形",
+    "href": "posts/2025-01-13/index.html#為什麼-weinstein-說一切都是-lagrangian-子流形",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "為什麼 Weinstein 說「一切都是 Lagrangian 子流形」？",
+    "text": "為什麼 Weinstein 說「一切都是 Lagrangian 子流形」？\nWeinstein 的這個說法背後有深刻的意義：它主張現實世界的基本構成物不是粒子，也不是波動，而是位於相空間中的這些特殊子空間——Lagrangian 子流形。這些子流形編碼了系統的動力學、約束，甚至其量子性質。\n一些人認為，這表明科學從「物體」的觀點轉向了「關係」的觀點（特別是範疇論研究者）。例如：\n\n位置與動量之間的關係，\n能量與時間之間的關係，\n\n這些關係都可以用辛幾何語言來描述，而這些描述往往集中於 Lagrangian 子流形之中。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#補充說明",
+    "href": "posts/2025-01-13/index.html#補充說明",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "補充說明",
+    "text": "補充說明\n\n相空間與辛幾何提供了一種統一的視角，能夠連結經典物理與量子物理。\nLagrangian 子流形則是這種視角中的關鍵元素，幫助我們理解一個系統的所有可能狀態及其物理意義。\n\n這段話最終告訴我們：Lagrangian 子流形不僅僅是一個數學概念，它還是一種新的思考現實的方法。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
+    "href": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "一切都是 Lagrangian 子流形？",
+    "text": "一切都是 Lagrangian 子流形？\n忘記粒子，也忘記波動吧。Alan Weinstein 開玩笑地說，宇宙並不是由粒子或波組成，而是由完全不同的東西構建的：Lagrangian 子流形（Lagrangian submanifolds）。那麼，什麼是 Lagrangian 子流形？為什麼值得關心？要理解這個概念，需要先了解什麼是相空間（phase space）。"
   }
 ]
