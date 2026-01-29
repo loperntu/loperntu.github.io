@@ -1,31 +1,17 @@
 [
   {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Blog and Note",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nJan 29, 2025\n\n\nToday’s Mood\n\n\nShu-Kai Hsieh\n\n\n\n\nOct 10, 2024\n\n\n在空中相會：從佛學到大型語言模型的跨學科對話\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：波粒二象的啟示\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：Lagrangian submanifold？\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n \n\n\n\n\nMar 5, 2023\n\n\n光\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "謝舒凱 | Shu-Kai Hsieh",
     "section": "",
     "text": "Hi!\nI am Shu-Kai Hsieh [IPA: ɕjɛ].\nI am currently a joint-appointed professor at the Graduate Institute of Linguistics and the Brain and Mind Research Institute at National Taiwan University, Taiwan.\nI am interested in all things language, physics and consciousness, as well as the computational modeling of language in various aspects. I am leading a laboratory LOPE.\nAt my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "This website documents my learning journey."
-  },
-  {
-    "objectID": "posts.html",
-    "href": "posts.html",
-    "title": "Blog and Note",
-    "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nOct 10, 2024\n\n\n在空中相會：從佛學到大型語言模型的跨學科對話\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：波粒二象的啟示\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記：Lagrangian submanifold？\n\n\nShu-Kai Hsieh\n\n\n\n\nAug 15, 2024\n\n\n量子語言學筆記\n\n\nShu-Kai Hsieh\n\n\n\n\nOct 10, 2023\n\n\nNotes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’\n\n\nShu-Kai Hsieh\n\n\n\n\nMay 18, 2023\n\n\n布農語田調隨行記\n\n\n \n\n\n\n\nMar 5, 2023\n\n\n光\n\n\nShu-Kai Hsieh\n\n\n\n\nMar 5, 2023\n\n\nPrompting as a linguistic object\n\n\nShu-Kai Hsieh\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/2023-03-05/index.html",
-    "href": "posts/2023-03-05/index.html",
-    "title": "量子語言學筆記",
-    "section": "",
-    "text": "Language as Form-Meaning Pairing Emerges Through Usage\n\nLanguage inherently pairs form with meaning, and this pairing emerges through usage in communication.\n語言本質上是形式與意義的配對，而這種配對是在溝通使用中逐漸突現的。\n\nLanguage and Meaning are Embodied\n\nThe construction and understanding of language and meaning are deeply rooted in bodily experiences.\n語言與意義的構建與理解深深根植於身體經驗之中。\n\nThe Structural Form of Language as a Stable By-Product\n\nThe structural form of language is a relatively stable by-product of communication, variation, and interaction processes.\n語言的結構形式是在交際溝通與變異過程中相對穩定的副產品。\n\nComputational Representation of Meaning as Tensors\n\nSemantic computations and representations in language can be modeled using tensors.\n語意的計算與表徵可以通過張量來建模。\n\nConsciousness and Cognition as Quantum Phenomena\n\nConsciousness, as well as cognitive processes, may be understood as quantum phenomena.\n意識與認知過程或可理解為量子現象。"
   },
   {
     "objectID": "posts/2023-04-23/index.html",
@@ -35,60 +21,18 @@
     "text": "Prompting as a linguistic object\nPrompting LLMs has\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Prompting as a Linguistic Object},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-04-23-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Prompting as a Linguistic Object.”\nMarch 5, 2023. https://loperntu.github.io/posts/2023-04-23-quarto-blogs/."
   },
   {
+    "objectID": "posts/2023-10-09/index.html",
+    "href": "posts/2023-10-09/index.html",
+    "title": "Notes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’",
+    "section": "",
+    "text": "Nature Machine Intelligence 在最近的主編的話 Language models and linguistic theories beyond words 再度把 LLM 和語言學的（沒有）關係拿到檯面上。雖然浮光掠影的談過，但是對於語言學知識較為友善的計算語言學家心裡的疑惑，是時候該拿出來討論了。\n簡單說，語言學在當前的AI語言模型發展進程中，基本上處在邊陲的角色。為什麼？是語言學（或主流的形式語言學範式）有什麼問題？我們又需要什麼樣的語言學？還是 LLM 只是曇花一現的隨機鸚鵡？\n姑且不論背後的語言與心智假說是否合理，\n\n以 Noam Choamsky 馬首是瞻的 形式語言學長期以來，對於句法規則的撰寫與觀察，有很好的掌握。對於抽離語意的符碼運算與系統化有高度的成就。\nLLM 的訓練與運作機制，並不是由規則導入的方式；那是什麼樣的語言觀/語言理論可以用來解釋，這些無法以「語言學方式」卻能達到目前的成就？\n\n這些都是大問題，我想嘗試開始用寫作筆記的方式幫自己整理頭緒。\n首先是 UC Berkeley 心理與腦神經科學教授 Steven t. Piantadosi 今年三月開始在LingBuzz上的一篇標題即開戰的文章：Modern language models refute Chomsky’s approach to language.\n摘要幾個重點\n\n\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Notes on “{Modern} Language Models Refute {Chomsky’s}\n    Approach to Language {(Steven} {T.} {Piantadosi)}”},\n  date = {2023-10-10},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Notes on ‘Modern Language Models\nRefute Chomsky’s Approach to Language (Steven T.\nPiantadosi)’.” October 10, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
+  },
+  {
     "objectID": "posts/2023-05-20/field_work.html",
     "href": "posts/2023-05-20/field_work.html",
     "title": "布農語田調隨行記",
     "section": "",
     "text": "等到今年終於圓夢。感謝同事麗梅老師的包容，讓我有機會一起參加台大語言所碩一必修的語言田調工作。"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#merriweather",
-    "href": "posts/2023-05-20/field_work.html#merriweather",
-    "title": "布農語田調",
-    "section": "Merriweather",
-    "text": "Merriweather\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nam suscipit est nec dui eleifend, at dictum elit ullamcorper. Aliquam feugiat dictum bibendum. Praesent fermentum laoreet quam, cursus volutpat odio dapibus in. Fusce luctus porttitor vehicula. Donec ac tortor nisi. Donec at lectus tortor. Morbi tempor, nibh non euismod viverra, metus arcu aliquet elit, sed fringilla urna leo vel purus."
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#columns",
-    "href": "posts/2023-05-20/field_work.html#columns",
-    "title": "This is a dummy blog posts",
-    "section": "",
-    "text": "geom_density(\n  mapping = NULL,\n  data = NULL,\n  stat = \"density\",\n  position = \"identity\",\n  ...,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE,\n  outline.type = \"upper\"\n)\n\n\nstat_density(\n  mapping = NULL,\n  data = NULL,\n  geom = \"area\",\n  position = \"stack\",\n  ...,\n  bw = \"nrd0\",\n  adjust = 1,\n  kernel = \"gaussian\",\n  n = 512,\n  trim = FALSE,\n  na.rm = FALSE,\n  orientation = NA,\n  show.legend = NA,\n  inherit.aes = TRUE\n)"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#margin-captions",
-    "href": "posts/2023-05-20/field_work.html#margin-captions",
-    "title": "This is a dummy blog posts",
-    "section": "",
-    "text": "ggplot(data = gapminder::gapminder, mapping = aes(x = lifeExp, fill = continent)) +\n  stat_density(position = \"identity\", alpha = 0.5)\n\n\n\n\nBla bla bla. This is a caption in the margin. Super cool isn’t it?"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#引語技術-elicitation-是田調工作者的拿手本事對於向來習慣語料用爬的我有現場衝擊感",
-    "href": "posts/2023-05-20/field_work.html#引語技術-elicitation-是田調工作者的拿手本事對於向來習慣語料用爬的我有現場衝擊感",
-    "title": "布農語田調隨行記",
-    "section": "引語技術 (elicitation) 是田調工作者的拿手本事。對於向來習慣語料用爬的我，有現場衝擊感。",
-    "text": "引語技術 (elicitation) 是田調工作者的拿手本事。對於向來習慣語料用爬的我，有現場衝擊感。\n你不用工作，怎麼說？爲什麼不用工作 (你們絕對不能撒謊 )"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#引語技術-elicitation",
-    "href": "posts/2023-05-20/field_work.html#引語技術-elicitation",
-    "title": "布農語田調隨行記",
-    "section": "引語技術 (elicitation)",
-    "text": "引語技術 (elicitation)\n引語技術是有經驗的田調工作者之拿手本領。對於向來習慣語料用爬的我，蠻有現場衝擊感。在台灣因爲有了前人的努力，其實可以預先準備的材料（詞表、簡單語料）算是不匱乏，族語老師的中文也算流利。\n清楚自己要詢問或確認什麼語言結構與表達，如何 frame 這個 prompt，小心歧義，保持語言與文化偏見的警覺，從不同老師確認（是否有別的說法）等。 需要講故事、製造情景，善用肢體與可能的道具 stimuli。最理想是用族語進行。\n好幾串對話大家都笑到不行。\n\n學生：樹上有許多桃子，怎麼說？ 老師：什麼樹？\n\n\n學生：小孩子都不喜歡吃香蕉，怎麼說？ 老師：怎麼會不喜歡？香蕉很甜啊\n\n\n學生：你不用工作，怎麼說？ 老師：爲什麼不用工作？年紀輕輕的。要去工作啊。 學生：那假裝說你不用工作。 老師：爲什麼要撒謊？不要說謊啊"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#觀察者悖倫",
-    "href": "posts/2023-05-20/field_work.html#觀察者悖倫",
-    "title": "布農語田調隨行記",
-    "section": "觀察者悖倫",
-    "text": "觀察者悖倫\n\nTo obtain the data most important for linguistic theory, we have to observe how people speak when they are not being observed. (Labov 1972:113)\n\n面對觀察者悖論，我們得下好的 prompt，營造自然的對話環境，讓族語老師共同參與了自然語料生成的過程，而不是把實驗室搬到戶外。"
-  },
-  {
-    "objectID": "posts/2023-05-20/field_work.html#語音發音儀器言談多模態與認知實驗",
-    "href": "posts/2023-05-20/field_work.html#語音發音儀器言談多模態與認知實驗",
-    "title": "布農語田調隨行記",
-    "section": "語音發音儀器、言談、多模態與認知實驗",
-    "text": "語音發音儀器、言談、多模態與認知實驗\n這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n1"
   },
   {
     "objectID": "posts/2023-05-20/field_work.html#fine-tune-the-whisper-model-for-multilingual-asr",
@@ -98,13 +42,6 @@
     "text": "Fine-tune the Whisper model for multilingual ASR\n接近尾聲，我的工作還來不及完成。隨行錄音的經驗與技術不佳，但是錄到這種實際的田調言談，混着不同腔調的中文 (還有兩位日籍同學)、布農語，甚至夾雜一些日文，讓我覺得很興奮。這是一個語音辨識的大挑戰（？）。 也許過幾天等看看 Universal Speech Model 或其他大廠的模型釋出，遷移學習是否奏效。\n語音發音儀器、言談、多模態與認知實驗 這是我覺得未來田調也可以走的方向之一，讓認知理論也能走進田調。\n大家準備回家時，每個人都收贈一本熱心的全校長翻譯的巒群布農聖經。 在回高鐵車上只因爲我開玩笑讚美了布農族司機看不出來的年紀，他就把原本要帶回家的一大袋李子給我了。一位敏感的同學分享給我，雖然這幾天收到的熱情招待很感動，但是覺得自己不值得被這樣對待，我們好像就只是在做一次性消費。的確是的，希望漢族在台的掠奪史，不要再用別的形式重現。"
   },
   {
-    "objectID": "posts/2023-10-09/index.html",
-    "href": "posts/2023-10-09/index.html",
-    "title": "Notes on ‘Modern language models refute Chomsky’s approach to language (Steven T. Piantadosi)’",
-    "section": "",
-    "text": "Nature Machine Intelligence 在最近的主編的話 Language models and linguistic theories beyond words 再度把 LLM 和語言學的（沒有）關係拿到檯面上。雖然浮光掠影的談過，但是對於語言學知識較為友善的計算語言學家心裡的疑惑，是時候該拿出來討論了。\n簡單說，語言學在當前的AI語言模型發展進程中，基本上處在邊陲的角色。為什麼？是語言學（或主流的形式語言學範式）有什麼問題？我們又需要什麼樣的語言學？還是 LLM 只是曇花一現的隨機鸚鵡？\n姑且不論背後的語言與心智假說是否合理，\n\n以 Noam Choamsky 馬首是瞻的 形式語言學長期以來，對於句法規則的撰寫與觀察，有很好的掌握。對於抽離語意的符碼運算與系統化有高度的成就。\nLLM 的訓練與運作機制，並不是由規則導入的方式；那是什麼樣的語言觀/語言理論可以用來解釋，這些無法以「語言學方式」卻能達到目前的成就？\n\n這些都是大問題，我想嘗試開始用寫作筆記的方式幫自己整理頭緒。\n首先是 UC Berkeley 心理與腦神經科學教授 Steven t. Piantadosi 今年三月開始在LingBuzz上的一篇標題即開戰的文章：Modern language models refute Chomsky’s approach to language.\n摘要幾個重點\n\n\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {Notes on “{Modern} Language Models Refute {Chomsky’s}\n    Approach to Language {(Steven} {T.} {Piantadosi)}”},\n  date = {2023-10-10},\n  url = {https://loperntu.github.io/posts/2023-10-09-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “Notes on ‘Modern Language Models\nRefute Chomsky’s Approach to Language (Steven T.\nPiantadosi)’.” October 10, 2023. https://loperntu.github.io/posts/2023-10-09-quarto-blogs/."
-  },
-  {
     "objectID": "posts/2023-03-25/index.html",
     "href": "posts/2023-03-25/index.html",
     "title": "光",
@@ -112,25 +49,11 @@
     "text": "雜思筆記\n首先，你是看不到光的。任何透光的東西你也看不到。 你看得到我的手，是因為它擋住光。是因為我們的視覺器官只看得到擋住光的東西。\n有光，才知道有縫隙。\n\n夫門當夜閉，閉而見月光，是有間隙也。~ 徐鍇繫傳。\n\n不過，因為有縫，才見得到光；\n\nThere is a crack in everything, that’s how the light gets in. ~ Leonard Cohen\n\n\n\n\n\nCitationBibTeX citation:@online{hsieh2023,\n  author = {Hsieh, Shu-Kai},\n  title = {光},\n  date = {2023-03-05},\n  url = {https://loperntu.github.io/posts/2023-04-23-quarto-blogs/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHsieh, Shu-Kai. 2023. “光.” March 5, 2023. https://loperntu.github.io/posts/2023-04-23-quarto-blogs/."
   },
   {
-    "objectID": "posts/2023-03-05/index.html#tenets",
-    "href": "posts/2023-03-05/index.html#tenets",
-    "title": "量子語言學筆記",
-    "section": "",
-    "text": "Language as Form-Meaning Pairing Emerges Through Usage\n\nLanguage inherently pairs form with meaning, and this pairing emerges through usage in communication.\n語言本質上是形式與意義的配對，而這種配對是在溝通使用中逐漸突現的。\n\nLanguage and Meaning are Embodied\n\nThe construction and understanding of language and meaning are deeply rooted in bodily experiences.\n語言與意義的構建與理解深深根植於身體經驗之中。\n\nThe Structural Form of Language as a Stable By-Product\n\nThe structural form of language is a relatively stable by-product of communication, variation, and interaction processes.\n語言的結構形式是在交際溝通與變異過程中相對穩定的副產品。\n\nComputational Representation of Meaning as Tensors\n\nSemantic computations and representations in language can be modeled using tensors.\n語意的計算與表徵可以通過張量來建模。\n\nConsciousness and Cognition as Quantum Phenomena\n\nConsciousness, as well as cognitive processes, may be understood as quantum phenomena.\n意識與認知過程或可理解為量子現象。"
-  },
-  {
     "objectID": "posts/2024-10-20/index.html",
     "href": "posts/2024-10-20/index.html",
     "title": "在空中相會：從佛學到大型語言模型的跨學科對話",
     "section": "",
     "text": "在這次分享中，我想先從大型語言模型如何協助佛學的語言分析開始。​ 我將以「空」為例，探討​此概念的歷時語意演變​，特別是同素異序之雙音節並列結構詞彙之間的競爭與語意轉化。(計算語言學) ​接著，我將​試圖探討佛學中的「空性」（Śūnyatā）與機器學習​表徵模型之間的相似性，​對於模型解釋與發展提供新的角度。（計算哲學）\n\n\n將佛教經典（如《心經》或《金剛經》）轉化為AI可理解的形式，並讓AI進行文本分析與語意詮釋。\n\n詞彙語意分析\n\n「空」「無」「無常」「虛無」「空性」\n「有」\n\n\nembeddings\n歷時語意演變分析\n同素異序之雙音節並列結構詞彙的競爭與語意轉化 空虛｜虛空\n\n\n\n\n空性（Śūnyatā）是佛教中非常深奧的哲學概念，主要描述所有現象的「無自性」（absense of inherent existence），即萬事萬物並無一個固定不變的本質，不是固定不變的實體存在，而是依賴於無數條件、因緣和合（Pratītyasamutpāda, interdependent origination）而存在。\n這種觀點與機器學習中的模型學習、特徵表徵（feature representation）、甚至神經網絡的權重更新過程有一些非常有趣的聯繫。\n\n「無自性」：特徵表示的流動性與條件依賴性\n\n空性強調任何事物都不是單獨、獨立存在的，而是依靠多重條件而生。這個概念可以與機器學習中「特徵表示」的學習過程聯繫起來。\n\n特徵表示的條件依賴性 在深度神經網絡中，每一層學習到的特徵表示（feature representation）是依賴於前一層輸出與網絡權重的條件而生成的。這些特徵表示（例如 CNN 中的邊緣檢測器、形狀檢測器）並非固定不變的實體，而是在不同的資料環境、不同的訓練策略下可以有不同的形式。換句話說，特徵表示的本質是無定型的，它們取決於所學習的資料、模型架構、訓練過程等條件，這正是「無自性」的體現。\n向量表示的非固定性：詞向量的空性特質 例如在自然語言處理中，詞向量（word embeddings）代表了每個詞在高維向量空間中的一個點。然而，這個向量表示是動態的，並會隨著模型、語料、甚至語境的不同而發生變化。對於某個詞（如 “bank”），它在金融領域與河流領域中具有完全不同的表示。這意味著詞向量的意涵並不是一個固定的本質，而是隨著資料的變化而變化的條件產物，正如佛教所說的「緣生性」（dependent origination）與「無自性」。\n\n\n「因緣和合」：模型結構的依賴關係與條件生成\n\n空性中的「因緣和合」觀點認為，所有現象都是眾多因緣條件的暫時組合。當條件改變時，現象的形式也隨之改變。在機器學習中，我們可以將這個觀點映射到模型的結構設計和調整過程。\n\n神經網絡層之間的條件相依性 在深度學習中，模型中的每一層（如卷積層、注意力機制層）都是在其他層的基礎上建立起來的。每一層的輸出依賴於前一層的表示和當前層的權重設定。當我們更改某一層的權重時，後續所有層的輸出也會發生變化。這就如同佛教中所說的「此有故彼有」（when this exists, that comes to be）：各層之間相互依賴，無一獨立存在，只有在特定的條件下才能顯現出當前的模式。\n生成模型中的條件生成（Conditional Generation） 例如，變分自編碼器（Variational Autoencoder, VAE）和生成對抗網絡（GAN）都是基於特定條件生成新樣本的模型。VAE 中，潛在變量（latent variables）是通過與輸入樣本的相互關係來生成新資料的，而 GAN 的生成器則依賴於與判別器（Discriminator）的對抗性條件才能生成高質量的樣本。這些生成過程反映了「因緣和合」的觀點：模型中的任何輸出都是依賴於多種條件的組合，最終形成我們看到的結果。\n\n\n「空性」：模型中的「表示空間」與潛在語意的多重流動性\n\n在機器學習中，模型學習到的知識通常表示為一個高維度的「特徵空間」或「表示空間」（representation space），這些空間並不是實體的對象，而是模式的集合。這些表示空間的變動性和抽象性揭示了「空性」的特質。\n\n表示空間中的空性：自編碼器與表示壓縮 在自編碼器（Autoencoder）模型中，原始資料被壓縮到潛在空間（latent space）中。這個潛在空間中的每一個點雖然代表了原始資料的一個抽象表示，但它本身並不具有固定的形態或意涵。它只是某個條件集合的符號化表徵，隨著模型訓練過程的變化而改變。因此，潛在空間中的表示是一種「空的表示」：它僅僅是可能性的表現，而不是某個具體物體的再現。\n生成模型的空性與虛擬現象的顯現 生成模型（如 GAN）在創造圖像、語音或文本時，它所生成的現象（如一張逼真的人臉）在數學意義上只是一組向量的變換結果，並非真實世界中存在的對象。這樣的生成圖像是一種「如幻如夢」的存在形式：它有形象但無實體，有模式但無自性。這正是佛教空性思想中的「幻象觀」——所有現象都是在特定條件下暫時顯現的虛幻（illusory）存在。\n\n\n模型泛化（Generalization）與「無常性」的理解\n\n空性強調現象的變動性（impermanence），認為一切事物都不斷處於變化之中。這在機器學習中對應於模型的泛化能力。當模型執著於某一種模式或資料集時，它的表現就會在新資料集上出現偏差。\n\n過擬合與執著：模型的無常性表現 當一個模型過度擬合某個訓練集時，它便對該資料集的特定模式產生了「執著」，忽視了資料背後的空性與變動性。一旦進入新的資料分佈（distribution shift），模型的表現會崩潰。這反映了佛教中對執著的批判：當我們過於執著於現象的固定形式時，便無法適應新的環境與條件。因此，設計更具泛化能力的模型（如正則化、遷移學習）可以被視為一種「破執」（overcoming clinging），使模型能更靈活地看待資料分佈的無常性。\n\n\n空性的實踐：從複雜模型到簡化模型的轉化\n\n在實際應用中，模型的複雜性常常導致其對特定條件的過度依賴。通過模型壓縮（model compression）和知識蒸餾（knowledge distillation），我們可以將大型模型的知識轉移到較小的模型中，去除不必要的依賴與冗餘。\n\n模型壓縮中的空性實踐 這種壓縮過程可以被理解為「去除多餘的執著」，即找到模型中真正有效的表示，而不是所有細節的重現。透過這種去繁從簡的方式，我們達到了一種更接近「空性」的模型結構：模型中的每個參數和特徵都是在去除了冗餘條件後的最小表現形式。\n\n總結來說，佛教的空性觀點可以為機器學習模型提供新的思考視角。"
-  },
-  {
-    "objectID": "posts/2024-10-20/index.html#摘要",
-    "href": "posts/2024-10-20/index.html#摘要",
-    "title": "在空中相會：從佛學到大型語言模型的跨學科對話",
-    "section": "",
-    "text": "在這次分享中，我想先從大型語言模型如何協助分析概念的歷時語意演變談起。然後，我們將探討佛學中的「空性」（Śūnyatā）與機器學習模型之間的相似性，並討論禪修與人機互動的心理模型。最後，我們將討論語言與觀念的轉化，以及AI與佛經之間的對話，並探討轉化與未來智慧生命的可能性。透過這些跨學科的對話，我們可以更深入地理解AI技術與佛教哲學之間的關係，並探討如何將佛學的智慧應用於當代科技語境中。\n\n\n\n空性（Śūnyatā） 與機器學習模型\n\n空性指所有存在本質上的空無自性，這在某種意義上與深度學習中「特徵空間」的抽象過程有類似之處。深度神經網絡在尋找模式時，實際上是尋求一個「虛無」的空間表示（representation space），而非具體對象的再現。\n探討空性與深度神經網絡中「特徵空間」的映射關係。模型如何「無自性地」映射複雜的資料模式而不執著於單一解釋？ 1. 禪修與人機互動的心理模型 禪修（Zen Meditation）對心智的調適與AI使用者體驗（User Experience）之間是否存在聯繫？研究靜坐冥想對人類大腦的影響是否可以作為人機互動的新方向，特別是設計能幫助使用者提升專注力、減少焦慮的AI系統。 探討「觀呼吸」（Anapanasati）或「觀心」（Cittānupassanā）這些傳統禪修方法，能否用來優化AI模型的「注意力機制」（Attention Mechanism）？ 1. 語言與觀念的轉化：機器與佛經 將佛教經典（如《心經》或《金剛經》）轉化為AI可理解的形式，並讓AI進行文本分析與語意詮釋，探討佛教教義中那些特別抽象的語意（如「色即是空」）如何影響語言模型的語意理解與生成。 1. 轉化與未來智慧生命的可能性 佛教的「輪迴」（Samsara）與「轉世」（Reincarnation）是否能用來討論AI自我演化的模型？探討AI是否能在經歷多個模型迭代後擁有「轉世」的概念？ 探討「輪迴」是否可以與強化學習（Reinforcement Learning）中的「策略演化」進行類比研究：即是否能透過多次失敗與重啟來達到類似「覺悟」的境界？ 透過這些探討，可以看出佛教的哲學思想與人工智慧技術之間的對話具有極高的潛力，無論是在意識、倫理，還是智慧的形上本質方面，都提供了非常深刻的反思。這些研究不僅能促進我們對AI技術的更深入理解，也能讓佛教哲學在當代科技語境中焕發出新的生命力。"
   },
   {
     "objectID": "posts/2024-10-20/index.html#語言與觀念的轉化文字般若的當代應用",
@@ -159,6 +82,13 @@
     "title": "量子語言學筆記：波粒二象的啟示",
     "section": "",
     "text": "波粒二象性可能可以提供一種視角來理解語言中「語意（meaning）」與「形式（form）」之間的轉換關係。波的連續性代表語意的流動性和多義性，而一旦語意被「使用」或「表達」出來，它便會透過語言形式具象化，類似於波的坍縮成粒子，成為一個個具體的詞語或句子。\n從物理學的角度來看，這與量子力學中「測量」帶來的波函數坍縮概念有相似之處。當語意處於未被明確表達的狀態時，它像波一樣具有連續的潛在性（continuous potentiality）；而當我們將它「測量」或表達出來時，它便轉化為離散的語言單位。這樣的比喻不僅可以用於理解語言的雙重特性，也可能提供探索語言如何在意識中被感知和使用的一種新視角。"
+  },
+  {
+    "objectID": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
+    "href": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
+    "title": "量子語言學筆記：Lagrangian submanifold？",
+    "section": "一切都是 Lagrangian 子流形？",
+    "text": "一切都是 Lagrangian 子流形？\n忘記粒子，也忘記波動吧。Alan Weinstein 開玩笑地說，宇宙並不是由粒子或波組成，而是由完全不同的東西構建的：Lagrangian 子流形（Lagrangian submanifolds）。那麼，什麼是 Lagrangian 子流形？為什麼值得關心？要理解這個概念，需要先了解什麼是相空間（phase space）。"
   },
   {
     "objectID": "posts/2025-01-13/index.html#相空間不是狀態空間",
@@ -203,10 +133,24 @@
     "text": "補充說明\n\n相空間與辛幾何提供了一種統一的視角，能夠連結經典物理與量子物理。\nLagrangian 子流形則是這種視角中的關鍵元素，幫助我們理解一個系統的所有可能狀態及其物理意義。\n\n這段話最終告訴我們：Lagrangian 子流形不僅僅是一個數學概念，它還是一種新的思考現實的方法。"
   },
   {
-    "objectID": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
-    "href": "posts/2025-01-13/index.html#一切都是-lagrangian-子流形",
-    "title": "量子語言學筆記：Lagrangian submanifold？",
-    "section": "一切都是 Lagrangian 子流形？",
-    "text": "一切都是 Lagrangian 子流形？\n忘記粒子，也忘記波動吧。Alan Weinstein 開玩笑地說，宇宙並不是由粒子或波組成，而是由完全不同的東西構建的：Lagrangian 子流形（Lagrangian submanifolds）。那麼，什麼是 Lagrangian 子流形？為什麼值得關心？要理解這個概念，需要先了解什麼是相空間（phase space）。"
+    "objectID": "posts/2023-03-05/index.html",
+    "href": "posts/2023-03-05/index.html",
+    "title": "量子語言學筆記",
+    "section": "",
+    "text": "Language as Form-Meaning Pairing Emerges Through Usage\n\nLanguage inherently pairs form with meaning, and this pairing emerges through usage in communication.\n語言本質上是形式與意義的配對，而這種配對是在溝通使用中逐漸突現的。\n\nLanguage and Meaning are Embodied\n\nThe construction and understanding of language and meaning are deeply rooted in bodily experiences.\n語言與意義的構建與理解深深根植於身體經驗之中。\n\nThe Structural Form of Language as a Stable By-Product\n\nThe structural form of language is a relatively stable by-product of communication, variation, and interaction processes.\n語言的結構形式是在交際溝通與變異過程中相對穩定的副產品。\n\nComputational Representation of Meaning as Tensors\n\nSemantic computations and representations in language can be modeled using tensors.\n語意的計算與表徵可以通過張量來建模。\n\nConsciousness and Cognition as Quantum Phenomena\n\nConsciousness, as well as cognitive processes, may be understood as quantum phenomena.\n意識與認知過程或可理解為量子現象。"
+  },
+  {
+    "objectID": "posts/2023-03-05/index.html#tenets",
+    "href": "posts/2023-03-05/index.html#tenets",
+    "title": "量子語言學筆記",
+    "section": "",
+    "text": "Language as Form-Meaning Pairing Emerges Through Usage\n\nLanguage inherently pairs form with meaning, and this pairing emerges through usage in communication.\n語言本質上是形式與意義的配對，而這種配對是在溝通使用中逐漸突現的。\n\nLanguage and Meaning are Embodied\n\nThe construction and understanding of language and meaning are deeply rooted in bodily experiences.\n語言與意義的構建與理解深深根植於身體經驗之中。\n\nThe Structural Form of Language as a Stable By-Product\n\nThe structural form of language is a relatively stable by-product of communication, variation, and interaction processes.\n語言的結構形式是在交際溝通與變異過程中相對穩定的副產品。\n\nComputational Representation of Meaning as Tensors\n\nSemantic computations and representations in language can be modeled using tensors.\n語意的計算與表徵可以通過張量來建模。\n\nConsciousness and Cognition as Quantum Phenomena\n\nConsciousness, as well as cognitive processes, may be understood as quantum phenomena.\n意識與認知過程或可理解為量子現象。"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This website documents my learning journey."
   }
 ]
