@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "謝舒凱 | Shu-Kai Hsieh",
     "section": "",
-    "text": "Hi!\nI am Shu-Kai Hsieh [IPA: ɕjɛ].\nI am currently a joint-appointed professor at the Graduate Institute of Linguistics and the Brain and Mind Research Institute at National Taiwan University, Taiwan.\nI am interested in all things language, physics and consciousness, as well as the computational modeling of language in various aspects. I am leading a laboratory LOPE.\nAt my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs."
+    "text": "Hi!\nI am Shu-Kai Hsieh [IPA: ɕjɛ].\nI am currently a joint-appointed professor at the Graduate Institute of Linguistics /Brain and Mind at National Taiwan University, Taiwan.\nI am interested in all things language, physics and consciousness, as well as the computational modeling of language in various aspects. I am leading a laboratory LOPE.\nAt my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and practicing Chinese calligraphy."
   },
   {
     "objectID": "posts/2023-03-05/index.html",
@@ -151,14 +151,14 @@
     "href": "posts/2026-01-30/index.html",
     "title": "人文 AI",
     "section": "",
-    "text": "例子 1｜誰能問對問題？\n\n同一個 AI，一般學生問：「幫我摘要這篇文章。」\n受過文史哲訓練的學生應該會要問：「這段論證的前提是什麼？它隱含了哪個時代的價值觀？如果換成東亞語境，結論還成立嗎？」\n\n差異不在 AI，而在提問者的詮釋框架。 這正是文學院應該訓練的能力：概念史、脈絡化、問題重構。"
+    "text": "這是個讓人文領域焦慮的時代。但是除了焦慮，與過度吹捧人文價值的另一端，有沒有更深刻的討論？\n從整個 LLM 時代的地基問題開始：\n傳統想法是，語言指向世界（reference）；但這在 LLM／語言幾何學視角下，更準確的說法是：語言是人類與世界互動後，在認知—文化—行動層面形成的「壓縮投影」（projection）。\n但世界不是直接進入語言其中。這個鏈【世界 –&gt; 感知／行動 –&gt; 社會互動 –&gt; 慣例 –&gt; 語言】說明了，語言本身已經是二手甚至三手資料。所以簡要地說，語言不是世界的鏡子，而是世界在人類可溝通尺度上的低維投影。LLM學到的，其實是：「人類如何談論世界」的幾何，而不是世界本身。這一點作為背景哲學預設，非常重要。\n在學界與業界常被說成一句話：「LLM 缺乏 grounding」。但這句話其實太簡略了。 也許更精確的說法是，LLM 的向量空間，只有語言與語言之間的閉合動力系統，缺乏「語言—行動—後果」的回饋環。\n所以它的極限並不是不知道世界長什麼樣，而是不知道「做錯會怎樣」。這也是為什麼它能流暢描述危險，卻無法自然形成風險感、責任感、後果權重。\n也許部分能，但可能不是我們想像的那種「解決」。更精確的說法是，Physical AI 補的是因果回饋，不是語義真理。\n具身 AI 能提供因果回饋行動到結果；試錯到代價；時間連續性等等。 這對 LLM 來說的確是質變。但是，它補的是因果回饋 causal grounding，不是語義真理 semantic grounding。它讓模型知道：「這樣說／這樣做，世界會反彈」，但不會自動產生價值、意義、規範。\n所以，我目前的想法是，Physical AI 也許無法解決語言出發的 LLM paradigm，只能讓這個 paradigm 不再那麼自洽。\n為什麼？因為語言是跨主體、跨世代、跨文化的； 而身體經驗是局部、當下、個體化的。 一個機器人的身體經驗，不等於人類的身體史，更無法等於文明的集體經驗。 Physical AI 會造成的是：某些向量方向開始有實際代價；但整體語言拓撲不會因此崩解。\n如果一個系統只有語言幾何，卻沒有身體與歷史，那它所顯現的「語言結構」， 是否正好讓我們看見，有哪些語言現象其實從來就不需要世界？\n從這個角度看，人文學科的位置反而更穩固。\n但，這些討論對於教育決策者太抽象了，我們需要的說詞，比較像是以下這些。"
   },
   {
     "objectID": "posts/2026-01-30/index.html#ai-時代的關鍵能力其實是人文能力",
     "href": "posts/2026-01-30/index.html#ai-時代的關鍵能力其實是人文能力",
     "title": "人文 AI",
-    "section": "",
-    "text": "例子 1｜誰能問對問題？\n\n同一個 AI，一般學生問：「幫我摘要這篇文章。」\n受過文史哲訓練的學生應該會要問：「這段論證的前提是什麼？它隱含了哪個時代的價值觀？如果換成東亞語境，結論還成立嗎？」\n\n差異不在 AI，而在提問者的詮釋框架。 這正是文學院應該訓練的能力：概念史、脈絡化、問題重構。"
+    "section": "AI 時代的「關鍵能力」其實是人文能力",
+    "text": "AI 時代的「關鍵能力」其實是人文能力\n例子 1｜誰能問對問題？\n\n同一個 AI，一般學生問：「幫我摘要這篇文章。」\n受過文史哲訓練的學生應該會要問：「這段論證的前提是什麼？它隱含了哪個時代的價值觀？如果換成東亞語境，結論還成立嗎？」\n\n差異不在 AI，而在提問者的詮釋框架。 這正是文學院應該訓練的能力：概念史、脈絡化、問題重構。"
   },
   {
     "objectID": "posts/2026-01-30/index.html#修正-ai-偏見本質是人文判斷",
@@ -179,14 +179,14 @@
     "href": "posts/2026-01-30/index.html#從會用-ai到駕馭-ai",
     "title": "人文 AI",
     "section": "從「會用 AI」到「駕馭 AI」",
-    "text": "從「會用 AI」到「駕馭 AI」\n例子 4｜多輪對話不是聊天，是論證工程\n\n與 AI 的高品質互動其實是：\n\n設定問題邊界\n拆解假設\n逐步修正\n要求反證與替代解釋\n\n\n這正是：\n\n哲學的辯證訓練\n歷史的反事實思考\n文學的多重視角解讀\n\n如果學生不懂歷史與概念史，他們無法發現 AI 把現代價值硬套進古代文本； 如果沒有哲學訓練，他們無法拆解 AI 論證中的隱含前提； 如果沒有語言與敘事敏感度，他們只會被「寫得很順」的錯誤答案帶著走。\n換句話說：文學院是在教「如何成為 AI 的導演，而不是打字員」。\n\n未來教育的關鍵不在答案，而在三件事： 問對問題、修正偏見、鑑定品質。這三件事，正是人文教育最成熟、卻長期被低估的能力。"
+    "text": "從「會用 AI」到「駕馭 AI」\n例子 4｜多輪對話不是聊天，是論證工程\n\n與 AI 的高品質互動其實是：\n\n設定問題邊界\n拆解假設\n逐步修正\n要求反證與替代解釋\n\n\n這正是涉及哲學的辯證訓練、歷史的反事實思考、文學的多重視角解讀。\n如果學生不懂歷史與概念史，他們無法發現 AI 把現代價值硬套進古代文本； 如果沒有哲學訓練，他們無法拆解 AI 論證中的隱含前提； 如果沒有語言與敘事敏感度，他們只會被「寫得很流暢」的錯誤答案帶著走。\n俏皮一點說：文學院是在教「如何成為 AI 的導演，而不是打字員」；如果 AI 是放大器，文學院確保我們放大的不是偏見與錯誤。"
   },
   {
-    "objectID": "posts/2026-01-30/index.html#給決策者們的一句投資語言",
-    "href": "posts/2026-01-30/index.html#給決策者們的一句投資語言",
+    "objectID": "posts/2026-01-30/index.html#給教育決策者們的投資語言",
+    "href": "posts/2026-01-30/index.html#給教育決策者們的投資語言",
     "title": "人文 AI",
-    "section": "給決策者們的一句「投資語言」",
-    "text": "給決策者們的一句「投資語言」\n\n「AI 已經會給答案，但未來社會最缺的，是能判斷哪些答案值得相信、哪些問題值得問的人。 文學院不是 AI 時代的成本中心，而是 整個大學 AI 素養的控制塔。」 文學院也不是 AI 時代的防守單位，而是與 AI 共舞的判斷力的中樞投資。\n\n如果 AI 是放大器，文學院確保我們放大的不是偏見與錯誤。"
+    "section": "給教育決策者們的「投資語言」",
+    "text": "給教育決策者們的「投資語言」\n未來教育的關鍵不在答案，而在三件事： 問對問題、修正偏見、鑑定品質。這三件事，正是人文教育最成熟、卻長期被低估的能力。\n\n「AI 已經會給答案，但未來社會最缺的，是能判斷哪些答案值得相信、哪些問題值得問的人。 文學院不是 AI 時代的成本中心，而是 整個大學 AI 素養的控制塔。」 文學院也不是 AI 時代的防守單位，而是與 AI 共舞的判斷力的中樞投資。"
   },
   {
     "objectID": "posts/2026-01-30/index.html#qa",

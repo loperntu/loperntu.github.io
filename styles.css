@@ -22,3 +22,7 @@ h1 {
 .blue-text {
     color: blue;
 }
+
+.brown-text {
+    color: #654321; /* 深棕色 */
+}

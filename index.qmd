@@ -9,9 +9,9 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/shu-kai-hsieh-0a08b945/
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/shukaihsieh
+    - icon: x
+      text: X
+      href: https://x.com/shukaihsieh
     - icon: github
       text: GitHub
       href: https://github.com/loperntu
@@ -27,8 +27,8 @@ about:
 
 I am Shu-Kai Hsieh [IPA: ɕjɛ].
 
-I am currently a joint-appointed professor at the Graduate Institute of Linguistics and the Brain and Mind Research Institute at National Taiwan University, Taiwan.
+I am currently a joint-appointed professor at the Graduate Institute of Linguistics /Brain and Mind at National Taiwan University, Taiwan.
 
-I am interested in <span class= "blue-text">all things language, physics and consciousness</span>, as well as the computational modeling of language in various aspects. I am leading a laboratory [LOPE](https://lope.linguistics.ntu.edu.tw/). 
+I am interested in <span class= "brown-text">all things language, physics and consciousness, as well as the computational modeling of language in various aspects</span>. I am leading a laboratory [LOPE](https://lope.linguistics.ntu.edu.tw/). 
 
-At my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and petting dogs.
+At my spare time, I enjoy reading Buddhist scriptures in different languages, playing the instrument, and practicing Chinese calligraphy.
