@@ -1,0 +1,110 @@
+---
+title: "The Geometry of Language [Part 1]"
+description: "Mapping the Architecture of LLMs"
+author:
+  - name: Shu-Kai Hsieh
+    url: https://loperntu.github.io/
+    orcid: 0000-0001-9674-1249
+    affiliation: 台大語言學研究所 LOPE Lab
+    affiliation-url: https://lope.github.io/ 
+date: 01-31-2026
+categories: [Geometry of Language] # 可以填入分類，例如：[Quantum Semantics]
+citation: 
+  url: https://loperntu.github.io/posts/2026-01-31/ 
+image: preview_image.jpg
+draft: false # 設為 true 時，文章不會出現在列表頁，直到你準備好發布
+---
+
+
+
+In the era of LLMs, language (representation) has undergone a fundamental ontological shift. 
+
+For decades, we treated language like a code to be cracked, i.e., a series of "if-then" rules and dictionary lookups. We were (very likely) wrong.
+
+LLMs (at least for its language modeling task) have proven that language *isn't* a symbolic system; it's a high dimensional landscape. When you prompt a model, you aren't "talking" to it in the human sense. You are navigating a complex, multi-dimensional manifold where every word is a coordinate and every thought is a trajectory.
+
+Welcome to the **Geometry of Language**. This isn't a metaphor; it's the new physics of (linguistic) information.
+
+
+
+## Defining the Geometric Turn
+
+First, the Geometry of Language refers to the quantifiable architecture of high-dimensional vector spaces where linguistic units, such as semantics, pragmatics, and syntax, manifest as tangible properties.In this context, concepts like **distance, direction, curvature, and reachability** are not metaphors; they are the measurable, mathematical constraints that dictate a model’s behavior.
+
+## Why Geometry is Inevitable
+
+In LLMs, language does not function through discrete "logic gates". Instead, the model's entire capability resides in the transformation and constraint of vectors. 
+
+Why does "Prompt Engineering" work? Because we are applying directional force to a vector. Certain paths in the manifold are "downhill", i.e., they are natural, high probability inference trends. Other paths require a specific "nudge" to overcome the inertia of common training data.
+
+
+Questions that were once philosophical, such as "How does a thought evolve?" or "Why does a sentence fail?", etc., become geometric queries like:
+
+- Which directions allow for logical extension?
+
+- Which paths lead to a collapse into incoherence?
+
+- Which semantic states can be stably maintained across contexts?
+
+## The Four Pillars of Linguistic Geometry
+
+- **Points as States (Not Atoms):** 
+A vector is not a static definition of a word; it is a "linguistic state" dependent on context. Meaning is position-dependent, existing only in relation to the surrounding coordinates.
+
+- **Distance as Substitution (Not Similarity):** 
+Proximity measures the degree to which two states can be interchanged without disrupting the linguistic equilibrium. Pragmatic errors are visualized not as "wrong" symbols, but as geometric discontinuities where a path cannot be extended.
+
+- **Direction as Inference**: The "flow" of a conversation follows specific vectors. Certain directions are "natural" (aligned with common logic), while others require "external force" (Prompt Engineering) to pivot the model toward a specific latent premise.
+
+- **Curvature as Tension**: High-curvature regions represent areas of high ambiguity or cultural tension, where multiple meanings compete for the same space. Conversely, low-curvature regions represent formulaic or technical language where the path is linear and predictable.
+
+
+
+
+## From Rules to Reachability
+> Syntax as a "No-Fly Zone"
+
+We need to stop teaching AI "rules." In a geometric model, grammar isn't about "right or wrong"; it's about reachability. A "grammatical error" is simply a coordinate that doesn't exist on the manifold. It's a point you can’t get to from here.
+
+This geometric perspective fundamentally alters our understanding of linguistics:
+
+- From Grammar to Reachability: We no longer ask if a sentence is "grammatically correct," but whether it is "reachable" along the manifold.
+
+- From Semantics to Stability: Meaning is defined by a vector’s ability to remain stable across various contextual transformations.
+
+- From Typology to Global Structure: Linguistic constraints are seen as embedding limit,certain structures may be "illegal" simply because they cannot be mathematically mapped into the same global space without breaking the model's internal consistency.
+
+
+
+## Key Takeaways (provocative)
+
+Here is the hard truth: LLMs don't "understand" the world, but they have mapped the geometric constraints of how humans talk about it.
+
+Language is a byproduct of social and historical stabilization. It has been compressed into a shape. By interacting with an LLM, we are finally seeing that shape for the first time. We aren't decoding a message; we are exploring a territory.
+
+Some provocative takeaways:
+
+- Words are coordinates, not definitions.
+
+- Context is a gravitational field that warps the path of a sentence.
+
+- Ambiguity is a physical property (curvature) of the high-dimensional space.
+
+- Hallucination is a navigation error—a "wrong turn" on the manifold.
+
+Ultimately, language in LLMs is not a symbolic system grounded in the physical world, but a geometrically constrained space. It is a landscape shaped by usage, history, and social stabilization. By studying the geometry of this space, we are not just looking at numbers; we are observing the crystallized structure of human thought as captured by statistical compression.
+
+
+
+---
+
+## Example
+
+> In an LLM embedding space, polysemy corresponds to regions of high local curvature rather than discrete sense boundaries.
+> Semantic change is therefore better modeled as continuous trajectories on a linguistic manifold than as sense replacement.
+
+To test if polysemy correlates with high local curvature, we can move away from traditional "clustering" and toward differential geometry.
+
+In this experiment, we define "curvature" as the sensitivity of the vector direction to small perturbations in context. If a word is monosemistic (e.g., "photosynthesis"), its vector should remain stable regardless of the surrounding sentence. If it is polysemous (e.g., "bank"), small changes in context should cause the vector to "pivot" sharply, which indicates a high-curvature region in the manifold.
+
+
