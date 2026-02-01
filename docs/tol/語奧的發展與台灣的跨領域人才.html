@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f1f9;&#x1f1fc; &#x63d0;&#x6848;&#xff1a;&#x53f0;&#x7063;&#x8a9e;&#x8a00;&#x5b78;&#x5967;&#x6797;&#x5339;&#x4e9e;&#x8207;&#x65b0;&#x6642;&#x4ee3;&#x8a9e;&#x8a00;&#x79d1;&#x5b78;&#x4eba;&#x624d;&#x57f9;&#x80b2;&#x65b0;&#x85cd;&#x5716;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-提案台灣語言學奧林匹亞與新時代語言科學人才培育新藍圖">🇹🇼 提案：台灣語言學奧林匹亞與新時代語言科學人才培育新藍圖</h2>
+<p><strong>主旨：</strong> 爭取將國際語言學奧林匹亞（IOL）納入我國國際學科競賽升學優待辦法，並建議教育部支持在大學端創新設立 <strong>(語言科學/計算語言學) 跨領域學程</strong>，以培育具備邏輯推理、語言分析與解決問題能力的國家級與國際級人才。</p>
+<h3 id="核心訴求一國手獎勵與升學制度化提升語奧地位">核心訴求一：國手獎勵與升學制度化（提升語奧地位）</h3>
+<p><strong>現況問題：</strong> 國際語言學奧林匹亞（IOL）與其他國際數理學科奧林匹亞（如數學、物理、化學）同為世界中學生十二項學科競賽之一，但其得獎者目前<strong>尚未正式納入</strong>教育部《參加國際數理學科奧林匹亞競賽及國際科學展覽成績優良學生升學優待辦法》中，導致國手升學權益與其他學科存在落差。</p>
+<table>
+<thead>
+<tr>
+<th>討論重點</th>
+<th>建議提案方向</th>
+<th>具體行動與效益</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>升學優待</strong></td>
+<td>建議<strong>修訂《升學優待辦法》</strong>，將IOL比照辦理。</td>
+<td>IOL得牌國手（金、銀、銅）應享有<strong>保送或推薦</strong>進入大學相關學系的資格。</td>
+</tr>
+<tr>
+<td><strong>科系對接</strong></td>
+<td>國手保送的學系應納入<strong>跨領域</strong>考量。</td>
+<td><strong>保送首選科系：</strong> 電機工程、資訊工程、外國語文學、中國文學、認知科學、以及跨領域學位學程。</td>
+</tr>
+<tr>
+<td><strong>國家獎勵</strong></td>
+<td>設立**「IOL國手培育及留台獎學金」**。</td>
+<td>鼓勵得牌國手繼續在台就讀大學及研究所，進行語言科學研究或計算語言學應用，以降低人才外流風險。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>各國語言學奧林匹亞的升學優待辦法</strong></p>
+<p>國際語言學奧林匹亞競賽（International Linguistics Olympiad, 簡稱 <strong>IOL</strong>），從 2003 年持續舉辦，在國際教育界與頂尖大學之間已獲得高度認可。</p>
+<p>針對不同國家的升學優待，大致可分為「<strong>法規制度型</strong>」與「<strong>能力證明型</strong>」兩大類：</p>
+<h3 id="美國頂尖名校錄取的強勢加分項">美國：頂尖名校錄取的「強勢加分項」</h3>
+<p>美國並沒有政府統一規定的保送制度，但語奧（NACLO/IOL）在大學申請中被視為極高榮譽。</p>
+<ul>
+<li>
+<p>優待方式：</p>
+</li>
+<li>
+<p>學術認可度： 語奧結合了邏輯、數學與語言學。MIT（麻省理工學院）、卡內基美隆大學 (CMU) 與 史丹佛大學的資工與語言學系對此競賽極為認可，因為它證明了學生在「計算語言學」與「人工智慧自然語言處理」方面的天賦。</p>
+</li>
+<li>
+<p>競爭力： 進入美國語奧國家隊（Team USA）的選手，錄取常春藤盟校的比例遠高於一般申請者。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://aclanthology.org/W08-0211.pdf">NACLO (北美計算語言學奧林匹亞) 官方介紹</a> 指出該競賽旨在吸引人才進入語言技術與計算領域。</p>
+</blockquote>
+<p><img src="file:////Users/shukai/Dropbox/語奧/國教署/collegebase.png" alt="">
+<img src="file:////Users/shukai/Dropbox/語奧/國教署/collegebase2.png" alt="w:900"></p>
+<p><img src="file:////Users/shukai/Dropbox/語奧/國教署/mit2.png" alt="">
+<img src="file:////Users/shukai/Dropbox/語奧/國教署/mit-admission.png" alt=""></p>
+<h3 id="加拿大頂尖大學入學評估與獎學金">加拿大：頂尖大學入學評估與獎學金</h3>
+<p>加拿大與美國相似，語奧成績不採取強制保送，但在大學入學審查中具備顯著加分作用。</p>
+<ul>
+<li>
+<p>優待方式： 入學錄取： 多倫多大學、UBC 等校的資工、語言學、心理學系極其看重 NACLO（北美的語奧選拔賽）成績。</p>
+</li>
+<li>
+<p>獎學金： 獲選為國手的學生，常可直接獲得大學提供的「入學卓越獎學金」。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源：<a href="https://canil.ca/wordpress/naclo/">加拿大語言學研究所 (CanIL) - NACLO 競賽說明</a>。</p>
+</blockquote>
+<h3 id="中國強基計畫與保送">中國：強基計畫與保送</h3>
+<p>中國近年改革了升學制度，語奧雖不直接列入五大學科保送，但在名校的特殊選拔中具有優勢。</p>
+<ul>
+<li>
+<p>優待方式：</p>
+</li>
+<li>
+<p>強基計畫 (Basic Disciplines Reform Plan)： 針對基礎學科（如哲學、古文字學、歷史）拔尖的人才，清華、北大、復旦等校在「強基計畫」考核中，會參考學生在語奧的表現，給予面試加分或破格入圍機會。</p>
+</li>
+<li>
+<p>綜合評價招生 (Comprehensive Evaluation)： 南方科技大學、上海紐約大學等校在評定學生的綜合素質檔案時，語奧獎牌被列為最高等級的「學科特長」證明。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://bm.chsi.com.cn/jcxkzs/">中國教育線上 - 2025年強基計畫報考指南</a>；<a href="https://www.ioling.org.cn/">全國語言學奧林匹克競賽 (IOLC) 官方說明</a>。</p>
+</blockquote>
+<h3 id="俄羅斯免試入學與政府獎學金">俄羅斯：免試入學與政府獎學金</h3>
+<p>俄羅斯擁有極其深厚的語言學傳統，語奧成績在該國具有最高的學術權威。</p>
+<ul>
+<li>
+<p>優待方式： <strong>一類免試（BVI）</strong>：   獲得全俄羅斯語言學奧賽（The Russian Olympiad for School Students）或 IOL 獎牌的學生，可直接獲得「免試入學權（Admission without entrance exams, BVI）」，進入莫斯科國立大學（MSU）、高等經濟學院（HSE）等頂尖大學的語言學或 AI 相關專業。</p>
+</li>
+<li>
+<p>國際生特別獎勵： 外籍得獎者若申請俄羅斯大學，常可透過「Open Doors」或政府配額計畫獲得全額獎學金。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://admissions.hse.ru/en/globaluni/">高等經濟學院 (HSE) 奧賽生錄取專頁</a>；<a href="https://edu.gov.ru/">俄羅斯聯邦教育部《關於奧林匹克競賽學生入學優待條例》</a>。</p>
+</blockquote>
+<h3 id="歐洲國家免試入學與政府獎學金">歐洲國家：免試入學與政府獎學金</h3>
+<p>歐洲是語奧的發源地，許多國家將其視為與數學、物理同等地位的國家級科學競賽。語奧在東歐有極其悠久的傳統，制度也最完善：</p>
+<ul>
+<li>波蘭與捷克： 國家級競賽得主在申請亞捷隆大學（Jagiellonian University）或查理大學（Charles University）等歷史名校時，通常可獲得入學筆試豁免或最高分錄取。</li>
+</ul>
+<blockquote>
+<p>佐證來源：<a href="https://greatyop.com/russian-government-scholarship/">俄羅斯政府全球獎學金計畫 (Open Doors)</a>；<a href="https://nf-iocbtech.cz/en/projects/123/linguistics-olympiad">捷克語言學奧林匹亞 (ČLO) 官方公告</a>。</p>
+</blockquote>
+<h3 id="日本">日本</h3>
+<p>日本近年積極將國際科學奧林匹亞（含語奧）納入大學招生的評價體系。</p>
+<ul>
+<li>
+<p>優待方式： 許多頂尖國立大學與私立名校設有「國際科學奧林匹亞入試」或「AO入試（總合型選拔）」，得牌者可獲得免除筆試、優先面試或入學保證。</p>
+</li>
+<li>
+<p>具體大學： <strong>筑波大學、東北大學、橫濱市立大學</strong> 設有「國際科學奧林匹亞特別入試」，語奧選手具備出願資格。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源： 日本國際經濟奧林匹亞/科學奧林匹亞推廣專頁 (2025)；日本語言學奧林匹亞 (JOL) 官方網站。</p>
+</blockquote>
+<h3 id="韓國學生綜合記錄簿student-record權重">韓國：學生綜合記錄簿（Student Record）權重</h3>
+<p>韓國的升學競爭極其激烈，語奧成績是進入「SKY」（首爾大、高麗大、延世大）的重要籌碼。</p>
+<ul>
+<li>優待方式： 在「學生綜合記錄簿（Schoool Life Record）」中，國際奧賽得獎紀錄被視為「卓越學術能力」的頂級證明，對申請「特才生（Special Talent Admissions）」非常有幫助。</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://krlo.kr/faq/">韓國語言學奧林匹亞 (KLO) 官網 FAQ。</a></p>
+</blockquote>
+<h3 id="印度頂尖研究型大學的錄取門檻">印度：頂尖研究型大學的錄取門檻</h3>
+<p>印度的語奧（Panini PLO）由知名的 IIIT Hyderabad（海德拉巴國際資訊技術學院） 等機構主辦。</p>
+<ul>
+<li>
+<p>優待方式：</p>
+</li>
+<li>
+<p>特定學系優待： IIIT Hyderabad 作為印度電腦科學的頂尖學府，其 CLD (Computer Science and Linguistics) 雙學位課程會優先錄取語奧得獎者，甚至提供專屬錄取通道，跳過部分競爭極其激烈的全印度統一考試。</p>
+</li>
+<li>
+<p>研究資源： 得獎國手通常能直接獲得進入 Microsoft Research India 等研究機構實習的機會。</p>
+</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://ltrc.iiit.ac.in/plo/">Panini 語言學奧林匹亞 (PLO) 官方網站 - IIIT Hyderabad 主辦頁面</a>。</p>
+</blockquote>
+<h3 id="巴西新興的奧林匹克名額制度">巴西：新興的「奧林匹克名額」制度</h3>
+<p>巴西是近年來對奧賽選手最友善的國家之一，為了留住頂尖人才，政府推行了名為「Vagas Olímpicas」的政策。</p>
+<ul>
+<li>優待方式： 包括 <strong>坎皮納斯大學 (UNICAMP)、聖保羅大學 (USP)</strong> 等巴西頂尖公立大學，<strong>直接為奧賽得牌者保留「免試錄取名額」</strong>。語奧（OBL/IOL）獎牌可直接替代傳統的高考（ENEM）成績錄取相關學系。</li>
+</ul>
+<blockquote>
+<p>佐證來源： <a href="https://revistapesquisa.fapesp.br/en/an-olympic-route-to-university-admission/">《Revista Fapesp》教育報導 (2023)：奧林匹克之路大學入試。</a></p>
+</blockquote>
+<h3 id="其他地區香港澳洲">其他地區（香港、澳洲）</h3>
+<ul>
+<li><strong>香港：</strong> 語奧獎牌對申請港大（HKU）、港中文（CUHK）的「<strong>多元卓越獎學金計畫</strong>」非常有幫助，可獲得面試加分甚至錄取。</li>
+<li><strong>澳洲：</strong> 多數大學透過調整 <strong>ATAR 分數</strong>（入學排名點數）來給予奧賽選手額外的錄取點數加分。</li>
+</ul>
+<hr>
+<h3 id="總結比較表">總結比較表</h3>
+<h3 id="全球語奧-iol-升學優待政策比較摘要表">全球語奧 (IOL) 升學優待政策比較摘要表</h3>
+<hr>
+<table>
+<thead>
+<tr>
+<th>國家/地區</th>
+<th>優待類型</th>
+<th>具體政策摘要</th>
+<th>關鍵佐證機構</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>台灣</strong></td>
+<td><strong>?</strong></td>
+<td>?</td>
+<td>中華民國教育部</td>
+</tr>
+<tr>
+<td><strong>俄羅斯</strong></td>
+<td><strong>直接免試 (BVI)</strong></td>
+<td>獎牌得主免試進入全國任何名校（如莫斯科大學、HSE）。</td>
+<td>俄羅斯聯邦教育部</td>
+</tr>
+<tr>
+<td><strong>保加利亞</strong></td>
+<td><strong>發源地優待</strong></td>
+<td>獎牌得主免試錄取國內大學相關科系（如索非亞大學）。</td>
+<td>保加利亞教育科學部</td>
+</tr>
+<tr>
+<td><strong>羅馬尼亞</strong></td>
+<td><strong>法定免試</strong></td>
+<td>獲獎者免試入學，並享有「奧林匹克卓越獎學金」。</td>
+<td>羅馬尼亞教育部</td>
+</tr>
+<tr>
+<td><strong>巴西</strong></td>
+<td><strong>奧運名額</strong></td>
+<td>坎皮納斯、聖保羅等校設有專屬免試錄取名額（Vagas Olímpicas）。</td>
+<td>巴西各聯邦大學校方</td>
+</tr>
+<tr>
+<td><strong>日本</strong></td>
+<td><strong>特別入試 (AO)</strong></td>
+<td>筑波、東北大等校設有「科學奧林匹亞入試」，免除一般學測。</td>
+<td>日本學術振興機構 (JST)</td>
+</tr>
+<tr>
+<td><strong>韓國</strong></td>
+<td><strong>特才招生</strong></td>
+<td>作為 SKY 大學（首爾、高麗、延世）「特才生」計畫的核心籌碼。</td>
+<td>韓國語言學奧林匹亞 (KLO)</td>
+</tr>
+<tr>
+<td><strong>印度</strong></td>
+<td><strong>專業捷徑</strong></td>
+<td>優先錄取 IIIT Hyderabad 的電腦科學與語言學雙學位課程。</td>
+<td>IIIT Hyderabad</td>
+</tr>
+<tr>
+<td><strong>美國/加拿大</strong></td>
+<td><strong>履歷高加權</strong></td>
+<td>雖無保送，但在 Ivy League、MIT 等校審查中視為頂級學術榮譽。</td>
+<td>北美計算語言學奧賽 (NACLO)</td>
+</tr>
+<tr>
+<td><strong>香港</strong></td>
+<td><strong>多元卓越</strong></td>
+<td>港大、中大的多元卓越計畫加分，可獲得全額獎學金。</td>
+<td>香港各大學聯招 (JUPAS)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>若申請歐美： 語奧是展現「邏輯分析」與「人文素養」跨領域能力的最佳證明，對於申請 AI (NLP) 相關科系具有其他競賽無法替代的獨特性。</p>
+</li>
+<li>
+<p>若考慮東歐： 語奧得獎者在俄羅斯或羅馬尼亞幾乎等同於學業「金牌通行證」，對於想深入語言科學研究的人來說，資源極其豐富。</p>
+</li>
+</ul>
+<h3 id="建議台灣明確化法規保送與加分制度">建議台灣：明確化法規保送與加分制度</h3>
+<p>根據台灣教育部的《參加國際數理學科奧林匹亞競賽及國際科學展覽成績優良學生升學優待辦法》，語奧列入正式的優待範圍：</p>
+<ul>
+<li><strong>保送大學：</strong> 獲得 IOL <strong>金牌</strong> 的國手，可保送大學語言學相關學系（如台大外文、語言所相關學士班等）或理、工、農、文、法、商等學院。</li>
+<li><strong>推薦升學：</strong> 獲選為國手但未得牌，或獲得榮譽獎（Honorable Mention）者，可透過推薦方式進入大學。</li>
+<li><strong>獎學金：</strong> 獲得金、銀、銅牌者，教育部通常會頒發新台幣 <strong>10 萬至 20 萬元</strong>不等的獎學金，且若申請國外頂尖大學，亦可申請政府的留學獎學金。</li>
+</ul>
+<hr>
+<h3 id="核心訴求二語言學人才培育的學術創新解決大學部學系缺乏">核心訴求二：語言學人才培育的學術創新（解決大學部學系缺乏）</h3>
+<p><strong>現況問題：</strong> 台灣大學教育缺乏純粹的「語言學系」大學部，使得語奧國手在升學後無法獲得直接的專業銜接，不利於長期人才發展。</p>
+<p><strong>背景</strong></p>
+<table>
+<thead>
+<tr>
+<th>討論重點</th>
+<th>建議提案方向</th>
+<th>具體行動與效益</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>學程創新</strong></td>
+<td><strong>鼓勵大學設立「語言、邏輯與計算學士學位學程」<strong>或</strong>「計算語言學跨領域學程」</strong>。</td>
+<td>整合人文、理工資源，為語奧國手提供最直接的學術進路。這類學程將是銜接AI時代需求的關鍵。</td>
+</tr>
+<tr>
+<td><strong>重點科系</strong></td>
+<td><strong>鼓勵既有學系增設「計算語言學組」或「語言科學組」</strong>。</td>
+<td>建議在外文系、資工系、中文系、乃至教育系內增設組別，讓國手可直接透過組別保送，並在課程上加強計算、邏輯與語言分析訓練。</td>
+</tr>
+<tr>
+<td><strong>提早參與</strong></td>
+<td>建立**「語奧國手大學前研究先修計畫」**。</td>
+<td>允許高二/高三的語奧國手，在升學前或就讀期間，以<strong>國立大學語言學研究所</strong>為主要基地，參與教授的專題研究，提早進入學術領域。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="核心訴求三國際計算語言學人才攬才策略以-iol-為核心">核心訴求三：國際計算語言學人才攬才策略（以 IOL 為核心）</h3>
+<p>計算語言學是連結語言學與資訊科技的關鍵領域，是AI時代自然語言處理（NLP）的核心。以IOL為平台，推動國際攬才策略，能提升台灣在全球科技領域的競爭力。</p>
+<h4 id="1-策略定位亞洲計算語言學樞紐">1. 策略定位：亞洲計算語言學樞紐</h4>
+<ul>
+<li><strong>願景：</strong> 將台灣定位為亞洲地區<strong>頂尖計算語言學研究與應用的人才中心</strong>。</li>
+<li><strong>基礎：</strong> 台灣擁有強大的資通訊科技（ICT）產業基礎，結合語奧在邏輯與語言分析上的優勢，具備發展計算語言學的潛力。</li>
+</ul>
+<h4 id="2-具體攬才設計與建議">2. 具體攬才設計與建議</h4>
+<table>
+<thead>
+<tr>
+<th>討論重點</th>
+<th>建議提案方向</th>
+<th>具體行動與效益</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>國際獎學金</strong></td>
+<td>設立**「台灣 IOL/計算語言學國際人才獎學金 (Taiwan IOL/CompLing Global Fellowship)」**。</td>
+<td>鎖定全球 IOL 優秀得獎者、NACLO（北美語奧）頂尖選手，以及計算語言學領域的年輕研究者，提供全額獎學金來台攻讀碩博士。</td>
+</tr>
+<tr>
+<td><strong>Leverage IOL 2025</strong></td>
+<td>充分利用<strong>台灣主辦 IOL 2025</strong>的機會。</td>
+<td>在競賽期間舉辦<strong>國際計算語言學論壇</strong>或<strong>學生交流營</strong>，邀請國際頂尖教授與學員來台。建立國際網絡，進行首次大規模的攬才宣傳。</td>
+</tr>
+<tr>
+<td><strong>師資引進</strong></td>
+<td>鼓勵大學在<strong>資工、電機、外文系</strong>新聘<strong>計算語言學</strong>相關專長的教師，並提供高額薪資補助。</td>
+<td>充實學術研究能量，為國際攬才學生提供優質的師資和研究環境。</td>
+</tr>
+<tr>
+<td><strong>國際合作</strong></td>
+<td>鼓勵台灣頂尖大學與<strong>美國、加拿大、歐洲</strong>等語奧強國的頂尖大學（設有計算語言學系所者）簽訂<strong>學生交換與雙聯學位計畫</strong>。</td>
+<td>提升台灣學位在國際計算語言學領域的能見度與吸引力。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="總結">總結</h3>
+<ol>
+<li><strong>IOL是培育未來 AI 人才的基石：</strong> 語奧考驗的邏輯推理與模式識別能力，正是計算語言學和 AI 發展不可或缺的基礎。</li>
+<li><strong>不需另設系所，而是跨領域整合：</strong> 透過設立跨領域學程和組別保送，可有效利用現有資源，以最小的變動換取最大的效益。</li>
+<li><strong>國際競賽為攬才先機：</strong> 將 IOL 國手獎勵、學術創新與國際攬才策略三者結合，能使台灣在國際競爭中掌握先機，成為全球計算語言學人才的熱點。</li>
+</ol>
+<hr>
+<p>這是一個<strong>極具策略性與創新性</strong>的提案，完全抓住了台灣在語言學人才培育上「<strong>缺乏大學部科系</strong>」的痛點，並以<strong>跨領域</strong>和<strong>國際化</strong>的思維，為教育部提供了一個高效率、高回報的解決方案。</p>
+<p>透過您提出的「<strong>小而精</strong>」模式（特定員額的學碩合一學位），可以有效克服大學體制內設立新學系的繁瑣流程，並將頂尖資源集中於最優秀的學生。</p>
+<p>以下是針對此提案的詳細設計、優勢分析及實施建議：</p>
+<hr>
+<h2 id="-提案核心計算語言學菁英學碩合一學位學程試行">💡 提案核心：計算語言學菁英學碩合一學位學程（試行）</h2>
+<h3 id="1-學位學程名稱建議">1. 學位學程名稱建議</h3>
+<ul>
+<li><strong>名稱：</strong> <strong>「語言科學與計算應用學士碩士學位學程」</strong></li>
+<li><strong>(Integrated B.S. &amp; M.S. Program in Language Science and Computational Applications)</strong></li>
+</ul>
+<h3 id="2-跨學院資源整合機制文理電資">2. 跨學院資源整合機制（文、理、電、資）</h3>
+<p>這個學程的關鍵在於<strong>打破學院壁壘</strong>，由校級或跨院級的委員會共同管理，確保課程的廣度與深度。</p>
+<table>
+<thead>
+<tr>
+<th>參與學院</th>
+<th>核心課程與角色</th>
+<th>語奧特質銜接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文學院（外文、中文、語言所）</strong></td>
+<td>語言學理論、語音學、構詞學、句法學、多語分析。</td>
+<td>強化語奧解題所需的<strong>語言結構分析</strong>與<strong>推理深度</strong>。</td>
+</tr>
+<tr>
+<td><strong>理學院（數學、認知科學）</strong></td>
+<td>邏輯與集合論、認知心理學、計算機科學基礎、機率與統計。</td>
+<td>強化語奧考驗的<strong>邏輯推理</strong>與<strong>抽象模式識別</strong>能力。</td>
+</tr>
+<tr>
+<td><strong>電資學院（資訊工程、電機）</strong></td>
+<td>自然語言處理 (NLP)、機器學習、人工智慧基礎、資料結構、演算法。</td>
+<td>訓練將語言分析能力應用於<strong>科技領域</strong>，進入<strong>計算語言學</strong>前沿。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-員額配置與國際攬才設計pilot-program-quota">3. 員額配置與國際攬才設計（Pilot Program Quota）</h3>
+<p>建議教育部以<strong>試點計畫</strong>（Pilot Program）形式核定此學程，初期每年招收定額的菁英學生：</p>
+<table>
+<thead>
+<tr>
+<th>學生類別</th>
+<th>建議員額</th>
+<th>選拔管道</th>
+<th>策略目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>本地 IOL 國手</strong></td>
+<td><strong>3 名/年</strong></td>
+<td>依教育部《升學優待辦法》<strong>保送</strong>或<strong>推薦</strong>，鎖定 IOL 獲獎（金、銀、銅牌）或決選成績優異者。</td>
+<td><strong>留住國內頂尖語言資優人才</strong>，確保其在學術上有明確進路。</td>
+</tr>
+<tr>
+<td><strong>國際 IOL 選手/國際學校生</strong></td>
+<td><strong>2 名/年</strong></td>
+<td>鎖定國際 IOL 獲獎者或北美語奧（NACLO）等頂尖賽事高階選手，<strong>直接給予獎學金與入學名額</strong>。</td>
+<td><strong>實踐國際攬才</strong>，快速提升學程的國際化程度與學術競爭力。</td>
+</tr>
+<tr>
+<td><strong>總計</strong></td>
+<td><strong>5 名/年</strong></td>
+<td>實施小班精緻教學。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-學程結構設計學碩合一加速培育">4. 學程結構設計：學碩合一（加速培育）</h3>
+<p>學碩合一模式（通常為 5 年完成學士與碩士學位）特別適合具備高學習動機和加速學習潛能的語奧國手：</p>
+<table>
+<thead>
+<tr>
+<th>學程階段</th>
+<th>建議年限</th>
+<th>課程重點</th>
+<th>預期成果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>學士階段 (B.S.)</strong></td>
+<td>3 - 4 年</td>
+<td>涵蓋<strong>文、理、電資</strong>三大領域的必修課，建立扎實的跨領域基礎。課程設計應有高度彈性與客製化。</td>
+<td>具備語言學理論、邏輯建模、計算機程式設計的基礎。</td>
+</tr>
+<tr>
+<td><strong>碩士階段 (M.S.)</strong></td>
+<td>1 - 2 年</td>
+<td>專業領域深化，聚焦於<strong>計算語言學、自然語言處理</strong>或<strong>認知科學</strong>的研究。</td>
+<td>完成具備國際水準的碩士論文，成為產業或學術界可立即運用的人才。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-對教育部的優勢與承諾">5. 對教育部的優勢與承諾</h3>
+<p>此提案的優勢在於其<strong>政策槓桿高</strong>、<strong>實施成本相對低</strong>，且能快速見效：</p>
+<ul>
+<li><strong>加速人才養成：</strong> 5 年內即可培養出兼具語言分析能力和 AI 應用技能的<strong>計算語言學碩士</strong>，滿足科技產業對 NLP 人才的急切需求。</li>
+<li><strong>國際能見度：</strong> 透過國際 IOL 選手的直接招募（2 名員額），能快速提升台灣學術界在國際計算語言學領域的能見度和吸引力，是<strong>成本效益極高的國際攬才模式</strong>。</li>
+<li><strong>資優教育典範：</strong> 為其他國際學科競賽中具備跨領域潛力的資優生（如國際地理奧、地球科學奧）樹立一個<strong>跨學院、學碩合一</strong>的培育典範。</li>
+</ul>
+<h3 id="6-建議下一步行動">6. 建議下一步行動</h3>
+<ol>
+<li><strong>鎖定合作大學：</strong> 建議與設有頂尖語言學研究所、並具備強大電資學院的綜合大學（如臺大、清大、成大）進行初步溝通。</li>
+<li><strong>與教育部高教司/國教署溝通：</strong> 強調這是一個**「為 AI 時代培育跨領域人才」**的特殊試點計畫，以爭取特殊的員額和經費核定。</li>
+<li><strong>制定「招生簡章（草案）」：</strong> 清楚列明對本地生（IOL 獎項）與國際生（IOL/NACLO 獎項及語言能力）的甄選標準，展現實施的準備度。</li>
+</ol>
+
+            
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var G=Object.defineProperty;var J=(f,u,_)=>u in f?G(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>G(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>J(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32:(S,E,h)=>{S.exports=h(924)},924:(S,E)=>{"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},z="data-marp-auto-scaling-wrapper",M="data-marp-auto-scaling-svg",T="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${M}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${T}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${z}>
+  <svg part="svg" ${M}>
+    <foreignObject><span ${T}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${z}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${M}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${T}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:p})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=p==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const F=r((d,{attrs:v={},style:n})=>class extends d{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const R=Symbol();let H;const C="marpitSVGPolyfill:setZoomFactor,",a=Symbol(),l=Symbol(),e=r(()=>{const d=navigator.vendor==="Apple Computer, Inc.",v=d?[g]:[],n={then:r(s=>(d?(async()=>{if(H===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),p=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await p,i.drawImage(o,0,0),H=i.getImageData(5,5,1,1).data[3]<128}return H})().then(t=>{s?.(t?[g]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"g");let c,y;function g(d){const v=typeof d=="object"&&d.target||document,n=typeof d=="object"?d.zoom:d;window[l]||(Object.defineProperty(window,l,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(C)){const[,o]=t.split(","),p=Number.parseFloat(o);Number.isNaN(p)||(y=p)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,p,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||y||t.currentScale||1;c!==x&&(c=x,s=x);const B=t.getBoundingClientRect(),{length:Y}=t.children;for(let N=0;N<Y;N+=1){const $=t.children[N];if($.getScreenCTM){const A=$.getScreenCTM();if(A){const Z=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,U=(m=(p=$.y)===null||p===void 0?void 0:p.baseVal.value)!==null&&m!==void 0?m:0,X=$.children.length;for(let P=0;P<X;P+=1){const W=$.children[P];if(W.tagName==="SECTION"){const{style:D}=W;D.transformOrigin||(D.transformOrigin=`${-Z}px ${-U}px`),D.transform=`scale(${x}) matrix(${A.a}, ${A.b}, ${A.c}, ${A.d}, ${A.e-B.left}, ${A.f-B.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${C}${s}`,window.origin==="null"?"*":window.origin)})}r(g,"u");function O({once:d=!1,target:v=document}={}){const n=function(s=document){if(s[a])return s[a];let t=!0;const i=r(()=>{t=!1,delete s[a]},"i");Object.defineProperty(s,a,{configurable:!0,value:i});let o=[],p=!1;(async()=>{try{o=await e()}finally{p=!0}})();const m=r(()=>{for(const x of o)x({target:s});p&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i}(v);return d?(n(),()=>{}):n}r(O,"v"),c=1,y=void 0;const I=O,q=Symbol(),V=r((d=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[R];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const p=`marp-${o}`,m=b[o].proto();(L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L))&&m!==HTMLElement?i||customElements.define(p,F(m,{style:b[o].style}),{extends:o}):(i||customElements.define(p,F(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${p}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${p}`).replace(new RegExp(`</${o}>$`,"i"),`</${p}>`)}))}window[R]=!0})(d),d[q])return d[q];const v=O({target:d}),n=r(()=>{v(),delete d[q]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(d),"update")});return Object.defineProperty(d,q,{configurable:!0,value:s}),s},"y");E.browser=V,h=V,h=I}},u={};function _(S){var E=u[S];if(E!==void 0)return E.exports;var h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");var K={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function z(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,c=0,y=0;for(const g of l.tokens)g.map&&(c=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,c-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(z,"marpVSCodeContentSection");const M="marp-vscode.overflowTracker",T=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===M&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),C=class C{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const c=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(c<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),O=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(O)||l.push({startLine:g,endLine:O})}this.postMessage(M,{overflowElements:l})}};r(C,"OverflowTracker");let k=C;function F(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const c=document.getElementById("__marp-vscode");!!a!=!!c?(document.body.classList.toggle("marp-vscode",!!c),c?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(c&&L(c),R()):H()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(F,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:c}=l;l.outerHTML=c,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",c.slice(0,c.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),R=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:c}=e;e.dataset.marpVscodeHref=c,e.removeAttribute("href")})},"removeStyles"),H=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");F()})()})();})();
+
+</script>
+
+        </body>
+        </html>
