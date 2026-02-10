@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="K-AI">
+<meta name="dcterms.date" content="2026-01-31">
+<meta name="description" content="Language as a Complex Adaptive System">
+
+<title>語言作為一種複雜適應系統 (1) – 謝舒凱</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../me.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed20e031201a2f52d49632ac7658f477.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a6765a6fec2844dafdd3f8328b983dc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">謝舒凱</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../CV/sk_CV.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">語言作為一種複雜適應系統 (1)</h1>
+                  <div>
+        <div class="description">
+          Language as a Complex Adaptive System
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Emergence</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://loperntu.github.io/">K-AI</a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 31, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#導言為什麼看似聰明常常不是有人在設計" id="toc-導言為什麼看似聰明常常不是有人在設計" class="nav-link active" data-scroll-target="#導言為什麼看似聰明常常不是有人在設計">0. 導言：為什麼「看似聰明」常常不是「有人在設計」</a></li>
+  <li><a href="#什麼是湧現弱湧現-vs.-強湧現" id="toc-什麼是湧現弱湧現-vs.-強湧現" class="nav-link" data-scroll-target="#什麼是湧現弱湧現-vs.-強湧現">1. 什麼是湧現：弱湧現 vs.&nbsp;強湧現</a>
+  <ul class="collapse">
+  <li><a href="#弱湧現weak-emergence" id="toc-弱湧現weak-emergence" class="nav-link" data-scroll-target="#弱湧現weak-emergence">弱湧現（weak emergence）</a></li>
+  <li><a href="#強湧現strong-emergence" id="toc-強湧現strong-emergence" class="nav-link" data-scroll-target="#強湧現strong-emergence">強湧現（strong emergence）</a></li>
+  </ul></li>
+  <li><a href="#秩序怎麼在自然界長出來相變耗散結構與第二定律" id="toc-秩序怎麼在自然界長出來相變耗散結構與第二定律" class="nav-link" data-scroll-target="#秩序怎麼在自然界長出來相變耗散結構與第二定律">2. 「秩序」怎麼在自然界長出來：相變、耗散結構與第二定律</a>
+  <ul class="collapse">
+  <li><a href="#相變不是突然變魔術而是控制參數跨過臨界區" id="toc-相變不是突然變魔術而是控制參數跨過臨界區" class="nav-link" data-scroll-target="#相變不是突然變魔術而是控制參數跨過臨界區">相變不是“突然變魔術”，而是控制參數跨過臨界區</a></li>
+  <li><a href="#耗散結構它沒有推翻第二定律它只是提醒你別把開放系統當封閉系統" id="toc-耗散結構它沒有推翻第二定律它只是提醒你別把開放系統當封閉系統" class="nav-link" data-scroll-target="#耗散結構它沒有推翻第二定律它只是提醒你別把開放系統當封閉系統">耗散結構：它沒有推翻第二定律，它只是提醒你別把開放系統當封閉系統</a></li>
+  </ul></li>
+  <li><a href="#幂律與自組織臨界性soc" id="toc-幂律與自組織臨界性soc" class="nav-link" data-scroll-target="#幂律與自組織臨界性soc">3. 幂律與自組織臨界性（SOC）</a></li>
+  <li><a href="#把焦點轉向語言語言是複雜適應系統文法與語意可以是使用中湧現" id="toc-把焦點轉向語言語言是複雜適應系統文法與語意可以是使用中湧現" class="nav-link" data-scroll-target="#把焦點轉向語言語言是複雜適應系統文法與語意可以是使用中湧現">4. 把焦點轉向語言：語言是複雜適應系統，文法與語意可以是「使用中湧現」</a>
+  <ul class="collapse">
+  <li><a href="#語言是複雜適應系統不是比喻是研究綱領" id="toc-語言是複雜適應系統不是比喻是研究綱領" class="nav-link" data-scroll-target="#語言是複雜適應系統不是比喻是研究綱領">語言是複雜適應系統：不是比喻，是研究綱領</a></li>
+  <li><a href="#語言湧現的三種典型路徑" id="toc-語言湧現的三種典型路徑" class="nav-link" data-scroll-target="#語言湧現的三種典型路徑">語言湧現的三種典型路徑</a></li>
+  </ul></li>
+  <li><a href="#回到-aillm-的湧現能力到底是什麼它可能同時是真現象也可能是尺的幻覺" id="toc-回到-aillm-的湧現能力到底是什麼它可能同時是真現象也可能是尺的幻覺" class="nav-link" data-scroll-target="#回到-aillm-的湧現能力到底是什麼它可能同時是真現象也可能是尺的幻覺">5. 回到 AI：LLM 的「湧現能力」到底是什麼？它可能同時是真現象、也可能是“尺的幻覺”</a>
+  <ul class="collapse">
+  <li><a href="#什麼叫-llm-emergent-abilities原始定義" id="toc-什麼叫-llm-emergent-abilities原始定義" class="nav-link" data-scroll-target="#什麼叫-llm-emergent-abilities原始定義">什麼叫 LLM emergent abilities（原始定義）</a></li>
+  <li><a href="#重要反駁很多突變可能是度量方式造成的海市蜃樓" id="toc-重要反駁很多突變可能是度量方式造成的海市蜃樓" class="nav-link" data-scroll-target="#重要反駁很多突變可能是度量方式造成的海市蜃樓">重要反駁：很多“突變”可能是度量方式造成的海市蜃樓</a></li>
+  <li><a href="#機制層面的線索induction-heads-的確是候選但仍屬進行式" id="toc-機制層面的線索induction-heads-的確是候選但仍屬進行式" class="nav-link" data-scroll-target="#機制層面的線索induction-heads-的確是候選但仍屬進行式">機制層面的線索：induction heads 的確是候選，但仍屬進行式</a></li>
+  </ul></li>
+  <li><a href="#一個把語言湧現與llm-湧現接起來的框架" id="toc-一個把語言湧現與llm-湧現接起來的框架" class="nav-link" data-scroll-target="#一個把語言湧現與llm-湧現接起來的框架">6. 一個把「語言湧現」與「LLM 湧現」接起來的框架</a></li>
+  <li><a href="#一個整合性的主張" id="toc-一個整合性的主張" class="nav-link" data-scroll-target="#一個整合性的主張">7. 一個整合性的主張</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>這篇<a href="https://blog.leowang.net/znffdnmjimv/">從蟻群到AI：揭秘「湧現」法則如何創造智慧與秩序</a> 提出了一些有趣的觀點。以下改寫成較嚴謹、可追溯依據的版本；同時加進<strong>把「語言」視為複雜適應系統（complex adaptive system, CAS），並討論語言的湧現行為</strong>。</p>
+<hr>
+<section id="導言為什麼看似聰明常常不是有人在設計" class="level3">
+<h3 class="anchored" data-anchor-id="導言為什麼看似聰明常常不是有人在設計">0. 導言：為什麼「看似聰明」常常不是「有人在設計」</h3>
+<p>當我們看到蟻群能找到最短路徑、鳥群能整齊轉向、城市交通會突然塞成一團、或大型語言模型（LLM）在某些任務上能力似乎「突然長出來」，直覺很容易跳到兩個極端：</p>
+<ol type="1">
+<li><strong>背後一定有中央控制</strong>（蟻后是 CEO、模型裡藏了一個小小工程師）。</li>
+<li><strong>這是神祕的“強湧現”</strong>：宏觀秩序是「原理上不可由微觀推得」的全新實體。</li>
+</ol>
+<p>比較嚴謹的做法是：先把「湧現」分清楚，並且在每個例子裡問同一個問題：<strong>我們看到的是「不可推導」，還是「可推導但需要新的有效描述」或是「計算上難以直接推出」？</strong></p>
+<hr>
+</section>
+<section id="什麼是湧現弱湧現-vs.-強湧現" class="level2">
+<h2 class="anchored" data-anchor-id="什麼是湧現弱湧現-vs.-強湧現">1. 什麼是湧現：弱湧現 vs.&nbsp;強湧現</h2>
+<section id="弱湧現weak-emergence" class="level3">
+<h3 class="anchored" data-anchor-id="弱湧現weak-emergence">弱湧現（weak emergence）</h3>
+<p>Bedau 對「弱湧現」的典型說法是：宏觀性質在原理上可以由微觀規則產生，但往往<strong>無法用簡單的解析推導得到</strong>，通常需要<strong>模擬／計算</strong>才能看見它的出現 <a href="https://people.reed.edu/~mab/papers/principia.pdf?utm_source=chatgpt.com" title="Downward Causation and the Autonomy of Weak Emergence">1</a>。這種立場在複雜系統與非線性動力系統研究裡很常見。宏觀規律並非魔法，而是<strong>可由底層互動生成</strong>，只是很難靠手算「一眼推到」。</p>
+</section>
+<section id="強湧現strong-emergence" class="level3">
+<h3 class="anchored" data-anchor-id="強湧現strong-emergence">強湧現（strong emergence）</h3>
+<p>強湧現則主張，宏觀性質在本體論上是新的、甚至涉及某種「向下因果」，因此<strong>即使知道所有微觀定律，也在原理上推不出</strong>。這是哲學上更激進、也更具爭議的主張 <a href="https://www.jstor.org/stable/2216138?utm_source=chatgpt.com" title="Weak Emergence">2</a>。把湧現一開始就定義成「原理上不可推導」很容易不小心把讀者帶進強湧現的領地。</p>
+<hr>
+</section>
+</section>
+<section id="秩序怎麼在自然界長出來相變耗散結構與第二定律" class="level2">
+<h2 class="anchored" data-anchor-id="秩序怎麼在自然界長出來相變耗散結構與第二定律">2. 「秩序」怎麼在自然界長出來：相變、耗散結構與第二定律</h2>
+<section id="相變不是突然變魔術而是控制參數跨過臨界區" class="level3">
+<h3 class="anchored" data-anchor-id="相變不是突然變魔術而是控制參數跨過臨界區">相變不是“突然變魔術”，而是控制參數跨過臨界區</h3>
+<p>水結冰、鐵磁體失磁、甚至某些群體行為「突然協調」常被拿來類比湧現。這個類比的核心其實是： <strong>當控制參數（溫度、密度、耦合強度、噪音、連結率）跨過臨界區，系統會出現新的穩態或新尺度行為。</strong> 「突然」常是我們用宏觀指標測量時的主觀感受；在更細的尺度上，可能是連續但非常陡峭的變化。</p>
+</section>
+<section id="耗散結構它沒有推翻第二定律它只是提醒你別把開放系統當封閉系統" class="level3">
+<h3 class="anchored" data-anchor-id="耗散結構它沒有推翻第二定律它只是提醒你別把開放系統當封閉系統">耗散結構：它沒有推翻第二定律，它只是提醒你別把開放系統當封閉系統</h3>
+<p>貝納德對流、颶風、渦流等「有序結構」常被描述成「熵增加的宇宙中竟然長出秩序」。更嚴謹的說法是：</p>
+<ul>
+<li>這些結構是<strong>開放系統</strong>（有能量／物質通量），在遠離平衡時可以形成穩定的空間–時間圖樣 (<a href="https://en.wikipedia.org/wiki/Dissipative_system?utm_source=chatgpt.com" title="Dissipative system">4</a>)。</li>
+<li>第二定律針對的是<strong>孤立系統</strong>總熵不減；開放系統的局部降熵，通常伴隨對外更大的熵產生，並不矛盾。</li>
+</ul>
+<p>因此「耗散結構顛覆第二定律」這句話比較恰當的改寫是：</p>
+<blockquote class="blockquote">
+<p>耗散結構顛覆的是「把第二定律錯用在開放系統」的直覺，而不是第二定律本身。</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="幂律與自組織臨界性soc" class="level2">
+<h2 class="anchored" data-anchor-id="幂律與自組織臨界性soc">3. 幂律與自組織臨界性（SOC）</h2>
+<p>很多現象（地震規模、金融波動、神經雪崩、城市規模、字頻）都呈現胖尾分布或近似幂律。SOC 提供了一個重要機制框架：大型耗散系統在緩慢驅動下可能自發靠近臨界狀態，導致跨尺度的雪崩事件 (<a href="https://www.sciencedirect.com/topics/materials-science/self-organized-criticality?utm_source=chatgpt.com" title="Self-Organized Criticality - an overview">5</a>)。</p>
+<p>但更嚴謹的但書是：</p>
+<ol type="1">
+<li><strong>看到幂律不等於證明 SOC</strong>。不同生成機制都可能產生幂律，必須看相關長程關聯、臨界指標等更完整證據 (<a href="https://arxiv.org/pdf/1504.04991?utm_source=chatgpt.com" title="25 Years of Self-Organized Criticality">6</a>)。</li>
+<li>因此把「幂律」直接外推成「壓制小波動會導致超級崩潰」這種政策寓意，在不同系統（生態、金融、治理）中要非常謹慎；很多制度性系統的因果鏈比 SOC 模型假設複雜得多 (<a href="https://www.sciencedirect.com/science/article/abs/pii/S0370157313004298?utm_source=chatgpt.com" title="Power laws and self-organized criticality in theory and nature">7</a>)。</li>
+</ol>
+<hr>
+</section>
+<section id="把焦點轉向語言語言是複雜適應系統文法與語意可以是使用中湧現" class="level2">
+<h2 class="anchored" data-anchor-id="把焦點轉向語言語言是複雜適應系統文法與語意可以是使用中湧現">4. 把焦點轉向語言：語言是複雜適應系統，文法與語意可以是「使用中湧現」</h2>
+<section id="語言是複雜適應系統不是比喻是研究綱領" class="level3">
+<h3 class="anchored" data-anchor-id="語言是複雜適應系統不是比喻是研究綱領">語言是複雜適應系統：不是比喻，是研究綱領</h3>
+<p>這裡的關鍵不是「語言很複雜」這句廢話，而是語言結構的解釋單位應從“句子/文法規則”往“互動—收斂—慣例”的動態過程移動。 “Language is a Complex Adaptive System” 這個論說認為語言由多代理人（說話者）互動構成；語言結構（規律、類型、慣用法）會在使用中、在社群中動態重組，並呈現非線性、階段式轉換等特徵 (<a href="https://www.unm.edu/~jbybee/downloads/BecknerEtAl2009ComplexAdaptiveSystem.pdf?utm_source=chatgpt.com" title="Language Is a Complex Adaptive System: Position Paper">8</a>)。</p>
+<p>這裡的「湧現」通常是<strong>弱湧現</strong>：</p>
+<ul>
+<li>沒有人在中央設計整套文法</li>
+<li>但局部偏好、社群互動、學習偏誤、溝通壓力，會把系統推向某些穩定結構</li>
+</ul>
+</section>
+<section id="語言湧現的三種典型路徑" class="level3">
+<h3 class="anchored" data-anchor-id="語言湧現的三種典型路徑">語言湧現的三種典型路徑</h3>
+<p>慣例如何湧現：從語言遊戲到文化傳遞。</p>
+<p><strong>(A) 社群互動的自組織：Naming Game</strong> Steels 系列工作用代理人互動模型展示：在反覆的命名協商中，群體可以從多對多的混亂對應，收斂出共享詞彙與較穩定的約定（convention）(<a href="https://martin-loetzsch.de/publications/steels12grounded.pdf?utm_source=chatgpt.com" title="[PDF] The Grounded Naming Game">9</a>)。</p>
+<p><strong>(B) 文化傳遞的壓縮：Iterated Learning</strong> Kirby 等人指出，語言的設計特徵（如組合性、可壓縮的規律）可由 iterated learning 解釋：每一代的產出成為下一代的輸入，學習瓶頸與表達需求的拉扯會讓語言結構逐步朝「可學又可用」的方向演化 (<a href="https://cocosci.princeton.edu/tom/papers/IteratedLearningEvolutionLanguage.pdf?utm_source=chatgpt.com" title="Iterated learning and the evolution of language">10</a>)。</p>
+<p><strong>(C) 統計規律的跨尺度：Zipf 與字頻結構</strong> 字頻的 Zipf 現象是語言宏觀統計的經典例子；但更細緻的研究指出，真實語料的 rank–frequency 結構並不只是「漂亮的直線」，而包含可重現的偏離與更複雜的形狀，暗示生成機制不止一種 (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4176592/?utm_source=chatgpt.com" title="Zipf's word frequency law in natural language - PMC - NIH">11</a>)。</p>
+<blockquote class="blockquote">
+<p>若把「語言」視為一個由個體互動、學習偏誤與文化傳播共同驅動的系統，那麼「詞彙–語法–語意」的某些規律，確實可以被視為<strong>在使用中湧現</strong>的宏觀結構。</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="回到-aillm-的湧現能力到底是什麼它可能同時是真現象也可能是尺的幻覺" class="level2">
+<h2 class="anchored" data-anchor-id="回到-aillm-的湧現能力到底是什麼它可能同時是真現象也可能是尺的幻覺">5. 回到 AI：LLM 的「湧現能力」到底是什麼？它可能同時是真現象、也可能是“尺的幻覺”</h2>
+<section id="什麼叫-llm-emergent-abilities原始定義" class="level3">
+<h3 class="anchored" data-anchor-id="什麼叫-llm-emergent-abilities原始定義">什麼叫 LLM emergent abilities（原始定義）</h3>
+<p>Wei et al.（2022）把某些能力稱為 emergent：小模型幾乎做不到，但大模型突然在某個尺度上「看起來能做」；而且這個轉折不容易從小模型表現直接外推 (<a href="https://arxiv.org/abs/2206.07682?utm_source=chatgpt.com" title="[2206.07682] Emergent Abilities of Large Language Models">12</a>)。</p>
+</section>
+<section id="重要反駁很多突變可能是度量方式造成的海市蜃樓" class="level3">
+<h3 class="anchored" data-anchor-id="重要反駁很多突變可能是度量方式造成的海市蜃樓">重要反駁：很多“突變”可能是度量方式造成的海市蜃樓</h3>
+<p>Schaeffer et al.（2023）指出：如果評分指標是非線性或不連續（例如 exact match / multiple-choice grade），就可能把本來平滑的性能成長「切」成看似突然的相變；換成連續度量或更好統計，突變感會消失 (<a href="https://arxiv.org/abs/2304.15004?utm_source=chatgpt.com" title="Are Emergent Abilities of Large Language Models a Mirage?">13</a>)。</p>
+<p>更嚴謹的結論不是「湧現都是假的」，而是：</p>
+<ul>
+<li><strong>“表現曲線的形狀”很大程度依賴你用什麼尺量</strong></li>
+<li>因此在談 LLM 湧現時，必須同時報告：多種度量、置信區間、以及跨模型家族的可重現性</li>
+</ul>
+</section>
+<section id="機制層面的線索induction-heads-的確是候選但仍屬進行式" class="level3">
+<h3 class="anchored" data-anchor-id="機制層面的線索induction-heads-的確是候選但仍屬進行式">機制層面的線索：induction heads 的確是候選，但仍屬進行式</h3>
+<p>機制可解釋性研究提出 induction heads 與 in-context learning 的關聯是重要線索；近期也有更形式化地討論 induction heads 在訓練過程中如何「出現／陡峭成形」。(<a href="https://openreview.net/pdf?id=HA85FbDxFV&amp;utm_source=chatgpt.com" title="ON THE EMERGENCE OF INDUCTION HEADS">14</a>) 但把它說成「已完全解釋 LLM 湧現」仍過早；目前比較負責任的講法是：<strong>它提供一個可檢驗的機制假說集合</strong>。</p>
+<hr>
+</section>
+</section>
+<section id="一個把語言湧現與llm-湧現接起來的框架" class="level2">
+<h2 class="anchored" data-anchor-id="一個把語言湧現與llm-湧現接起來的框架">6. 一個把「語言湧現」與「LLM 湧現」接起來的框架</h2>
+<p>若要把語言與 LLM 放在同一張圖上，建議用這三層：</p>
+<ol type="1">
+<li><p><strong>微觀規則層</strong>：</p>
+<ul>
+<li>人類：學習偏誤、加工限制、互動策略</li>
+<li>模型：梯度下降、架構偏置、資料分佈、tokenization</li>
+</ul></li>
+<li><p><strong>中觀機制層</strong>（關鍵！）：語用對齊如何把社群推向共享結構</p>
+<ul>
+<li>人類：命名協商、語用對齊、文化傳遞（Naming Game / Iterated Learning）(<a href="https://martin-loetzsch.de/publications/steels12grounded.pdf?utm_source=chatgpt.com" title="[PDF] The Grounded Naming Game">9</a>)</li>
+</ul>
+<p>把「語言湧現」的主要引擎，放在對話中的語用對齊（pragmatic alignment），去看人們在對話中透過多層次的對齊（詞彙、句法、語意、情境模型）逐步收斂，降低協調成本並建立可重用的慣例。</p>
+<ul>
+<li>互動對齊模型（Interactive Alignment）</li>
+</ul>
+<p>Pickering &amp; Garrod 的互動對齊模型主張：對話者會在多層級表徵上透過 priming 等機制自動對齊，進而對齊情境模型；這提供了一個心理學層面的「中觀機制」：為何對話能快速達成協調，而不需要每次都做昂貴的心智模型推理。</p>
+<ul>
+<li>共同基礎（Common Ground）與語言作為 Joint Action</li>
+</ul>
+<p>Clark 在 Using Language 中強調語言使用是「共同完成的行動（joint action）」：共享知識/共同基礎不是背景設定，而是對話中持續被更新與利用的協調資源。這使得「語用」不是語言的附屬品，而是社群秩序形成的核心操作系統。</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>語用對齊把「一次對話的臨時協調」，變成「可累積的社群慣例」。</p>
+</blockquote>
+<ul>
+<li>模型：注意力電路、induction head、表徵重組(<a href="https://openreview.net/pdf?id=HA85FbDxFV&amp;utm_source=chatgpt.com" title="ON THE EMERGENCE OF INDUCTION HEADS">14</a>)</li>
+</ul>
+<ol start="3" type="1">
+<li><p><strong>宏觀現象層</strong>：</p>
+<ul>
+<li>人類語言：Zipf 結構、語法規律、語意慣例的穩定與漂移 (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4176592/?utm_source=chatgpt.com" title="Zipf's word frequency law in natural language - PMC - NIH">11</a>)。</li>
+<li>LLM：任務表現曲線、few-shot 行為、工具使用等（同時要小心度量幻覺） (<a href="https://arxiv.org/abs/2304.15004?utm_source=chatgpt.com" title="Are Emergent Abilities of Large Language Models a Mirage?">13</a>)。</li>
+</ul>
+<p>這樣討論的好處是不必先在「強湧現 vs.&nbsp;弱湧現」選邊站，而是把可檢驗的東西放在中觀機制層：<strong>哪些互動/學習機制，會導致哪些宏觀統計與能力分佈</strong>。且能與對話心理學的互動對齊模型、語言遊戲（naming games）與 iterated learning 框架形成可檢驗的整合模型。</p></li>
+</ol>
+<hr>
+</section>
+<section id="一個整合性的主張" class="level2">
+<h2 class="anchored" data-anchor-id="一個整合性的主張">7. 一個整合性的主張</h2>
+<p><strong>語言湧現 =「對齊動力學」＋「文化傳遞選擇壓」＋「效率約束」</strong></p>
+<p>一個可操作的整合框架（可視為研究綱領，不是定理）</p>
+<ul>
+<li><p>對齊動力學（dialogue alignment） 讓個體互動快速收斂，生成短期可重用的慣例。</p></li>
+<li><p>文化傳遞（iterated learning） 把局部慣例放大為社群規律，並使結構受可學性/表達性塑形。</p></li>
+<li><p>效率約束（efficiency pressures） 讓語言系統在資訊傳遞與認知成本之間取得折衷，形成跨語言的統計與結構傾向。</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>語言的秩序不是天降的，是對話者在「省事」與「說清楚」之間反覆協商的副產品。（學界會皺眉，但資料通常會點頭。）</p>
+</blockquote>
+<p>避免湧現變成「因為水逆」，應該讓湧現離開口號，進到實驗設計。 可能的幾個預測假說：</p>
+<ul>
+<li>P1：對齊強度 ↑ ⇒ 慣例收斂更快、但多樣性更易崩塌</li>
+</ul>
+<p>在互動頻繁、社群邊界緊密的網絡中，詞彙/構式更易形成穩定慣例；但同時方言/變體更可能被“吸平”。（可用社群網路結構＋語料漂移測試。）</p>
+<ul>
+<li>P2：共同基礎不對稱 ↑ ⇒ 語用策略更倚賴明示標記與冗餘</li>
+</ul>
+<p>當說話者對聽話者的知識狀態估計更不穩定（弱 common ground），語言會偏向更顯性、更高冗餘（如明示指稱、重述、保險性修飾）。這與「語言作為 joint action」的可預期結果一致。</p>
+<ul>
+<li>P3：傳遞瓶頸 ↑ ⇒ 結構組合性/規律性 ↑</li>
+</ul>
+<p>iterated learning 框架預期：在輸入受限或噪音較大時，語言更容易演化出可壓縮的規律與更清晰的組合性。</p>
+<ul>
+<li>P4：效率壓力 ↑ ⇒ 形式更短/更可預測，但語用推理負擔可能上升</li>
+</ul>
+<p>效率研究指出語言在成本與資訊量間平衡；在更強效率壓力下，形式可能更精簡，但需要更多語用推理補足訊息缺口。</p>
+<blockquote class="blockquote">
+<p>CAS 視角的價值在於：它把「語言結構從何而來」從靜態描述，變成動態生成的問題；而語用對齊提供了可實驗、可建模的中觀機制，讓語言演化不必只靠宏大敘事。以「對話中的語用對齊」作為語言湧現的核心中觀機制，並以文化傳遞與效率約束作為跨時間尺度的選擇壓。這一框架同時產生可檢驗預測，並能統合語料研究、心理實驗與代理人模擬。</p>
+</blockquote>
+<p><img src="simulator.png" class="img-fluid"></p>
+<hr>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2026,
+  author = {, K-AI},
+  title = {語言作為一種複雜適應系統 (1)},
+  date = {2026-01-31},
+  url = {https://loperntu.github.io/posts/2026-01-31/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+K-AI. 2026. <span>“語言作為一種複雜適應系統 (1).”</span> January 31,
+2026. <a href="https://loperntu.github.io/posts/2026-01-31/">https://loperntu.github.io/posts/2026-01-31/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
