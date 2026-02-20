@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Geometry of Grammar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+/* ═══════════════════════════════════════
+   CSS VARIABLES — edit these to retheme
+   ═══════════════════════════════════════ */
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-chapter: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-bg: #FDFBF7;
+  --color-bg-warm: #F7F3EC;
+  --color-text: #2C2825;
+  --color-text-secondary: #6B635A;
+  --color-text-muted: #9E958A;
+  --color-accent: #8B4513;
+  --color-accent-light: #C4956A;
+  --color-accent-bg: #F5EDE3;
+  --color-border: #E2DBD1;
+  --color-border-light: #EDE8E0;
+
+  --color-nav-bg: #2C2825;
+  --color-nav-text: #C8C0B6;
+  --color-nav-active: #E8CBA8;
+  --color-nav-hover: #F5EDE3;
+  --color-nav-heading: #9E958A;
+
+  --content-max: 720px;
+  --nav-width: 300px;
+
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ═══════════════════════
+   RESET & BASE
+   ═══════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 40px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+::selection {
+  background: var(--color-accent-light);
+  color: #fff;
+}
+
+/* ═══════════════════════
+   LAYOUT
+   ═══════════════════════ */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════
+   SIDEBAR NAVIGATION
+   ═══════════════════════ */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  background: var(--color-nav-bg);
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s var(--ease-out);
+  scrollbar-width: thin;
+  scrollbar-color: #4a4540 transparent;
+}
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4540; border-radius: 3px; }
+
+.sidebar-header {
+  padding: 2rem 1.5rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.sidebar-header .book-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #F5EDE3;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+.sidebar-header .book-subtitle {
+  font-size: 0.72rem;
+  color: var(--color-nav-heading);
+  margin-top: 0.35rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.sidebar-header .book-affiliation {
+  font-size: 0.7rem;
+  color: var(--color-nav-heading);
+  margin-top: 0.25rem;
+  opacity: 0.9;
+}
+.sidebar-header .book-affiliation:empty { display: none; }
+
+.nav-body { padding: 1rem 0; flex: 1; }
+
+.nav-part-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-nav-heading);
+  padding: 1rem 1.5rem 0.4rem;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.35rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--color-nav-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+  line-height: 1.45;
+}
+.nav-link:hover {
+  color: var(--color-nav-hover);
+  background: rgba(255,255,255,0.03);
+}
+.nav-link.active {
+  color: var(--color-nav-active);
+  border-left-color: var(--color-accent-light);
+  background: rgba(255,255,255,0.04);
+}
+.nav-link .ch-num {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.5;
+  margin-right: 0.3em;
+  font-size: 0.78rem;
+}
+
+/* Mobile hamburger */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem; left: 1rem;
+  z-index: 200;
+  width: 44px; height: 44px;
+  border: none;
+  background: var(--color-nav-bg);
+  color: #F5EDE3;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+.menu-toggle:active { transform: scale(0.92); }
+
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ═══════════════════════
+   MAIN CONTENT
+   ═══════════════════════ */
+.main {
+  margin-left: var(--nav-width);
+  flex: 1;
+  min-width: 0;
+}
+
+.content-wrapper {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+/* ═══════════════════════
+   COVER / HERO
+   ═══════════════════════ */
+.cover {
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -60%; left: -20%;
+  width: 140%; height: 220%;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(139,69,19,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(196,149,106,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cover-content { position: relative; z-index: 1; }
+.cover-ornament {
+  font-size: 1.6rem;
+  letter-spacing: 0.6em;
+  color: var(--color-accent-light);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.2s forwards;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.4s forwards;
+}
+.cover .subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  margin-top: 0.8rem;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.6s forwards;
+}
+.cover .author {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin-top: 1.5rem;
+  font-weight: 700;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.7s forwards;
+}
+.cover .author:empty { display: none; }
+.cover .affiliation {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.75s forwards;
+}
+.cover .affiliation:empty { display: none; }
+.cover .edition {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 2rem;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeDown 0.8s var(--ease-out) 0.8s forwards;
+}
+.cover-rule {
+  width: 60px; height: 1px;
+  background: var(--color-accent-light);
+  margin: 2.5rem auto 0;
+  opacity: 0;
+  animation: scaleIn 0.6s var(--ease-out) 1s forwards;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+/* ═══════════════════════
+   TYPOGRAPHY
+   ═══════════════════════ */
+.chapter {
+  padding-top: 2rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.6s var(--ease-out);
+}
+.chapter.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-label {
+  font-family: var(--font-chapter);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+h2.chapter-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: 1.8rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 2.5rem 0 1rem;
+  line-height: 1.3;
+}
+
+h3 .section-num {
+  color: var(--color-accent-light);
+  font-weight: 500;
+}
+
+p {
+  margin-bottom: 1.15rem;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ═══════════════════════
+   EPIGRAPHS
+   ═══════════════════════ */
+.epigraph {
+  margin: 0 0 2.5rem 0;
+  padding: 1.2rem 0 1.2rem 1.5rem;
+  border-left: 2px solid var(--color-accent-light);
+}
+.epigraph p {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+  text-align: left;
+}
+.epigraph .attribution {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-style: normal;
+}
+
+/* ═══════════════════════
+   EXAMPLE SENTENCES
+   ═══════════════════════ */
+.example-block {
+  background: var(--color-bg-warm);
+  border-radius: 6px;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border-light);
+}
+.example-block p {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Deep-dive aside blocks */
+.deep-dive {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--color-accent-bg);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+.deep-dive-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+.deep-dive p {
+  margin-bottom: 0.85rem;
+  text-align: left;
+}
+.deep-dive p:last-child {
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════
+   SPECIAL BLOCKS
+   ═══════════════════════ */
+.katex-display {
+  margin: 1.2rem 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.4rem 0;
+}
+.katex-display > .katex { text-align: center; }
+.katex { font-size: 1.05em !important; }
+
+/* Figures / images */
+.book-figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.book-figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Inline styles */
+em { font-style: italic; }
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--color-accent-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  color: var(--color-accent);
+}
+
+/* Lists (for definition lists, bibliography, etc.) */
+ul, ol {
+  margin: 0.8rem 0 1.2rem 1.5rem;
+}
+li {
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════
+   BIBLIOGRAPHY
+   ═══════════════════════ */
+.bib-section h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 2rem 0 0.8rem;
+}
+.bib-section p {
+  font-size: 0.9rem;
+  margin-bottom: 0.7rem;
+  padding-left: 2em;
+  text-indent: -2em;
+  text-align: left;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+/* ═══════════════════════
+   BACK-TO-TOP
+   ═══════════════════════ */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 42px; height: 42px;
+  border: none; border-radius: 50%;
+  background: var(--color-nav-bg);
+  color: #F5EDE3;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  z-index: 80;
+}
+.back-to-top.show { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+
+/* ═══════════════════════
+   PROGRESS BAR
+   ═══════════════════════ */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: var(--nav-width);
+  right: 0;
+  height: 2px;
+  background: var(--color-border-light);
+  z-index: 80;
+}
+.progress-bar .progress-fill {
+  height: 100%;
+  background: var(--color-accent-light);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ═══════════════════════
+   FOOTER
+   ═══════════════════════ */
+.site-footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 4rem;
+}
+.site-footer p {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ═══════════════════════
+   RESPONSIVE
+   ═══════════════════════ */
+@media (max-width: 960px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .overlay.open { display: block; opacity: 1; }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .main { margin-left: 0; }
+  .progress-bar { left: 0; }
+  .content-wrapper { padding: 1.5rem 1.2rem 4rem; }
+  .cover { padding: 5rem 1.5rem 3rem; }
+}
+@media (max-width: 600px) {
+  html { font-size: 16px; }
+  .cover h1 { font-size: 2.2rem; }
+}
+
+/* ═══════════════════════
+   PRINT
+   ═══════════════════════ */
+@media print {
+  .sidebar, .menu-toggle, .overlay, .progress-bar, .back-to-top { display: none !important; }
+  .main { margin-left: 0; }
+  .chapter { opacity: 1; transform: none; page-break-inside: avoid; page-break-before: always; }
+  body { font-size: 11pt; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile menu toggle -->
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="book-title">The Geometry of Grammar</div>
+    <div class="book-subtitle">A Mathematical Journey Through Language — From Logic to Manifolds</div>
+    <div class="book-affiliation">Graduate Institute of Linguistics,<br>National Taiwan University</div>
+  </div>
+  <div class="nav-body">
+        <a class="nav-link" href="#cover">Cover</a>
+    <a class="nav-link" href="#preface">Preface</a>
+    <div class="nav-part-label">Part I · Discrete Foundations</div>
+    <a class="nav-link" href="#ch1"><span class="ch-num">1</span> Why Mathematics for Linguists?</a>
+    <a class="nav-link" href="#ch2"><span class="ch-num">2</span> Sets, Relations, and the Architecture of Language</a>
+    <a class="nav-link" href="#ch3"><span class="ch-num">3</span> Logic and the Formal Semantics of Natural Language</a>
+    <a class="nav-link" href="#ch4"><span class="ch-num">4</span> Formal Languages, Automata, and the Chomsky Hierarchy</a>
+    <a class="nav-link" href="#ch5"><span class="ch-num">5</span> Graphs, Trees, and Linguistic Structure</a>
+    <div class="nav-part-label">Part II · Probabilistic & Algebraic Turn</div>
+    <a class="nav-link" href="#ch6"><span class="ch-num">6</span> Probability, Information, and the Statistics of Language</a>
+    <a class="nav-link" href="#ch7"><span class="ch-num">7</span> Linear Algebra: The Vector Space of Language</a>
+    <a class="nav-link" href="#ch8"><span class="ch-num">8</span> Neural Networks and the Mathematics of Learned Representations</a>
+    <div class="nav-part-label">Part III · The Geometric Turn</div>
+    <a class="nav-link" href="#ch9"><span class="ch-num">9</span> The Geometry of Meaning: Manifolds in Semantic Space</a>
+    <a class="nav-link" href="#ch10"><span class="ch-num">10</span> Topology and the Shape of Linguistic Spaces</a>
+    <a class="nav-link" href="#ch11"><span class="ch-num">11</span> Differential Geometry on the Landscape of Language</a>
+    <a class="nav-link" href="#ch12"><span class="ch-num">12</span> Category Theory: The Mathematics of Mathematical Linguistics</a>
+    <div class="nav-part-label">Part IV · Complex Systems & Reflection</div>
+    <a class="nav-link" href="#ch13"><span class="ch-num">13</span> Language as a Complex Adaptive System</a>
+    <a class="nav-link" href="#ch14"><span class="ch-num">14</span> Philosophical Reflections: What Does the Mathematics Tell Us About Language?</a>
+    <div class="nav-part-label">Back Matter</div>
+    <a class="nav-link" href="#bibliography">Selected Bibliography</a>
+    <a class="nav-link" href="#appendix">Mathematical Notation and Conventions</a>
+  </div>
+</nav>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main class="main layout">
+<div style="width:100%">
+
+<!-- Cover -->
+<section class="cover" id="cover">
+  <div class="cover-content">
+    <div class="cover-ornament">◆ ◇ ◆</div>
+    <h1>The Geometry of Grammar</h1>
+    <div class="subtitle">A Mathematical Journey Through Language — From Logic to Manifolds</div>
+    <div class="author">SHUK<u>AI</u> HSIEH</div>
+    <div class="affiliation">Graduate Institute of Linguistics,<br>National Taiwan University</div>
+    <div class="edition"></div>
+    <div class="cover-rule"></div>
+  </div>
+</section>
+
+<div class="content-wrapper">
+<article class="chapter" id="preface">
+  <div class="chapter-label">Preface</div>
+  <h2 class="chapter-title">Preface</h2>
+<div class="epigraph">
+  <p>""The book of nature is written in the language of mathematics.""</p>
+  <div class="attribution">— Galileo Galilei</div>
+</div>
+<p>This book tells a story that has been unfolding for over a century: the story of how mathematics has shaped our understanding of human language, and how language, in turn, has inspired new branches of mathematics. It is written for linguists who sense that mathematical tools are increasingly indispensable to their field but who may feel daunted by the sheer variety of mathematical frameworks now in play. It is also written for mathematicians and computer scientists who are curious about why natural language — that most human of phenomena — keeps generating such rich mathematical problems.</p>
+<p>The narrative arc of this book traces a remarkable intellectual migration. For most of the twentieth century, the mathematics of language was fundamentally discrete: sets, relations, logical formulas, trees, and automata. Language was carved into categories, parsed into hierarchical structures, and analyzed through the lens of formal logic. This discrete paradigm produced extraordinary achievements — generative grammar, formal semantics, computational complexity theory of parsing — and it remains deeply relevant today.</p>
+<p>But beginning in the 1990s and accelerating dramatically in the 2010s, a new mathematical vocabulary began to pervade linguistics and natural language processing: vectors, matrices, tensors, probability distributions, and ultimately manifolds, curvature, and topology. The rise of distributional semantics, word embeddings, and finally large language models has not merely added new tools to the linguist's kit; it has fundamentally altered what it means to "represent" a linguistic object. A word is no longer just a node in a tree or an entry in a lexicon — it is a point in a high-dimensional space, and the relationships between words are geometric relationships: distances, angles, projections, and curved paths.</p>
+<p>This book aims to make this entire trajectory visible and comprehensible. Each mathematical framework is introduced not in the abstract but through the linguistic phenomena that motivated it. Every definition is accompanied by a linguistic example. Every theorem is contextualized by the question it helps answer about language. The goal is not to produce mathematicians, but to produce linguists who can read the primary literature across all eras of mathematical linguistics with genuine comprehension.</p>
+<p>A special emphasis of this book is on the geometric turn: the ways in which the internal representations of modern language models exhibit geometric structure — manifolds, fiber bundles, curvature — that connects to deep questions in both mathematics and cognitive science. This is the frontier, and it is where linguistics, mathematics, and philosophy converge most provocatively.</p>
+<p>The book can be read linearly as a historical narrative, or individual chapters can be consulted as self-contained introductions to particular mathematical frameworks. Throughout, I have tried to honor the spirit captured by Leibniz: <em>Calculemus</em> — let us calculate. But I have also tried to honor the complementary insight that language is not merely a formal object but a living, embodied, social phenomenon whose mathematical shadows, however beautiful, are always partial.</p>
+<p><!-- part: Part I · Discrete Foundations --></p>
+</article>
+
+
+<article class="chapter" id="ch1">
+  <div class="chapter-label">Chapter 1</div>
+  <h2 class="chapter-title">Why Mathematics for Linguists?</h2>
+<div class="epigraph">
+  <p>""Language is a process of free creation; its laws and principles are fixed, but the manner in which the principles of generation are used is free and infinitely varied.""</p>
+  <div class="attribution">— Noam Chomsky</div>
+</div>
+<h3><span class="section-num">1.1</span> The Unreasonable Effectiveness of Mathematics in Linguistics</h3>
+<p>In 1960, the physicist Eugene Wigner published a celebrated essay on "The Unreasonable Effectiveness of Mathematics in the Natural Sciences." He marveled at the fact that mathematical structures, developed for their own internal beauty, repeatedly turned out to describe the physical world with uncanny precision. Linguistics presents a parallel puzzle. Why should the same mathematical structures that describe symmetry groups in physics or topological spaces in pure mathematics also illuminate the structure of human language?</p>
+<p>One answer is that language, like the physical world, exhibits structure at multiple scales — phonological patterns, morphological regularities, syntactic hierarchies, semantic compositionality, discourse coherence — and mathematics is, at its core, the science of structure. But the deeper answer may be that language occupies a unique position at the intersection of the biological, the cognitive, and the social. It is a finite system that generates infinite variety, a discrete symbolic system that encodes continuous meaning, a local process (one word after another) that creates global coherence. These tensions — finite vs. infinite, discrete vs. continuous, local vs. global — are precisely the tensions that different branches of mathematics have been developed to address.</p>
+<h3><span class="section-num">1.2</span> A Map of the Territory</h3>
+<p>The mathematical frameworks that have been applied to language can be organized along several axes. One axis runs from the <strong>discrete</strong> to the <strong>continuous</strong>. On the discrete end we find set theory, logic, formal language theory, and graph theory; on the continuous end we find calculus, differential geometry, and topology. Another axis runs from the <strong>algebraic</strong> to the <strong>geometric</strong>: algebra emphasizes operations and transformations, while geometry emphasizes spaces and distances. A third axis runs from the <strong>deterministic</strong> to the <strong>probabilistic</strong>. The history of mathematical linguistics can be read as a gradual movement along all three axes — from discrete-algebraic-deterministic toward continuous-geometric-probabilistic — though each earlier framework retains its relevance.</p>
+<p>This movement is not merely a matter of fashion. It reflects genuine discoveries about the nature of language. The discrete frameworks captured the combinatorial and compositional aspects of language with extraordinary precision. But they struggled with gradience, ambiguity, context-dependence, and the sheer messiness of language in use. The probabilistic and geometric frameworks address these challenges more naturally, at the cost of a different kind of precision.</p>
+<h3><span class="section-num">1.3</span> The Linguistic Motivation: What Are We Trying to Represent?</h3>
+<p>Before diving into mathematics, it is worth pausing to ask: what aspects of language do we want our mathematical representations to capture? Consider a seemingly simple English sentence:</p>
+<div class="example-block"><p><em>The bank by the river collapsed after the flood.</em></p></div>
+<p>Even this unremarkable sentence involves a cascade of linguistic phenomena, each of which has been the target of mathematical modeling. At the <strong>phonological</strong> level, the sentence is a sequence of sound segments organized into syllables, feet, and intonational phrases — a structure that can be modeled with autosegmental representations and metrical grids. At the <strong>morphological</strong> level, words like "collapsed" exhibit internal structure (collapse + -ed) amenable to finite-state analysis. At the <strong>syntactic</strong> level, the sentence has a hierarchical phrase structure that determines the scope of modifiers ("by the river" modifies "bank," not "collapsed"). At the <strong>semantic</strong> level, "bank" is ambiguous between a financial institution and a riverbank, and the phrase "by the river" helps disambiguate. At the <strong>pragmatic</strong> level, the temporal adverbial "after the flood" presupposes that a flood occurred. Each level of analysis invites different mathematical tools.</p>
+<h3><span class="section-num">1.4</span> The Plan of This Book</h3>
+<p><strong>Part I</strong> (Chapters 2–5) covers the classical discrete foundations: set theory and relations, formal logic, formal language theory and automata, and graph theory. <strong>Part II</strong> (Chapters 6–8) introduces the probabilistic and algebraic turn: probability and information theory, and the linear algebra that underlies modern computational approaches. <strong>Part III</strong> (Chapters 9–12) is devoted to the geometric turn: vector space semantics, the geometry of neural language models, topological methods, and differential geometry on linguistic manifolds. <strong>Part IV</strong> (Chapters 13–14) ventures into complexity and reflection. Chapter 13 treats language as a <em>Complex Adaptive System</em>, drawing on dynamical systems theory, agent-based models, network topology, and the quantum complexity result $\text{MIP}^* = \text{RE}$ to show that language is not a static structure but a self-organizing, emergent, and irreducibly complex phenomenon. Chapter 14 steps back to offer a philosophical reflection on what the entire succession of mathematical framings reveals about the nature of language itself.</p>
+<p>Each chapter follows a common pattern: we begin with the linguistic problem that motivates the mathematical framework, introduce the necessary mathematical concepts with linguistic examples, show how the framework has been applied, and conclude with its limitations and the questions that led to the next framework.</p>
+</article>
+
+
+<article class="chapter" id="ch2">
+  <div class="chapter-label">Chapter 2</div>
+  <h2 class="chapter-title">Sets, Relations, and the Architecture of Language</h2>
+<div class="epigraph">
+  <p>""A set is a Many that allows itself to be thought of as a One.""</p>
+  <div class="attribution">— Georg Cantor</div>
+</div>
+<h3><span class="section-num">2.1</span> The Language of Sets</h3>
+<p>The most fundamental mathematical framework applied to language is set theory. When Ferdinand de Saussure distinguished between <em>langue</em> (the abstract language system) and <em>parole</em> (actual speech), he was implicitly invoking set-theoretic thinking: <em>langue</em> is a set of signs, each defined as a pairing of a signifier and a signified. When a phonologist defines the vowel inventory of a language, they are specifying a set. When a morphologist lists the inflectional paradigm of a verb, they are constructing a function from a set of feature bundles to a set of forms.</p>
+<p>Formally, a set is simply a collection of distinct objects, called elements or members. We write $a \in A$ to mean that $a$ is an element of set $A$. The power of set theory lies not in this simple definition but in the operations and relations we can define on sets: union ($\cup$), intersection ($\cap$), complement, Cartesian product ($\times$), and the critical notion of a function as a special kind of relation.</p>
+<h3><span class="section-num">2.2</span> Phonological Feature Systems as Set Theory</h3>
+<p>One of the earliest and most elegant applications of set theory in linguistics is the distinctive feature theory of Jakobson, Fant, and Halle (1952), later refined by Chomsky and Halle (1968) in <em>The Sound Pattern of English</em>. In this framework, each phoneme is characterized by a set of binary features. For example, the English consonant /p/ can be described as:</p>
+$$\text{/p/} = \{[{+}\text{consonantal}],\; [{-}\text{sonorant}],\; [{-}\text{continuant}],\; [{-}\text{voiced}],\; [{+}\text{labial}]\}$$
+<p>The natural classes of phonology — the groups of sounds that behave alike in phonological rules — correspond to the intersections of feature sets. The class of voiceless stops $\{p, t, k\}$ is simply the intersection of sounds that are $[{-}\text{voiced}]$ and $[{-}\text{continuant}]$.</p>
+<p>This set-theoretic perspective has profound consequences. It predicts that not all arbitrary groupings of phonemes should function as natural classes in phonological rules; only those groupings that can be defined by the intersection of feature specifications should do so. This prediction is largely confirmed by cross-linguistic data, which constitutes evidence that the feature system reflects something real about the cognitive representation of speech sounds.</p>
+<h3><span class="section-num">2.3</span> Relations: From Paradigms to Hierarchies</h3>
+<p>A relation $R$ on a set $A$ is a subset of the Cartesian product $A \times A$. Different types of relations — reflexive, symmetric, transitive, antisymmetric — model different kinds of linguistic structure. Equivalence relations (reflexive, symmetric, transitive) partition a set into equivalence classes, which is exactly what paradigmatic relations do in morphology: the set of all noun forms in Latin can be partitioned into declension classes, where each class groups nouns that follow the same inflectional pattern.</p>
+<p>Partial orders (reflexive, antisymmetric, transitive) model hierarchical structures. The hyponymy (is-a) relation in lexical semantics forms a partial order: "dog" is a hyponym of "animal," which is a hyponym of "living thing." This gives rise to a lattice structure that has been formalized in frameworks like WordNet (Miller, 1995). The feature geometry of phonology, in which features are organized into a hierarchical tree, is another linguistic instantiation of a partial order.</p>
+<h3><span class="section-num">2.4</span> Functions and Compositionality</h3>
+<p>A function $f: A \to B$ assigns to each element of set $A$ exactly one element of set $B$. Functions are central to formal semantics, where the meaning of a complex expression is a function of the meanings of its parts. In Montague's framework, which we will explore in detail in Chapter 3, the meaning of a verb phrase like "runs quickly" is computed by applying the function denoted by the adverb "quickly" to the function denoted by "runs." The entire enterprise of compositional semantics rests on the mathematical notion of function composition.</p>
+<p>The concept of a function also underlies the structuralist notion of paradigmatic substitution. Two expressions belong to the same syntactic category if they can substitute for each other in the same contexts — that is, if they have the same domain and range when viewed as functions from left contexts to right contexts. This insight, formalized by Zellig Harris and later by the categorial grammarians, connects set-theoretic function spaces directly to syntactic categories.</p>
+<h3><span class="section-num">2.5</span> Limitations and the Road Ahead</h3>
+<p>Set theory provides a powerful vocabulary for describing the static architecture of language — its inventories, categories, and relations. But it says relatively little about the dynamic processes that operate over these structures: how sounds change in context, how sentences are generated, how meanings are computed. For this, we need the more expressive frameworks of logic and algebra, to which we turn in the next chapters. Nevertheless, set theory remains the lingua franca of all subsequent formalisms; every mathematical framework we encounter will be built on its foundations.</p>
+</article>
+
+
+<article class="chapter" id="ch3">
+  <div class="chapter-label">Chapter 3</div>
+  <h2 class="chapter-title">Logic and the Formal Semantics of Natural Language</h2>
+<div class="epigraph">
+  <p>""The limits of my language mean the limits of my world.""</p>
+  <div class="attribution">— Ludwig Wittgenstein</div>
+</div>
+<h3><span class="section-num">3.1</span> From Aristotle to Montague: Logic as the Language of Meaning</h3>
+<p>The application of logic to natural language has a pedigree stretching back to Aristotle's syllogistic. But the modern era begins with Gottlob Frege's <em>Begriffsschrift</em> (1879), which introduced predicate logic — a formal language powerful enough to express quantificational statements like "Every linguist admires some mathematician." Frege's insight was that natural language sentences have an internal logical structure that is obscured by their surface form. The sentence "Every linguist admires some mathematician" is ambiguous between two readings:</p>
+$$\forall x\bigl[\mathrm{Linguist}(x) \to \exists y[\mathrm{Mathematician}(y) \wedge \mathrm{Admires}(x,y)]\bigr]$$
+$$\exists y\bigl[\mathrm{Mathematician}(y) \wedge \forall x[\mathrm{Linguist}(x) \to \mathrm{Admires}(x,y)]\bigr]$$
+<p>These differ in the relative scope of the universal and existential quantifiers — a distinction that has profound semantic consequences but is invisible in the surface syntax.</p>
+<h3><span class="section-num">3.2</span> Propositional Logic: The Simplest Fragment</h3>
+<p>Propositional logic deals with sentences that are either true or false and the connectives that combine them: negation ($\lnot$), conjunction ($\wedge$), disjunction ($\vee$), implication ($\to$), and biconditional ($\leftrightarrow$). In natural language, these correspond (imperfectly) to "not," "and," "or," "if...then," and "if and only if." The imperfection of this correspondence has been one of the great generative puzzles of formal pragmatics. Natural language "or" is typically exclusive in conversational contexts ("You can have coffee or tea"), whereas logical $\vee$ is inclusive. Natural language "if...then" carries presuppositions and conversational implicatures that the material conditional $\to$ does not.</p>
+<p>Despite these mismatches, propositional logic provides the foundation for understanding the truth-conditional core of sentence meaning. The truth table for a compound sentence defines the set of possible worlds in which it is true — a set-theoretic object that connects logic back to the framework of Chapter 2.</p>
+<h3><span class="section-num">3.3</span> Predicate Logic and Natural Language Semantics</h3>
+<p>First-order predicate logic extends propositional logic with variables, predicates, quantifiers ($\forall$ and $\exists$), and the apparatus of variable binding. This is the mathematical language that Richard Montague used in his landmark papers of the early 1970s to argue that natural language could be treated with the same mathematical rigor as formal languages. Montague's "The Proper Treatment of Quantification in Ordinary English" (1973) demonstrated that a fragment of English could be given a fully compositional model-theoretic semantics using typed lambda calculus and intensional logic.</p>
+<p>The key move in Montague grammar is the use of typed functions. Each syntactic category is assigned a semantic type:</p>
+$$\begin{aligned}
+\text{Proper names} &: e \quad \text{(entities)} \\
+\text{Sentences} &: t \quad \text{(truth values)} \\
+\text{Intransitive VPs} &: \langle e, t \rangle \quad \text{(functions: entities} \to \text{truth values)} \\
+\text{Transitive verbs} &: \langle e, \langle e, t \rangle \rangle
+\end{aligned}$$
+<p>The meaning of "John walks" is computed by applying the function $\llbracket \text{walks} \rrbracket$ (of type $\langle e, t \rangle$) to the individual $\llbracket \text{John} \rrbracket$ (of type $e$), yielding a truth value. This type-driven composition is one of the most elegant applications of mathematical function theory to language.</p>
+<h3><span class="section-num">3.4</span> Lambda Calculus: The Glue of Compositionality</h3>
+<p>The lambda calculus, invented by Alonzo Church in the 1930s, provides a notation for defining and applying functions. In formal semantics, it serves as the "glue" that combines word meanings into phrase meanings. The transitive verb "loves" can be represented as $\lambda x.\lambda y.\,\mathrm{Loves}(y, x)$. To compute the meaning of "loves Mary," we perform $\beta$-reduction:</p>
+$$(\lambda x.\lambda y.\,\mathrm{Loves}(y, x))(\mathrm{Mary}) = \lambda y.\,\mathrm{Loves}(y, \mathrm{Mary})$$
+<p>This resulting expression, a function from individuals to truth values, is the meaning of the verb phrase "loves Mary."</p>
+<p>Lambda abstraction also handles more complex phenomena like relative clauses. The relative clause "who loves Mary" denotes the set of individuals who love Mary, represented as $\lambda x.\,\mathrm{Loves}(x, \mathrm{Mary})$. When this combines with a common noun like "man," the result is the intersection of two sets:</p>
+$$\lambda x\bigl[\mathrm{Man}(x) \wedge \mathrm{Loves}(x, \mathrm{Mary})\bigr]$$
+<p>The mathematical elegance is striking: set intersection, function application, and variable binding conspire to produce the correct meanings for arbitrarily complex constructions.</p>
+<h3><span class="section-num">3.5</span> Modal Logic and Possible Worlds</h3>
+<p>Natural language is saturated with modality: "must," "might," "can," "should," "necessarily," "possibly." Modal logic extends classical logic with operators $\Box$ (necessarily) and $\Diamond$ (possibly), interpreted over a set of possible worlds connected by an accessibility relation. The sentence "John might be a spy" is true in the actual world if there exists an accessible possible world in which John is a spy.</p>
+<p>The possible-worlds framework has been enormously productive in formal semantics. It provides analyses of conditionals ("If kangaroos had no tails, they would topple over" requires evaluating a counterfactual scenario), attitude verbs ("John believes that it is raining" involves John's belief worlds), and tense ("John will arrive" involves quantification over future times). The mathematical structure — a Kripke frame $\langle W, R, V \rangle$ (Kripke, 1963) consisting of a set of worlds $W$, an accessibility relation $R \subseteq W \times W$, and a valuation function $V$ — is another instance of the relational structures introduced in Chapter 2.</p>
+<h3><span class="section-num">3.6</span> Beyond First-Order Logic: Generalized Quantifiers</h3>
+<p>Natural language quantification goes far beyond "every" and "some." Determiners like "most," "few," "more than half," and "exactly three" cannot be expressed in first-order predicate logic. The theory of generalized quantifiers, developed by Barwise and Cooper (1981), treats determiners as relations between sets:</p>
+<ul>
+  <li><strong>Every:</strong> $\llbracket\text{every}\rrbracket(A)(B) = 1 \iff A \subseteq B$</li>
+  <li><strong>Most:</strong> $\llbracket\text{most}\rrbracket(A)(B) = 1 \iff |A \cap B| > |A \setminus B|$</li>
+  <li><strong>No:</strong> $\llbracket\text{no}\rrbracket(A)(B) = 1 \iff A \cap B = \varnothing$</li>
+  <li><strong>Exactly $n$:</strong> $\llbracket\text{exactly } n\rrbracket(A)(B) = 1 \iff |A \cap B| = n$</li>
+</ul>
+<p>The generalized quantifier framework revealed a remarkable cross-linguistic universal: natural language determiners are <strong>conservative</strong>, meaning that $D(A)(B) \Leftrightarrow D(A)(A \cap B)$. This conservativity universal, which holds across all known languages, is a mathematical constraint on the space of possible human languages — one of the most striking examples of mathematics illuminating a linguistic universal.</p>
+<h3><span class="section-num">3.7</span> Limitations of Logic-Based Approaches</h3>
+<p>For all its elegance, the logical approach to semantics faces persistent challenges. Vagueness ("John is tall"), gradience ("This sentence is grammatical"), context-dependence ("enough" for what purpose?), metaphor ("Time flies"), and the open-endedness of word meaning all sit uneasily within the crisp, binary framework of classical logic. These challenges have motivated extensions — fuzzy logic, degree semantics, dynamic semantics, situation semantics — but they have also motivated a fundamentally different mathematical approach: the geometric and probabilistic frameworks of Parts II and III. The tension between the compositional precision of logic and the flexible gradience of actual language use is, arguably, the central tension in the mathematical study of meaning.</p>
+</article>
+
+
+<article class="chapter" id="ch4">
+  <div class="chapter-label">Chapter 4</div>
+  <h2 class="chapter-title">Formal Languages, Automata, and the Chomsky Hierarchy</h2>
+<div class="epigraph">
+  <p>""Colorless green ideas sleep furiously.""</p>
+  <div class="attribution">— Noam Chomsky</div>
+</div>
+<h3><span class="section-num">4.1</span> The Generative Enterprise</h3>
+<p>In 1957, Noam Chomsky published <em>Syntactic Structures</em>, inaugurating a revolution in linguistics whose mathematical foundations remain central to the field. Chomsky's key insight was that a language can be defined as a set of strings generated by a formal grammar — a finite set of rules that recursively produce an infinite set of well-formed expressions. This perspective connects linguistics directly to the mathematical theory of computation developed by Turing, Post, and Kleene.</p>
+<p>A formal grammar $G$ is a tuple $\langle V, \Sigma, R, S \rangle$ where $V$ is a finite set of non-terminal symbols, $\Sigma$ is a finite set of terminal symbols (the alphabet), $R$ is a finite set of production rules, and $S \in V$ is the start symbol. The language $L(G)$ generated by $G$ is the set of all strings of terminal symbols derivable from $S$ by repeated application of rules in $R$.</p>
+<h3><span class="section-num">4.2</span> The Chomsky Hierarchy</h3>
+<p>The Chomsky hierarchy classifies formal grammars by the form of their production rules, yielding four types of increasing generative power. Type 3 (regular) grammars, equivalent to finite-state automata, generate languages like $a^n$. Type 2 (context-free) grammars, equivalent to pushdown automata, generate languages like $a^n b^n$ that require matching dependencies. Type 1 (context-sensitive) grammars and Type 0 (unrestricted) grammars are progressively more powerful, with Type 0 equivalent to Turing machines.</p>
+<p>The burning question in mathematical linguistics has been: where does natural language fall in this hierarchy? Chomsky argued early on that natural languages are not regular — that is, they cannot be generated by finite-state grammars. His famous example involved center-embedding: English allows sentences like "The cat the dog the rat bit chased ran," which requires tracking nested dependencies (cat-ran, dog-chased, rat-bit) that a finite-state device cannot handle.</p>
+<h3><span class="section-num">4.3</span> Beyond Context-Free: Mildly Context-Sensitive Languages</h3>
+<p>In 1985, Stuart Shieber (1985) demonstrated that the cross-serial dependencies found in Swiss German — where accusative and dative objects must be matched with their respective verbs in a crossing pattern — cannot be generated by any context-free grammar. This established that natural languages are at least mildly context-sensitive. The term was coined by Aravind Joshi to describe a class of grammars — including Tree-Adjoining Grammars (TAGs), Combinatory Categorial Grammars (CCGs), and Linear Indexed Grammars — that are slightly more powerful than context-free grammars but far less powerful than full context-sensitive grammars.</p>
+<p>The mildly context-sensitive languages have several attractive properties: they can generate the cross-serial dependencies found in natural language, they have polynomial parsing complexity, and their structural descriptions are trees (or mildly enriched trees). Joshi conjectured that human languages are exactly the class of mildly context-sensitive languages — a mathematical hypothesis about the computational complexity of Universal Grammar.</p>
+<h3><span class="section-num">4.4</span> Finite-State Methods in Phonology and Morphology</h3>
+<p>While syntax required context-free or mildly context-sensitive power, phonology and morphology turned out to be well-modeled by the weakest class in the hierarchy: regular languages and finite-state transducers. The insight, formalized by Ronald Kaplan and Martin Kay (1994), was that most phonological rules can be compiled into finite-state transducers — devices that read an input string and produce an output string, operating with bounded memory.</p>
+<p>In morphology, finite-state methods proved extraordinarily successful. Kimmo Koskenniemi's two-level morphology (1983) modeled the relationship between underlying and surface forms of words as a set of parallel finite-state constraints. This approach could handle the complex morphological phenomena of agglutinative languages like Finnish and Turkish, and it led to the development of practical morphological analyzers for dozens of languages.</p>
+<h3><span class="section-num">4.5</span> Automata as Cognitive Models</h3>
+<p>The connection between automata and cognition runs deeper than analogy. The finite-state hypothesis in psycholinguistics — that human sentence processing operates with finite memory and is thus fundamentally finite-state in nature — has been both defended and attacked. While the unbounded recursive power of human syntax argues against strict finite-state processing, psycholinguistic evidence shows that deeply center-embedded sentences are effectively unprocessable, suggesting that the human parser operates within a bounded region of the Chomsky hierarchy in practice.</p>
+<p>This tension between competence (what the grammar can generate in principle) and performance (what the processor can handle in practice) maps directly onto the mathematical distinction between different levels of the hierarchy. It is a tension that will resurface throughout this book, particularly when we encounter neural network language models that are, in principle, finite-state machines (bounded by their parameter count) but that approximate the behavior of more powerful computational devices.</p>
+</article>
+
+
+<article class="chapter" id="ch5">
+  <div class="chapter-label">Chapter 5</div>
+  <h2 class="chapter-title">Graphs, Trees, and Linguistic Structure</h2>
+<div class="epigraph">
+  <p>""The branching tree of possibilities is the deepest picture of reality.""</p>
+  <div class="attribution">— David Deutsch</div>
+</div>
+<h3><span class="section-num">5.1</span> Trees: The Canonical Representation of Syntax</h3>
+<p>If there is a single mathematical object that symbolizes modern linguistics, it is the tree. From Chomsky's phrase structure trees to dependency trees, from phonological prosodic trees to semantic type-driven derivation trees, the tree diagram is ubiquitous. Mathematically, a tree is a connected acyclic graph — a set of nodes connected by edges such that there is exactly one path between any two nodes.</p>
+<h3><span class="section-num">5.2</span> Dependency Graphs</h3>
+<p>An alternative to phrase structure is dependency grammar, whose mathematical formalization uses directed graphs rather than constituent trees. In a dependency tree, each word is a node, and directed edges connect heads to their dependents. Dependency trees and phrase structure trees are mathematically related but not equivalent. Dependency parsing has become dominant in computational linguistics, partly because dependency trees are easier to learn from data and partly because they generalize more naturally across typologically diverse languages.</p>
+<h3><span class="section-num">5.3</span> Graphs Beyond Trees: Semantic and Discourse Structure</h3>
+<p>While syntax is largely tree-structured, other levels of linguistic analysis require the full generality of graphs. Semantic representations often involve directed acyclic graphs (DAGs) or even cyclic graphs. Abstract Meaning Representation (AMR; Banarescu et al., 2013) uses rooted DAGs to represent the meaning of sentences, allowing reentrancy — the same entity participating in multiple semantic roles.</p>
+<h3><span class="section-num">5.4</span> Graph Properties and Linguistic Universals</h3>
+<p>The mathematical properties of linguistic graphs encode substantive linguistic claims. The projectivity of dependency trees — the requirement that dependency arcs do not cross when the words are laid out in linear order — corresponds to a constraint on word-order freedom. Graph-theoretic measures like average dependency length have been shown to correlate with processing difficulty. Dependency Length Minimization (Gildea & Jaeger, 2015), the tendency for languages to prefer shorter dependencies, has been documented across dozens of languages and appears to be a genuine universal, explicable as an optimization strategy for the human parser.</p>
+<p><!-- part: Part II · Probabilistic & Algebraic Turn --></p>
+</article>
+
+
+<article class="chapter" id="ch6">
+  <div class="chapter-label">Chapter 6</div>
+  <h2 class="chapter-title">Probability, Information, and the Statistics of Language</h2>
+<div class="epigraph">
+  <p>""Whenever I fire a linguist, the performance of the speech recognizer goes up.""</p>
+  <div class="attribution">— Frederick Jelinek (attrib.)</div>
+</div>
+<h3><span class="section-num">6.1</span> The Probabilistic Turn</h3>
+<p>For much of the twentieth century, the dominant paradigm in theoretical linguistics was categorical: a sentence was either grammatical or ungrammatical. Chomsky famously argued that probabilistic models were inappropriate for natural language, observing that "Colorless green ideas sleep furiously" and "Furiously sleep ideas green colorless" are equally improbable, yet only the first is grammatical. The counter-revolution came from both computational linguistics and sociolinguistics.</p>
+<h3><span class="section-num">6.2</span> Probability Distributions over Linguistic Objects</h3>
+<p>A probability distribution over a set $\Omega$ assigns a non-negative real number $P(\omega)$ to each element $\omega \in \Omega$ such that the probabilities sum to 1. In language modeling, $\Omega$ is the set of all possible sentences, and $P$ assigns to each sentence its probability of occurrence. The simplest language model is the $n$-gram model, which approximates the probability of a word given its entire history by conditioning only on the previous $n{-}1$ words:</p>
+$$P(w_i \mid w_1, \ldots, w_{i-1}) \approx P(w_i \mid w_{i-n+1}, \ldots, w_{i-1})$$
+<h3><span class="section-num">6.3</span> Information Theory and Language</h3>
+<p>Claude Shannon's information theory (1948) provides a mathematical framework for quantifying the information content of linguistic messages. The entropy of a random variable $X$ is defined as:</p>
+$$H(X) = -\sum_{x} P(x) \log_2 P(x)$$
+<p>This measures the average surprise associated with outcomes. The entropy of English is approximately 1.0 to 1.5 bits per character — meaning that each character carries about one bit of information, far less than the $\log_2(26) \approx 4.7$ bits that a uniformly random letter would carry. This redundancy provides robustness against noise and facilitates prediction.</p>
+<h3><span class="section-num">6.4</span> Bayesian Approaches to Language</h3>
+<p>Bayes' theorem provides a principled framework for updating beliefs in light of evidence:</p>
+$$P(H \mid D) = \frac{P(D \mid H)\,P(H)}{P(D)}$$
+<p>Bayesian approaches have been applied to language acquisition, syntactic parsing, pragmatic reasoning (the Rational Speech Acts framework (Frank & Goodman, 2012)), and historical linguistics (Bayesian phylogenetics of language families).</p>
+<h3><span class="section-num">6.5</span> Zipf's Law and the Statistics of the Lexicon</h3>
+<p>One of the most striking statistical regularities of language is Zipf's law (Zipf, 1949): if the words of a language are ranked by frequency, the frequency of the $r$th-ranked word is approximately proportional to $1/r$:</p>
+$$f(r) \propto \frac{1}{r^\alpha}, \quad \alpha \approx 1$$
+<p>This power-law distribution means that a small number of words ("the," "of," "and") account for a large fraction of all word tokens, while the vast majority of word types occur rarely. Zipf's law has been documented across all studied languages and extends to other linguistic units.</p>
+</article>
+
+
+<article class="chapter" id="ch7">
+  <div class="chapter-label">Chapter 7</div>
+  <h2 class="chapter-title">Linear Algebra: The Vector Space of Language</h2>
+<div class="epigraph">
+  <p>""You shall know a word by the company it keeps.""</p>
+  <div class="attribution">— J.R. Firth</div>
+</div>
+<h3><span class="section-num">7.1</span> The Distributional Hypothesis</h3>
+<p>The idea that the meaning of a word can be inferred from its patterns of co-occurrence — the distributional hypothesis — was articulated by Harris (1954) and Firth (1957) and has become one of the most productive ideas in computational linguistics. Its mathematical realization requires linear algebra: words become vectors, contexts become dimensions, and meaning becomes geometry.</p>
+<h3><span class="section-num">7.2</span> Vectors, Matrices, and the Algebra of Meaning</h3>
+<p>A vector space $V$ over a field $F$ (typically $\mathbb{R}$) is a set equipped with two operations — vector addition and scalar multiplication — satisfying certain axioms. The key concepts for linguistic applications are:</p>
+<ul>
+  <li><strong>Dot product:</strong> $\langle \mathbf{u}, \mathbf{v} \rangle = \sum_i u_i\, v_i$ — measures alignment</li>
+  <li><strong>Norm:</strong> $\|\mathbf{v}\| = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$ — measures magnitude</li>
+  <li><strong>Cosine similarity:</strong> $\cos(\theta) = \dfrac{\langle \mathbf{u}, \mathbf{v} \rangle}{\|\mathbf{u}\| \cdot \|\mathbf{v}\|}$ — measures angle, independent of magnitude</li>
+</ul>
+<p>In the word-vector space, cosine similarity becomes a measure of semantic similarity. The vectors for "dog" and "cat" will have high cosine similarity because they occur in similar contexts, while "dog" and "democracy" will have low cosine similarity. This is remarkable: a purely mathematical operation on co-occurrence counts recovers something that looks very much like human semantic intuition.</p>
+<h3><span class="section-num">7.3</span> Dimensionality Reduction: SVD and the Latent Structure of Meaning</h3>
+<p>Raw word-context matrices are enormous and sparse. Singular Value Decomposition (SVD) provides a principled method for reducing their dimensionality while preserving the most important patterns. Given a matrix $M$ of rank $r$, SVD factorizes it as:</p>
+$$M = U \Sigma V^\top$$
+<p>where $U$ and $V$ are orthogonal matrices and $\Sigma = \mathrm{diag}(\sigma_1, \ldots, \sigma_r)$ is a diagonal matrix of singular values. By retaining only the $k$ largest singular values ($k \ll r$), we obtain a low-rank approximation $M_k = U_k \Sigma_k V_k^\top$ that captures the dominant latent structure. Latent Semantic Analysis (LSA), introduced by Landauer and Dumais (1997), applied SVD to word-document matrices and demonstrated that the resulting low-dimensional representations captured semantic relationships not present in the original counts.</p>
+<h3><span class="section-num">7.4</span> Word Embeddings: From Counting to Prediction</h3>
+<p>Word2Vec (Mikolov et al., 2013) and GloVe (Pennington et al., 2014) learned word vectors by training neural networks to predict context. The resulting embeddings exhibited striking algebraic properties — vector arithmetic encoded semantic relationships:</p>
+$$\vec{v}_{\text{king}} - \vec{v}_{\text{man}} + \vec{v}_{\text{woman}} \approx \vec{v}_{\text{queen}}$$
+<p>This showed that vector offsets captured relational structure — different directions correspond to different semantic relations (gender, tense, plurality, etc.).</p>
+<h3><span class="section-num">7.5</span> Tensor Products and Compositional Distributional Semantics</h3>
+<p>The Categorical Compositional Distributional (DisCoCat) framework of Coecke, Sadrzadeh, and Clark (2010) addresses compositionality by representing relational words as tensors. A transitive verb like "loves" is represented as a rank-3 tensor $\mathcal{T} \in V \otimes V \otimes V$. The meaning of "John loves Mary" is computed by tensor contraction:</p>
+$$\llbracket\text{John loves Mary}\rrbracket_k = \sum_{i,j} \mathcal{T}_{ijk} \cdot \vec{v}_{\text{John},\,i} \cdot \vec{v}_{\text{Mary},\,j}$$
+<p>This approach elegantly combines the compositional structure of formal semantics with the distributional content of vector space models.</p>
+<h3><span class="section-num">7.6</span> Linear Algebra in Syntax: Spectral Methods</h3>
+<p>Linear algebra serves as a bridge between the discrete, symbolic representations of classical linguistics and the continuous, distributed representations of modern computational linguistics. A discrete grammar generates trees; these trees give rise to distributional statistics; these statistics live in a vector space; and the structure of that vector space reflects the structure of the underlying grammar. Linear algebra is the mathematical framework that makes this connection precise.</p>
+</article>
+
+
+<article class="chapter" id="ch8">
+  <div class="chapter-label">Chapter 8</div>
+  <h2 class="chapter-title">Neural Networks and the Mathematics of Learned Representations</h2>
+<div class="epigraph">
+  <p>""What I cannot create, I do not understand.""</p>
+  <div class="attribution">— Richard Feynman</div>
+</div>
+<h3><span class="section-num">8.1</span> From Perceptrons to Transformers</h3>
+<p>The neural network revolution in linguistics can be told as a mathematical story of progressive enrichment. Each architecture can be described precisely in linear-algebraic terms. A single Transformer attention head computes:</p>
+$$\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+<p>where $Q = XW^Q$, $K = XW^K$, $V = XW^V$ are linear projections of the input $X$, and $d_k$ is the dimensionality of the key vectors. The entire Transformer is a composition of attention layers interspersed with position-wise feed-forward networks, layer normalization, and residual connections.</p>
+<h3><span class="section-num">8.2</span> The Geometry of the Residual Stream</h3>
+<p>A key insight from mechanistic interpretability research is that the Transformer can be understood as performing successive geometric transformations on a high-dimensional vector representing each token. The residual stream — the sequence of vectors that flows through the network — can be thought of as a trajectory through a high-dimensional space. Different layers perform different kinds of operations: early layers encode local syntactic relationships, middle layers encode more global syntactic and semantic relationships, and late layers encode distributional information needed for prediction.</p>
+<h3><span class="section-num">8.3</span> Attention as Soft Graph Construction</h3>
+<p>The attention mechanism has a beautiful interpretation in terms of graph theory. Each attention head defines a weighted directed graph over the tokens, where the edge weight from token $i$ to token $j$ is the attention weight $\alpha_{ij}$. Different heads learn to construct different graphs: some attend to the syntactically adjacent word, others to the head of the current phrase, others to the subject of the sentence. Transformers are, among other things, soft structure-learning machines.</p>
+<h3><span class="section-num">8.4</span> Superposition and the Geometry of Features</h3>
+<p>Networks represent more features than they have dimensions, by encoding features as nearly orthogonal directions in a space that is too small to accommodate them all as exactly orthogonal dimensions. This phenomenon has deep connections to compressed sensing and the Johnson-Lindenstrauss lemma (Johnson & Lindenstrauss, 1984). The mathematics of superposition suggests that neural networks exploit the geometry of high-dimensional spaces — in particular, the fact that high-dimensional spaces admit exponentially many nearly orthogonal directions — to pack a vast amount of linguistic knowledge into a finite-dimensional representation.</p>
+<p><!-- part: Part III · The Geometric Turn --></p>
+</article>
+
+
+<article class="chapter" id="ch9">
+  <div class="chapter-label">Chapter 9</div>
+  <h2 class="chapter-title">The Geometry of Meaning: Manifolds in Semantic Space</h2>
+<div class="epigraph">
+  <p>""Geometry is the art of correct reasoning from incorrectly drawn figures.""</p>
+  <div class="attribution">— Henri Poincaré</div>
+</div>
+<h3><span class="section-num">9.1</span> From Vector Spaces to Manifolds</h3>
+<p>The vector space models of Chapter 7 treat semantic space as flat — a Euclidean space where distances are measured with the familiar straight-line metric. But there are compelling reasons to believe that the geometry of meaning is curved. Consider the hierarchical structure of concepts: "animal" encompasses "mammal," which encompasses "dog," which encompasses "poodle." This tree-like structure cannot be faithfully embedded in Euclidean space without distortion, but it can be naturally embedded in hyperbolic space, where the volume of a ball grows exponentially with its radius — just as the number of nodes in a tree grows exponentially with depth.</p>
+<p>A manifold is a topological space that locally resembles Euclidean space but may have a different global structure. The surface of the Earth is a two-dimensional manifold: locally, it looks flat (which is why flat maps work for small regions), but globally it is curved (which is why no flat map of the whole Earth can avoid distortion). The <strong>manifold hypothesis</strong> in machine learning proposes that high-dimensional data lies on or near a low-dimensional manifold embedded in the ambient high-dimensional space.</p>
+<h3><span class="section-num">9.2</span> Hyperbolic Geometry and Lexical Hierarchies</h3>
+<p>Nickel and Kiela (2017) demonstrated that embedding the WordNet hierarchy in hyperbolic space produced far better representations than Euclidean embeddings of the same dimensionality. In just two hyperbolic dimensions, they could embed a hierarchy that required hundreds of Euclidean dimensions. The mathematical reason is elegant: a tree with branching factor $b$ has $O(b^n)$ nodes at depth $n$. The volume of a hyperbolic ball of radius $r$ also grows exponentially:</p>
+$$\mathrm{Vol}_{\mathbb{H}^d}(r) \propto e^{(d-1)\,r}$$
+<p>so there is a natural correspondence between tree depth and hyperbolic distance. In contrast, Euclidean volume grows only polynomially ($\propto r^d$), creating a mismatch with tree structure.</p>
+<h3><span class="section-num">9.3</span> Poincaré Embeddings and Lexical Entailment</h3>
+<p>Hyperbolic embeddings have been extended to model lexical entailment — where the meaning of one word is contained in another. More broadly, the choice of geometric space becomes a modeling decision with linguistic content. Euclidean space $\mathbb{E}^n$ is appropriate for symmetric similarity. Hyperbolic space $\mathbb{H}^n$ is appropriate for hierarchies. Spherical space $\mathbb{S}^n$ may be appropriate for cyclical structures. And product spaces $\mathbb{H}^{n_1} \times \mathbb{S}^{n_2} \times \mathbb{E}^{n_3}$ may be needed for the complex mixture of relations found in natural language semantics.</p>
+<h3><span class="section-num">9.4</span> The Manifold Hypothesis in Language Models</h3>
+<p>Recent work has shown that the token representations in Transformer models lie on manifolds whose intrinsic dimensionality is much lower than the ambient dimensionality. Different linguistic properties correspond to different geometric features: syntactic information tends to be encoded in linear subspace structure, while semantic information is encoded in nonlinear manifold geometry (curvature, topology). This distinction parallels the distinction between syntax and semantics in traditional linguistics.</p>
+<h3><span class="section-num">9.5</span> Contextual Embeddings and the Geometry of Polysemy</h3>
+<p>Ethayarajh (2019) showed that contextual embeddings occupy a narrow cone in high-dimensional space. Different senses of a polysemous word occupy different regions of this cone, and the degree of separation varies across layers. In early layers, senses are close together; in middle layers, they are maximally separated; in later layers, they may reconverge. This layer-wise geometry of polysemy resolution is a window into how neural networks process lexical ambiguity.</p>
+</article>
+
+
+<article class="chapter" id="ch10">
+  <div class="chapter-label">Chapter 10</div>
+  <h2 class="chapter-title">Topology and the Shape of Linguistic Spaces</h2>
+<div class="epigraph">
+  <p>""A topologist is a person who cannot distinguish a coffee cup from a doughnut.""</p>
+  <div class="attribution">— Mathematical folklore</div>
+</div>
+<figure class="book-figure">
+  <img src="./figures/topology.png" alt="" loading="lazy">
+</figure>
+<h3><span class="section-num">10.1</span> What Topology Offers Linguistics</h3>
+<p>Topology studies properties preserved under continuous deformation — stretching, bending, and twisting, but not tearing or gluing. While geometry cares about distances and angles, topology cares about connectivity, holes, and the overall "shape" of a space. For linguistics, topology offers tools for asking questions that geometry cannot: Does the space of word meanings have holes? Do the internal representations of language models have a characteristic topological signature?</p>
+<h3><span class="section-num">10.2</span> Basic Topological Concepts</h3>
+<p>A linguistically intuitive example: consider the semantic space of color terms. In a language with basic color terms arranged around the color wheel, the topology has a characteristic one-dimensional hole — you can traverse the color terms (red → orange → yellow → green → blue → purple → red) and return to your starting point, forming a loop that cannot be contracted to a point. This loop is a topological feature that exists regardless of how we stretch or deform the space.</p>
+<div class="deep-dive">
+  <p>在語義學中，傳統的向量空間（幾何）告訴我們詞與詞之間的「距離」，但拓撲學（Topology）則揭示了語義結構的「連通性」與「形狀」。在加入拓撲學深度後，不僅涵蓋了語言的「量」（機率與向量），更觸及了語言的「質」與「結構」。</p>
+  <p>專題章節，深入探討<strong>持久同調（Persistent Homology）與單體複形（Simplicial Complexes）</strong>在語義空間中的數學意義，</p>
+</div>
+<ul>
+  <li>From Pairs to Simplices</li>
+</ul>
+<p>In vector semantics, we focus on pairwise relationships (the edge between two words). However, language often involves higher-order dependencies. A "context" is not just a pair of words, but a group of words that together form a coherent meaning.</p>
+<p>Mathematically, we represent this using a Simplicial Complex $K$.</p>
+<ul>
+  <li>A 0-simplex is a single word: $[w_i]$.
+  
+  - A 1-simplex is a relationship between two words: $[w_i, w_j]$.
+  
+  - A 2-simplex is a filled triangle representing a 3-way semantic coherence: $[w_i, w_j, w_k]$.</li>
+</ul>
+<p>Linguistic Example:</p>
+<p>Consider the words {Bank, River, Money, Interest}.</p>
+<ul>
+  <li>{Bank, River} share a 1-simplex in a geographical context.</li>
+  <li>{Bank, Money, Interest} share a 2-simplex in a financial context.</li>
+  <li>Crucially, {River, Money} might not share an edge. This "missing edge" prevents the formation of a 3-way simplex, defining the boundaries of semantic domains.</li>
+</ul>
+<ul>
+  <li>Homology and Lexical Gaps</li>
+</ul>
+<p>Topology allows us to calculate Betti numbers ($\beta_n$), which count the "holes" in a space.</p>
+<p>$\beta_0$: Number of connected components (isolated semantic clusters).</p>
+<p>$\beta_1$: Number of 1-dimensional "tunnels" or cycles.</p>
+<p>In a semantic manifold, a hole ($\beta_1 > 0$) represents a Lexical Gap. It is a conceptual region surrounded by words, yet empty at its center.</p>
+<p>Example: Imagine words describing "warmth," "hot," and "burning," and another set describing "affection," "passion," and "desire." If these clusters circle around a central concept that the language has no specific word for (e.g., a specific type of spiritual heat), the topology of the lexicon will literally show a hole.</p>
+<ul>
+  <li>Persistent Homology: The Evolution of Meaning</li>
+</ul>
+<p>How do we know if a hole is "real" or just noise? We use Persistent Homology. We grow "balls" of radius $\epsilon$ around each word vector.</p>
+<p>As $\epsilon$ increases, words connect to form edges, then triangles.
+We track the "birth" and "death" of topological features (holes).</p>
+<p>Linguistic Insight: Robust semantic structures "persist" over a long range of $\epsilon$, while accidental associations disappear quickly. This gives us a "barcode" of a language's conceptual DNA.</p>
+<ul>
+  <li>Mathematical Derivation: The Boundary Operator
+To find these holes, we define a boundary operator $\partial_n$:</li>
+</ul>
+$$\partial_n([v_0, \dots, v_n]) = \sum_{i=0}^{n} (-1)^i [v_0, \dots, \hat{v}_i, \dots, v_n]$$
+<p>The cycles that are not boundaries ($Z_n / B_n$) form the Homology Group $H_n$. For linguists, $H_n$ is the mathematical signature of what a language cannot say, or chooses not to group together.</p>
+<h3><span class="section-num">10.3</span> Persistent Homology and Word Embedding Topology</h3>
+<p>Persistent homology tracks how topological features appear and disappear as we vary a scale parameter. Given a set of points (such as word embeddings), we build a family of simplicial complexes indexed by a distance threshold $\varepsilon$: at each threshold, we connect points that are within distance $\varepsilon$ of each other. As $\varepsilon$ increases from $0$ to $\infty$, topological features are "born" (when new connections create loops or voids) and "die" (when those features are filled in). The persistence diagram — which plots each feature's birth time $b_i$ and death time $d_i$ — summarizes the multi-scale topological structure. Features with high persistence $d_i - b_i$ represent robust topological structure. Word embedding spaces exhibit nontrivial persistent homology: stable loops that may correspond to semantic "circuits" — cyclic patterns of association (seasons, days of the week, stages of life).</p>
+<h3><span class="section-num">10.4</span> Topological Data Analysis of Language Models</h3>
+<p>The persistent homology of activation vectors at different Transformer layers reveals that topological complexity varies systematically: early layers have simpler topology, middle layers exhibit maximum complexity, and later layers simplify again. Layers that encode rich syntactic structure tend to have higher Betti numbers $\beta_k = \mathrm{rank}\,H_k$, suggesting more complex topology.</p>
+<h3><span class="section-num">10.5</span> Sheaf Theory and Discourse Coherence</h3>
+<p>Sheaf theory provides a mathematical framework for studying how local information can be consistently combined into global information. Abramsky and collaborators (Abramsky & Brandenburger, 2011) have used sheaf theory to model contextuality in language — connecting surprisingly to quantum mechanics, where sheaf-theoretic methods characterize non-classical correlations. The mathematical parallel between linguistic contextuality and quantum contextuality reflects a shared formal structure of context-dependence that may have deep cognitive implications.</p>
+</article>
+
+
+<article class="chapter" id="ch11">
+  <div class="chapter-label">Chapter 11</div>
+  <h2 class="chapter-title">Differential Geometry on the Landscape of Language</h2>
+<div class="epigraph">
+  <p>""God created the integers; all the rest is the work of man.""</p>
+  <div class="attribution">— Leopold Kronecker</div>
+</div>
+<h3><span class="section-num">11.1</span> Why Differential Geometry?</h3>
+<p>Differential geometry is the mathematical framework for studying curved spaces using the tools of calculus. If topology tells us the overall "shape" of a space, differential geometry tells us how the space curves and stretches locally — how distances, angles, and volumes vary from point to point. For language, differential geometry becomes essential when we recognize that the spaces in which linguistic objects are embedded — the parameter spaces of language models, the manifolds of word representations, the loss landscapes — are not flat but curved, and this curvature carries linguistic information.</p>
+<h3><span class="section-num">11.2</span> Riemannian Manifolds: The Foundation</h3>
+<p>A Riemannian manifold is a smooth manifold $M$ equipped with a Riemannian metric — a smoothly varying inner product $g_p$ on each tangent space $T_pM$ that allows us to measure lengths, angles, and volumes. The length of a curve $\gamma: [a,b] \to M$ is:</p>
+$$L(\gamma) = \int_a^b \sqrt{g_{\gamma(t)}\!\bigl(\dot\gamma(t),\, \dot\gamma(t)\bigr)}\; dt$$
+<p>and the geodesic distance $d(p,q)$ between two points is the infimum of lengths over all curves connecting them. For the linguist, the key intuition is this: a Riemannian manifold is a space where the "ruler" for measuring distances changes from place to place. In linguistic terms, moving from one region of semantic space to another may involve different amounts of "semantic distance" per unit of geometric distance — the local metric reflects the local density and organization of meanings.</p>
+<h3><span class="section-num">11.3</span> Curvature and the Local Structure of Semantic Space</h3>
+<p>The curvature of a Riemannian manifold measures how it deviates from flatness. Negative curvature (hyperbolic) means geodesics diverge and volumes grow faster than in flat space; positive curvature (spherical) means geodesics converge. Regions of high negative curvature in the representation manifold may correspond to hierarchical branching structures; regions of positive curvature may correspond to tightly clustered, cyclic structures. By measuring curvature at different points and layers, researchers can build a "curvature atlas" of linguistic information organization.</p>
+<h3><span class="section-num">11.4</span> Geodesics and Semantic Trajectories</h3>
+<p>A geodesic is the shortest path between two points on a manifold — the generalization of a straight line to curved spaces. The geodesic from "puppy" to "dog" may pass through representations encoding maturation. The geodesic from "walk" to "run" may pass through representations encoding increasing speed. Geodesics on the representation manifold may encode conceptual pathways — the cognitive paths by which one concept is transformed into another.</p>
+<h3><span class="section-num">11.5</span> The Fisher Information Metric</h3>
+<p>One of the deepest connections between differential geometry and language models comes through the Fisher information metric. For a family of probability distributions $p(x|\theta)$ parameterized by $\theta$, the Fisher information matrix defines a Riemannian metric on the parameter space:</p>
+$$F(\theta)_{ij} = \mathbb{E}_{x \sim p(\cdot|\theta)}\!\left[\frac{\partial \log p(x|\theta)}{\partial \theta_i} \cdot \frac{\partial \log p(x|\theta)}{\partial \theta_j}\right]$$
+<p>This metric measures how rapidly the probability distribution changes as the parameters vary. Flat directions (low Fisher information) correspond to redundant parameters; curved directions (high Fisher information) correspond to parameters that strongly influence linguistic behavior. This geometric perspective has implications for catastrophic forgetting and the effectiveness of low-rank adaptation methods like LoRA (Hu et al., 2022).</p>
+<h3><span class="section-num">11.6</span> Fiber Bundles and the Architecture of Linguistic Representation</h3>
+<p>A fiber bundle is a topological space that locally looks like a product space $E \cong B \times F$ (with projection $\pi: E \to B$), but may have nontrivial global structure — the fibers may "twist" as one moves around the base space. In linguistic representation, the base space $B$ might represent syntactic structure, and the fiber $F_p = \pi^{-1}(p)$ at each node $p$ might represent semantic and morphological features. This connects to gauge equivariant neural networks, which use fiber bundles and connections to build networks that respect specified symmetries. If linguistic structure has gauge-like symmetries, gauge-equivariant architectures may be natural candidates for next-generation language models.</p>
+</article>
+
+
+<article class="chapter" id="ch12">
+  <div class="chapter-label">Chapter 12</div>
+  <h2 class="chapter-title">Category Theory: The Mathematics of Mathematical Linguistics</h2>
+<div class="epigraph">
+  <p>""Category theory takes a bird's-eye view of mathematics.""</p>
+  <div class="attribution">— Tom Leinster</div>
+</div>
+<h3><span class="section-num">12.1</span> Categories as a Unifying Language</h3>
+<p>Category theory provides a language for describing deep structural similarities between different mathematical frameworks. A category $\mathbf{C}$ consists of objects, morphisms between objects, and a composition operation. The category $\mathbf{Set}$ has sets and functions. The category $\mathbf{Vect}$ has vector spaces and linear maps. The category $\mathbf{Top}$ has topological spaces and continuous maps. By abstracting common structure, we can see what is preserved when translating between different mathematical representations of language.</p>
+<h3><span class="section-num">12.2</span> Functors and Natural Transformations</h3>
+<p>A functor $F: \mathbf{C} \to \mathbf{D}$ is a structure-preserving map between categories. In linguistics, the passage from syntactic trees to semantic representations can be modeled as a functor. The embedding of words into vectors is a functor from a discrete linguistic category to the category of vector spaces. A natural transformation $\eta: F \Rightarrow G$ provides a systematic way of comparing two such translations while respecting structure.</p>
+<h3><span class="section-num">12.3</span> The Categorical Approach to Compositionality</h3>
+<p>The DisCoCat framework models the syntax-semantics interface as a monoidal functor from a pregroup grammar (modeling syntax) to $\mathbf{FdVect}$ (finite-dimensional vector spaces, modeling semantics). This categorical perspective unifies the formal-semantic tradition of Montague and the distributional tradition — both can be expressed as functors from syntax to semantics. They differ in the target category ($\mathbf{Set}$ vs. $\mathbf{Vect}$) but share the same abstract principle. Category theory reveals that these approaches are not competitors but different instantiations of the same compositionality principle.</p>
+<h3><span class="section-num">12.4</span> Enriched Categories and Graded Structures</h3>
+<p>In enriched categories, morphisms form objects in some other category — a metric space or vector space rather than a set. This is natural for linguistic applications where relationships are graded: the similarity between two words is a continuous measure, not binary. Enriching linguistic categories over metric spaces gives a framework in which graded linguistic relations are first-class citizens.</p>
+<p><!-- part: Part IV · Complex Systems & Reflection --></p>
+</article>
+
+
+<article class="chapter" id="ch13">
+  <div class="chapter-label">Chapter 13</div>
+  <h2 class="chapter-title">Language as a Complex Adaptive System</h2>
+<div class="epigraph">
+  <p>""More is different.""</p>
+  <div class="attribution">— Philip Anderson</div>
+</div>
+<h3><span class="section-num">13.1</span> The Complex Turn in Linguistics</h3>
+<p>The frameworks explored in Parts I–III share a common assumption: that language can be analyzed in terms of stable structures — grammars, vector spaces, manifolds, categories. Yet language, as it actually exists in communities of speakers spread across time, is none of these things alone. It is messy, dynamic, historically contingent, and perpetually incomplete. The scientific tradition that takes these properties seriously, rather than bracketing them as noise, is the study of <em>complex adaptive systems</em> (CAS).</p>
+<p>The landmark statement of this program for linguistics is the manifesto published by the Five Graces Group (Beckner, Blythe, Bybee, Christiansen, Croft, Ellis, Holland, Ke, Larsen-Freeman, and Schoenemann, 2009), simply titled "Language is a complex adaptive system." Drawing on work in complexity science, evolutionary biology, and cognitive science, Beckner et al. argue that language — simultaneously a cognitive system, a social institution, and a historical artifact — exhibits all the hallmarks of a CAS: it is distributed across a population of interacting agents, it evolves without central control, it exhibits emergent properties at the level of the system that are not present at the level of individual agents, and it perpetually adapts to new communicative pressures.</p>
+<p>This is not a metaphor. The mathematical tools of complexity science — dynamical systems theory, agent-based models, network theory, and information-theoretic measures of self-organization — have been brought to bear on language with concrete and testable results.</p>
+<h3><span class="section-num">13.2</span> Properties of a Complex Adaptive System</h3>
+<p>What makes a system <em>complex adaptive</em>? Drawing on Holland (1995) and Mitchell (2009), we can enumerate the key properties and map them onto linguistic phenomena.</p>
+<p><strong>Distributed control and emergence.</strong> No central authority governs language evolution. Sound changes, grammaticalization processes, and the spread of new constructions arise from the local interactions of millions of speakers. The grammatical patterns of Modern English are not the design of any planner; they are the emergent result of countless speech acts across centuries. Croft (2000) formalizes this in the theory of <em>utterance selection</em>: linguistic variants compete in a population, and the outcome of this competition — the differential replication of forms — produces the directional patterns we call language change.</p>
+<p><strong>Intrinsic diversity and non-stationarity.</strong> A CAS maintains internal variation as a resource. Linguistic communities are never homogeneous: regional dialects, social registers, age-graded variation, and idiolectal differences create a perpetual pool of variation from which selection can operate. The sociolinguistic literature documents this diversity in meticulous quantitative detail.</p>
+<p><strong>Non-linearity and phase transitions.</strong> In a CAS, small perturbations can trigger large-scale reorganizations. The history of language is punctuated by rapid reorganizations — the Great Vowel Shift in English, the emergence of analytic word order from synthetic — that do not appear proportionate to their triggers. This non-linearity is a hallmark of dynamical systems operating near <em>critical points</em>, as we discuss in §13.6.</p>
+<p><strong>Sensitive dependence on network structure.</strong> How rapidly a linguistic innovation spreads depends critically on the topology of the social network through which speakers interact (Barabási & Albert, 1999). Scale-free networks — where a few highly connected hubs interact with many peripheral nodes — produce different diffusion dynamics from small-world or regular lattice networks.</p>
+<p><strong>Adaptation through amplification and competition.</strong> Linguistic forms are in constant competition for communicative niches. Forms that serve communicative functions efficiently get amplified; redundant or inefficient forms get pruned. The result is a continuously adapting system that is neither random nor rigidly determined.</p>
+<h3><span class="section-num">13.3</span> Dynamical Systems: Attractors, Phase Transitions, and the Grammar of Change</h3>
+<p>The mathematical backbone of complexity science is <em>dynamical systems theory</em>. A dynamical system is a tuple $(\mathcal{X}, \Phi^t)$ where $\mathcal{X}$ is the state space and $\Phi^t: \mathcal{X} \to \mathcal{X}$ is the flow map giving the state of the system at time $t$ given its initial state. For a continuous-time system governed by a differential equation $\dot{x} = f(x)$, the flow solves the initial value problem.</p>
+<p>The key objects of interest are the <em>attractors</em> of the flow:</p>
+<ul>
+  <li><strong>Fixed-point attractors:</strong> The system converges to a stable equilibrium $x^* = f^{-1}(0)$. In linguistics, a fully conventionalized form — a phoneme that has categorically shifted — represents a fixed-point attractor.</li>
+  <li><strong>Limit cycles:</strong> The system oscillates periodically. Some models of linguistic rhythm and prosodic organization exhibit limit-cycle behavior.</li>
+  <li><strong>Strange attractors:</strong> For chaotic systems, the attractor has fractal geometry. While linguistic systems are unlikely to be fully chaotic, sensitivity to initial conditions may manifest locally near critical points.</li>
+</ul>
+<p><em>Phase transitions</em> occur when a control parameter crosses a critical threshold, causing the system to reorganize from one attractor basin to another. The logistic (S-curve) model of language change,</p>
+$$\frac{dx}{dt} = \beta\, x(1-x) + \sigma\, \xi(t)$$
+<p>where $x \in [0,1]$ is the frequency of the innovative form, $\beta$ is the selection coefficient, and $\xi(t)$ is Gaussian noise, describes the S-shaped adoption curves documented across hundreds of language changes. The transition from $x \approx 0$ (old form dominant) to $x \approx 1$ (new form dominant) is a first-order phase transition: the fixed-point attractor at $x = 0$ becomes unstable and the attractor at $x = 1$ captures the system's trajectory. Blythe and Croft (2012) provide a comprehensive mathematical treatment of language change as a stochastic dynamical process, unifying sociolinguistic data with the mathematics of population dynamics.</p>
+<h3><span class="section-num">13.4</span> Agent-Based Models and the Emergence of Linguistic Convention</h3>
+<p>A complementary mathematical approach models language as the outcome of interactions among many <em>agents</em>, each following simple local rules, from which global structure emerges. The paradigm example is Steels's (1995, 2011) <em>Language Game</em> framework.</p>
+<p>In the Naming Game, a population of $N$ agents must converge on a shared lexicon for a set of objects without any central coordinator. The protocol is:</p>
+<ol>
+  <li>A <em>speaker</em> is selected at random and attempts to name a randomly chosen object, drawing from its inventory (or inventing a new word if empty).</li>
+  <li>A <em>hearer</em> attempts to parse the word. If successful, both agents reinforce that word and prune alternatives. If not, the hearer adds the new word to its inventory.</li>
+</ol>
+<p>The mathematical analysis of this protocol reveals a phase transition from initial disorder (every agent uses different words) to global consensus (all agents converge on a single word per object) through a process of symmetry breaking. The convergence time scales as $O(N^{1.5})$, and the word frequency distribution follows a power law during the intermediate phase — another hallmark of criticality. The simulator at the end of this chapter allows you to observe these dynamics in real time.</p>
+<h3><span class="section-num">13.5</span> Construction Grammar as a Complex Network</h3>
+<p>The grammatical system itself, viewed from a CAS perspective, is not a set of categorical rules but a <em>network of constructions</em> — form-meaning pairings that range from fully lexically specified idioms ("by and large") to schematic patterns ("the Xer the Yer"). This is the perspective of <em>Construction Grammar</em> (Goldberg, 1995; Croft, 2001; Tomasello, 2003).</p>
+<p>What makes the constructional view compatible with complexity science is that the network of constructions has the topological properties of a <em>complex network</em>: a scale-free degree distribution (a few very general, highly connected schemas coexist with many specific, weakly connected idioms) and small-world properties (any two constructions are connected by a short path of inheritance or similarity links). Barabási and Albert (1999) showed that scale-free networks arise from <em>preferential attachment</em>: new constructions are more likely to inherit from and extend constructions that are already well entrenched.</p>
+<p>Entrenchment — Langacker's (1987) term for the cognitive strength of a linguistic unit — is, mathematically, the activation level of a node in a spreading-activation network. The weight $w_{ij}$ of the link from construction $i$ to construction $j$ reflects their functional and formal similarity. Spreading activation,</p>
+$$a_j(t+1) = (1-d)\sum_i \frac{w_{ij}}{\sum_k w_{ik}} \cdot a_i(t) + d \cdot s_j$$
+<p>where $d$ is a decay factor and $s_j$ is the external stimulus, models how priming one construction activates related constructions (Collins & Loftus, 1975). The network topology determines which constructions are most central (high betweenness centrality), most reachable (low mean shortest path), and most vulnerable to perturbation.</p>
+<h3><span class="section-num">13.6</span> Self-Organization and the Edge of Chaos</h3>
+<p>A striking property of many CAS is that they spontaneously organize into a critical state — neither fully ordered nor fully random — without any external tuning. This phenomenon, termed <em>self-organized criticality</em> (SOC) by Bak, Tang, and Wiesenfeld (1987), is marked by power-law distributions, $1/f$ noise, and scale-invariant fluctuations.</p>
+<p>Kello et al. (2010) provide systematic evidence that linguistic behavior — reading times, response latencies, phoneme durations — exhibits $1/f$ fluctuations consistent with SOC. Zipf's law itself (§6.5) — the power-law frequency distribution of words — is now understood as a hallmark of linguistic criticality: a system at the edge of chaos, balanced between the order needed for communication and the disorder needed for expressive flexibility.</p>
+<p>The mathematical signature of SOC is a power-law distribution:</p>
+$$P(s) \propto s^{-\tau}$$
+<p>where $s$ is the size of a fluctuation (a word's rank, a parsing time, a syntactic dependency length) and $\tau$ is the critical exponent. The fact that linguistic observables cluster around similar exponents across languages and speakers suggests that language actively self-organizes to maintain the critical state. From a cognitive perspective, operating at the edge of chaos is computationally optimal: the system is maximally sensitive to inputs while remaining stable enough to maintain coherent representations.</p>
+<h3><span class="section-num">13.7</span> Complexity Beyond Computability: Interactive Proofs, Entanglement, and Meaning Verification</h3>
+<p>The relationship between complexity theory and language runs deeper than the Chomsky hierarchy of Chapter 4. Recent work at the intersection of quantum information theory and computational complexity has revealed a result of profound implications for the limits of formal systems: the proof by Ji, Natarajan, Vidick, Wright, and Yuen (2021) that $\text{MIP}^* = \text{RE}$.</p>
+<p>To unpack this: $\text{MIP}^*$ (multi-prover interactive proof with quantum entanglement) is the class of problems that can be verified by a classical polynomial-time verifier interacting with multiple quantum-entangled provers. $\text{RE}$ (recursively enumerable) is the class of all problems whose yes-instances can be verified by a Turing machine — the broadest class in the classical hierarchy. The equality $\text{MIP}^* = \text{RE}$ means that quantum entanglement, shared between non-communicating provers, gives a polynomial-time verifier the power to verify any recursively enumerable problem. Since the halting problem is in $\text{RE}$ but undecidable, the verification protocol for $\text{MIP}^*$ is itself not computable.</p>
+<p>Why does this matter for linguistics? <strong>Communicative interaction is, in its idealized form, a multi-prover interactive proof.</strong> Two interlocutors — speaker and hearer — are provers; the communicative act is a protocol; the meaning verified is the proposition conveyed. Classical communication theory (Shannon, 1948) assumes non-entangled provers. But the pragmatic literature (Grice, 1975; Sperber & Wilson, 1986; Frank & Goodman, 2012) has long recognized that human communication relies on <em>shared context</em>, <em>mutual knowledge</em>, and <em>common ground</em> in ways that go far beyond classical channel-passing.</p>
+<p>Translating into complexity-theoretic terms: the shared cognitive context between interlocutors — the vast implicit knowledge of the world, the language, and conversational history — functions as a form of <em>pragmatic entanglement</em>. With full pragmatic entanglement, the class of propositions verifiable through communication becomes $\text{MIP}^*$ — that is, all of $\text{RE}$. But $\text{RE}$ includes the halting problem, which is undecidable. This implies that there exist communicative propositions whose verification through pragmatic reasoning is, in principle, undecidable.</p>
+<p>This connects to Wittgenstein's insight (<em>Philosophical Investigations</em>) that "meaning is use" implies the space of meanings is as complex as the space of human practices — at least as complex as $\text{RE}$. Gödel's incompleteness theorem (1931) showed that formal arithmetic cannot be complete; the $\text{MIP}^* = \text{RE}$ result extends this incompleteness to the interactive verification of meaning. Yuen's broader program connects these results to the geometry of Chapters 9–11: the quantum correlations that make $\text{MIP}^*$ so powerful are described by operators in infinite-dimensional Hilbert space, and characterizing achievable strategies reduces to a geometric question about the topology of non-commutative convex bodies.</p>
+<p>The implication is both humbling and exciting: the full complexity of linguistic meaning is, in a precise sense, uncomputable. No finite formal system can capture it. This is not a counsel of despair — it is an invitation to take seriously the extra-formal dimensions of language: embodiment, sociality, history, and the irreducibly pragmatic.</p>
+<h3><span class="section-num">13.8</span> Emergent Capabilities and the CAS View of Language Models</h3>
+<p>The CAS perspective also illuminates the behavior of large language models (LLMs). Wei et al. (2022) documented a striking phenomenon: as LLMs are scaled in parameters and training data, certain capabilities — multi-step arithmetic, chain-of-thought reasoning, language translation — appear to emerge <em>discontinuously</em>. Below a critical scale, a capability is absent; above it, the capability appears fully formed. This is a phase transition in the parameter-scale space.</p>
+<p>From the Fisher information metric (§11.5), such phase transitions can be characterized geometrically: the loss landscape develops a new basin of attraction as scale increases, and the model's trajectory during training crosses a threshold where the representation manifold undergoes a topological phase transition in the sense of Chapter 10. The emergent capability corresponds to a new attractor in the high-dimensional representational space.</p>
+<p>From a CAS perspective, this is exactly what we would expect. An LLM is a complex system — not in the biological or social sense, but in the mathematical sense: many interacting components, non-linear dynamics, and a high-dimensional state space. Like linguistic communities, it can exhibit critical phenomena. The "language" learned by an LLM is a CAS in miniature: a self-organized system of distributed representations that has adapted to the statistical structure of human language through a process analogous to evolutionary selection. This does not mean that LLMs understand language in the full pragmatic sense outlined in §13.7. The point is rather that attractors, phase transitions, critical exponents, and network topology provide a richer vocabulary for understanding LLM behavior than the classical computational framework alone.</p>
+<p><strong>Bridge to Chapter 14.</strong> The CAS perspective does not replace the logical, geometric, and categorical frameworks of the preceding chapters — it situates them within a larger story. The formal grammars of Chapter 4 are not the language; they are attractors in a dynamical system of language use. The manifolds of Chapters 9–11 are not static; they are momentary snapshots of a self-organizing process. The category theory of Chapter 12 provides the abstract skeleton; complexity science provides the flesh. In Chapter 14, we step back from all these frameworks to ask the philosophical question they collectively raise: what does it mean to give a mathematical account of something as deeply, irreducibly human as language?</p>
+<h3><span class="section-num">13.9</span> Interactive Simulator: Exploring Language as a Complex System</h3>
+<p>The three-tab simulator below allows you to explore the core mathematical models introduced in this chapter. <strong>Tab 1 (Agent-Based Model)</strong> implements the Naming Game (Steels, 1995): watch lexical conventions emerge from the interactions of simple agents, and observe the S-shaped convergence curve and the power-law intermediate phase. <strong>Tab 2 (Dynamics)</strong> implements replicator dynamics with stochastic noise (Blythe & Croft, 2012): adjust the selection coefficient and noise level to see how they govern the transition from old to new linguistic forms. <strong>Tab 3 (Construction Network)</strong> implements a spreading-activation construction network (Goldberg, 1995) using Mandarin Chinese X-<em>shénme</em>-X constructions as a case study: activate a construction and watch entrenchment and activation spread through the network.</p>
+<p><div class="simulator-embed" style="width:100%;height:720px;border-radius:16px;overflow:hidden;margin:2.5rem 0;border:1px solid rgba(255,255,255,0.08);">
+<iframe src="language_complexity_simulator.html" style="width:100%;height:100%;border:none;" loading="lazy" title="Language Complexity Simulator"></iframe>
+</div></p>
+<p><em>The simulator is fully interactive and runs in your browser. All computations are performed locally; no data is transmitted.</em></p>
+</article>
+
+
+<article class="chapter" id="ch14">
+  <div class="chapter-label">Chapter 14</div>
+  <h2 class="chapter-title">Philosophical Reflections: What Does the Mathematics Tell Us About Language?</h2>
+<div class="epigraph">
+  <p>""The limits of formalization reveal the limits of understanding.""</p>
+  <div class="attribution">— attributed to Gödel</div>
+</div>
+<h3><span class="section-num">14.1</span> The Plurality of Mathematical Representations</h3>
+<p>We have traversed a remarkable landscape: from set theory and logic, through probability and information theory, to linear algebra, geometry, and topology. Each framework captures some aspects of language brilliantly while remaining silent about others. This plurality is not a defect but a feature. Language itself is multi-faceted — simultaneously a biological capacity, a cognitive system, a social institution, and a formal structure.</p>
+<h3><span class="section-num">14.2</span> The Discrete-Continuous Dialectic</h3>
+<p>Perhaps the deepest tension is between discrete and continuous representations. Language has both discrete aspects (phonemes, morphemes, syntactic categories, truth values) and continuous aspects (phonetic variation, semantic gradience, probabilistic expectation). The Transformer architecture is, arguably, the most successful bridge yet constructed: it takes discrete inputs (tokens) and processes them through continuous transformations that implicitly encode discrete structures. Understanding how discrete linguistic structure emerges from continuous neural computation is one of the great open problems.</p>
+<h3><span class="section-num">14.3</span> Meaning as Geometry: A Philosophical Assessment</h3>
+<p>If the meaning of a word is a point in a high-dimensional space, and the meaning of a sentence is a trajectory through that space, what kind of "meaning" is this? It is not referential meaning (Frege) nor truth-conditional meaning (Tarski, Montague). It is something new: a relational, geometric meaning, defined not by what a word refers to but by how it relates to every other word. This has striking parallels with Wittgenstein's later philosophy — meaning as use. But the formalization also reveals limits: geometric proximity captures similarity of use, but not the grounding of meaning in embodied experience, social practice, and the physical world.</p>
+<h3><span class="section-num">14.4</span> The Chinese Room, Revisited Geometrically</h3>
+<p>Searle's Chinese Room argument takes on new complexion when the "symbols" are not discrete tokens but points in a continuous geometric space. In the Chinese Room, relationships between symbols are purely syntactic. In a geometric language model, relationships are substantive — defined by distances, angles, and curvature that encode semantic content. Whether this geometric richness constitutes "understanding" is debatable, but it shows that internal representations are far richer than the discrete symbol strings Searle envisioned.</p>
+<h3><span class="section-num">14.5</span> Future Directions</h3>
+<p>The CAS perspective of Chapter 13 reminds us that the mathematical frameworks surveyed in this book are not endpoints but attractors — stable patterns that emerge from the ongoing, self-organizing process of scientific inquiry, subject to the same phase transitions and emergent reorganizations that they describe. Several directions seem especially promising at this moment of convergence. Geometric and topological methods for analyzing LLM internals stand to benefit from the criticality framework of §13.6: measuring topological phase transitions at scale thresholds may make the emergence results of Wei et al. (2022) mathematically precise. Category-theoretic unification of formal and distributional semantics, cross-linguistic curvature and topology of representation spaces as windows into language universals, and information geometry of training dynamics all remain active frontiers. As new mathematical tools are developed and as language models become more interpretable, we can expect new chapters in this story — chapters that will deepen our understanding of both the mathematics of structure and the structure of human language.</p>
+<p><!-- part: Back Matter --></p>
+</article>
+
+
+<article class="chapter bib-section" id="bibliography">
+  <div class="chapter-label">Selected Bibliography</div>
+  <h2 class="chapter-title">Selected Bibliography</h2>
+<h3>Mathematical Background</h3>
+<p>Wigner, E.P. "The Unreasonable Effectiveness of Mathematics in the Natural Sciences." <em>Communications in Pure and Applied Mathematics</em>, 13(1):1–14, 1960.</p>
+<h3>Foundational Texts</h3>
+<p>Partee, B.H., ter Meulen, A., and Wall, R.E. <em>Mathematical Methods in Linguistics.</em> Kluwer, 1990.</p>
+<p>Kornai, A. <em>Mathematical Linguistics.</em> Springer, 2008.</p>
+<p>Winter, Y. <em>Elements of Formal Semantics.</em> Edinburgh University Press, 2016.</p>
+<h3>Logic and Formal Semantics</h3>
+<p>Frege, G. <em>Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens.</em> Halle: Louis Nebert, 1879.</p>
+<p>Montague, R. "The Proper Treatment of Quantification in Ordinary English." In Hintikka, J. et al. (eds.), <em>Approaches to Natural Language</em>, 221–242. Reidel, 1973.</p>
+<p>Barwise, J. and Cooper, R. "Generalized Quantifiers and Natural Language." <em>Linguistics and Philosophy</em>, 4(2):159–219, 1981.</p>
+<p>Kripke, S.A. "Semantic Considerations on Modal Logic." <em>Acta Philosophica Fennica</em>, 16:83–94, 1963.</p>
+<p>Heim, I. and Kratzer, A. <em>Semantics in Generative Grammar.</em> Blackwell, 1998.</p>
+<h3>Phonology and Morphology</h3>
+<p>Jakobson, R., Fant, C.G.M., and Halle, M. <em>Preliminaries to Speech Analysis: The Distinctive Features and Their Correlates.</em> MIT Press, 1952.</p>
+<p>Chomsky, N. and Halle, M. <em>The Sound Pattern of English.</em> Harper & Row, 1968.</p>
+<p>Koskenniemi, K. <em>Two-Level Morphology: A General Computational Model for Word-Form Recognition and Production.</em> Ph.D. thesis, University of Helsinki, 1983.</p>
+<h3>Formal Language Theory</h3>
+<p>Chomsky, N. <em>Syntactic Structures.</em> Mouton, 1957.</p>
+<p>Shieber, S.M. "Evidence Against the Context-Freeness of Natural Language." <em>Linguistics and Philosophy</em>, 8(3):333–343, 1985.</p>
+<p>Joshi, A.K. "Tree Adjoining Grammars." In Dowty, D.R. et al. (eds.), <em>Natural Language Parsing</em>, 206–250. Cambridge University Press, 1985.</p>
+<p>Kaplan, R.M. and Kay, M. "Regular Models of Phonological Rule Systems." <em>Computational Linguistics</em>, 20(3):331–378, 1994.</p>
+<h3>Probability and Information Theory</h3>
+<p>Zipf, G.K. <em>Human Behavior and the Principle of Least Effort.</em> Addison-Wesley, 1949.</p>
+<p>Shannon, C.E. "A Mathematical Theory of Communication." <em>Bell System Technical Journal</em>, 27:379–423, 1948.</p>
+<p>Manning, C.D. and Schütze, H. <em>Foundations of Statistical Natural Language Processing.</em> MIT Press, 1999.</p>
+<p>Frank, M.C. and Goodman, N.D. "Predicting Pragmatic Reasoning in Language Games." <em>Science</em>, 336(6084):998, 2012.</p>
+<h3>Distributional Semantics and Lexical Resources</h3>
+<p>Harris, Z. "Distributional Structure." <em>Word</em>, 10(2–3):146–162, 1954.</p>
+<p>Firth, J.R. <em>Papers in Linguistics 1934–1951.</em> Oxford University Press, 1957.</p>
+<p>Miller, G.A. "WordNet: A Lexical Database for English." <em>Communications of the ACM</em>, 38(11):39–41, 1995.</p>
+<p>Banarescu, L., Bonial, C., Cai, S., Georgescu, M., Griffitt, K., Hermjakob, U., Knight, K., Koehn, P., Palmer, M., and Schneider, N. "Abstract Meaning Representation for Sembanking." <em>Proceedings of the 7th Linguistic Annotation Workshop</em>, 178–186, 2013.</p>
+<p>Gildea, D. and Jaeger, T.F. "Human Languages Order Information Efficiently." <em>Current Biology</em>, 25(9):R382–R385, 2015.</p>
+<p>Landauer, T.K. and Dumais, S.T. "A Solution to Plato's Problem: The Latent Semantic Analysis Theory of Acquisition, Induction, and Representation of Knowledge." <em>Psychological Review</em>, 104(2):211–240, 1997.</p>
+<p>Mikolov, T., Chen, K., Corrado, G., and Dean, J. "Efficient Estimation of Word Representations in Vector Space." arXiv:1301.3781, 2013.</p>
+<p>Pennington, J., Socher, R., and Manning, C.D. "GloVe: Global Vectors for Word Representation." <em>Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP)</em>, 1532–1543, 2014.</p>
+<p>Coecke, B., Sadrzadeh, M., and Clark, S. "Mathematical Foundations for a Compositional Distributional Model of Meaning." <em>Linguistic Analysis</em>, 36:345–384, 2010.</p>
+<h3>Neural Networks and Transformers</h3>
+<p>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł., and Polosukhin, I. "Attention Is All You Need." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2017.</p>
+<p>Elhage, N., Hume, T., Olsson, C., Schiefer, N., Henighan, T., Kravec, S., Hatfield-Dodds, Z., Lasenby, R., Drain, D., Chen, C., Grosse, R., McCandlish, S., Kaplan, J., Amodei, D., Wattenberg, M., and Olah, C. "Toy Models of Superposition." <em>Transformer Circuits Thread</em>, Anthropic, 2022.</p>
+<p>Hu, E.J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., and Chen, W. "LoRA: Low-Rank Adaptation of Large Language Models." <em>International Conference on Learning Representations (ICLR)</em>, 2022.</p>
+<h3>Geometric and Topological Methods</h3>
+<p>Johnson, W.B. and Lindenstrauss, J. "Extensions of Lipschitz Mappings into a Hilbert Space." <em>Contemporary Mathematics</em>, 26:189–206, 1984.</p>
+<p>Nickel, M. and Kiela, D. "Poincaré Embeddings for Learning Hierarchical Representations." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2017.</p>
+<p>Abramsky, S. and Brandenburger, A. "The Sheaf-Theoretic Structure of Non-Locality and Contextuality." <em>New Journal of Physics</em>, 13:113036, 2011.</p>
+<p>Ethayarajh, K. "How Contextual Are Contextualized Word Representations? Understanding the Geometry of Hidden States." <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP)</em>, 2019.</p>
+<p>Amari, S. <em>Information Geometry and Its Applications.</em> Springer, 2016.</p>
+<h3>Category Theory and Linguistics</h3>
+<p>Lambek, J. "The Mathematics of Sentence Structure." <em>American Mathematical Monthly</em>, 65(3):154–170, 1958.</p>
+<p>Coecke, B. and Kissinger, A. <em>Picturing Quantum Processes: A First Course in Quantum Theory and Diagrammatic Reasoning.</em> Cambridge University Press, 2017.</p>
+<h3>Complex Adaptive Systems and Language Dynamics</h3>
+<p>Beckner, C., Blythe, R., Bybee, J., Christiansen, M.H., Croft, W., Ellis, N.C., Holland, J., Ke, J., Larsen-Freeman, D., and Schoenemann, T. "Language Is a Complex Adaptive System: Position Paper." <em>Language Learning</em>, 59(S1):1–26, 2009.</p>
+<p>Holland, J.H. <em>Hidden Order: How Adaptation Builds Complexity.</em> Addison-Wesley, 1995.</p>
+<p>Mitchell, M. <em>Complexity: A Guided Tour.</em> Oxford University Press, 2009.</p>
+<p>Croft, W. <em>Explaining Language Change: An Evolutionary Approach.</em> Longman, 2000.</p>
+<p>Croft, W. <em>Radical Construction Grammar: Syntactic Theory in Typological Perspective.</em> Oxford University Press, 2001.</p>
+<p>Goldberg, A.E. <em>Constructions: A Construction Grammar Approach to Argument Structure.</em> University of Chicago Press, 1995.</p>
+<p>Tomasello, M. <em>Constructing a Language: A Usage-Based Theory of Language Acquisition.</em> Harvard University Press, 2003.</p>
+<p>Langacker, R.W. <em>Foundations of Cognitive Grammar, Vol. 1: Theoretical Prerequisites.</em> Stanford University Press, 1987.</p>
+<p>Collins, A.M. and Loftus, E.F. "A Spreading-Activation Theory of Semantic Processing." <em>Psychological Review</em>, 82(6):407–428, 1975.</p>
+<p>Steels, L. "A Self-Organizing Spatial Vocabulary." <em>Artificial Life</em>, 2(3):319–332, 1995.</p>
+<p>Steels, L. "Modeling the Cultural Evolution of Language." <em>Physics of Life Reviews</em>, 8(4):339–356, 2011.</p>
+<p>Blythe, R.A. and Croft, W. "S-curves and the Mechanisms of Propagation in Language Change." <em>Language</em>, 88(2):269–304, 2012.</p>
+<p>Bak, P., Tang, C., and Wiesenfeld, K. "Self-Organized Criticality: An Explanation of the 1/f Noise." <em>Physical Review Letters</em>, 59(4):381–384, 1987.</p>
+<p>Barabási, A.-L. and Albert, R. "Emergence of Scaling in Random Networks." <em>Science</em>, 286(5439):509–512, 1999.</p>
+<p>Kello, C.T., Brown, G.D.A., Ferrer-i-Cancho, R., Holden, J.G., Linkenkaer-Hansen, K., Rhodes, T., and Van Orden, G.C. "Scaling Laws in Cognitive Sciences." <em>Trends in Cognitive Sciences</em>, 14(5):223–232, 2010.</p>
+<p>Ji, Z., Natarajan, A., Vidick, T., Wright, J., and Yuen, H. "MIP<em> = RE." </em>Communications of the ACM*, 64(11):131–138, 2021.</p>
+<p>Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., Yogatama, D., Bosma, M., Zhou, D., Narang, S., Chowdhery, A., Roberts, A., Barham, P., Dean, J., Petrov, S., and Le, Q.V. "Emergent Abilities of Large Language Models." <em>Transactions on Machine Learning Research</em>, 2022.</p>
+<p>Lund, H., Basso Fossali, P., Mazur, J., and Ollagnier-Beldame, M. (eds.) <em>Language Is a Complex Adaptive System: Explorations and Evidence.</em> Language Science Press, 2022.</p>
+</article>
+
+
+<article class="chapter" id="appendix">
+  <div class="chapter-label">Appendix A</div>
+  <h2 class="chapter-title">Mathematical Notation and Conventions</h2>
+<h3>Set Theory</h3>
+<p>$\in$ (element of), $\subseteq$ (subset), $\cup$ (union), $\cap$ (intersection), $\times$ (Cartesian product), $\varnothing$ (empty set), $|A|$ (cardinality), $\mathcal{P}(A)$ (power set), $f: A \to B$ (function from $A$ to $B$), $f \circ g$ (composition).</p>
+<h3>Logic</h3>
+<p>$\lnot$ (negation), $\wedge$ (conjunction), $\vee$ (disjunction), $\to$ (implication), $\forall$ (universal quantifier), $\exists$ (existential quantifier), $\lambda$ (lambda abstraction), $\llbracket\cdot\rrbracket$ (semantic interpretation brackets).</p>
+<h3>Linear Algebra</h3>
+<p>Vectors in bold ($\mathbf{v}$), matrices in capitals ($M$), scalars in lowercase ($a$). $\langle \mathbf{u}, \mathbf{v} \rangle$ inner product, $\|\mathbf{v}\|$ norm, $M^\top$ transpose, $M^{-1}$ inverse, $\det(M)$ determinant, $\mathrm{tr}(M)$ trace, $\lambda_i$ eigenvalues, $\sigma_i$ singular values.</p>
+<h3>Topology and Geometry</h3>
+<p>$M$ manifold, $T_pM$ tangent space at $p$, $g$ Riemannian metric, $R_{ijkl}$ Riemann curvature tensor, $H_k(X)$ $k$th homology group, $\beta_k$ $k$th Betti number, $\gamma$ curve/geodesic, $\nabla$ connection/covariant derivative.</p>
+</article>
+
+
+<footer class="site-footer">
+  <p><em>The Geometry of Grammar</em> · </p>
+  <p style="margin-top:0.4rem;">Source: <code>book.md</code> → built with <code>build.py</code></p>
+</footer>
+</div>
+</div>
+</main>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+const sidebar = document.getElementById('sidebar');
+const menuToggle = document.getElementById('menuToggle');
+const overlay = document.getElementById('overlay');
+
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+});
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+});
+sidebar.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 960) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+  });
+});
+
+// Active nav tracking
+const navLinks = document.querySelectorAll('.nav-link');
+const chapters = document.querySelectorAll('.chapter, .cover');
+
+function updateActiveNav() {
+  let current = '';
+  chapters.forEach(section => {
+    if (section.getBoundingClientRect().top <= 120) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+}
+
+// Progress bar
+const progressFill = document.getElementById('progressFill');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressFill.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+}
+
+// Back to top
+const backToTop = document.getElementById('backToTop');
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Scroll-reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.chapter').forEach(ch => observer.observe(ch));
+
+// Throttled scroll
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      updateActiveNav();
+      updateProgress();
+      backToTop.classList.toggle('show', window.scrollY > 600);
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+updateActiveNav(); updateProgress();
+</script>
+</body>
+</html>
