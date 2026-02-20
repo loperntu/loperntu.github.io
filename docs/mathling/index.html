@@ -394,19 +394,36 @@ p {
    ═══════════════════════ */
 .example-block {
   background: var(--color-bg-warm);
-  border-radius: 6px;
-  padding: 1.2rem 1.5rem;
-  margin: 1.5rem 0;
-  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  padding: 1.4rem 1.8rem;
+  margin: 1.8rem 0;
 }
 .example-block p {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-style: italic;
-  text-align: center;
-  color: var(--color-text);
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 500;
+  font-style: normal;
+  text-align: left;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
   margin-bottom: 0;
+  letter-spacing: 0.01em;
+}
+.example-block p em {
+  font-style: italic;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+.example-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 /* Deep-dive aside blocks */
@@ -665,12 +682,32 @@ li {
   <div class="chapter-label">Chapter 1</div>
   <h2 class="chapter-title">Why Mathematics for Linguists?</h2>
 <div class="epigraph">
-  <p>""Language is a process of free creation; its laws and principles are fixed, but the manner in which the principles of generation are used is free and infinitely varied.""</p>
+  <p>""Mathematics is the art of giving the same name to different things.Language is a process of free creation; its laws and principles are fixed, but the manner in which the principles of generation are used is free and infinitely varied.""</p>
   <div class="attribution">— Noam Chomsky</div>
 </div>
 <h3><span class="section-num">1.1</span> The Unreasonable Effectiveness of Mathematics in Linguistics</h3>
+<p>Let's start with what <strong>the Linguist's Problem</strong> is: <em>Language Is Too Structured to Be Described, Too Variable to Be Memorized</em>.</p>
+<p>Linguistics has been a field that lives between two temptations. The first is to treat language as an inventory of facts — lists of words, constructions, and exceptions. The second is to treat language as pure abstraction—rules, grammars, and logical systems. Neither temptation is sufficient. Language is both discrete and adaptive: it has hard constraints (ungrammaticality exists) and soft gradients (usage shifts, meanings drift, norms evolve).</p>
 <p>In 1960, the physicist Eugene Wigner published a celebrated essay on "The Unreasonable Effectiveness of Mathematics in the Natural Sciences." He marveled at the fact that mathematical structures, developed for their own internal beauty, repeatedly turned out to describe the physical world with uncanny precision. Linguistics presents a parallel puzzle. Why should the same mathematical structures that describe symmetry groups in physics or topological spaces in pure mathematics also illuminate the structure of human language?</p>
-<p>One answer is that language, like the physical world, exhibits structure at multiple scales — phonological patterns, morphological regularities, syntactic hierarchies, semantic compositionality, discourse coherence — and mathematics is, at its core, the science of structure. But the deeper answer may be that language occupies a unique position at the intersection of the biological, the cognitive, and the social. It is a finite system that generates infinite variety, a discrete symbolic system that encodes continuous meaning, a local process (one word after another) that creates global coherence. These tensions — finite vs. infinite, discrete vs. continuous, local vs. global — are precisely the tensions that different branches of mathematics have been developed to address.</p>
+<p>One answer is that language, like the physical world, exhibits structure at multiple scales — phonological patterns, morphological regularities, syntactic hierarchies, semantic compositionality, discourse coherence — and mathematics is, at its core, the science of structure. But the deeper answer may be that language occupies a unique position at the intersection of the biological, the cognitive, and the social.</p>
+<p>It is a finite system that generates infinite variety, a discrete symbolic system that encodes continuous meaning, a local process (one word after another) that creates global coherence. These tensions — finite vs. infinite, discrete vs. continuous, local vs. global — are precisely the tensions that different branches of mathematics have been developed to address.</p>
+<p>Mathematics enters precisely when we ask questions that force us to be explicit about (i) what counts as an object of analysis, (ii) what counts as sameness, and (iii) what operations we allow. Those three choices—objects, equivalences, operations—quietly determine what kinds of explanations become possible.</p>
+<ul>
+  <li><strong>Objects.</strong> What are we studying? Strings, trees, feature bundles, meanings, discourse moves, or learned representations?</li>
+</ul>
+<ul>
+  <li><strong>Equivalences.</strong> When are two objects “the same for our purpose”?
+  A phonologist may treat two phones as “the same phoneme.” A semanticist may treat two expressions as “the same meaning” (by mutual entailment). A discourse analyst may treat two utterances as “the same move” (same update effect). Each choice creates a partition of the messy world into equivalence classes. This is not bookkeeping; it is theory.</li>
+</ul>
+<ul>
+  <li><strong>Operations.</strong> How do objects combine and transform?
+  <code>concatenation, merge, feature unification, function application, update, inference</code>, and — crucially in the modern era— <code>smooth transformations</code> in representation space.</li>
+</ul>
+<p>This triad is the reason mathematics keeps returning: once you commit to objects/equivalences/operations, you are already in the land of structures.</p>
+<div class="example-block"><div class="example-title">A running example we will revisit: bank</div>
+  <p>Consider the English form bank. 
+It can denote a financial institution or the side of a river. If we treat “word meaning” as a single object per wordform, bank becomes a problem. If we treat meaning as a distribution over context-conditioned senses, bank becomes a structured object (a family of points, or a mixture, or a graph of usages).
+This book will repeatedly return to bank, not because it is special, but because it forces us to choose what “a meaning” is.</p></div>
 <h3><span class="section-num">1.2</span> A Map of the Territory</h3>
 <p>The mathematical frameworks that have been applied to language can be organized along several axes. One axis runs from the <strong>discrete</strong> to the <strong>continuous</strong>. On the discrete end we find set theory, logic, formal language theory, and graph theory; on the continuous end we find calculus, differential geometry, and topology. Another axis runs from the <strong>algebraic</strong> to the <strong>geometric</strong>: algebra emphasizes operations and transformations, while geometry emphasizes spaces and distances. A third axis runs from the <strong>deterministic</strong> to the <strong>probabilistic</strong>. The history of mathematical linguistics can be read as a gradual movement along all three axes — from discrete-algebraic-deterministic toward continuous-geometric-probabilistic — though each earlier framework retains its relevance.</p>
 <p>This movement is not merely a matter of fashion. It reflects genuine discoveries about the nature of language. The discrete frameworks captured the combinatorial and compositional aspects of language with extraordinary precision. But they struggled with gradience, ambiguity, context-dependence, and the sheer messiness of language in use. The probabilistic and geometric frameworks address these challenges more naturally, at the cost of a different kind of precision.</p>
