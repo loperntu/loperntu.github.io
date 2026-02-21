@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Geometry of Grammar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -27,7 +27,7 @@
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-chapter: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3', 'Source Sans Pro', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-mono: 'Courier Prime', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --color-bg: #FDFBF7;
   --color-bg-warm: #F7F3EC;
@@ -486,6 +486,33 @@ code {
   padding: 0.15em 0.4em;
   border-radius: 3px;
   color: var(--color-accent);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Code blocks */
+pre {
+  margin: 1rem 0 1.4rem;
+  padding: 0.9rem 1rem;
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  tab-size: 2;
+}
+pre code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: var(--color-text);
 }
 
 /* Lists (for definition lists, bibliography, etc.) */
@@ -696,12 +723,10 @@ li {
   <li><strong>Objects.</strong> What are we studying? Strings, trees, feature bundles, meanings, discourse moves, or learned representations?</li>
 </ul>
 <ul>
-  <li><strong>Equivalences.</strong> When are two objects “the same for our purpose”?
-  A phonologist may treat two phones as “the same phoneme.” A semanticist may treat two expressions as “the same meaning” (by mutual entailment). A discourse analyst may treat two utterances as “the same move” (same update effect). Each choice creates a partition of the messy world into equivalence classes. This is not bookkeeping; it is theory.</li>
+  <li><strong>Equivalences.</strong> When are two objects “the same for our purpose”? A phonologist may treat two phones as “the same phoneme.” A semanticist may treat two expressions as “the same meaning” (by mutual entailment). A discourse analyst may treat two utterances as “the same move” (same update effect). Each choice creates a partition of the messy world into equivalence classes. This is not bookkeeping; it is theory.</li>
 </ul>
 <ul>
-  <li><strong>Operations.</strong> How do objects combine and transform?
-  <code>concatenation, merge, feature unification, function application, update, inference</code>, and — crucially in the modern era— <code>smooth transformations</code> in representation space.</li>
+  <li><strong>Operations.</strong> How do objects combine and transform? <code>concatenation, merge, feature unification, function application, update, inference</code>, and — crucially in the modern era— <code>smooth transformations</code> in representation space.</li>
 </ul>
 <p>This triad is the reason mathematics keeps returning: once you commit to objects/equivalences/operations, you are already in the land of structures.</p>
 <div class="example-block"><div class="example-title">A running example we will revisit: bank</div>
@@ -888,6 +913,51 @@ $$f(r) \propto \frac{1}{r^\alpha}, \quad \alpha \approx 1$$
 <p>Raw word-context matrices are enormous and sparse. Singular Value Decomposition (SVD) provides a principled method for reducing their dimensionality while preserving the most important patterns. Given a matrix $M$ of rank $r$, SVD factorizes it as:</p>
 $$M = U \Sigma V^\top$$
 <p>where $U$ and $V$ are orthogonal matrices and $\Sigma = \mathrm{diag}(\sigma_1, \ldots, \sigma_r)$ is a diagonal matrix of singular values. By retaining only the $k$ largest singular values ($k \ll r$), we obtain a low-rank approximation $M_k = U_k \Sigma_k V_k^\top$ that captures the dominant latent structure. Latent Semantic Analysis (LSA), introduced by Landauer and Dumais (1997), applied SVD to word-document matrices and demonstrated that the resulting low-dimensional representations captured semantic relationships not present in the original counts.</p>
+<p><strong>t-SNE: Nonlinear visualization for embeddings (intuition and applications).</strong></p>
+<p>SVD is a <strong>linear</strong> method: it compresses a matrix by preserving global variance structure in a low-rank subspace. In practice, we often also want a tool for <strong>exploratory visualization</strong> of high-dimensional representations (word/sentence embeddings, or the token states from a specific Transformer layer). A widely used method is <strong>t-SNE</strong> (t-distributed Stochastic Neighbor Embedding; van der Maaten & Hinton, 2008). Its goal is not to preserve global geometry, but to preserve <strong>local neighborhoods</strong>: points that are close in the original space should remain close in 2D/3D.</p>
+<p>t-SNE converts distances into probabilities. For each point $x_i$, it defines conditional neighbor probabilities with a Gaussian kernel:</p>
+$$p_{j\mid i} \propto \exp\!\left(-\frac{\|x_i-x_j\|^2}{2\sigma_i^2}\right),\quad p_{i\mid i}=0,$$
+<p>and chooses $\sigma_i$ so that the entropy of $\{p_{j\mid i}\}_j$ matches a user-chosen <strong>perplexity</strong> (intuitively, an "effective number of neighbors"; typical values are roughly 5–50). These conditionals are then symmetrized into a joint distribution, e.g.</p>
+$$p_{ij}=\frac{p_{j\mid i}+p_{i\mid j}}{2n}.$$
+<p>In the low-dimensional map $y_i$, t-SNE uses a heavy-tailed Student-$t$ kernel:</p>
+$$q_{ij} \propto \left(1+\|y_i-y_j\|^2\right)^{-1},\quad q_{ii}=0,$$
+<p>and minimizes a KL divergence</p>
+$$\mathrm{KL}(P\|Q)=\sum_{i\ne j} p_{ij}\log\frac{p_{ij}}{q_{ij}}.$$
+<p>The heavy tail helps mitigate the "crowding problem", making it easier for distinct local clusters to separate in 2D.</p>
+<p>Typical language-oriented uses include:</p>
+<ul>
+  <li><strong>Embedding sanity checks</strong>: visualize a selected vocabulary to see whether synonyms, topics, or domains form coherent local neighborhoods, and to spot outliers.</li>
+  <li><strong>Polysemy and context clustering</strong>: apply t-SNE to <em>contextual</em> embeddings of the same word type to see whether different senses form distinct "islands".</li>
+  <li><strong>Model/layer comparison</strong>: compare neighborhood structure across models or across layers (e.g., whether syntactic distinctions appear more cleanly in some layers).</li>
+</ul>
+<p><strong>A concrete language example (polysemy: "bank").</strong> Take multiple sentences that contain the word <em>bank</em> in different senses (financial vs river). Extract the contextual embedding of the <em>bank</em> token from a fixed layer of a Transformer, then run t-SNE and inspect whether the two senses separate locally.</p>
+<pre><code class="language-python">from transformers import AutoTokenizer, AutoModel
+from sklearn.manifold import TSNE
+import numpy as np, torch, matplotlib.pyplot as plt
+
+S = [
+  "I deposited cash at the bank.",
+  "The bank approved the loan.",
+  "We sat on the river bank at dusk.",
+  "The boat reached the bank.",
+]
+
+tok = AutoTokenizer.from_pretrained("bert-base-uncased")
+m = AutoModel.from_pretrained("bert-base-uncased", output_hidden_states=True).eval()
+L = 8
+
+@torch.no_grad()
+def v(s):
+  e = tok(s, return_tensors="pt")
+  hs = m(**e).hidden_states[L][0]
+  toks = tok.convert_ids_to_tokens(e["input_ids"][0])
+  idx = [i for i,t in enumerate(toks) if t == "bank"]
+  return hs[idx].mean(0).cpu().numpy()
+
+Y = TSNE(2, perplexity=2, init="pca", random_state=0).fit_transform(np.stack([v(s) for s in S]))
+plt.scatter(Y[:,0], Y[:,1]); [plt.text(Y[i,0], Y[i,1], i, fontsize=9) for i in range(len(S))]
+plt.title('t-SNE of contextual "bank" embeddings'); plt.tight_layout(); plt.show()</code></pre>
+<p>A critical caveat: the <strong>relative positions, inter-cluster distances, and cluster sizes</strong> in a t-SNE plot generally do <em>not</em> have a reliable global geometric meaning. Results can change with perplexity, learning rate, initialization, and random seed. A common workflow is to first reduce to 30–100 dimensions with PCA/SVD, then run t-SNE, and to repeat with multiple seeds to avoid over-interpreting a single visualization.</p>
 <h3><span class="section-num">7.4</span> Word Embeddings: From Counting to Prediction</h3>
 <p>Word2Vec (Mikolov et al., 2013) and GloVe (Pennington et al., 2014) learned word vectors by training neural networks to predict context. The resulting embeddings exhibited striking algebraic properties — vector arithmetic encoded semantic relationships:</p>
 $$\vec{v}_{\text{king}} - \vec{v}_{\text{man}} + \vec{v}_{\text{woman}} \approx \vec{v}_{\text{queen}}$$
@@ -926,12 +996,45 @@ $$\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k
   <div class="chapter-label">Chapter 9</div>
   <h2 class="chapter-title">The Geometry of Meaning: Manifolds in Semantic Space</h2>
 <div class="epigraph">
-  <p>""Geometry is the art of correct reasoning from incorrectly drawn figures.""</p>
+  <p>"Mathematics is the art of correct reasoning from incorrectly drawn figures."</p>
   <div class="attribution">— Henri Poincaré</div>
 </div>
-<h3><span class="section-num">9.1</span> From Vector Spaces to Manifolds</h3>
-<p>The vector space models of Chapter 7 treat semantic space as flat — a Euclidean space where distances are measured with the familiar straight-line metric. But there are compelling reasons to believe that the geometry of meaning is curved. Consider the hierarchical structure of concepts: "animal" encompasses "mammal," which encompasses "dog," which encompasses "poodle." This tree-like structure cannot be faithfully embedded in Euclidean space without distortion, but it can be naturally embedded in hyperbolic space, where the volume of a ball grows exponentially with its radius — just as the number of nodes in a tree grows exponentially with depth.</p>
-<p>A manifold is a topological space that locally resembles Euclidean space but may have a different global structure. The surface of the Earth is a two-dimensional manifold: locally, it looks flat (which is why flat maps work for small regions), but globally it is curved (which is why no flat map of the whole Earth can avoid distortion). The <strong>manifold hypothesis</strong> in machine learning proposes that high-dimensional data lies on or near a low-dimensional manifold embedded in the ambient high-dimensional space.</p>
+<h3><span class="section-num">9.1</span> Why `Flat' Semantic Space Is Not Enough：From Vector Spaces to Manifolds</h3>
+<p>The Vector-space semantics models of Chapter 7 begins with a convenient idealization: meanings live in a Euclidean space where distances are measured with a single global ruler. This is a powerful starting point, but language gives us reasons to doubt that assumption. Polysemy, hierarchy, and compositional interaction all suggest that `semantic distance per unit move' depends on where you are in meaning space. In other words, the geometry of meaning is plausibly curved.</p>
+<p>Consider the hierarchical structure of concepts: "animal" encompasses "mammal," which encompasses "dog," which encompasses "poodle." This tree-like structure cannot be faithfully embedded in Euclidean space without distortion, but it can be naturally embedded in hyperbolic space, where the volume of a ball grows exponentially with its radius — just as the number of nodes in a tree grows exponentially with depth.</p>
+<p>A manifold is a topological space that is locally Euclidean but globally may be curved or twisted. The Earth is the canonical example: locally flat enough to build roads, globally curved enough to make flat maps distort.
+The manifold hypothesis in representation learning proposes that linguistic data—words in contexts, constructions, discourse moves—occupies a structured subset $\mathcal{M}$ of an ambient high-dimensional space. For linguists, the key reinterpretation is:</p>
+<ul>
+  <li>The ambient space is the representational space (embedding space, hidden-state space).</li>
+  <li>The manifold $\mathcal{M}$ is the set of “plausible linguistic states” shaped by grammar, meaning, and usage.</li>
+  <li>“Ungrammatical” or “infelicitous” objects are naturally modeled as off-manifold.</li>
+</ul>
+<p>This does not replace symbolic grammar. It provides a complementary view: grammar as constraints that carve out a region of representational space.</p>
+<ul>
+  <li>Local Linearity and Linguistic Minimal Pairs</li>
+</ul>
+<p>Manifolds are locally linear. That matters because linguistic analysis thrives on minimal pairs.</p>
+<p>If a linguistic factor behaves smoothly (style, politeness, gradual semantic drift), then small controlled edits should produce locally consistent representation shifts. If a factor behaves categorically (idioms, scope flips), we expect discontinuities—large representational changes triggered by small surface cues.</p>
+<p>Worked Example (minimal, do-able): a “politeness direction” test</p>
+<p>Take a set of content-controlled pairs:</p>
+<ul>
+  <li>s: “Open the window.”</li>
+  <li>E(s): “Could you please open the window?”</li>
+</ul>
+<p>Let $v(\cdot)$ be a sentence embedding. Define $\Delta_E(s)=v(E(s))-v(s)$.
+Test whether $\Delta_E(s)$ is approximately parallel across many base sentences.</p>
+<ul>
+  <li>If yes: politeness behaves like a stable local factor (tangent direction).</li>
+  <li>If no: politeness is highly interaction-dependent (curved / entangled).</li>
+</ul>
+<p>This is differential-geometry thinking before we introduce formal differential geometry.</p>
+<ul>
+  <li>Curvature as an Interaction Signature</li>
+</ul>
+<p>In linguistics, interactions are the rule, not the exception: negation interacts with quantifiers; aspect interacts with telicity; honorifics interact with social roles.</p>
+<p>Geometrically, a clean diagnostic is additivity: compare the effect of two edits E_1, E_2. If
+$\Delta_{E_1\circ E_2}(s)\approx \Delta_{E_1}(s)+\Delta_{E_2}(s)$,
+then effects are locally additive. Systematic failure suggests curvature-like interaction: order and context matter.</p>
 <h3><span class="section-num">9.2</span> Hyperbolic Geometry and Lexical Hierarchies</h3>
 <p>Nickel and Kiela (2017) demonstrated that embedding the WordNet hierarchy in hyperbolic space produced far better representations than Euclidean embeddings of the same dimensionality. In just two hyperbolic dimensions, they could embed a hierarchy that required hundreds of Euclidean dimensions. The mathematical reason is elegant: a tree with branching factor $b$ has $O(b^n)$ nodes at depth $n$. The volume of a hyperbolic ball of radius $r$ also grows exponentially:</p>
 $$\mathrm{Vol}_{\mathbb{H}^d}(r) \propto e^{(d-1)\,r}$$
@@ -969,11 +1072,9 @@ $$\mathrm{Vol}_{\mathbb{H}^d}(r) \propto e^{(d-1)\,r}$$
 <p>In vector semantics, we focus on pairwise relationships (the edge between two words). However, language often involves higher-order dependencies. A "context" is not just a pair of words, but a group of words that together form a coherent meaning.</p>
 <p>Mathematically, we represent this using a Simplicial Complex $K$.</p>
 <ul>
-  <li>A 0-simplex is a single word: $[w_i]$.
-  
-  - A 1-simplex is a relationship between two words: $[w_i, w_j]$.
-  
-  - A 2-simplex is a filled triangle representing a 3-way semantic coherence: $[w_i, w_j, w_k]$.</li>
+  <li>A 0-simplex is a single word: $[w_i]$.</li>
+  <li>A 1-simplex is a relationship between two words: $[w_i, w_j]$.</li>
+  <li>A 2-simplex is a filled triangle representing a 3-way semantic coherence: $[w_i, w_j, w_k]$.</li>
 </ul>
 <p>Linguistic Example:</p>
 <p>Consider the words {Bank, River, Money, Interest}.</p>
@@ -998,8 +1099,7 @@ $$\mathrm{Vol}_{\mathbb{H}^d}(r) \propto e^{(d-1)\,r}$$
 We track the "birth" and "death" of topological features (holes).</p>
 <p>Linguistic Insight: Robust semantic structures "persist" over a long range of $\epsilon$, while accidental associations disappear quickly. This gives us a "barcode" of a language's conceptual DNA.</p>
 <ul>
-  <li>Mathematical Derivation: The Boundary Operator
-To find these holes, we define a boundary operator $\partial_n$:</li>
+  <li>Mathematical Derivation: The Boundary Operator To find these holes, we define a boundary operator $\partial_n$:</li>
 </ul>
 $$\partial_n([v_0, \dots, v_n]) = \sum_{i=0}^{n} (-1)^i [v_0, \dots, \hat{v}_i, \dots, v_n]$$
 <p>The cycles that are not boundaries ($Z_n / B_n$) form the Homology Group $H_n$. For linguists, $H_n$ is the mathematical signature of what a language cannot say, or chooses not to group together.</p>
