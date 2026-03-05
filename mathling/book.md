@@ -8,12 +8,15 @@ date: "Draft — February 2026"
 ---
 
 <!-- ═══════════════════════════════════════════════════════
-     HOW TO USE THIS FILE
+     HOW TO 
      ═══════════════════════════════════════════════════════
      
-     1. Edit this Markdown file in any editor (VS Code, Obsidian, Typora…)
-     2. Run:  bash build.sh
-     3. Open: geometry_of_grammar.html
+     1. Edit this Markdown file (book.md)
+     2. Run:  bash build.sh > index.html
+     3. Open: index.html
+     4. Deploy: bash deploy.sh ..  (loperntu.github.io/mathling/)
+     
+
      
      CONVENTIONS:
      - # = Part dividers (rendered as nav group labels, not in body)
@@ -52,21 +55,54 @@ The book can be read linearly as a historical narrative, or individual chapters 
 
 # Chapter 1. Why Mathematics for Linguists? {#ch1}
 
-> "Language is a process of free creation; its laws and principles are fixed, but the manner in which the principles of generation are used is free and infinitely varied."
+> Mathematics is the art of giving the same name to different things.Language is a process of free creation; its laws and principles are fixed, but the manner in which the principles of generation are used is free and infinitely varied.
 > — Noam Chomsky
 {.epigraph}
 
 ### 1.1 The Unreasonable Effectiveness of Mathematics in Linguistics
 
+Let's start with what **the Linguist's Problem** is: *Language Is Too Structured to Be Described, Too Variable to Be Memorized*.
+
+Linguistics has been a field that lives between two temptations. The first is to treat language as an inventory of facts — lists of words, constructions, and exceptions. The second is to treat language as pure abstraction—rules, grammars, and logical systems. Neither temptation is sufficient. Language is both discrete and adaptive: it has hard constraints (ungrammaticality exists) and soft gradients (usage shifts, meanings drift, norms evolve).
+
 In 1960, the physicist Eugene Wigner published a celebrated essay on "The Unreasonable Effectiveness of Mathematics in the Natural Sciences." He marveled at the fact that mathematical structures, developed for their own internal beauty, repeatedly turned out to describe the physical world with uncanny precision. Linguistics presents a parallel puzzle. Why should the same mathematical structures that describe symmetry groups in physics or topological spaces in pure mathematics also illuminate the structure of human language?
 
-One answer is that language, like the physical world, exhibits structure at multiple scales — phonological patterns, morphological regularities, syntactic hierarchies, semantic compositionality, discourse coherence — and mathematics is, at its core, the science of structure. But the deeper answer may be that language occupies a unique position at the intersection of the biological, the cognitive, and the social. It is a finite system that generates infinite variety, a discrete symbolic system that encodes continuous meaning, a local process (one word after another) that creates global coherence. These tensions — finite vs. infinite, discrete vs. continuous, local vs. global — are precisely the tensions that different branches of mathematics have been developed to address.
+One answer is that language, like the physical world, exhibits structure at multiple scales — phonological patterns, morphological regularities, syntactic hierarchies, semantic compositionality, discourse coherence — and mathematics is, at its core, the science of structure. But the deeper answer may be that language occupies a unique position at the intersection of the biological, the cognitive, and the social. 
+
+It is a finite system that generates infinite variety, a discrete symbolic system that encodes continuous meaning, a local process (one word after another) that creates global coherence. These tensions — finite vs. infinite, discrete vs. continuous, local vs. global — are precisely the tensions that different branches of mathematics have been developed to address.
+
+Mathematics enters precisely when we ask questions that force us to be explicit about (i) what counts as an object of analysis, (ii) what counts as sameness, and (iii) what operations we allow. Those three choices—objects, equivalences, operations—quietly determine what kinds of explanations become possible.
+
+- **Objects.** What are we studying? Strings, trees, feature bundles, meanings, discourse moves, or learned representations?
+
+- **Equivalences.** When are two objects “the same for our purpose”?
+  A phonologist may treat two phones as “the same phoneme.” A semanticist may treat two expressions as “the same meaning” (by mutual entailment). A discourse analyst may treat two utterances as “the same move” (same update effect). Each choice creates a partition of the messy world into equivalence classes. This is not bookkeeping; it is theory.
+
+- **Operations.** How do objects combine and transform?
+  `concatenation, merge, feature unification, function application, update, inference`, and — crucially in the modern era— `smooth transformations` in representation space.
+
+This triad is the reason mathematics keeps returning: once you commit to objects/equivalences/operations, you are already in the land of structures.
+
+
+> Consider the English form bank. 
+It can denote a financial institution or the side of a river. If we treat “word meaning” as a single object per wordform, bank becomes a problem. If we treat meaning as a distribution over context-conditioned senses, bank becomes a structured object (a family of points, or a mixture, or a graph of usages).
+This book will repeatedly return to bank, not because it is special, but because it forces us to choose what “a meaning” is.
+{.example: A running example we will revisit: bank}
+
+
 
 ### 1.2 A Map of the Territory
+
+
+
+
+
+
 
 The mathematical frameworks that have been applied to language can be organized along several axes. One axis runs from the **discrete** to the **continuous**. On the discrete end we find set theory, logic, formal language theory, and graph theory; on the continuous end we find calculus, differential geometry, and topology. Another axis runs from the **algebraic** to the **geometric**: algebra emphasizes operations and transformations, while geometry emphasizes spaces and distances. A third axis runs from the **deterministic** to the **probabilistic**. The history of mathematical linguistics can be read as a gradual movement along all three axes — from discrete-algebraic-deterministic toward continuous-geometric-probabilistic — though each earlier framework retains its relevance.
 
 This movement is not merely a matter of fashion. It reflects genuine discoveries about the nature of language. The discrete frameworks captured the combinatorial and compositional aspects of language with extraordinary precision. But they struggled with gradience, ambiguity, context-dependence, and the sheer messiness of language in use. The probabilistic and geometric frameworks address these challenges more naturally, at the cost of a different kind of precision.
+
 
 ### 1.3 The Linguistic Motivation: What Are We Trying to Represent?
 
@@ -86,7 +122,7 @@ Each chapter follows a common pattern: we begin with the linguistic problem that
 
 # Chapter 2. Sets, Relations, and the Architecture of Language {#ch2}
 
-> "A set is a Many that allows itself to be thought of as a One."
+> A set is a Many that allows itself to be thought of as a One.
 > — Georg Cantor
 {.epigraph}
 
@@ -125,7 +161,7 @@ Set theory provides a powerful vocabulary for describing the static architecture
 
 # Chapter 3. Logic and the Formal Semantics of Natural Language {#ch3}
 
-> "The limits of my language mean the limits of my world."
+> The limits of my language mean the limits of my world.
 > — Ludwig Wittgenstein
 {.epigraph}
 
@@ -198,7 +234,7 @@ For all its elegance, the logical approach to semantics faces persistent challen
 
 # Chapter 4. Formal Languages, Automata, and the Chomsky Hierarchy {#ch4}
 
-> "Colorless green ideas sleep furiously."
+> Colorless green ideas sleep furiously.
 > — Noam Chomsky
 {.epigraph}
 
@@ -235,7 +271,7 @@ This tension between competence (what the grammar can generate in principle) and
 
 # Chapter 5. Graphs, Trees, and Linguistic Structure {#ch5}
 
-> "The branching tree of possibilities is the deepest picture of reality."
+> The branching tree of possibilities is the deepest picture of reality.
 > — David Deutsch
 {.epigraph}
 
@@ -260,7 +296,7 @@ The mathematical properties of linguistic graphs encode substantive linguistic c
 
 # Chapter 6. Probability, Information, and the Statistics of Language {#ch6}
 
-> "Whenever I fire a linguist, the performance of the speech recognizer goes up."
+> Whenever I fire a linguist, the performance of the speech recognizer goes up.
 > — Frederick Jelinek (attrib.)
 {.epigraph}
 
@@ -301,7 +337,7 @@ This power-law distribution means that a small number of words ("the," "of," "an
 
 # Chapter 7. Linear Algebra: The Vector Space of Language {#ch7}
 
-> "You shall know a word by the company it keeps."
+> You shall know a word by the company it keeps.
 > — J.R. Firth
 {.epigraph}
 
@@ -327,6 +363,70 @@ $$M = U \Sigma V^\top$$
 
 where $U$ and $V$ are orthogonal matrices and $\Sigma = \mathrm{diag}(\sigma_1, \ldots, \sigma_r)$ is a diagonal matrix of singular values. By retaining only the $k$ largest singular values ($k \ll r$), we obtain a low-rank approximation $M_k = U_k \Sigma_k V_k^\top$ that captures the dominant latent structure. Latent Semantic Analysis (LSA), introduced by Landauer and Dumais (1997), applied SVD to word-document matrices and demonstrated that the resulting low-dimensional representations captured semantic relationships not present in the original counts.
 
+**t-SNE: Nonlinear visualization for embeddings (intuition and applications).**
+
+SVD is a **linear** method: it compresses a matrix by preserving global variance structure in a low-rank subspace. In practice, we often also want a tool for **exploratory visualization** of high-dimensional representations (word/sentence embeddings, or the token states from a specific Transformer layer). A widely used method is **t-SNE** (t-distributed Stochastic Neighbor Embedding; van der Maaten & Hinton, 2008). Its goal is not to preserve global geometry, but to preserve **local neighborhoods**: points that are close in the original space should remain close in 2D/3D.
+
+t-SNE converts distances into probabilities. For each point $x_i$, it defines conditional neighbor probabilities with a Gaussian kernel:
+
+$$p_{j\mid i} \propto \exp\!\left(-\frac{\|x_i-x_j\|^2}{2\sigma_i^2}\right),\quad p_{i\mid i}=0,$$
+
+and chooses $\sigma_i$ so that the entropy of $\{p_{j\mid i}\}_j$ matches a user-chosen **perplexity** (intuitively, an "effective number of neighbors"; typical values are roughly 5–50). These conditionals are then symmetrized into a joint distribution, e.g.
+
+$$p_{ij}=\frac{p_{j\mid i}+p_{i\mid j}}{2n}.$$
+
+In the low-dimensional map $y_i$, t-SNE uses a heavy-tailed Student-$t$ kernel:
+
+$$q_{ij} \propto \left(1+\|y_i-y_j\|^2\right)^{-1},\quad q_{ii}=0,$$
+
+and minimizes a KL divergence
+
+$$\mathrm{KL}(P\|Q)=\sum_{i\ne j} p_{ij}\log\frac{p_{ij}}{q_{ij}}.$$
+
+The heavy tail helps mitigate the "crowding problem", making it easier for distinct local clusters to separate in 2D.
+
+Typical language-oriented uses include:
+
+- **Embedding sanity checks**: visualize a selected vocabulary to see whether synonyms, topics, or domains form coherent local neighborhoods, and to spot outliers.
+- **Polysemy and context clustering**: apply t-SNE to *contextual* embeddings of the same word type to see whether different senses form distinct "islands".
+- **Model/layer comparison**: compare neighborhood structure across models or across layers (e.g., whether syntactic distinctions appear more cleanly in some layers).
+
+**A concrete language example (polysemy: "bank").** Take multiple sentences that contain the word *bank* in different senses (financial vs river). Extract the contextual embedding of the *bank* token from a fixed layer of a Transformer, then run t-SNE and inspect whether the two senses separate locally.
+
+```python
+from transformers import AutoTokenizer, AutoModel
+from sklearn.manifold import TSNE
+import numpy as np, torch, matplotlib.pyplot as plt
+
+S = [
+  "I deposited cash at the bank.",
+  "The bank approved the loan.",
+  "We sat on the river bank at dusk.",
+  "The boat reached the bank.",
+]
+
+tok = AutoTokenizer.from_pretrained("bert-base-uncased")
+m = AutoModel.from_pretrained("bert-base-uncased", output_hidden_states=True).eval()
+L = 8
+
+@torch.no_grad()
+def v(s):
+  e = tok(s, return_tensors="pt")
+  hs = m(**e).hidden_states[L][0]
+  toks = tok.convert_ids_to_tokens(e["input_ids"][0])
+  idx = [i for i,t in enumerate(toks) if t == "bank"]
+  return hs[idx].mean(0).cpu().numpy()
+
+Y = TSNE(2, perplexity=2, init="pca", random_state=0).fit_transform(np.stack([v(s) for s in S]))
+plt.scatter(Y[:,0], Y[:,1]); [plt.text(Y[i,0], Y[i,1], i, fontsize=9) for i in range(len(S))]
+plt.title('t-SNE of contextual "bank" embeddings'); plt.tight_layout(); plt.show()
+```
+
+A critical caveat: the **relative positions, inter-cluster distances, and cluster sizes** in a t-SNE plot generally do *not* have a reliable global geometric meaning. Results can change with perplexity, learning rate, initialization, and random seed. A common workflow is to first reduce to 30–100 dimensions with PCA/SVD, then run t-SNE, and to repeat with multiple seeds to avoid over-interpreting a single visualization.
+
+
+
+
 ### 7.4 Word Embeddings: From Counting to Prediction
 
 Word2Vec (Mikolov et al., 2013) and GloVe (Pennington et al., 2014) learned word vectors by training neural networks to predict context. The resulting embeddings exhibited striking algebraic properties — vector arithmetic encoded semantic relationships:
@@ -350,7 +450,7 @@ Linear algebra serves as a bridge between the discrete, symbolic representations
 
 # Chapter 8. Neural Networks and the Mathematics of Learned Representations {#ch8}
 
-> "What I cannot create, I do not understand."
+> What I cannot create, I do not understand.
 > — Richard Feynman
 {.epigraph}
 
@@ -379,15 +479,56 @@ Networks represent more features than they have dimensions, by encoding features
 
 # Chapter 9. The Geometry of Meaning: Manifolds in Semantic Space {#ch9}
 
-> "Geometry is the art of correct reasoning from incorrectly drawn figures."
+> Mathematics is the art of correct reasoning from incorrectly drawn figures.
 > — Henri Poincaré
 {.epigraph}
 
-### 9.1 From Vector Spaces to Manifolds
+### 9.1 Why `Flat' Semantic Space Is Not Enough：From Vector Spaces to Manifolds
 
-The vector space models of Chapter 7 treat semantic space as flat — a Euclidean space where distances are measured with the familiar straight-line metric. But there are compelling reasons to believe that the geometry of meaning is curved. Consider the hierarchical structure of concepts: "animal" encompasses "mammal," which encompasses "dog," which encompasses "poodle." This tree-like structure cannot be faithfully embedded in Euclidean space without distortion, but it can be naturally embedded in hyperbolic space, where the volume of a ball grows exponentially with its radius — just as the number of nodes in a tree grows exponentially with depth.
+The Vector-space semantics models of Chapter 7 begins with a convenient idealization: meanings live in a Euclidean space where distances are measured with a single global ruler. This is a powerful starting point, but language gives us reasons to doubt that assumption. Polysemy, hierarchy, and compositional interaction all suggest that `semantic distance per unit move' depends on where you are in meaning space. In other words, the geometry of meaning is plausibly curved.
 
-A manifold is a topological space that locally resembles Euclidean space but may have a different global structure. The surface of the Earth is a two-dimensional manifold: locally, it looks flat (which is why flat maps work for small regions), but globally it is curved (which is why no flat map of the whole Earth can avoid distortion). The **manifold hypothesis** in machine learning proposes that high-dimensional data lies on or near a low-dimensional manifold embedded in the ambient high-dimensional space.
+Consider the hierarchical structure of concepts: "animal" encompasses "mammal," which encompasses "dog," which encompasses "poodle." This tree-like structure cannot be faithfully embedded in Euclidean space without distortion, but it can be naturally embedded in hyperbolic space, where the volume of a ball grows exponentially with its radius — just as the number of nodes in a tree grows exponentially with depth.
+
+A manifold is a topological space that is locally Euclidean but globally may be curved or twisted. The Earth is the canonical example: locally flat enough to build roads, globally curved enough to make flat maps distort.
+The manifold hypothesis in representation learning proposes that linguistic data—words in contexts, constructions, discourse moves—occupies a structured subset $\mathcal{M}$ of an ambient high-dimensional space. For linguists, the key reinterpretation is:
+	
+- The ambient space is the representational space (embedding space, hidden-state space).
+- The manifold $\mathcal{M}$ is the set of “plausible linguistic states” shaped by grammar, meaning, and usage.
+- “Ungrammatical” or “infelicitous” objects are naturally modeled as off-manifold.
+
+This does not replace symbolic grammar. It provides a complementary view: grammar as constraints that carve out a region of representational space.
+
+
+- Local Linearity and Linguistic Minimal Pairs
+
+Manifolds are locally linear. That matters because linguistic analysis thrives on minimal pairs.
+
+If a linguistic factor behaves smoothly (style, politeness, gradual semantic drift), then small controlled edits should produce locally consistent representation shifts. If a factor behaves categorically (idioms, scope flips), we expect discontinuities—large representational changes triggered by small surface cues.
+
+Worked Example (minimal, do-able): a “politeness direction” test
+
+Take a set of content-controlled pairs:
+	•	s: “Open the window.”
+	•	E(s): “Could you please open the window?”
+
+Let $v(\cdot)$ be a sentence embedding. Define $\Delta_E(s)=v(E(s))-v(s)$.
+Test whether $\Delta_E(s)$ is approximately parallel across many base sentences.
+	•	If yes: politeness behaves like a stable local factor (tangent direction).
+	•	If no: politeness is highly interaction-dependent (curved / entangled).
+
+This is differential-geometry thinking before we introduce formal differential geometry.
+
+- Curvature as an Interaction Signature
+
+In linguistics, interactions are the rule, not the exception: negation interacts with quantifiers; aspect interacts with telicity; honorifics interact with social roles.
+
+Geometrically, a clean diagnostic is additivity: compare the effect of two edits E_1, E_2. If
+$\Delta_{E_1\circ E_2}(s)\approx \Delta_{E_1}(s)+\Delta_{E_2}(s)$,
+then effects are locally additive. Systematic failure suggests curvature-like interaction: order and context matter.
+
+
+
+
 
 ### 9.2 Hyperbolic Geometry and Lexical Hierarchies
 
@@ -512,7 +653,7 @@ Sheaf theory provides a mathematical framework for studying how local informatio
 
 # Chapter 11. Differential Geometry on the Landscape of Language {#ch11}
 
-> "God created the integers; all the rest is the work of man."
+> God created the integers; all the rest is the work of man.
 > — Leopold Kronecker
 {.epigraph}
 
@@ -551,7 +692,7 @@ A fiber bundle is a topological space that locally looks like a product space $E
 
 # Chapter 12. Category Theory: The Mathematics of Mathematical Linguistics {#ch12}
 
-> "Category theory takes a bird's-eye view of mathematics."
+> Category theory takes a bird's-eye view of mathematics.
 > — Tom Leinster
 {.epigraph}
 
@@ -576,7 +717,7 @@ In enriched categories, morphisms form objects in some other category — a metr
 
 # Chapter 13. Language as a Complex Adaptive System {#ch13}
 
-> "More is different."
+> More is different.
 > — Philip Anderson
 {.epigraph}
 
@@ -690,7 +831,7 @@ The three-tab simulator below allows you to explore the core mathematical models
 
 # Chapter 14. Philosophical Reflections: What Does the Mathematics Tell Us About Language? {#ch14}
 
-> "The limits of formalization reveal the limits of understanding."
+> The limits of formalization reveal the limits of understanding.
 > — attributed to Gödel
 {.epigraph}
 

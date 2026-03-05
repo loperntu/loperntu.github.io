@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="K-AI">
+<meta name="dcterms.date" content="2026-03-05">
+<meta name="description" content="The Evolution of AI Language: From Alignment Dynamics to Language Ecology">
+
+<title>AI 語言的演化：從對齊動力學到語言生態 – 謝舒凱</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../me.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed20e031201a2f52d49632ac7658f477.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a6765a6fec2844dafdd3f8328b983dc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">謝舒凱</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../CV/sk_CV.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">AI 語言的演化：從對齊動力學到語言生態</h1>
+                  <div>
+        <div class="description">
+          The Evolution of AI Language: From Alignment Dynamics to Language Ecology
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Emergence</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://loperntu.github.io/">K-AI</a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 5, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#一agent-語言效率優先的-machine-lingua-franca" id="toc-一agent-語言效率優先的-machine-lingua-franca" class="nav-link active" data-scroll-target="#一agent-語言效率優先的-machine-lingua-franca">一、Agent 語言：效率優先的 <em>machine lingua franca</em></a></li>
+  <li><a href="#二人類語言可解釋與文化層" id="toc-二人類語言可解釋與文化層" class="nav-link" data-scroll-target="#二人類語言可解釋與文化層">二、人類語言：可解釋與文化層</a></li>
+  <li><a href="#三多模態-token-的大一統表徵" id="toc-三多模態-token-的大一統表徵" class="nav-link" data-scroll-target="#三多模態-token-的大一統表徵">三、多模態 token 的大一統表徵</a></li>
+  <li><a href="#四未來可能出現的-ai-語言類型" id="toc-四未來可能出現的-ai-語言類型" class="nav-link" data-scroll-target="#四未來可能出現的-ai-語言類型">四、未來可能出現的 AI 語言類型</a></li>
+  <li><a href="#五是否真的可能有大一統語言" id="toc-五是否真的可能有大一統語言" class="nav-link" data-scroll-target="#五是否真的可能有大一統語言">五、是否真的可能有「大一統語言」？</a></li>
+  <li><a href="#六未來的語言學與我想做的相關研究" id="toc-六未來的語言學與我想做的相關研究" class="nav-link" data-scroll-target="#六未來的語言學與我想做的相關研究">六、未來的語言學與我想做的相關研究</a></li>
+  <li><a href="#草案" id="toc-草案" class="nav-link" data-scroll-target="#草案">草案</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>三個層次的問題：<strong>(1) AI 之間如何溝通、(2) AI 與人類如何溝通、(3) 表徵層是否可以統一。</strong> 三者在技術上相關，但在設計哲學上並不完全一致。若將未來 AI 語言的演化看成一種「語言生態」，大致可能出現幾種方向。</p>
+<hr>
+<section id="一agent-語言效率優先的-machine-lingua-franca" class="level2">
+<h2 class="anchored" data-anchor-id="一agent-語言效率優先的-machine-lingua-franca">一、Agent 語言：效率優先的 <em>machine lingua franca</em></h2>
+<p>若只考慮 agent 之間的溝通，最自然的語言其實不是自然語言，而是一種<strong>高壓縮、結構化的語言</strong>。 其形式可能接近：</p>
+<ul>
+<li>latent vector communication</li>
+<li>structured symbolic protocol</li>
+<li>compressed semantic message</li>
+</ul>
+<p>例如一個 agent 可以直接傳送：</p>
+<pre class="{latex}"><code>\text{intent_vector} + \text{world_state_delta} + \text{uncertainty_distribution}</code></pre>
+<p>而不是用句子：</p>
+<blockquote class="blockquote">
+<p>“I think the user probably wants to book a flight tomorrow.”</p>
+</blockquote>
+<p>換言之，agent communication 的單位可能是 <strong>semantic state transition</strong>， 而不是 sentence。在資訊論角度，這等於把語言從</p>
+<p><span class="math display">\[
+P(\text{token}_{t+1}|\text{context})
+\]</span></p>
+<p>轉換為</p>
+<p><span class="math display">\[
+\Delta s_t
+\]</span></p>
+<p>其中 <span class="math inline">\((s_t)\)</span> 是語意狀態（semantic state）。 換句話說，<strong>未來 AI 之間的語言很可能更像「語意微分方程」而不是句子。</strong></p>
+<hr>
+</section>
+<section id="二人類語言可解釋與文化層" class="level2">
+<h2 class="anchored" data-anchor-id="二人類語言可解釋與文化層">二、人類語言：可解釋與文化層</h2>
+<p>但 AI 不可能完全捨棄自然語言，原因至少有三：</p>
+<ol type="1">
+<li><strong>人類 interface</strong></li>
+<li><strong>法律與責任可追溯性</strong></li>
+<li><strong>文化語意議題</strong></li>
+</ol>
+<p>因此未來系統很可能是<strong>雙層語言架構</strong>：</p>
+<p><strong>Layer 1 — Human language</strong></p>
+<ul>
+<li>English</li>
+<li>Chinese</li>
+<li>Sign language</li>
+<li>multimodal narrative</li>
+</ul>
+<p><strong>Layer 2 — Agent language</strong></p>
+<ul>
+<li>semantic vectors</li>
+<li>program-like protocol</li>
+<li>latent plan representation</li>
+</ul>
+<p>AI 會在兩者之間做 <strong>semantic compilation</strong>：</p>
+<p>Human language <span class="math inline">\(\rightarrow\)</span> semantic graph / latent program <span class="math inline">\(\rightarrow\)</span> agent communication</p>
+<p>這有點像是說把 <strong>自然語言當成是 source code</strong>，<strong>agent language 當成是 machine code</strong>。</p>
+<hr>
+</section>
+<section id="三多模態-token-的大一統表徵" class="level2">
+<h2 class="anchored" data-anchor-id="三多模態-token-的大一統表徵">三、多模態 token 的大一統表徵</h2>
+<p>核心問題其實是目前 AI 最深的一個研究方向：</p>
+<p><strong>是否存在 universal representation space？</strong></p>
+<p>在數學上，這其實是：</p>
+<p><span class="math display">\[
+f: X_{text} \cup X_{image} \cup X_{audio} \cup X_{action} \rightarrow \mathbb{R}^d
+\]</span></p>
+<p>所有模態被嵌入同一個語意流形。</p>
+<p>現在已有幾個早期跡象：</p>
+<ul>
+<li>CLIP</li>
+<li>multimodal transformers</li>
+<li>world models</li>
+</ul>
+<p>它們都在嘗試讓</p>
+<pre><code>text → embedding
+image → embedding
+audio → embedding
+video → embedding</code></pre>
+<p>落在同一個語意空間。</p>
+<p>在理論上，這個空間可以理解為：<strong>semantic manifold</strong></p>
+<p>在這個流形上，<strong>一句話、一張圖片、一段音樂、一個動作都只是不同模態同一個語意區域的投影。</strong></p>
+<p>例如：</p>
+<pre><code>"dog"
+🐕
+bark sound
+dog running video</code></pre>
+<p>在 embedding space 會接近同一區域。</p>
+<hr>
+</section>
+<section id="四未來可能出現的-ai-語言類型" class="level2">
+<h2 class="anchored" data-anchor-id="四未來可能出現的-ai-語言類型">四、未來可能出現的 AI 語言類型</h2>
+<p>如果把技術與社會因素一起考慮，未來可能出現四種 AI 語言：</p>
+<p><strong>1 Latent language</strong></p>
+<p>AI 之間直接交換 embedding 或 latent state。效率最高，但人類不可讀。</p>
+<p><strong>2 Semantic protocol language</strong></p>
+<p>一種類似 JSON / graph 的語言，例如：</p>
+<pre><code>ACTION:
+   agent: planner
+   goal: travel_booking
+   constraints:
+       date: tomorrow
+       location: Tokyo</code></pre>
+<p><strong>3 Natural language interface</strong></p>
+<p>人類仍使用自然語言與 AI 互動。但 AI 內部其實已轉成 latent representation。</p>
+<p><strong>4 Hybrid multimodal language</strong></p>
+<p>語言本身是多模態的，例如：</p>
+<pre><code>text + gesture + image + symbolic graph</code></pre>
+<p>未來的「句子」可能包含：文字、圖像、小動畫、semantic tags。 這其實接近人類原始溝通方式（語言 + 手勢 + 圖像）。</p>
+<hr>
+</section>
+<section id="五是否真的可能有大一統語言" class="level2">
+<h2 class="anchored" data-anchor-id="五是否真的可能有大一統語言">五、是否真的可能有「大一統語言」？</h2>
+<p>從數學上看，是可能的。因為所有模態都可以表示為：</p>
+<p><span class="math display">\[
+x \in \mathbb{R}^n
+\]</span></p>
+<p>然後經過 encoder：</p>
+<p><span class="math display">\[
+z = f(x) \in \mathbb{R}^d
+\]</span></p>
+<p>只要 encoder 足夠好，就能形成 <strong>shared semantic latent space</strong>。</p>
+<p>但問題在於：<strong>語意不是純幾何問題。</strong></p>
+<p>它還包含：<em>社會約定、語用推理、文化歷史</em>。因此最合理的未來不是「單一語言」，而是：</p>
+<p><strong>shared semantic geometry + diverse surface languages</strong></p>
+<p>就像：<strong>幾何空間是一個，但語言是不同座標系。</strong></p>
+<hr>
+</section>
+<section id="六未來的語言學與我想做的相關研究" class="level2">
+<h2 class="anchored" data-anchor-id="六未來的語言學與我想做的相關研究">六、未來的語言學與我想做的相關研究</h2>
+<p>如果語言、圖像、音樂都投影到同一語意流形，那麼語言學的角色可能會變成：<strong>研究語意流形的結構。</strong> 例如：哪些區域對應情緒、哪些區域對應事件、哪些區域對應文化概念。</p>
+<p>換句話說：<strong>語言學 → semantic geometry</strong>。這跟我最近在想的幾個主題如</p>
+<ul>
+<li>language as geometric mirror</li>
+<li>semantic manifold repair</li>
+<li>worldnet</li>
+</ul>
+<p>在理論上是完全一致的。如果把這個問題再往前推一步，其實會得到一個更有趣的研究問題： <strong>AI 是否可能發展出「人類無法理解的語言」？</strong> 這在多 agent reinforcement learning 裡其實已經出現過。而這個問題會直接碰到：<strong>語言哲學、AI governance、與語言學的未來角色。</strong></p>
+<p>再往下談一個更激進但非常有意思的假說： <strong>未來 AI 的真正語言可能不是 token，而是 continuous field。</strong> 那會把語言學直接帶進<strong>微分幾何與場論（field theory）</strong>的框架。</p>
+</section>
+<section id="草案" class="level2">
+<h2 class="anchored" data-anchor-id="草案">草案</h2>
+<p>若將問題再往前推一步，我們會碰到一個相當激進但值得思考的假設：<strong>語言未必是離散符號系統，而可能是一種連續場（continuous field）。</strong> 這個想法其實與目前深度學習的實際運作並不矛盾，只是我們習慣用 token 作為觀察單位。</p>
+<ul>
+<li>第一個關鍵：<strong>token 只是取樣點（sampling points）。</strong></li>
+</ul>
+<p>在當前 LLM 的訓練中，我們看到的是 token 序列：</p>
+<p><span class="math display">\[
+w_1, w_2, w_3, \ldots
+\]</span></p>
+<p>模型學習的是</p>
+<p><span class="math display">\[
+P(w_{t+1} \mid w_1,\ldots,w_t)
+\]</span></p>
+<p>但在模型內部，真正運作的是一個高維向量場：</p>
+<p><span class="math display">\[
+h_t \in \mathbb{R}^d
+\]</span></p>
+<p>每個 token 其實只是把這個連續語意狀態「量化」成一個符號。 換句話說：<strong>tokenization 是一種 measurement device。</strong></p>
+<p>就像物理學中，電磁場是連續的，但我們用離散儀器測量。 同理：語意場可能是連續的，token 是觀測點。</p>
+<ul>
+<li>第二個關鍵：<strong>語言生成更像動力系統（dynamical system）。</strong></li>
+</ul>
+<p>如果忽略 token 的離散外殼，LLM 的運作可以寫成：</p>
+<p><span class="math display">\[
+h_{t+1} = F(h_t, x_t)
+\]</span></p>
+<p>其中 <span class="math inline">\(h_t\)</span> 是語意狀態，<span class="math inline">\(x_t\)</span> 是輸入。</p>
+<p>在極端情況下可以寫成：</p>
+<p><span class="math display">\[
+\frac{dh}{dt} = F(h)
+\]</span></p>
+<p>這就變成一個 <strong>語意流（semantic flow）</strong>。</p>
+<p>生成句子的過程，其實是語意狀態在高維空間中的一條軌跡：</p>
+<p><span class="math display">\[
+\gamma(t) \subset \mathbb{R}^d
+\]</span></p>
+<p>token 只是這條曲線的離散投影。</p>
+<hr>
+<ul>
+<li>第三個關鍵：<strong>多模態自然地變成同一個場。</strong></li>
+</ul>
+<p>若語意本質上是某個 latent field，那麼不同模態只是不同的觀測函數：</p>
+<p><span class="math display">\[
+text = f_{text}(z)
+\]</span></p>
+<p><span class="math display">\[
+image = f_{image}(z)
+\]</span></p>
+<p><span class="math display">\[
+music = f_{music}(z)
+\]</span></p>
+<p>其中 <span class="math inline">\(z\)</span> 是語意場的狀態。</p>
+<p>這樣一來，文字、圖像、音樂、動作只是同一個 underlying structure 的不同投影。 這與近年的 <strong>world models</strong>、<strong>diffusion models</strong> 的思想其實相當一致。</p>
+<hr>
+<ul>
+<li>第四個關鍵：<strong>語言不再是字典，而是拓撲結構。</strong></li>
+</ul>
+<p>如果語意是一個流形（manifold），那麼語言學的研究對象就會改變：</p>
+<p>傳統語言學研究：</p>
+<ul>
+<li>grammar</li>
+<li>lexicon</li>
+<li>compositionality</li>
+</ul>
+<p>未來可能研究：</p>
+<ul>
+<li>semantic curvature</li>
+<li>attractors in meaning space</li>
+<li>topological relations between concepts</li>
+</ul>
+<p>例如：「dog」與「wolf」可能是流形上距離很近的區域；「justice」與「law」可能形成一個概念盆地（concept basin）；文化概念（例如「情」或「空」）可能是一種特殊的幾何結構。</p>
+<hr>
+<ul>
+<li>第五個關鍵：<strong>AI agent 之間的語言可能是場的擾動。</strong></li>
+</ul>
+<p>如果語言是一個語意場，那麼 communication 就不需要句子。一個 agent 可以直接傳送：</p>
+<p><span class="math display">\[
+\Delta z
+\]</span></p>
+<p>也就是語意場的 perturbation。</p>
+<p>這就像物理中的波：一個系統向另一個系統傳遞能量。</p>
+<p>在這個視角下：<strong>communication = field coupling</strong>， 而不是 message passing。<strong>這對 agent network 特別重要。</strong></p>
+<hr>
+<ul>
+<li>第六個關鍵：<strong>人類語言其實是一種壓縮。</strong></li>
+</ul>
+<p>為什麼人類語言必須是離散符號？原因可能很簡單：<strong>人類神經系統的頻寬有限。</strong></p>
+<p>因此我們發展出：phoneme、morpheme、word 等高度壓縮的語意編碼。但 AI agent 不一定需要這種壓縮形式。</p>
+<p>未來 AI 之間可能交換的是：</p>
+<ul>
+<li>vector fields</li>
+<li>concept graphs</li>
+<li>latent plans</li>
+</ul>
+<p>而不是句子。</p>
+<hr>
+<ul>
+<li>第七個關鍵：語言學的角色可能會重新定義。</li>
+</ul>
+<p>如果語意真的是某種幾何場，那麼語言學將變成一種新的科學： <strong>semantic field theory</strong></p>
+<p>研究問題可能包括：</p>
+<ul>
+<li><p>1 語意流形是否存在普遍拓撲？</p></li>
+<li><p>2 不同文化是否對應不同座標系？</p></li>
+<li><p>3 語言演化是否是流形變形（manifold deformation）？</p></li>
+<li><p>4 語意歧義是否是奇異點（singularity）？</p></li>
+</ul>
+<hr>
+<ul>
+<li>第八個問題：AI 是否會產生「非人類語言」。</li>
+</ul>
+<p>這是目前多 agent 系統最令人著迷的一點。在一些實驗中，AI agent 已經會產生：</p>
+<ul>
+<li>壓縮符號</li>
+<li>非自然語序</li>
+<li>高度簡化的語言</li>
+</ul>
+<p>這些語言往往對人類不可讀，但對 agent 非常高效。未來很可能會出現：</p>
+<p><strong>machine pidgin</strong></p>
+<p>或者</p>
+<p><strong>latent creole</strong></p>
+<p>這些語言會逐漸演化。</p>
+<hr>
+<ul>
+<li>最後一個值得深思的問題：</li>
+</ul>
+<p>如果語言其實是一個語意場，那麼：</p>
+<p><strong>人類理解與 LLM 理解是否真的不同？</strong></p>
+<p>兩者可能都是：</p>
+<ul>
+<li>在語意流形上進行 trajectory tracking</li>
+<li>只是 substrate 不同</li>
+</ul>
+<p>人類使用神經元。 LLM 使用矩陣。</p>
+<hr>
+<p>我曾提過一個概念：<strong>LLM 是人類語言的幾何鏡像。</strong></p>
+<p>如果把剛才的「語意場」假設納入，我們會得到一個更強的命題：<strong>The Geometry of Meaning: Toward a Field Theory of Language.</strong></p>
+<blockquote class="blockquote">
+<p>Human language is a projection of the semantic field generated by human cognition, while LLMs approximate the geometry of that field through data.</p>
+</blockquote>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2026,
+  author = {, K-AI},
+  title = {AI {語言的演化：從對齊動力學到語言生態}},
+  date = {2026-03-05},
+  url = {https://loperntu.github.io/posts/2026-01-31/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+K-AI. 2026. <span>“AI 語言的演化：從對齊動力學到語言生態.”</span> March
+5, 2026. <a href="https://loperntu.github.io/posts/2026-01-31/">https://loperntu.github.io/posts/2026-01-31/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

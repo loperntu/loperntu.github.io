@@ -7,7 +7,7 @@
 ├── template.html              ← 🎨 HTML/CSS 設計模板
 ├── build.py                   ← ⚙️  轉換引擎 (Python 3, 零依賴)
 ├── build.sh                   ← 🚀 一鍵建置腳本
-├── geometry_of_grammar.html   ← 📖 產出的網頁 (不要直接編輯)
+├── index.html                 ← 📖 產出的網頁 (不要直接編輯)
 ├── deploy.sh                  ← 🚀 部署到 GitHub Pages 腳本
 └── README.md                  ← 📋 本文件
 ```
@@ -27,24 +27,27 @@ bash build.sh --open
 
 ## 🚀 部署到 GitHub Pages (loperntu.github.io/mathling/)
 
-1. **首次設定**：克隆你的 GitHub Pages 倉庫並設定路徑：
-   ```bash
-   git clone https://github.com/loperntu/loperntu.github.io.git ../loperntu.github.io
-   export GITHUB_PAGES_REPO="$(pwd)/../loperntu.github.io"
-   ```
-   或之後每次用第一參數傳入路徑。
-
-2. **建置並部署**（本地 render 成功後執行）：
+1. **自動偵測**：在 `mathling/` 目錄下執行時，若未傳入路徑且未設定 `GITHUB_PAGES_REPO`，腳本會自動偵測上一層目錄是否為 GitHub Pages 倉庫（含 `docs/` 或路徑名含 `github.io`），並以此為 deploy 目標。因此多數情況只需：
    ```bash
    bash deploy.sh
-   # 或指定 repo 路徑：
+   ```
+
+2. **手動指定路徑**（首次或 repo 不在上一層時）：
+   ```bash
+   bash deploy.sh ..
+   # 或
    bash deploy.sh /path/to/loperntu.github.io
+   # 或設定一次環境變數後可直接 bash deploy.sh
+   export GITHUB_PAGES_REPO="/path/to/loperntu.github.io"
    ```
 
 3. **只複製並推送**（不重新 build）：
    ```bash
-   bash deploy.sh --no-build /path/to/loperntu.github.io
+   bash deploy.sh --no-build
+   # 或 bash deploy.sh --no-build ..
    ```
+
+4. **部署目標**：此站為 Quarto 網站，GitHub Pages 從 `docs/` 發布，故 deploy 會寫入 **`docs/mathling/`**（非 repo 根目錄的 `mathling/`）。推送成功後腳本會提示；網站更新約需 1–2 分鐘。
 
 部署後書本網址：**https://loperntu.github.io/mathling/**
 
@@ -89,10 +92,21 @@ date: "Draft — February 2026"
 
 ### 例句
 
+無標題：
+
 ```markdown
 > *The bank by the river collapsed after the flood.*
 {.example}
 ```
+
+有標題（可選）：
+
+```markdown
+> *The bank by the river collapsed after the flood.*
+{.example: Ambiguity Example}
+```
+
+例句區塊會以左對齊、圓角、較淡字色與不同字體顯示，且無邊框以與 deep-dive 區塊區分。
 
 ### 數學公式
 
@@ -156,5 +170,6 @@ $$H(X) = -\sum_{x} P(x) \log_2 P(x)$$
 
 - `build.py` 只需 Python 3.8+，**不需安裝任何套件**
 - 數學公式由 KaTeX CDN 在瀏覽器端渲染，需要網路連線
-- `geometry_of_grammar.html` 是自動產生的，請勿直接編輯
+- **產出檔為 `index.html`**（由 `build.sh` / `build.py` 自動產生），請勿直接編輯
 - 所有內容修改都應在 `book.md` 中進行
+- 若 deploy 時 `git push` 失敗，腳本會顯示錯誤；可手動於 repo 根目錄執行 `git push`
