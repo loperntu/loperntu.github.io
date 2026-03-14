@@ -1494,6 +1494,22 @@
   .mgsim-mrow-chain  { background:#f5f3ff; }
   .mgsim-mrow-morph  { background:#eff6ff; }
   .mgsim-mrow-prefix { background:#fefce8; }
+
+  /* Graph SVG step visibility: edges appear by step (0=nodes only, 1+=e1, 2+=e2, 3+=e3) */
+  .hssim-svg .hssim-edge { opacity: 0; transition: opacity 0.3s ease; }
+  .hssim-svg[data-hsgstep="1"] .hssim-e1 { opacity: 1; }
+  .hssim-svg[data-hsgstep="2"] .hssim-e1, .hssim-svg[data-hsgstep="2"] .hssim-e2 { opacity: 1; }
+  .hssim-svg[data-hsgstep="3"] .hssim-edge { opacity: 1; }
+
+  .ttsim-svg .ttsim-edge { opacity: 0; transition: opacity 0.3s ease; }
+  .ttsim-svg[data-ttgstep="1"] .ttsim-e1 { opacity: 1; }
+  .ttsim-svg[data-ttgstep="2"] .ttsim-e1, .ttsim-svg[data-ttgstep="2"] .ttsim-e2 { opacity: 1; }
+  .ttsim-svg[data-ttgstep="3"] .ttsim-edge { opacity: 1; }
+
+  .mgsim-svg .mgsim-edge { opacity: 0; transition: opacity 0.3s ease; }
+  .mgsim-svg[data-mggstep="1"] .mgsim-e1 { opacity: 1; }
+  .mgsim-svg[data-mggstep="2"] .mgsim-e1, .mgsim-svg[data-mggstep="2"] .mgsim-e2 { opacity: 1; }
+  .mgsim-svg[data-mggstep="3"] .mgsim-edge { opacity: 1; }
 </style>
 <body>
     <aside class="sticky-toc" aria-label="快速目錄">
@@ -5281,6 +5297,7 @@ siː dæːŋ = 紅色</div>
         gPrevId:'hssim-g-prev', gNextId:'hssim-g-next',
         gDotsSelector:'#hssim-g-dots .lsim-dot',
         gTitleId:'hssim-g-title', gDescId:'hssim-g-desc',
+        svgClass: '.hssim-svg', svgStepAttr: 'data-hsgstep',
         gSteps:[
           { title:'步驟 1：找出高頻詞根，設為節點',
             desc:'先不看英文，統計哪些片段反覆出現：<strong>bàakí-/bákí-</strong>（2 次）、<strong>rúwá-</strong>（2 次）、<strong>yátsà-</strong>（2 次）、<strong>cíkìi</strong>（2 次）。這 4 個是圖表的核心節點。注意：此時<em>不要猜意思</em>。' },
@@ -5317,6 +5334,7 @@ siː dæːŋ = 紅色</div>
         gPrevId:'ttsim-g-prev', gNextId:'ttsim-g-next',
         gDotsSelector:'#ttsim-g-dots .lsim-dot',
         gTitleId:'ttsim-g-title', gDescId:'ttsim-g-desc',
+        svgClass: '.ttsim-svg', svgStepAttr: 'data-ttgstep',
         gSteps:[
           { title:'步驟 1：找核心詞素，設為圖表節點',
             desc:'先只看詞素頻率：<strong>ai</strong>（4 次）、<strong>fuan</strong>（3 次）、<strong>kulit</strong>（3 次）、<strong>matan</strong>（3 次）、<strong>boot</strong>（3 次）。這 5 個是積木系統的基本單元，圖表從這裡出發。' },
@@ -5353,6 +5371,7 @@ siː dæːŋ = 紅色</div>
         gPrevId:'mgsim-g-prev', gNextId:'mgsim-g-next',
         gDotsSelector:'#mgsim-g-dots .lsim-dot',
         gTitleId:'mgsim-g-title', gDescId:'mgsim-g-desc',
+        svgClass: '.mgsim-svg', svgStepAttr: 'data-mggstep',
         gSteps:[
           { title:'步驟 1：找出 zafy 與身體部位的比喻鏈骨架',
             desc:'先不管音形交替，只看語意方向：zafy（孫子）+ 身體部位 = 後代稱謂。身體位置越低（knee → ankle → sole），代際距離越遠。先把這條垂直鏈畫出來。' },
