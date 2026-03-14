@@ -27,8 +27,11 @@ jobs:
 
       - name: Copy tol into docs
         run: |
-          cp -r tol docs/ || true
-          ls -la docs/tol/ || true
+          ls -la tol/
+          rm -rf docs/tol
+          cp -r tol docs/
+          ls -la docs/tol/
+          test -f docs/tol/language_culture_handout.html || (echo "ERROR: handout missing after copy" && exit 1)
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
