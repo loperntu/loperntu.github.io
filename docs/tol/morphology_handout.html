@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x8a9e;&#x8a00;&#x5b78;&#x5967;&#x8cfd;&#x5099;&#x8003;&#x55ae;&#x5143; &verbar; &#x69cb;&#x8a5e;&#x5b78;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <style>
+/* 全局字体设置：英文自动使用 Lato，中文使用明体 */
+body {
+    font-family: 'Lato', 'Noto Serif TC', 'PMingLiU', 'MingLiU', 'Microsoft YaHei', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', 'Noto Serif TC', 'PMingLiU', 'MingLiU', 'Microsoft YaHei', serif;
+    font-weight: bold;
+}
+p, li, td, th {
+    font-family: 'Lato', 'Noto Serif TC', 'PMingLiU', 'MingLiU', 'Microsoft YaHei', serif;
+}
+/* 强制表格对齐 - 适用于所有 Markdown 预览器 */
+table {
+    font-family: 'Lato', 'Noto Serif TC', 'PMingLiU', 'MingLiU', 'Microsoft YaHei', serif !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    table-layout: auto !important; /* 使用自动布局，让浏览器智能分配 */
+    word-wrap: break-word !important;
+    margin: 1em 0 !important;
+    display: table !important;
+    border-spacing: 0 !important;
+}
+td, th {
+    padding: 8px 12px !important;
+    text-align: left !important;
+    vertical-align: top !important;
+    border: 1px solid #ddd !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    display: table-cell !important;
+    box-sizing: border-box !important;
+}
+th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold !important;
+}
+/* 确保表格单元格正确渲染 */
+table tr {
+    display: table-row !important;
+}
+table tbody {
+    display: table-row-group !important;
+}
+table thead {
+    display: table-header-group !important;
+}
+code {
+    font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+}
+/* GitHub 风格表格支持 */
+.markdown-body table,
+body table {
+    display: table !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+.markdown-body table td,
+.markdown-body table th,
+body table td,
+body table th {
+    padding: 6px 13px !important;
+    border: 1px solid #dfe2e5 !important;
+    display: table-cell !important;
+}
+.markdown-body table tr,
+body table tr {
+    background-color: #fff !important;
+    border-top: 1px solid #c6cbd1 !important;
+    display: table-row !important;
+}
+.markdown-body table tr:nth-child(2n),
+body table tr:nth-child(2n) {
+    background-color: #f6f8fa !important;
+}
+
+/* 字体切换类 */
+.ming { /* 明体（默认，衬线） */
+    font-family: 'Noto Serif TC', 'PMingLiU', 'MingLiU', 'Microsoft YaHei', serif;
+}
+
+.hei { /* 黑体（无衬线，用于强调） */
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'Microsoft YaHei', sans-serif;
+    font-weight: bold;
+}
+
+.kai { /* 楷体（手写风格，用于特殊说明） */
+    font-family: 'DFKai-SB', 'KaiTi', 'BiauKai', serif;
+}
+
+.fangsong { /* 仿宋（优雅风格） */
+    font-family: 'FangSong', 'FangSong_GB2312', serif;
+}
+
+.mono { /* 等宽字体（代码、对齐） */
+    font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+}
+
+.english { /* 英文专用字体 */
+    font-family: 'Lato', 'Times New Roman', 'Georgia', serif;
+}
+
+.small { /* 小字 */
+    font-size: 0.9em;
+}
+
+.large { /* 大字 */
+    font-size: 1.2em;
+}
+
+.bold { /* 粗体 */
+    font-weight: bold;
+}
+
+.italic { /* 斜体 */
+    font-style: italic;
+}
+
+/* 高亮背景色类 */
+.highlight { /* 浅灰色高亮（默认） */
+    background-color: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-gray { /* 浅灰色 */
+    background-color: #e5e5e5;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-yellow { /* 黄色高亮 */
+    background-color: #fff9c4;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-blue { /* 蓝色高亮 */
+    background-color: #e3f2fd;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-green { /* 绿色高亮 */
+    background-color: #e8f5e9;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-pink { /* 粉色高亮 */
+    background-color: #fce4ec;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.highlight-orange { /* 橙色高亮 */
+    background-color: #fff3e0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* 块级高亮（用于整段、代码块等） */
+.highlight-block { /* 浅灰色块级高亮 */
+    background-color: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #ccc;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-gray { /* 浅灰色块级高亮 */
+    background-color: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #999;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-yellow { /* 黄色块级高亮 */
+    background-color: #fff9c4;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #fbc02d;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-blue { /* 蓝色块级高亮 */
+    background-color: #e3f2fd;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #2196f3;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-green { /* 绿色块级高亮 */
+    background-color: #e8f5e9;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #4caf50;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-pink { /* 粉色块级高亮 */
+    background-color: #fce4ec;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #e91e63;
+    margin: 12px 0;
+    display: block;
+}
+.highlight-block-orange { /* 橙色块级高亮 */
+    background-color: #fff3e0;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #ff9800;
+    margin: 12px 0;
+    display: block;
+}
+/* 用于代码块的块级高亮 */
+.highlight-block code {
+    background-color: transparent;
+    padding: 0;
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<!-- 
+⚠️ 表格对齐提示：
+如果预览器中的表格仍然无法对齐，请尝试：
+1. 确保表格每列之间都有空格分隔（如：| 列1 | 列2 |）
+2. 确保分隔线的长度至少与表头一致
+3. 如果使用 Typora：设置 → 偏好设置 → 编辑器 → 启用"严格模式"
+4. 如果使用 VS Code：安装 "Markdown Preview Enhanced" 扩展
+5. 对于关键表格，考虑使用 HTML 表格替代 Markdown 表格
+-->
+<hr>
+<h1 id="語言學奧賽備考單元--構詞學">語言學奧賽備考單元 | 構詞學</h1>
+<p><strong>Morphology for Linguistics Olympiad Preparation</strong></p>
+<hr>
+<h2 id="part-i-handoutconcepts--strategies">Part I. Handout｜Concepts &amp; Strategies</h2>
+<p><em>(How words encode grammar — and how to reason it out)</em></p>
+<hr>
+<h2 id="1-什麼是構詞學">1. <span class="hei">什麼是構詞學？</span></h2>
+<h4 id="what-is-morphology-in-olympiad-terms">What is Morphology (in Olympiad Terms)?</h4>
+<p>構詞學研究的是：</p>
+<blockquote>
+<p><strong>一個「詞」裡面，哪些部分在表達語法或意義？</strong></p>
+</blockquote>
+<p>在語言學奧賽中，構詞學不是背名詞，而是回答這個問題：</p>
+<blockquote>
+<p><strong>哪些形式反覆出現？它們在什麼條件下出現？</strong></p>
+</blockquote>
+<p><span class="kai small">💡 提示：</span> 在解題時，注意觀察 <span class="hei">重複出現的形式</span> 和它們對應的 <span class="hei">語法功能</span>。</p>
+<hr>
+<p>Morphology studies <strong>how words are internally structured</strong> and <strong>how grammatical meaning is encoded inside words</strong>.
+In Olympiad problems, morphology is about one core task:</p>
+<blockquote>
+<p><strong>Identifying which parts of a word do grammatical work, and under what conditions.</strong>
+Key idea:</p>
+</blockquote>
+<ul>
+<li>
+<p>A <strong>word</strong> is often not atomic</p>
+</li>
+<li>
+<p>It is a structured object composed of:</p>
+<ul>
+<li>a lexical core (what the word is about)</li>
+<li>optional grammatical material (number, tense, case, size, politeness, etc.)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-四個就夠用的構詞基本概念">2. <span class="hei">四個就夠用的構詞基本概念</span></h2>
+<h3 id="four-core-concepts-minimal-but-sufficient">Four Core Concepts (Minimal but Sufficient)</h3>
+<p>You only need four concepts to solve most Olympiad morphology problems.</p>
+<h3 id="1-morpheme-語素">(1) Morpheme (語素)</h3>
+<ul>
+<li>最小的「形式 × 意義」單位</li>
+<li>必須<strong>反覆出現</strong>，而且<strong>意義穩定</strong></li>
+</ul>
+<hr>
+<ul>
+<li>A morpheme is the smallest recurring form–meaning unit.- Recurring = appears in multiple words- Meaningful = contributes consistent information
+You do not need to label it as prefix/suffix/root in the solution；you only need to identify its function.</li>
+</ul>
+<hr>
+<h3 id="2-lexical-vs-grammatical-meaning-詞彙意義與文法意義">(2) Lexical vs. Grammatical Meaning (詞彙意義與文法意義)</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it contributes</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lexical</td>
+<td>“what kind of thing/action”</td>
+<td>what it is</td>
+<td>dog, run</td>
+</tr>
+<tr>
+<td>Grammatical</td>
+<td>number, tense, role, size</td>
+<td>how it behaves</td>
+<td>plural, past, diminutive</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Olympiad rule of thumb:
+If a piece only appears when the meaning changes in a systematic way, it is grammatical.</p>
+</blockquote>
+<hr>
+<h3 id="3-position-matters位置很重要">(3) Position Matters（位置很重要）</h3>
+<ul>
+<li>語法標記通常出現在<strong>固定位置</strong></li>
+<li>詞根位置較自由</li>
+</ul>
+<p>In many languages:</p>
+<ul>
+<li>grammatical material appears in a fixed position</li>
+<li>lexical material varies more freely</li>
+</ul>
+<p>This allows reasoning even when you do not know the language.</p>
+<hr>
+<h3 id="4-one-meaning--one-form">(4) One Meaning ≠ One Form</h3>
+<ul>
+<li>
+<p>同一語法意義（如複數）可能用：</p>
+<ul>
+<li>字尾</li>
+<li>音變</li>
+<li>重疊</li>
+<li>零標記</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>💡 No affix ≠ no morphology.</p>
+</blockquote>
+<p>A single grammatical meaning (e.g. plural) may be expressed by:</p>
+<ul>
+<li>
+<p>an affix</p>
+</li>
+<li>
+<p>a sound change</p>
+</li>
+<li>
+<p>reduplication</p>
+</li>
+<li>
+<p>stem alternation</p>
+</li>
+</ul>
+<p>Do not assume morphology must “look clean”.</p>
+<hr>
+<h2 id="3-世界語言中的構詞類型奧賽版">3. 世界語言中的構詞類型（奧賽版）</h2>
+<h3 id="morphological-types-olympiad-oriented">Morphological Types (Olympiad-Oriented)</h3>
+<p>You do <strong>not</strong> need full typology.
+But <strong>knowing what kinds of systems</strong> exist prevents false assumptions.</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>特徵</th>
+<th>Olympiad Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>孤立語 Isolating</td>
+<td>幾乎沒詞形變化</td>
+<td>不要亂找 affix</td>
+</tr>
+<tr>
+<td>黏著語 Agglutinative</td>
+<td>一個語素一個功能</td>
+<td>最好拆</td>
+</tr>
+<tr>
+<td>屈折語 Fusional</td>
+<td>一個形式多功能</td>
+<td>不要一對一假設</td>
+</tr>
+<tr>
+<td>非串接 Non-concatenative</td>
+<td>音變／內部改變</td>
+<td>看「變了什麼」</td>
+</tr>
+</tbody>
+</table>
+<h3 id="31-isolating-languages">3.1 Isolating Languages</h3>
+<ul>
+<li>Words usually = single morpheme</li>
+<li>Grammar expressed by word order or separate particles</li>
+</ul>
+<blockquote>
+<p>💡 Olympiad implication:</p>
+<ul>
+<li>Do not look for affixes everywhere — sometimes there are <strong>none</strong>.</li>
+</ul>
+</blockquote>
+<h3 id="32-agglutinative-languages">3.2 Agglutinative Languages</h3>
+<ul>
+<li>Words = chains of morphemes</li>
+<li>Each morpheme usually has one clear function</li>
+</ul>
+<p>Example pattern:</p>
+<pre><code>stem + plural + case
+</code></pre>
+<blockquote>
+<p>💡 Olympiad implication:</p>
+<ul>
+<li>Excellent for segmentation-based reasoning.</li>
+</ul>
+</blockquote>
+<h3 id="33-fusional-languages">3.3 Fusional Languages</h3>
+<ul>
+<li>One form may encode multiple meanings at once</li>
+</ul>
+<p>Example:</p>
+<pre><code>one ending = tense + person + number
+</code></pre>
+<blockquote>
+<p>💡 Olympiad implication:</p>
+<ul>
+<li>Do not expect one-to-one form–meaning mapping.</li>
+</ul>
+</blockquote>
+<h3 id="34-non-concatenative-morphology">3.4 Non-Concatenative Morphology</h3>
+<p>Grammar expressed by:</p>
+<ul>
+<li>vowel changes</li>
+<li>reduplication</li>
+<li>tone</li>
+<li>internal modification</li>
+</ul>
+<blockquote>
+<p>💡 Olympiad implication:</p>
+<ul>
+<li>If “nothing seems added”, check what changed.</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="4-典型構詞問題">4. 典型構詞問題</h2>
+<h4 id="typical-morphology-problem-types">Typical Morphology Problem Types</h4>
+<h3 id="type-1-segment-the-word">Type 1: Segment the Word</h3>
+<ul>
+<li>
+<p>Task: Identify recurring pieces and their meanings.</p>
+</li>
+<li>
+<p>Key strategy:</p>
+<ul>
+<li>Align meanings first</li>
+<li>Then align forms</li>
+<li>Only segment when evidence is repeated</li>
+</ul>
+</li>
+</ul>
+<h3 id="type-2-identify-the-grammatical-function">Type 2: Identify the Grammatical Function</h3>
+<ul>
+<li>Task: Decide what a recurring element does (plural? diminutive? tense?)</li>
+<li>Key strategy:
+<ul>
+<li>Ask: What meaning is always present when this form appears?</li>
+<li>Avoid: Guessing labels too early</li>
+</ul>
+</li>
+</ul>
+<h3 id="type-3-predict-new-forms">Type 3: Predict New Forms</h3>
+<ul>
+<li>
+<p>Task: Generate a word you have never seen.</p>
+</li>
+<li>
+<p>Key strategy:</p>
+<ul>
+<li>Apply the simplest rule that fits all known data</li>
+<li>Check position and compatibility</li>
+</ul>
+</li>
+</ul>
+<h3 id="type-4-resolve-apparent-irregularity">Type 4: Resolve Apparent Irregularity</h3>
+<ul>
+<li>
+<p>Task: Explain why forms do not look uniform.</p>
+</li>
+<li>
+<p>Key strategy:</p>
+<ul>
+<li>Ask: Whether the same grammatical meaning is expressed</li>
+<li>by different phonological shapes</li>
+<li>under different conditions</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-how-minimal-morphological-knowledge-helps-you-solve-problems">5. How Minimal Morphological Knowledge Helps You Solve Problems</h2>
+<h3 id="51-prevents-over-segmentation">5.1 Prevents Over-Segmentation</h3>
+<ul>
+<li>
+<p>Beginners often segment too much.</p>
+</li>
+<li>
+<p>Minimal principle:</p>
+<ul>
+<li>Do not split unless the split is supported by multiple examples.</li>
+</ul>
+</li>
+</ul>
+<h3 id="52-prevents-category-confusion">5.2 Prevents Category Confusion</h3>
+<ul>
+<li>Knowing that:
+<ul>
+<li>plural ≠ diminutive</li>
+<li>tense ≠ aspect</li>
+<li>helps you avoid collapsing unrelated meanings into one rule</li>
+</ul>
+</li>
+</ul>
+<h3 id="53-guides-hypothesis-testing">5.3 Guides Hypothesis Testing</h3>
+<ul>
+<li>Morphological knowledge tells you what kinds of rules are plausible.</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>
+<p>A “plural” marker that only appears with humans → plausible</p>
+</li>
+<li>
+<p>A plural marker that randomly disappears → suspicious</p>
+</li>
+</ul>
+<h3 id="54-helps-you-handle-exceptions-correctly">5.4 Helps You Handle Exceptions Correctly</h3>
+<ul>
+<li>
+<p>Advanced Olympiad problems include controlled exceptions.</p>
+</li>
+<li>
+<p>Correct reaction:</p>
+<ul>
+<li>“This is not noise — this exception is telling me something.”</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="6-構詞題型通用解題流程">6. 構詞題型通用解題流程</h2>
+<h3 id="a-compact-reasoning-checklist">A Compact Reasoning Checklist</h3>
+<p>When facing a morphology problem, always ask:</p>
+<ol>
+<li>哪些形式重複？Which parts recur?</li>
+<li>哪些意義重複？Which meanings recur?</li>
+<li>是否一對一對應？Do form and meaning align consistently?</li>
+<li>變化是否有條件？Is position stable?</li>
+<li>有沒有「什麼都沒變」本身就是規則？Is variation conditioned or random?</li>
+</ol>
+<p>If you can answer these five, you can solve the problem.</p>
+<hr>
+<h1 id="part-ii-hands-on-morphology-lab-sessions">Part II. Hands-on Morphology Lab Sessions</h1>
+<p>###（課堂實作區）</p>
+<hr>
+<h2 id="lab-1入門-entry-level">Lab 1｜入門 Entry Level</h2>
+<p>Seeing Morphology: “Words Are Not Atomic”</p>
+<ul>
+<li>Target level:
+<ul>
+<li>First-time Olympiad students</li>
+<li>UKLO Foundation / NACLO Beginner</li>
+</ul>
+</li>
+<li>Learning objective:
+<ul>
+<li>Detect recurring pieces</li>
+<li>Align form with meaning</li>
+<li>Avoid overthinking</li>
+</ul>
+</li>
+</ul>
+<h3 id="problem-11--clean-affixation">Problem 1.1 — Clean Affixation</h3>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bata</code></td>
+<td>child</td>
+</tr>
+<tr>
+<td><code>bata-ko</code></td>
+<td>children</td>
+</tr>
+<tr>
+<td><code>luma</code></td>
+<td>house</td>
+</tr>
+<tr>
+<td><code>luma-ko</code></td>
+<td>houses</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Tasks
+<ul>
+<li>Identify the morpheme for plural</li>
+<li>Segment all words</li>
+<li>Translate: children</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-blue">
+  💡 Expected reasoning
+<ul>
+<li><code>-ko</code> recurs only with plural meaning</li>
+<li>Base forms stay intact</li>
+</ul>
+<p>Key takeaway: Morphology starts with repetition + consistency, not terminology. Stop try to invent extra rules; Reinforce minimum necessary segmentation</p>
+</div>
+<hr>
+<h2 id="lab-2中低階-lower-intermediate">Lab 2｜中低階 Lower Intermediate</h2>
+<h3 id="one-meaning-different-shapes-allomorphy">One Meaning, Different Shapes (Allomorphy)</h3>
+<ul>
+<li>
+<p>Target level</p>
+<ul>
+<li>UKLO Intermediate</li>
+<li>NACLO Open (easier problems)</li>
+</ul>
+</li>
+<li>
+<p>Learning objective</p>
+<ul>
+<li>Handle allomorphy</li>
+<li>Learn that “plural ≠ single form”</li>
+</ul>
+</li>
+</ul>
+<h3 id="data">Data</h3>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tap</td>
+<td>stone</td>
+</tr>
+<tr>
+<td>tap-im</td>
+<td>stones</td>
+</tr>
+<tr>
+<td>sun</td>
+<td>tree</td>
+</tr>
+<tr>
+<td>sun-um</td>
+<td>trees</td>
+</tr>
+<tr>
+<td>lak</td>
+<td>road</td>
+</tr>
+<tr>
+<td>lak-im</td>
+<td>roads</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tasks">Tasks</h3>
+<ol>
+<li>Identify the plural marker(s)</li>
+<li>Explain why there are two forms</li>
+<li>Predict plural of <strong>mun</strong> (river)</li>
+</ol>
+<div class="highlight-blue">
+  💡 Expected reasoning
+<ul>
+<li><code>-im</code> and <code>-um</code> are both plural markers</li>
+<li>Choice depends on vowel harmony / phonological context</li>
+<li>One grammatical meaning, two surface forms</li>
+<li>Key takeaway: If meaning is stable, variation is probably conditioned, not random.</li>
+</ul>
+</div>
+<div class="highlight-yellow">
+⚠️ Common wrong hypothesis (to discuss) : “There are two different plurals.”
+And why it fails:
+<ul>
+<li>
+<p>No semantic distinction</p>
+</li>
+<li>
+<p>Distribution is predictable</p>
+</li>
+</ul>
+</div>
+---
+<h2 id="lab-3中高階-upper-intermediate">Lab 3｜中高階 Upper Intermediate</h2>
+<h3 id="competing-morphemes-do-not-collapse-functions">Competing Morphemes: Do Not Collapse Functions</h3>
+<ul>
+<li>Target level
+<ul>
+<li>Strong UKLO / NACLO</li>
+<li>IOL Selection Test preparation</li>
+</ul>
+</li>
+<li>Learning objective
+<ul>
+<li>Distinguish inflection vs derivation</li>
+<li>Avoid merging unrelated grammatical meanings</li>
+</ul>
+</li>
+</ul>
+<h3 id="problem-31--plural-vs-diminutive">Problem 3.1 — Plural vs Diminutive</h3>
+<h4 id="data-1">Data</h4>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>moro</td>
+<td>dog</td>
+</tr>
+<tr>
+<td>moro-ka</td>
+<td>dogs</td>
+</tr>
+<tr>
+<td>moro-ti</td>
+<td>small dog</td>
+</tr>
+<tr>
+<td>moro-ti-ka</td>
+<td>small dogs</td>
+</tr>
+<tr>
+<td>sena</td>
+<td>cat</td>
+</tr>
+<tr>
+<td>sena-ti</td>
+<td>small cat</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tasks-1">Tasks</h3>
+<ol>
+<li>Identify each morpheme and its function</li>
+<li>Why is <strong>-ti</strong> not plural?</li>
+<li>Translate <em>small cats</em>.</li>
+</ol>
+<div class="highlight-blue">
+  💡 Expected reasoning
+<ul>
+<li><code>-ka</code> = plural</li>
+<li><code>-ti</code> = diminutive (size/derivation)</li>
+<li>Order matters: stem – size – number</li>
+<li>Different meanings can stack — do not force them into one rule.</li>
+</ul>
+<!-- - small cats = **sena-ti-ka** -->
+</div>
+<hr>
+<h2 id="lab-4選拔賽等級-pre-iol">Lab 4｜選拔賽等級 Pre-IOL</h2>
+<h3 id="morphology-without-affixes-when-morphology-isnt-segmentable">Morphology Without Affixes (When Morphology Isn’t Segmentable)</h3>
+<ul>
+<li>Target level
+<ul>
+<li>Strong UKLO / NACLO</li>
+<li>IOL Selection Test preparation</li>
+</ul>
+</li>
+<li>Learning objective
+<ul>
+<li>Handle morphology without affixes</li>
+<li>Learn that “morphology isn’t always segmentable”</li>
+</ul>
+</li>
+</ul>
+<h3 id="problem-41--stem-alternation">Problem 4.1 — Stem Alternation</h3>
+<h4 id="data-2">Data</h4>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kel</td>
+<td>goat</td>
+</tr>
+<tr>
+<td>kal</td>
+<td>goats</td>
+</tr>
+<tr>
+<td>pem</td>
+<td>bird</td>
+</tr>
+<tr>
+<td>pam</td>
+<td>birds</td>
+</tr>
+<tr>
+<td>tir</td>
+<td>fish</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tasks-2">Tasks</h4>
+<ol>
+<li>How is plural expressed?</li>
+<li>Is there an affix?</li>
+<li>Predict plural of <strong>tir</strong></li>
+</ol>
+<div class="highlight-blue">
+  💡 Expected reasoning
+<ul>
+<li>
+<p>No added segment</p>
+</li>
+<li>
+<p>Vowel alternation signals plural</p>
+</li>
+<li>
+<p>Pattern: e → a</p>
+</li>
+<li>
+<p>Prediction: tir → tar</p>
+</li>
+</ul>
+<blockquote>
+<p>Key takeaway: Absence of an affix is itself evidence.</p>
+</blockquote>
+</div>
+<hr>
+<h2 id="lab-5iol-final-level">Lab 5｜IOL Final Level</h2>
+<h3 id="morphology--constraints--exceptions">Morphology × Constraints × Exceptions</h3>
+<p>Constraints, Zero Marking, Semantics</p>
+<ul>
+<li>Target level
+<ul>
+<li>IOL Final Round</li>
+<li>LLM-resistant reasoning</li>
+</ul>
+</li>
+<li>Learning objective
+<ul>
+<li>Integrate:
+<ul>
+<li>multiple morphemes</li>
+<li>conditioned exceptions</li>
+<li>hypothesis rejection</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="problem-51--restricted-plurality">Problem 5.1 — Restricted Plurality</h3>
+<h4 id="data-3">Data</h4>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>anu</code></td>
+<td>man</td>
+</tr>
+<tr>
+<td><code>anu-ka</code></td>
+<td>men</td>
+</tr>
+<tr>
+<td><code>isi</code></td>
+<td>woman</td>
+</tr>
+<tr>
+<td><code>isi-ka</code></td>
+<td>women</td>
+</tr>
+<tr>
+<td><code>poko</code></td>
+<td>stone</td>
+</tr>
+<tr>
+<td><code>poko</code></td>
+<td>stones</td>
+</tr>
+<tr>
+<td><code>luma</code></td>
+<td>house</td>
+</tr>
+<tr>
+<td><code>luma</code></td>
+<td>houses</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tasks-3">Tasks</h4>
+<ol>
+<li>Identify the plural rule(s)</li>
+<li>Explain why some nouns do not change</li>
+<li>Predict plural of <strong>anu-ti</strong> (young man)</li>
+</ol>
+<div class="highlight-blue">
+  💡 Expected reasoning
+<ul>
+<li><code>-ka</code> marks plural <strong>only for humans</strong></li>
+<li>Non-human nouns show zero marking</li>
+<li>Morphology is semantically conditioned</li>
+<li>Prediction: <code>anu-ti-ka</code> (still human → plural applies)</li>
+</ul>
+</div>
+<div class="highlight-yellow">
+Why this is IOL-level
+- Multiple interacting constraints
+- Zero morphology as a meaningful choice
+- Requires explicit reasoning, not pattern matching
+</div>
+<h3 id="cognitive-skill-mapping">Cognitive Skill Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>Lab</th>
+<th>Focus</th>
+<th>Cognitive Skill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Segmentation</td>
+<td>Pattern detection</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Allomorphy</td>
+<td>Conditioned variation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Function separation</td>
+<td>Hypothesis discipline</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Non-concatenative</td>
+<td>Rule abstraction</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Constraints &amp; exceptions</td>
+<td>System-level reasoning</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="part-iii-answer-keys教師用請勿提前給學生">Part III. Answer Keys（教師用，請勿提前給學生）</h1>
+<hr>
+<h2 id="lab-1-answer-key">Lab 1 Answer Key</h2>
+<ul>
+<li><code>-ko</code> = plural</li>
+<li>bata / luma = singular bases</li>
+<li>children = <strong>bata-ko</strong></li>
+</ul>
+<hr>
+<h2 id="lab-2-answer-key">Lab 2 Answer Key</h2>
+<ul>
+<li>Plural = <code>-im</code> / <code>-um</code></li>
+<li>Allomorphy conditioned by vowel context</li>
+<li>mun → <strong>mun-um</strong></li>
+</ul>
+<hr>
+<h2 id="lab-3-answer-key">Lab 3 Answer Key</h2>
+<ul>
+<li><code>-ka</code> = plural</li>
+<li><code>-ti</code> = diminutive (size)</li>
+<li>small cats = <strong>sena-ti-ka</strong></li>
+</ul>
+<hr>
+<h2 id="lab-4-answer-key">Lab 4 Answer Key</h2>
+<ul>
+<li>Plural marked by vowel change <code>e → a</code></li>
+<li>No affix</li>
+<li>tir → <strong>tar</strong></li>
+</ul>
+<hr>
+<h2 id="lab-5-answer-key">Lab 5 Answer Key</h2>
+<ul>
+<li><code>-ka</code> marks plural <strong>only for human nouns</strong></li>
+<li>Non-human nouns show zero plural</li>
+<li>anu-ti → <strong>anu-ti-ka</strong></li>
+</ul>
+<hr>
+<h2 id="附錄字體使用指南">附錄：字體使用指南</h2>
+<h3 id="如何在文中切換字體">如何在文中切換字體</h3>
+<p>在 Markdown 文件中，你可以使用 HTML <code>&lt;span&gt;</code> 標籤配合 CSS 類來切換字體：</p>
+<h4 id="基本語法">基本語法</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;字體類名&quot;</span>&gt;</span>要改變字體的內容<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</code></pre>
+<h4 id="可用字體類">可用字體類</h4>
+<table>
+<thead>
+<tr>
+<th>類名</th>
+<th>字體類型</th>
+<th>用途</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.ming</code></td>
+<td>明体（衬线）</td>
+<td>正文、標題（預設）</td>
+<td><code>&lt;span class=&quot;ming&quot;&gt;這是明體&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.hei</code></td>
+<td>黑体（无衬线）</td>
+<td>強調、標題</td>
+<td><code>&lt;span class=&quot;hei&quot;&gt;這是黑體&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.kai</code></td>
+<td>楷体</td>
+<td>手寫風格、特殊說明</td>
+<td><code>&lt;span class=&quot;kai&quot;&gt;這是楷體&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.fangsong</code></td>
+<td>仿宋</td>
+<td>優雅風格</td>
+<td><code>&lt;span class=&quot;fangsong&quot;&gt;這是仿宋&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.mono</code></td>
+<td>等寬字體</td>
+<td>代碼、對齊</td>
+<td><code>&lt;span class=&quot;mono&quot;&gt;這是等寬&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.english</code></td>
+<td>英文專用（Lato）</td>
+<td>英文內容（已全局設置，無需使用）</td>
+<td><code>English Text</code></td>
+</tr>
+<tr>
+<td><code>.highlight</code></td>
+<td>淺灰高亮（行內）</td>
+<td>標記重點文字</td>
+<td><code>&lt;span class=&quot;highlight&quot;&gt;重要內容&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-gray</code></td>
+<td>淺灰高亮（行內）</td>
+<td>標記重點文字</td>
+<td><code>&lt;span class=&quot;highlight-gray&quot;&gt;重要內容&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-yellow</code></td>
+<td>黃色高亮（行內）</td>
+<td>標記重點文字</td>
+<td><code>&lt;span class=&quot;highlight-yellow&quot;&gt;重要內容&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-blue</code></td>
+<td>藍色高亮（行內）</td>
+<td>標記重點文字</td>
+<td><code>&lt;span class=&quot;highlight-blue&quot;&gt;重要內容&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-green</code></td>
+<td>綠色高亮（行內）</td>
+<td>標記重點文字</td>
+<td><code>&lt;span class=&quot;highlight-green&quot;&gt;重要內容&lt;/span&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-block</code></td>
+<td>淺灰高亮（塊級）</td>
+<td>標記整段內容</td>
+<td><code>&lt;div class=&quot;highlight-block&quot;&gt;整段內容&lt;/div&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-block-yellow</code></td>
+<td>黃色高亮（塊級）</td>
+<td>標記整段內容</td>
+<td><code>&lt;div class=&quot;highlight-block-yellow&quot;&gt;整段內容&lt;/div&gt;</code></td>
+</tr>
+<tr>
+<td><code>.highlight-block-blue</code></td>
+<td>藍色高亮（塊級）</td>
+<td>標記整段內容</td>
+<td><code>&lt;div class=&quot;highlight-block-blue&quot;&gt;整段內容&lt;/div&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="組合使用">組合使用</h4>
+<p>可以同時使用多個類：</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hei large&quot;</span>&gt;</span>這是大號黑體<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;kai italic&quot;</span>&gt;</span>這是斜體楷體<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ming bold&quot;</span>&gt;</span>這是粗體明體<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</code></pre>
+<h4 id="實際範例">實際範例</h4>
+<p><strong>範例 1：強調重點</strong></p>
+<pre><code class="language-markdown">構詞學的核心概念是：<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hei&quot;</span>&gt;</span></span>語素（morpheme）<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>。
+</code></pre>
+<p><strong>範例 2：特殊說明</strong></p>
+<pre><code class="language-markdown"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;kai&quot;</span>&gt;</span></span>注意：<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>這個規則僅適用於人類名詞。
+</code></pre>
+<p><strong>範例 3：英文內容（使用 Lato 字體）</strong></p>
+<pre><code class="language-markdown">The term morphology comes from Greek.
+</code></pre>
+<p><strong>範例 4：代碼或對齊</strong></p>
+<pre><code class="language-markdown">複數標記：<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mono&quot;</span>&gt;</span></span>-ko<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>
+</code></pre>
+<p><strong>範例 5：高亮背景（標記重點）</strong></p>
+<pre><code class="language-markdown">構詞學的核心是：<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight&quot;</span>&gt;</span></span>語素（morpheme）<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>。
+
+重點提示：<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight-yellow&quot;</span>&gt;</span></span>這個規則很重要<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>。
+
+注意事項：<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight-blue&quot;</span>&gt;</span></span>請仔細閱讀<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>。
+</code></pre>
+<p><strong>可用高亮顏色</strong>：</p>
+<ul>
+<li><code>&lt;span class=&quot;highlight&quot;&gt;</code> 或 <code>&lt;span class=&quot;highlight-gray&quot;&gt;</code> - 淺灰色（默認）</li>
+<li><code>&lt;span class=&quot;highlight-yellow&quot;&gt;</code> - 黃色</li>
+<li><code>&lt;span class=&quot;highlight-blue&quot;&gt;</code> - 藍色</li>
+<li><code>&lt;span class=&quot;highlight-green&quot;&gt;</code> - 綠色</li>
+<li><code>&lt;span class=&quot;highlight-pink&quot;&gt;</code> - 粉色</li>
+<li><code>&lt;span class=&quot;highlight-orange&quot;&gt;</code> - 橙色</li>
+</ul>
+<p><strong>範例 6：塊級高亮（整段高亮）</strong></p>
+<pre><code class="language-markdown"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight-block&quot;</span>&gt;</span></span>
+這是一整段需要高亮的內容。
+可以包含多行文字。
+適合用於重要說明、提示、注意事項等。
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight-block-yellow&quot;</span>&gt;</span></span>
+⚠️ 重要提示：這是黃色塊級高亮
+適合用於警告或重要提醒
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;highlight-block-blue&quot;</span>&gt;</span></span>
+💡 提示：這是藍色塊級高亮
+適合用於一般提示或說明
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+</code></pre>
+<p><strong>可用塊級高亮顏色</strong>：</p>
+<ul>
+<li><code>&lt;div class=&quot;highlight-block&quot;&gt;</code> 或 <code>&lt;div class=&quot;highlight-block-gray&quot;&gt;</code> - 淺灰色（默認）</li>
+<li><code>&lt;div class=&quot;highlight-block-yellow&quot;&gt;</code> - 黃色</li>
+<li><code>&lt;div class=&quot;highlight-block-blue&quot;&gt;</code> - 藍色</li>
+<li><code>&lt;div class=&quot;highlight-block-green&quot;&gt;</code> - 綠色</li>
+<li><code>&lt;div class=&quot;highlight-block-pink&quot;&gt;</code> - 粉色</li>
+<li><code>&lt;div class=&quot;highlight-block-orange&quot;&gt;</code> - 橙色</li>
+</ul>
+<p><strong>塊級高亮 vs 行內高亮</strong>：</p>
+<ul>
+<li><strong>行內高亮</strong> (<code>&lt;span class=&quot;highlight&quot;&gt;</code>)：用於標記單詞或短句</li>
+<li><strong>塊級高亮</strong> (<code>&lt;div class=&quot;highlight-block&quot;&gt;</code>)：用於標記整段內容，有更大的內邊距和左側邊框</li>
+</ul>
+<h4 id="在表格中使用">在表格中使用</h4>
+<pre><code class="language-markdown">| 類別 | 說明 |
+|------|------|
+| 語素 | <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hei&quot;</span>&gt;</span></span>最小的意義單位<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span> |
+| 詞根 | <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;kai&quot;</span>&gt;</span></span>詞彙核心<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span> |
+</code></pre>
+<h4 id="注意事項">注意事項</h4>
+<ol>
+<li><strong>預設字體</strong>：文件預設使用明體（中文）和 Lato（英文），無需特別標註</li>
+<li><strong>相容性</strong>：這些樣式在支援 HTML 的 Markdown 查看器中有效（如 Typora、VS Code 預覽、GitHub 等）</li>
+<li><strong>PDF 轉換</strong>：使用 Pandoc 轉換為 PDF 時，樣式會保留</li>
+<li><strong>簡潔原則</strong>：不要過度使用字體切換，保持文件一致性</li>
+</ol>
+<hr>
+<p><strong>快速參考卡片</strong></p>
+<ul>
+<li>明體（預設）：<code>&lt;span class=&quot;ming&quot;&gt;文字&lt;/span&gt;</code> 或不標註</li>
+<li>黑體強調：<code>&lt;span class=&quot;hei&quot;&gt;文字&lt;/span&gt;</code></li>
+<li>楷體說明：<code>&lt;span class=&quot;kai&quot;&gt;文字&lt;/span&gt;</code></li>
+<li>等寬代碼：<code>&lt;span class=&quot;mono&quot;&gt;文字&lt;/span&gt;</code></li>
+<li>英文專用：現在全局自動使用 Lato，無需標註</li>
+<li><strong>行內高亮</strong>：<code>&lt;span class=&quot;highlight&quot;&gt;文字&lt;/span&gt;</code> 或 <code>&lt;span class=&quot;highlight-gray&quot;&gt;文字&lt;/span&gt;</code></li>
+<li><strong>塊級高亮</strong>：<code>&lt;div class=&quot;highlight-block&quot;&gt;整段內容&lt;/div&gt;</code> 或 <code>&lt;div class=&quot;highlight-block-yellow&quot;&gt;整段內容&lt;/div&gt;</code></li>
+</ul>
+<hr>
+<h2 id="附錄markdown-預覽對齊問題解決方案">附錄：Markdown 預覽對齊問題解決方案</h2>
+<h3 id="為什麼預覽無法很好對齊">為什麼預覽無法很好對齊？</h3>
+<p>Markdown 預覽器（如 Typora、VS Code、GitHub 等）在渲染表格時，可能因為以下原因導致對齊問題：</p>
+<ol>
+<li>
+<p><strong>字符寬度差異</strong>：</p>
+<ul>
+<li>中文字符是全角（2個字符寬度）</li>
+<li>英文字符是半角（1個字符寬度）</li>
+<li>不同字體的字符寬度可能不同</li>
+</ul>
+</li>
+<li>
+<p><strong>字體渲染差異</strong>：</p>
+<ul>
+<li>Lato（英文）和明體（中文）的字符寬度不同</li>
+<li>瀏覽器/編輯器計算列寬時可能不準確</li>
+</ul>
+</li>
+<li>
+<p><strong>表格解析差異</strong>：</p>
+<ul>
+<li>不同 Markdown 解析器對表格的處理方式不同</li>
+</ul>
+</li>
+</ol>
+<h3 id="-立即解決方案推薦">🚀 立即解決方案（推薦）</h3>
+<h4 id="方案-1檢查表格格式最簡單">方案 1：檢查表格格式（最簡單）</h4>
+<p><strong>確保表格格式正確</strong>：</p>
+<ol>
+<li>
+<p><strong>每列之間必須有空格</strong>：</p>
+<pre><code class="language-markdown">✅ 正確：| 列1 | 列2 | 列3 |
+❌ 錯誤：| 列1|列2|列3 |
+</code></pre>
+</li>
+<li>
+<p><strong>分隔線長度要一致</strong>：</p>
+<pre><code class="language-markdown">✅ 正確：
+| 類型 | 特徵 | 說明 |
+| ---- | ---- | ---- |
+
+❌ 錯誤：
+| 類型 | 特徵 | 說明 |
+| -- | ---- | - |
+</code></pre>
+</li>
+<li>
+<p><strong>確保表格行開頭和結尾都有 <code>|</code></strong>：</p>
+<pre><code class="language-markdown">✅ 正確：| 內容 | 內容 |
+❌ 錯誤：內容 | 內容
+</code></pre>
+</li>
+</ol>
+<h4 id="方案-2使用-html-表格最可靠">方案 2：使用 HTML 表格（最可靠）</h4>
+<p>如果 Markdown 表格仍然無法對齊，直接使用 HTML 表格：</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 30%;&quot;</span>&gt;</span>類型<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 30%;&quot;</span>&gt;</span>特徵<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 40%;&quot;</span>&gt;</span>說明<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>孤立語<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>幾乎沒詞形變化<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>不要亂找 affix<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+</code></pre>
+<h4 id="方案-3編輯器設置調整">方案 3：編輯器設置調整</h4>
+<p><strong>Typora</strong>：</p>
+<ol>
+<li>設置 → 偏好設置 → 編輯器</li>
+<li>啟用「嚴格模式」</li>
+<li>設置 → 偏好設置 → 外觀 → 調整字體大小為 14-16px</li>
+</ol>
+<p><strong>VS Code</strong>：</p>
+<ol>
+<li>安裝擴展：「Markdown Preview Enhanced」</li>
+<li>使用 <code>Ctrl+Shift+V</code> 預覽（比內建預覽器對齊更好）</li>
+</ol>
+<p><strong>其他編輯器</strong>：</p>
+<ul>
+<li>嘗試導出為 HTML 或 PDF 查看對齊效果</li>
+<li>使用 GitHub 網頁版預覽（對表格支持最好）</li>
+</ul>
+<h4 id="方案-3使用-html-表格最精確">方案 3：使用 HTML 表格（最精確）</h4>
+<p>如果需要完全控制對齊，可以使用 HTML 表格：</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 30%;&quot;</span>&gt;</span>類型<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 30%;&quot;</span>&gt;</span>特徵<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 40%;&quot;</span>&gt;</span>Olympiad Implication<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>孤立語 Isolating<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>幾乎沒詞形變化<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>不要亂找 affix<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+</code></pre>
+<h4 id="方案-4編輯器設置">方案 4：編輯器設置</h4>
+<p><strong>Typora</strong>：</p>
+<ul>
+<li>設置 → 偏好設置 → 編輯器 → 啟用「嚴格模式」</li>
+<li>設置 → 偏好設置 → 外觀 → 調整字體大小</li>
+</ul>
+<p><strong>VS Code</strong>：</p>
+<ul>
+<li>安裝 &quot;Markdown Preview Enhanced&quot; 擴展</li>
+<li>使用 <code>Ctrl+Shift+V</code> 預覽，對齊會更好</li>
+</ul>
+<p><strong>GitHub</strong>：</p>
+<ul>
+<li>GitHub 的 Markdown 渲染對表格支持較好</li>
+<li>如果仍有問題，考慮使用 HTML 表格</li>
+</ul>
+<h3 id="-快速診斷為什麼我的表格無法對齊">🔍 快速診斷：為什麼我的表格無法對齊？</h3>
+<p><strong>檢查清單</strong>：</p>
+<ol>
+<li>
+<p>✅ <strong>表格格式是否正確？</strong></p>
+<ul>
+<li>每列之間有空格：<code>| 列1 | 列2 |</code></li>
+<li>分隔線長度一致：<code>| ---- | ---- |</code></li>
+<li>每行開頭和結尾都有 <code>|</code></li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>使用的編輯器/預覽器是什麼？</strong></p>
+<ul>
+<li>Typora：啟用「嚴格模式」</li>
+<li>VS Code：使用「Markdown Preview Enhanced」擴展</li>
+<li>GitHub：網頁版預覽通常對齊最好</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>CSS 樣式是否生效？</strong></p>
+<ul>
+<li>檢查瀏覽器開發者工具（F12）</li>
+<li>確認 <code>&lt;style&gt;</code> 標籤中的 CSS 是否被應用</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>表格內容是否過長？</strong></p>
+<ul>
+<li>如果某列內容很長，考慮縮短或換行</li>
+<li>使用 HTML 表格可以更好地控制列寬</li>
+</ul>
+</li>
+</ol>
+<h3 id="當前文件的對齊優化">當前文件的對齊優化</h3>
+<p>已添加以下 CSS 優化：</p>
+<ol>
+<li><strong>表格布局</strong>：使用 <code>table-layout: auto</code> 自動調整列寬</li>
+<li><strong>強制樣式</strong>：使用 <code>!important</code> 確保樣式優先級</li>
+<li><strong>文字換行</strong>：允許長文本自動換行，避免破壞布局</li>
+<li><strong>邊框和間距</strong>：統一的邊框和內邊距設置</li>
+<li><strong>表格渲染</strong>：強制使用 <code>display: table</code> 確保正確渲染</li>
+</ol>
+<h3 id="建議">建議</h3>
+<ul>
+<li><strong>一般表格</strong>：使用標準 Markdown 表格格式即可</li>
+<li><strong>數據表格</strong>：考慮使用等寬字體或 HTML 表格</li>
+<li><strong>複雜表格</strong>：直接使用 HTML 表格，獲得完全控制</li>
+</ul>
+<p>如果對齊問題持續存在，建議：</p>
+<ol>
+<li>檢查使用的 Markdown 編輯器/預覽器</li>
+<li>嘗試不同的預覽器（如 GitHub、Typora、Marked 等）</li>
+<li>對於關鍵表格，使用 HTML 表格替代</li>
+</ol>
+
+            
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var G=Object.defineProperty;var J=(f,u,_)=>u in f?G(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>G(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>J(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32:(S,E,h)=>{S.exports=h(924)},924:(S,E)=>{"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},z="data-marp-auto-scaling-wrapper",M="data-marp-auto-scaling-svg",T="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${M}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${T}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${z}>
+  <svg part="svg" ${M}>
+    <foreignObject><span ${T}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${z}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${M}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${T}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:p})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=p==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const F=r((d,{attrs:v={},style:n})=>class extends d{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const R=Symbol();let H;const C="marpitSVGPolyfill:setZoomFactor,",a=Symbol(),l=Symbol(),e=r(()=>{const d=navigator.vendor==="Apple Computer, Inc.",v=d?[g]:[],n={then:r(s=>(d?(async()=>{if(H===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),p=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await p,i.drawImage(o,0,0),H=i.getImageData(5,5,1,1).data[3]<128}return H})().then(t=>{s?.(t?[g]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"g");let c,y;function g(d){const v=typeof d=="object"&&d.target||document,n=typeof d=="object"?d.zoom:d;window[l]||(Object.defineProperty(window,l,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(C)){const[,o]=t.split(","),p=Number.parseFloat(o);Number.isNaN(p)||(y=p)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,p,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||y||t.currentScale||1;c!==x&&(c=x,s=x);const B=t.getBoundingClientRect(),{length:Y}=t.children;for(let N=0;N<Y;N+=1){const $=t.children[N];if($.getScreenCTM){const A=$.getScreenCTM();if(A){const Z=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,U=(m=(p=$.y)===null||p===void 0?void 0:p.baseVal.value)!==null&&m!==void 0?m:0,X=$.children.length;for(let P=0;P<X;P+=1){const W=$.children[P];if(W.tagName==="SECTION"){const{style:D}=W;D.transformOrigin||(D.transformOrigin=`${-Z}px ${-U}px`),D.transform=`scale(${x}) matrix(${A.a}, ${A.b}, ${A.c}, ${A.d}, ${A.e-B.left}, ${A.f-B.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${C}${s}`,window.origin==="null"?"*":window.origin)})}r(g,"u");function O({once:d=!1,target:v=document}={}){const n=function(s=document){if(s[a])return s[a];let t=!0;const i=r(()=>{t=!1,delete s[a]},"i");Object.defineProperty(s,a,{configurable:!0,value:i});let o=[],p=!1;(async()=>{try{o=await e()}finally{p=!0}})();const m=r(()=>{for(const x of o)x({target:s});p&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i}(v);return d?(n(),()=>{}):n}r(O,"v"),c=1,y=void 0;const I=O,q=Symbol(),V=r((d=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[R];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const p=`marp-${o}`,m=b[o].proto();(L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L))&&m!==HTMLElement?i||customElements.define(p,F(m,{style:b[o].style}),{extends:o}):(i||customElements.define(p,F(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${p}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${p}`).replace(new RegExp(`</${o}>$`,"i"),`</${p}>`)}))}window[R]=!0})(d),d[q])return d[q];const v=O({target:d}),n=r(()=>{v(),delete d[q]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(d),"update")});return Object.defineProperty(d,q,{configurable:!0,value:s}),s},"y");E.browser=V,h=V,h=I}},u={};function _(S){var E=u[S];if(E!==void 0)return E.exports;var h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");var K={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function z(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,c=0,y=0;for(const g of l.tokens)g.map&&(c=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,c-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(z,"marpVSCodeContentSection");const M="marp-vscode.overflowTracker",T=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===M&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),C=class C{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const c=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(c<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),O=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(O)||l.push({startLine:g,endLine:O})}this.postMessage(M,{overflowElements:l})}};r(C,"OverflowTracker");let k=C;function F(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const c=document.getElementById("__marp-vscode");!!a!=!!c?(document.body.classList.toggle("marp-vscode",!!c),c?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(c&&L(c),R()):H()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(F,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:c}=l;l.outerHTML=c,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",c.slice(0,c.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),R=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:c}=e;e.dataset.marpVscodeHref=c,e.removeAttribute("href")})},"removeStyles"),H=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");F()})()})();})();
+
+</script>
+
+        </body>
+        </html>

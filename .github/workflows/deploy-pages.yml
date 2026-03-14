@@ -1,0 +1,46 @@
+# Deploy GitHub Pages with docs/ (including tol/ copy)
+# In repo Settings → Pages, set Source to "GitHub Actions" for this to run.
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy tol into docs
+        run: |
+          ls -la tol/
+          rm -rf docs/tol
+          cp -r tol docs/
+          ls -la docs/tol/
+          test -f docs/tol/language_culture_handout.html || (echo "ERROR: handout missing after copy" && exit 1)
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
