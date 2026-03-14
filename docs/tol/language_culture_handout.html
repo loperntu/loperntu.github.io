@@ -1474,6 +1474,48 @@
   .ttsim-mrow-cross  { background:#f0fdf4; }
   .ttsim-mrow-body   { background:#fefce8; }
 
+  /* ── Khmer Simulator (orange / teal) ── */
+  .khsim-mode-btn { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; border-radius:20px; padding:8px 16px; font:inherit; cursor:pointer; transition:all .2s; font-size:.94rem; font-weight:600; }
+  .khsim-mode-btn.active.khsim-graph-btn { background:#fff; color:#ea580c; box-shadow:0 2px 8px rgba(234,88,12,.14); border-color:#fb923c; }
+  .khsim-mode-btn.active.khsim-matrix-btn { background:#fff; color:#0f766e; box-shadow:0 2px 8px rgba(15,118,110,.12); border-color:#5eead4; }
+  .khsim-graph-header { background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 100%); border:1px solid #fed7aa; border-radius:14px; padding:14px 18px; margin-bottom:14px; min-height:72px; }
+  .khsim-graph-header h4 { margin:0 0 6px; color:#9a3412; font-size:1.03rem; }
+  .khsim-graph-header p  { margin:0; color:#c2410c; font-size:.92rem; line-height:1.6; }
+  .khsim-matrix-header { background:linear-gradient(135deg,#f0fdfa 0%,#ccfbf1 100%); border:1px solid #99f6e4; border-radius:14px; padding:14px 18px; margin-bottom:14px; min-height:72px; }
+  .khsim-matrix-header h4 { margin:0 0 6px; color:#115e59; font-size:1.03rem; }
+  .khsim-matrix-header p  { margin:0; color:#0f766e; font-size:.92rem; line-height:1.6; white-space:pre-line; }
+  .khsim-info-bar { background:#fff7ed; border:1px solid #fed7aa; border-radius:14px; padding:12px 16px; font-size:.93rem; color:#9a3412; margin-bottom:16px; line-height:1.7; }
+  .khsim-next-graph  { background:#ea580c; border-color:#ea580c; color:#fff; }
+  .khsim-next-graph:not(:disabled):hover  { background:#c2410c; }
+  .khsim-next-matrix { background:#0f766e; border-color:#0f766e; color:#fff; }
+  .khsim-next-matrix:not(:disabled):hover { background:#115e59; }
+  .khsim-dot-graph.active  { background:#ea580c; transform:scale(1.3); }
+  .khsim-dot-matrix.active { background:#0f766e; transform:scale(1.3); }
+  .khsim-mrow-head   { background:#fff7ed; }
+  .khsim-mrow-pivot  { background:#fef3c7; }
+  .khsim-mrow-except { background:#fef2f2; }
+
+  /* ── Burma Simulator (rose / indigo) ── */
+  .bmsim-mode-btn { background:#fff1f2; border:1px solid #fecdd3; color:#9f1239; border-radius:20px; padding:8px 16px; font:inherit; cursor:pointer; transition:all .2s; font-size:.94rem; font-weight:600; }
+  .bmsim-mode-btn.active.bmsim-graph-btn { background:#fff; color:#e11d48; box-shadow:0 2px 8px rgba(225,29,72,.14); border-color:#fb7185; }
+  .bmsim-mode-btn.active.bmsim-matrix-btn { background:#fff; color:#4338ca; box-shadow:0 2px 8px rgba(67,56,202,.13); border-color:#a5b4fc; }
+  .bmsim-graph-header { background:linear-gradient(135deg,#fff1f2 0%,#ffe4e6 100%); border:1px solid #fecdd3; border-radius:14px; padding:14px 18px; margin-bottom:14px; min-height:72px; }
+  .bmsim-graph-header h4 { margin:0 0 6px; color:#9f1239; font-size:1.03rem; }
+  .bmsim-graph-header p  { margin:0; color:#be123c; font-size:.92rem; line-height:1.6; }
+  .bmsim-matrix-header { background:linear-gradient(135deg,#eef2ff 0%,#e0e7ff 100%); border:1px solid #c7d2fe; border-radius:14px; padding:14px 18px; margin-bottom:14px; min-height:72px; }
+  .bmsim-matrix-header h4 { margin:0 0 6px; color:#3730a3; font-size:1.03rem; }
+  .bmsim-matrix-header p  { margin:0; color:#4338ca; font-size:.92rem; line-height:1.6; white-space:pre-line; }
+  .bmsim-info-bar { background:#fff1f2; border:1px solid #fecdd3; border-radius:14px; padding:12px 16px; font-size:.93rem; color:#9f1239; margin-bottom:16px; line-height:1.7; }
+  .bmsim-next-graph  { background:#e11d48; border-color:#e11d48; color:#fff; }
+  .bmsim-next-graph:not(:disabled):hover  { background:#be123c; }
+  .bmsim-next-matrix { background:#4338ca; border-color:#4338ca; color:#fff; }
+  .bmsim-next-matrix:not(:disabled):hover { background:#3730a3; }
+  .bmsim-dot-graph.active  { background:#e11d48; transform:scale(1.3); }
+  .bmsim-dot-matrix.active { background:#4338ca; transform:scale(1.3); }
+  .bmsim-mrow-anchor { background:#fff1f2; }
+  .bmsim-mrow-shared { background:#eef2ff; }
+  .bmsim-mrow-inter  { background:#ecfdf5; }
+
   /* ── Malagasy Simulator (violet / slate) ── */
   .mgsim-mode-btn { background:#f5f3ff; border:1px solid #ddd6fe; color:#4c1d95; border-radius:20px; padding:8px 16px; font:inherit; cursor:pointer; transition:all .2s; font-size:.94rem; font-weight:600; }
   .mgsim-mode-btn.active.mgsim-graph-btn { background:#fff; color:#6d28d9; box-shadow:0 2px 8px rgba(109,40,217,.14); border-color:#a78bfa; }
@@ -1522,6 +1564,7 @@
     <a href="#interactive-lab">互動練習</a>
     <a href="#checklist">Checklist</a>
     <a href="#thai-case">案例解析</a>
+    <a href="#extended-types">延伸題型</a>
     <a href="#homework">📝 Homework</a>
   </aside>
 
@@ -1551,6 +1594,7 @@
         <a href="#interactive-lab">互動練習</a>
         <a href="#checklist">Checklist</a>
         <a href="#thai-case">案例解析</a>
+        <a href="#extended-types">延伸題型</a>
         <a href="#homework">📝 Homework</a>
       </nav>
       <!-- <p class="print-note">建議用瀏覽器列印功能匯出 PDF；動畫區塊在列印時會自動展開為靜態教學內容。</p> -->
@@ -1641,7 +1685,7 @@
 
     <section class="section" id="what-it-tests">
       <h2>好，那語意題到底在考你什麼？</h2>
-      <p class="section-intro">一句話版：不是在考你背過多少單字，而是在考你能不能發現「一個語言把世界切成幾塊」。</p>
+      <p class="section-intro">不是在考你背過多少單字，而是在考你能不能發現「一個語言把世界切成幾塊」。</p>
       <p>語奧的語意題，題面上像是配對填空，但它真正想看的是：你能不能從一堆陌生詞裡，找出它們之間的關係：哪些詞屬於同一家族？哪個部件是所有詞共享的核心？某個語言為什麼用三個詞說「稻米」，而英文只要一個 <em>rice</em>？</p>
       <div class="callout">
         <strong>最重要的一件事：</strong>語意題是 <em>relation-first</em>，不是 word-first。也就是說，單看「這個詞是什麼意思」往往沒用；要看的是「這群詞彼此的關係是什麼」，它們怎麼對比、怎麼組合、怎麼延伸出新意義。
@@ -1788,7 +1832,7 @@
         </div>
       </div>
       <div class="callout" style="margin-top:14px;">
-        <strong>給選手的一句話：</strong>語意題不是在考你知不知道某文化，而是在考你能不能從資料本身看出那個文化認為什麼 distinction 值得被語言保存。
+        語意題不是在考你知不知道某文化，而是在考你能不能從資料本身看出那個文化認為什麼 distinction 值得被語言保存。
       </div>
     </section>
 
@@ -3668,10 +3712,521 @@ siː dæːŋ = 紅色</div>
             <td>看懂比喻卻忽視音變線索</td>
             <td>同時處理 semantics + morphology + phonology</td>
           </tr>
+          <tr style="background:#fff7ed;">
+            <td><strong>Khmer（高棉語）</strong></td>
+            <td>「sach（肉）」這個分類詞的存在與否</td>
+            <td>直接逐字翻譯，沒注意語序規則</td>
+            <td>從語序結構中讀出語義分類系統</td>
+          </tr>
+          <tr style="background:#fff1f2;">
+            <td><strong>Burma（緬甸文）</strong></td>
+            <td>視覺符號的重複與音節長度</td>
+            <td>被陌生字形嚇到，忘記用形式特徵</td>
+            <td>圖表法和矩陣法跨題型通用</td>
+          </tr>
         </tbody>
       </table>
-      <p>三題合起來正好說明：graph method 是起手式，但真正成熟的語意題解法，還要補上語意場分類、文化提示讀取、head detection、body-part metaphor 警覺、以及 minimal form rules 的整合能力。</p>
+      <p>五題合起來說明了一件事：圖表法和矩陣法不只是解「語意題」的工具——它們是處理陌生語言資料的通用思維框架，可以橫跨語意、形態、語序、分類詞、乃至文字系統等截然不同的題型。</p>
     </section>
+
+    <!-- ════════════════════════════════
+         延伸題型：從語意到跨題型應用
+         ════════════════════════════════ -->
+    <section class="section" id="extended-types">
+      <h2>延伸：當解題工具跨越題型邊界</h2>
+      <p class="section-intro">前面三題都是「純語意題」——輸入是詞彙，輸出是意義關係。接下來兩題是升級版：圖表法和矩陣法在遇到語法語序、分類詞系統、乃至陌生書寫文字時，同樣有效。</p>
+
+      <div class="callout">
+        <strong>兩題帶來的共同教訓：</strong>不論是「看不懂意思」（語意題）還是「看不懂文字」（書寫題），解題的入口都是一樣的——<em>先找形式上的重複，再建關係網絡，最後用消去法收斂答案</em>。
+      </div>
+
+      <!-- ══ Worked Example D：Khmer ══ -->
+      <div class="analysis-card" style="margin-top:22px;">
+        <h3>Worked Example D：高棉語（Khmer）——語法語序 + 語義分類詞</h3>
+        <div class="prompt-block">
+          <h4>題目背景：2024 UKLO Round 1 Problem 3</h4>
+          <p class="prompt-lead">以下是一份高棉語菜單及其英文翻譯（順序打亂）。請找出配對規律，並回答：為什麼 fish 前面不需要 <strong>សាច់</strong>（sach）？</p>
+          <table class="prompt-table">
+            <thead><tr><th>高棉語</th><th>英文（順序打亂）</th></tr></thead>
+            <tbody>
+              <tr><td>បាយឆាសាច់ជ្រូក</td><td>fried rice with pork</td></tr>
+              <tr><td>បាយឆាសាច់គោ</td><td>fried rice with beef</td></tr>
+              <tr><td>គុយទាវស៊ុតសាច់ជ្រូក</td><td>pork and egg noodles</td></tr>
+              <tr><td>គុយទាវស៊ុតសាច់គោ</td><td>beef and egg noodles</td></tr>
+              <tr><td>សាឡាត់សាច់ជ្រូក</td><td>pork salad</td></tr>
+              <tr><td>សាឡាត់សាច់គោ</td><td>beef salad</td></tr>
+              <tr><td>សាឡាត់ត្រី</td><td>fish salad</td></tr>
+            </tbody>
+          </table>
+          <div class="callout prompt-note">
+            <strong>解題核心：</strong>這題不是純粹的詞彙對應！要先看懂語序（Head + Modifier），再找到「分類詞 sach」的出現規律，最後從<strong>例外</strong>（fish 不加 sach）推出語義分類邊界。
+          </div>
+        </div>
+
+        <div class="exercise">
+          <h4>起手觀察：先數頻率，不急著翻譯</h4>
+          <p>統計各片段出現次數：<code>សាច់</code>（6 次）、<code>បាយ</code>（2 次）、<code>គុយទាវ</code>（2 次）、<code>សាឡាត់</code>（3 次）、<code>ជ្រូក</code>（3 次）、<code>គោ</code>（3 次）。<code>សាច់</code> 出現最多次，而且總是夾在主食和蛋白質之間——這正是「分類詞」的典型位置。</p>
+        </div>
+
+        <p><strong>Step 1：確認語序為「Head（主食）+ Modifier 鏈」。</strong>高棉語的複合詞從左到右修飾：主食 → 烹調方式 → 分類詞 → 蛋白質來源。以 <em>បាយឆាសាច់ជ្រូក</em> 為例：bay（飯）+ cha（炒）+ sach（肉）+ chruk（豬）= fried rice with pork。</p>
+        <p><strong>Step 2：識別「sach」為肉類分類詞。</strong>消去法：sach + ko（牛）= beef；sach + chruk（豬）= pork。因此 sach 本義是「肉」，作為陸生哺乳類的分類詞使用。</p>
+        <p><strong>Step 3：從例外反推語義邊界。</strong><em>សាឡាត់ត្រី</em>（fish salad）裡沒有 sach——salat 直接接 trey（魚）。這說明高棉語的語義系統中，魚類不屬於「肉（sach）」這個分類；同樣地，豆腐（tofu）也不加 sach。語義邊界：sach 僅適用於陸地哺乳類。</p>
+        <div class="callout"><strong>這題真正要學會的：</strong>語意題與語法題不是壁壘分明的。看到「某個成分幾乎每次都出現，但偶爾消失」，要立刻把它當作「分類詞或格標記」來處理，而不是普通的詞彙。</div>
+
+        <!-- Khmer Dual Simulator -->
+        <div style="margin-top:22px;">
+          <h4 style="color:#115e59;margin-bottom:10px;">🔬 兩種解法互動模擬：高棉語題</h4>
+          <p style="color:#475569;font-size:.95rem;margin-bottom:12px;">高棉語的關鍵是同時讀懂「語法語序」和「sach 分類詞」。圖表法讓你看到分類詞作為樞紐節點；矩陣法讓你直接從「有無 sach」欄位發現語義邊界。</p>
+          <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+            <button class="khsim-mode-btn khsim-graph-btn active" data-khmode="graph" type="button">🕸️ 圖表法（Graph Method）</button>
+            <button class="khsim-mode-btn khsim-matrix-btn" data-khmode="matrix" type="button">📊 矩陣法（Matrix Method）</button>
+          </div>
+
+          <div class="khsim-info-bar">
+            <strong>語料：</strong>bay（飯）+ cha（炒）+ <strong>sach（肉）</strong> + ko（牛）/ chruk（豬）；salat（沙拉）+ <strong>sach</strong> + ko / chruk；salat + trey（魚，<em>不加 sach</em>）
+          </div>
+
+          <!-- Graph View -->
+          <div class="lsim-view active" id="khsim-graph-view">
+            <div class="khsim-graph-header">
+              <h4 id="khsim-g-title">步驟 1：確立主食核心節點</h4>
+              <p id="khsim-g-desc">掃描語料字首，bay（飯，5次）、kuyteav（麵，4次）、salat（沙拉，3次）是主食節點，總在最左邊——它們是高棉語複合詞的 Head。先把這三個畫出來。</p>
+            </div>
+            <div style="overflow-x:auto;padding:8px 0;">
+              <svg class="khsim-svg" data-khgstep="0" width="620" height="380" viewBox="0 0 620 380" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="kh-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#94a3b8"/></marker>
+                  <marker id="kh-arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#ef4444"/></marker>
+                </defs>
+
+                <!-- Step 1 edges: head → modifier -->
+                <g class="khsim-e1">
+                  <line x1="105" y1="100" x2="245" y2="100" stroke="#fdba74" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <text x="175" y="90" text-anchor="middle" font-size="11" fill="#9a3412">+ cha（炒）</text>
+                </g>
+                <g class="khsim-e1">
+                  <line x1="105" y1="200" x2="245" y2="200" stroke="#fdba74" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <text x="175" y="190" text-anchor="middle" font-size="11" fill="#9a3412">+ sut（蛋）</text>
+                </g>
+                <g class="khsim-e1">
+                  <line x1="105" y1="300" x2="380" y2="220" stroke="#fdba74" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <text x="230" y="255" text-anchor="middle" font-size="11" fill="#9a3412">直接接 →</text>
+                </g>
+
+                <!-- Step 2: modifier → sach -->
+                <g class="khsim-e2">
+                  <line x1="275" y1="100" x2="375" y2="180" stroke="#fb923c" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <line x1="275" y1="200" x2="375" y2="200" stroke="#fb923c" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <line x1="105" y1="300" x2="375" y2="220" stroke="#fb923c" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#kh-arrow)"/>
+                </g>
+
+                <!-- Step 3: sach → proteins -->
+                <g class="khsim-e3">
+                  <line x1="430" y1="185" x2="545" y2="130" stroke="#6ee7b7" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                  <line x1="430" y1="205" x2="545" y2="250" stroke="#6ee7b7" stroke-width="2.5" marker-end="url(#kh-arrow)"/>
+                </g>
+
+                <!-- Step 4: exception fish -->
+                <g class="khsim-e4">
+                  <line x1="105" y1="310" x2="540" y2="340" stroke="#ef4444" stroke-width="3" stroke-dasharray="6,4" marker-end="url(#kh-arrow-red)"/>
+                  <rect x="265" y="316" width="110" height="20" rx="4" fill="#fef2f2" stroke="#fca5a5"/>
+                  <text x="320" y="330" text-anchor="middle" font-size="11" fill="#ef4444" font-weight="700">跳過 sach！例外</text>
+                </g>
+
+                <!-- Nodes: core foods -->
+                <g>
+                  <circle cx="80" cy="100" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="white">bay</text>
+                  <text x="80" y="110" text-anchor="middle" font-size="10" fill="#bfdbfe">飯</text>
+                  <text x="80" y="145" text-anchor="middle" font-size="11" fill="#3b82f6" font-weight="700">主食</text>
+                </g>
+                <g>
+                  <circle cx="80" cy="200" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="196" text-anchor="middle" font-size="9" font-weight="700" fill="white">kuyteav</text>
+                  <text x="80" y="210" text-anchor="middle" font-size="10" fill="#bfdbfe">麵</text>
+                </g>
+                <g>
+                  <circle cx="80" cy="305" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="301" text-anchor="middle" font-size="10" font-weight="700" fill="white">salat</text>
+                  <text x="80" y="315" text-anchor="middle" font-size="10" fill="#bfdbfe">沙拉</text>
+                </g>
+
+                <!-- Modifier nodes -->
+                <g class="khsim-n1">
+                  <circle cx="265" cy="100" r="28" fill="#10b981" stroke="white" stroke-width="3"/>
+                  <text x="265" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="white">cha</text>
+                  <text x="265" y="110" text-anchor="middle" font-size="10" fill="#d1fae5">炒</text>
+                </g>
+                <g class="khsim-n1">
+                  <circle cx="265" cy="200" r="28" fill="#10b981" stroke="white" stroke-width="3"/>
+                  <text x="265" y="196" text-anchor="middle" font-size="10" font-weight="700" fill="white">sut</text>
+                  <text x="265" y="210" text-anchor="middle" font-size="10" fill="#d1fae5">蛋</text>
+                </g>
+
+                <!-- sach (pivot) node -->
+                <g class="khsim-n2">
+                  <circle cx="405" cy="200" r="38" fill="#f59e0b" stroke="#fbbf24" stroke-width="5"/>
+                  <text x="405" y="196" text-anchor="middle" font-size="12" font-weight="700" fill="white">sach</text>
+                  <text x="405" y="212" text-anchor="middle" font-size="11" fill="#fef3c7">肉🔑</text>
+                  <circle cx="405" cy="200" r="50" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,4"/>
+                </g>
+
+                <!-- Protein nodes -->
+                <g class="khsim-n3">
+                  <circle cx="565" cy="120" r="30" fill="#8b5cf6" stroke="white" stroke-width="3"/>
+                  <text x="565" y="116" text-anchor="middle" font-size="10" font-weight="700" fill="white">chruk</text>
+                  <text x="565" y="130" text-anchor="middle" font-size="10" fill="#ede9fe">豬</text>
+                </g>
+                <g class="khsim-n3">
+                  <circle cx="565" cy="255" r="30" fill="#8b5cf6" stroke="white" stroke-width="3"/>
+                  <text x="565" y="251" text-anchor="middle" font-size="12" font-weight="700" fill="white">ko</text>
+                  <text x="565" y="265" text-anchor="middle" font-size="10" fill="#ede9fe">牛</text>
+                </g>
+
+                <!-- Exception: fish -->
+                <g class="khsim-n4">
+                  <circle cx="565" cy="345" r="30" fill="#ef4444" stroke="#fca5a5" stroke-width="3"/>
+                  <text x="565" y="341" text-anchor="middle" font-size="11" font-weight="700" fill="white">trey</text>
+                  <text x="565" y="356" text-anchor="middle" font-size="10" fill="#fee2e2">魚❌</text>
+                </g>
+
+                <!-- Legend -->
+                <g transform="translate(8,330)">
+                  <rect x="0" y="0" width="160" height="44" rx="8" fill="white" stroke="#e2e8f0"/>
+                  <circle cx="14" cy="14" r="6" fill="#f59e0b"/><text x="24" y="18" font-size="10" fill="#334155">分類詞（Classifier）</text>
+                  <line x1="6" y1="34" x2="22" y2="34" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3"/><text x="24" y="38" font-size="10" fill="#334155">例外路徑（無 sach）</text>
+                </g>
+              </svg>
+            </div>
+            <div class="lsim-nav">
+              <button class="lsim-nav-btn lsim-prev-btn" id="khsim-g-prev" type="button" disabled>← 上一步</button>
+              <div class="lsim-dots" id="khsim-g-dots">
+                <div class="lsim-dot khsim-dot-graph active"></div>
+                <div class="lsim-dot khsim-dot-graph"></div>
+                <div class="lsim-dot khsim-dot-graph"></div>
+                <div class="lsim-dot khsim-dot-graph"></div>
+              </div>
+              <button class="lsim-nav-btn lsim-next-btn khsim-next-graph" id="khsim-g-next" type="button">下一步 →</button>
+            </div>
+          </div><!-- /khsim graph -->
+
+          <!-- Matrix View -->
+          <div class="lsim-view" id="khsim-matrix-view">
+            <div class="khsim-matrix-header">
+              <h4 id="khsim-m-title">步驟 1：建立詞頻與位置矩陣</h4>
+              <p id="khsim-m-desc">先計算各片段的出現頻率與位置。特別注意「前置 sach 欄」——有 sach 的就是陸生哺乳類，沒有 sach 的就是例外！</p>
+            </div>
+            <table class="lsim-matrix-table" id="khsim-mtable">
+              <thead>
+                <tr>
+                  <th>高棉語詞根</th>
+                  <th style="text-align:center">出現次數</th>
+                  <th style="text-align:center">位置</th>
+                  <th style="text-align:center">類別</th>
+                  <th style="text-align:center">前置 sach？</th>
+                  <th style="color:#059669">推導義</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="khmrow khsim-mrow-head" data-revstep="1" data-meaning="飯（Rice）">
+                  <td><code>bay（បាយ）</code></td><td style="text-align:center">5</td><td style="text-align:center">首（Head）</td><td style="text-align:center">主食</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="khmrow khsim-mrow-pivot" data-revstep="2" data-meaning="肉（Meat，分類詞）">
+                  <td><code>sach（សាច់）</code></td><td style="text-align:center">6</td><td style="text-align:center">中（Pivot）</td><td style="text-align:center">分類詞</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="khmrow" data-revstep="2" data-meaning="牛（Cow）">
+                  <td><code>ko（គោ）</code></td><td style="text-align:center">3</td><td style="text-align:center">尾（Tail）</td><td style="text-align:center">蛋白質</td><td style="text-align:center"><span class="lsim-check">✓</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="khmrow" data-revstep="2" data-meaning="豬（Pig）">
+                  <td><code>chruk（ជ្រូក）</code></td><td style="text-align:center">3</td><td style="text-align:center">尾（Tail）</td><td style="text-align:center">蛋白質</td><td style="text-align:center"><span class="lsim-check">✓</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="khmrow khsim-mrow-except" data-revstep="3" data-meaning="魚（Fish）⚠️ 不加 sach">
+                  <td><code>trey（ត្រី）</code></td><td style="text-align:center">1</td><td style="text-align:center">尾（Tail）</td><td style="text-align:center">蛋白質</td><td style="text-align:center" style="color:#ef4444;font-weight:700">✗ 例外！</td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="lsim-formula-wrap">
+              <div class="lsim-formula-block">
+                <h5>→ 語序代數 + 分類詞消去推導</h5>
+                <div class="lsim-formula-row hidden" id="khf0">
+                  <span class="let">語序公式：</span><span>Head（主食）+ [cha/sut] + sach + Protein</span>
+                  <span class="arr">→</span><span class="result">Noun-first，左到右修飾</span>
+                </div>
+                <div class="lsim-formula-row hidden" id="khf1">
+                  <span>sach + ko = beef；sach + chruk = pork</span>
+                  <span class="arr">→</span><span class="highlight">sach = 肉（陸生哺乳類分類詞）</span>
+                  <span class="arr">→</span><span class="result">ko = 牛，chruk = 豬</span>
+                </div>
+                <div class="lsim-formula-row hidden" id="khf2">
+                  <span>salat + trey（<span style="color:#ef4444">無 sach！</span>）= fish salad</span>
+                  <span class="arr">→</span><span class="highlight">魚不屬於「肉（sach）」分類</span>
+                  <span class="arr">→</span><span class="result">語義邊界：sach 僅限陸生哺乳類</span>
+                </div>
+              </div>
+            </div>
+            <div class="lsim-nav">
+              <button class="lsim-nav-btn lsim-prev-btn" id="khsim-m-prev" type="button" disabled>← 上一步</button>
+              <div class="lsim-dots" id="khsim-m-dots">
+                <div class="lsim-dot khsim-dot-matrix active"></div>
+                <div class="lsim-dot khsim-dot-matrix"></div>
+                <div class="lsim-dot khsim-dot-matrix"></div>
+                <div class="lsim-dot khsim-dot-matrix"></div>
+              </div>
+              <button class="lsim-nav-btn lsim-next-btn khsim-next-matrix" id="khsim-m-next" type="button">下一步 →</button>
+            </div>
+          </div><!-- /khsim matrix -->
+
+          <div class="lsim-compare-note" style="margin-top:16px;">
+            <div class="lsim-cn-graph" style="border-color:#fed7aa;background:#fff7ed;">
+              <h5 style="color:#9a3412;">🕸️ 圖表法看到的</h5>
+              <p>圖表讓 <code>sach</code> 的「樞紐節點」地位一目瞭然——幾乎所有路徑都要經過它。而 fish 那條紅色虛線直接繞過 sach 節點，把「例外」視覺化地標了出來。</p>
+            </div>
+            <div class="lsim-cn-matrix" style="border-color:#99f6e4;background:#f0fdfa;">
+              <h5 style="color:#115e59;">📊 矩陣法看到的</h5>
+              <p>矩陣「前置 sach？」欄直接揭露語義分類邊界：凡是欄位打 ✓ 的都是陸生哺乳類，欄位空白或打 ✗ 的就是例外。這個發現靠數表格就能做到，不需要任何高棉語知識。</p>
+            </div>
+          </div>
+        </div><!-- /Khmer dual sim -->
+      </div><!-- /analysis-card Khmer -->
+
+      <!-- ══ Worked Example E：Burma ══ -->
+      <div class="analysis-card" style="margin-top:28px;">
+        <h3>Worked Example E：緬甸文外來語（Burmese Script）——文字破譯</h3>
+        <div class="warning" style="margin-bottom:14px;">
+          <strong>⚠️ 注意題型差異：</strong>這題考的不是「詞的意思怎麼組合」，而是「陌生書寫符號如何對應英文語音」。但解題工具完全一樣——圖表法和矩陣法在書寫系統題上同樣有效。
+        </div>
+        <div class="prompt-block">
+          <h4>題目背景：2019 TOL 台灣語奧 問題6</h4>
+          <p class="prompt-lead">以下是緬甸文中的英文外來語借詞，請將它們與英文原詞配對。<strong>無需任何緬文知識</strong>，只靠「視覺符號重複」就能解出。</p>
+          <table class="prompt-table">
+            <thead><tr><th>緬甸文借詞</th><th>英文選項（順序打亂）</th></tr></thead>
+            <tbody>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">နိုဝင်ဘာ</td><td rowspan="7" style="vertical-align:middle;">November、rubber、auntie、Egypt、Jack、coffee、club</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">ရော်ဘာ</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">အန်တီ</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">အီဂျစ်</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">ဂျက်</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">ကော်ဖီ</td></tr>
+              <tr><td style="font-size:1.3rem;letter-spacing:2px;">ကလပ်</td></tr>
+            </tbody>
+          </table>
+          <div class="callout prompt-note">
+            <strong>關鍵洞察：</strong>不懂緬文不要緊——把每個緬文詞當作「圖形」，數音節塊數、找重複符號、建立特徵矩陣，就像解數獨一樣。
+          </div>
+        </div>
+
+        <div class="exercise">
+          <h4>起手觀察：數方塊，找共同片段</h4>
+          <p>把緬文詞當圖形處理：<strong>နိုဝင်ဘာ</strong> 有 3 個音節塊（最長）→ 對應英文選項中唯一的 3 音節詞 November。找到第一個錨點，整題就可以連鎖推導。<strong>共用的符號 ဘာ、အ、ဂျ、က 是本題的關鍵節點</strong>。</p>
+        </div>
+
+        <p><strong>Step 1：音節長度錨點。</strong>長度 3 音節 = November（確定）；長度 1 音節 = Jack 或 club（待確認）。</p>
+        <p><strong>Step 2：尾音素連鎖。</strong>November（နိုဝင်ဘာ）結尾是 <code>ဘာ</code>，讀音 /ba/ ≈ /ber/。只有 rubber（ー音節 + -ber）也以 <code>ဘာ</code> 結尾，所以 <em>ရော်ဘာ</em> = rubber。</p>
+        <p><strong>Step 3：字首特徵交集。</strong><code>အ</code>（母音開頭）= auntie 和 Egypt；<code>ဂျ</code>（/j/音）= Jack 和 Egypt。唯一同時包含兩個特徵的詞是 <em>အီဂျစ်</em> → 必然是 Egypt（交集唯一解）。由此推出 <em>အန်တီ</em> = auntie，<em>ဂျက်</em> = Jack。</p>
+        <p><strong>Step 4：最後的 k 音節。</strong>剩下 coffee 和 club 都有 /k/ 音，對應 <code>က</code> 開頭的 <em>ကော်ဖီ</em> 和 <em>ကလပ်</em>。音節內部結構可再區分（coffee 有 /f/，club 有 /l/）。</p>
+        <div class="callout"><strong>這題真正要學會的：</strong>「書寫系統題」的解法和語意題完全同構——不找「意思」，改找「音素特徵」。矩陣的欄位從「語意場」換成「音節長度、尾音、首音」，推導邏輯如出一轍。</div>
+
+        <!-- Burma Dual Simulator -->
+        <div style="margin-top:22px;">
+          <h4 style="color:#115e59;margin-bottom:10px;">🔬 兩種解法互動模擬：緬甸文破譯</h4>
+          <p style="color:#475569;font-size:.95rem;margin-bottom:12px;">圖表法連出「共用符號節點網絡」；矩陣法用音節長度和特徵欄位做交集。兩條路線都到達同一個答案。</p>
+          <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+            <button class="bmsim-mode-btn bmsim-graph-btn active" data-bmmode="graph" type="button">🕸️ 圖表法（Graph Method）</button>
+            <button class="bmsim-mode-btn bmsim-matrix-btn" data-bmmode="matrix" type="button">📊 矩陣法（Matrix Method）</button>
+          </div>
+
+          <div class="bmsim-info-bar">
+            <strong>共用符號（核心節點）：</strong><span style="font-size:1.2rem;letter-spacing:2px;font-weight:700;">ဘာ</span>（/ber/）、<span style="font-size:1.2rem;letter-spacing:2px;font-weight:700;">အ</span>（母音首）、<span style="font-size:1.2rem;letter-spacing:2px;font-weight:700;">ဂျ</span>（/j/）、<span style="font-size:1.2rem;letter-spacing:2px;font-weight:700;">က</span>（/k/）
+          </div>
+
+          <!-- Graph View -->
+          <div class="lsim-view active" id="bmsim-graph-view">
+            <div class="bmsim-graph-header">
+              <h4 id="bmsim-g-title">步驟 1：提取重複視覺符號，設為核心節點</h4>
+              <p id="bmsim-g-desc">先不管意思，只看哪些緬文符號重複出現。ဘာ 在兩個詞中出現；အ 在兩個詞開頭；ဂျ 在兩個詞中；က 在兩個詞開頭。這四個符號就是圖表的中心節點（正方形）。</p>
+            </div>
+            <div style="overflow-x:auto;padding:8px 0;">
+              <svg class="bmsim-svg" data-bmgstep="0" width="620" height="380" viewBox="0 0 620 380" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="bm-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#94a3b8"/></marker>
+                </defs>
+
+                <!-- Step 1 edges: Nov & rubber → ဘာ -->
+                <g class="bmsim-e1">
+                  <line x1="110" y1="55" x2="295" y2="115" stroke="#fda4af" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#bm-arrow)"/>
+                  <line x1="110" y1="155" x2="295" y2="130" stroke="#fda4af" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#bm-arrow)"/>
+                </g>
+                <!-- Step 2: auntie & Egypt → အ -->
+                <g class="bmsim-e2">
+                  <line x1="110" y1="230" x2="295" y2="235" stroke="#a5b4fc" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#bm-arrow)"/>
+                  <line x1="110" y1="300" x2="295" y2="250" stroke="#a5b4fc" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#bm-arrow)"/>
+                  <!-- Egypt also → ဂျ -->
+                  <line x1="110" y1="305" x2="450" y2="240" stroke="#a5b4fc" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#bm-arrow)"/>
+                  <line x1="110" y1="355" x2="450" y2="255" stroke="#a5b4fc" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#bm-arrow)"/>
+                </g>
+                <!-- Step 3: coffee & club → က -->
+                <g class="bmsim-e3">
+                  <line x1="110" y1="130" x2="295" y2="340" stroke="#6ee7b7" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#bm-arrow)"/>
+                  <line x1="110" y1="200" x2="295" y2="348" stroke="#6ee7b7" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#bm-arrow)"/>
+                </g>
+
+                <!-- Symbol nodes (squares) -->
+                <g>
+                  <rect x="280" y="100" width="64" height="50" rx="10" fill="#e11d48" stroke="white" stroke-width="3"/>
+                  <text x="312" y="122" text-anchor="middle" font-size="18" font-weight="700" fill="white">ဘာ</text>
+                  <text x="312" y="140" text-anchor="middle" font-size="11" fill="#ffe4e6">/ber/</text>
+                  <text x="312" y="162" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">尾音節</text>
+                </g>
+                <g>
+                  <rect x="280" y="215" width="64" height="50" rx="10" fill="#e11d48" stroke="white" stroke-width="3"/>
+                  <text x="312" y="237" text-anchor="middle" font-size="18" font-weight="700" fill="white">အ</text>
+                  <text x="312" y="255" text-anchor="middle" font-size="11" fill="#ffe4e6">母音首</text>
+                  <text x="312" y="276" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">字首</text>
+                </g>
+                <g>
+                  <rect x="436" y="215" width="64" height="50" rx="10" fill="#e11d48" stroke="white" stroke-width="3"/>
+                  <text x="468" y="237" text-anchor="middle" font-size="18" font-weight="700" fill="white">ဂျ</text>
+                  <text x="468" y="255" text-anchor="middle" font-size="11" fill="#ffe4e6">/j/音</text>
+                  <text x="468" y="276" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">字根</text>
+                </g>
+                <g>
+                  <rect x="280" y="315" width="64" height="50" rx="10" fill="#e11d48" stroke="white" stroke-width="3"/>
+                  <text x="312" y="337" text-anchor="middle" font-size="18" font-weight="700" fill="white">က</text>
+                  <text x="312" y="355" text-anchor="middle" font-size="11" fill="#ffe4e6">/k/音</text>
+                  <text x="312" y="376" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">字首</text>
+                </g>
+
+                <!-- Word nodes (circles) -->
+                <g>
+                  <circle cx="80" cy="55" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="46" text-anchor="middle" font-size="9" fill="white" font-weight="700">နိုဝင်ဘာ</text>
+                  <text x="80" y="60" text-anchor="middle" font-size="10" fill="#bfdbfe">November</text>
+                  <text x="80" y="73" text-anchor="middle" font-size="9" fill="#93c5fd">3音節</text>
+                </g>
+                <g>
+                  <circle cx="80" cy="155" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="147" text-anchor="middle" font-size="9" fill="white" font-weight="700">ရော်ဘာ</text>
+                  <text x="80" y="162" text-anchor="middle" font-size="10" fill="#bfdbfe">rubber</text>
+                </g>
+                <g class="bmsim-nw2">
+                  <circle cx="80" cy="230" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="222" text-anchor="middle" font-size="9" fill="white" font-weight="700">အန်တီ</text>
+                  <text x="80" y="238" text-anchor="middle" font-size="10" fill="#bfdbfe">auntie</text>
+                </g>
+                <g class="bmsim-nw2">
+                  <circle cx="80" cy="305" r="32" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="297" text-anchor="middle" font-size="9" fill="white" font-weight="700">အီဂျစ်</text>
+                  <text x="80" y="312" text-anchor="middle" font-size="10" fill="#bfdbfe">Egypt</text>
+                  <text x="80" y="325" text-anchor="middle" font-size="9" fill="#93c5fd">交集！</text>
+                </g>
+                <g class="bmsim-nw2">
+                  <circle cx="80" cy="355" r="28" fill="#3b82f6" stroke="white" stroke-width="3"/>
+                  <text x="80" y="348" text-anchor="middle" font-size="10" fill="white" font-weight="700">ဂျက်</text>
+                  <text x="80" y="363" text-anchor="middle" font-size="10" fill="#bfdbfe">Jack</text>
+                </g>
+
+                <!-- Legend -->
+                <g transform="translate(430,310)">
+                  <rect x="0" y="0" width="175" height="60" rx="8" fill="white" stroke="#e2e8f0"/>
+                  <rect x="8" y="10" width="16" height="16" rx="4" fill="#e11d48"/><text x="30" y="22" font-size="10" fill="#334155">共用符號節點（核心）</text>
+                  <circle cx="16" cy="46" r="7" fill="#3b82f6"/><text x="30" y="50" font-size="10" fill="#334155">詞彙節點（單詞）</text>
+                </g>
+              </svg>
+            </div>
+            <div class="lsim-nav">
+              <button class="lsim-nav-btn lsim-prev-btn" id="bmsim-g-prev" type="button" disabled>← 上一步</button>
+              <div class="lsim-dots" id="bmsim-g-dots">
+                <div class="lsim-dot bmsim-dot-graph active"></div>
+                <div class="lsim-dot bmsim-dot-graph"></div>
+                <div class="lsim-dot bmsim-dot-graph"></div>
+                <div class="lsim-dot bmsim-dot-graph"></div>
+              </div>
+              <button class="lsim-nav-btn lsim-next-btn bmsim-next-graph" id="bmsim-g-next" type="button">下一步 →</button>
+            </div>
+          </div><!-- /bmsim graph -->
+
+          <!-- Matrix View -->
+          <div class="lsim-view" id="bmsim-matrix-view">
+            <div class="bmsim-matrix-header">
+              <h4 id="bmsim-m-title">步驟 1：建立視覺特徵矩陣</h4>
+              <p id="bmsim-m-desc">把緬文詞當圖形：數音節塊數（1/2/3），標記是否含特定符號（ဘာ尾、အ首、ဂျ根、က首）。完全不需要懂緬文，只靠 Boolean 表格就能推導。</p>
+            </div>
+            <table class="lsim-matrix-table" id="bmsim-mtable">
+              <thead>
+                <tr>
+                  <th>緬文詞</th>
+                  <th style="text-align:center">音節數</th>
+                  <th style="text-align:center">尾 ဘာ</th>
+                  <th style="text-align:center">首 အ</th>
+                  <th style="text-align:center">含 ဂျ</th>
+                  <th style="text-align:center">首 က</th>
+                  <th style="color:#059669">破譯英文</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bmmrow bmsim-mrow-anchor" data-revstep="1" data-meaning="November（3音節唯一解）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">နိုဝင်ဘာ</td><td style="text-align:center;font-weight:700;color:#e11d48;">3</td><td style="text-align:center"><span class="lsim-check">✓</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow bmsim-mrow-anchor" data-revstep="2" data-meaning="rubber（共用 ဘာ 尾）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">ရော်ဘာ</td><td style="text-align:center">2</td><td style="text-align:center"><span class="lsim-check">✓</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow bmsim-mrow-shared" data-revstep="3" data-meaning="auntie（母音首，無 j）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">အန်တီ</td><td style="text-align:center">2</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-check">✓</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow bmsim-mrow-inter" data-revstep="3" data-meaning="Egypt（母音首 ∩ j 音 = 唯一交集）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">အီဂျစ်</td><td style="text-align:center">2</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-check">✓</span></td><td style="text-align:center"><span class="lsim-check" style="color:#e11d48">✓</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow bmsim-mrow-shared" data-revstep="3" data-meaning="Jack（j 音，單音節）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">ဂျက်</td><td style="text-align:center;font-weight:700;color:#4338ca;">1</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-check">✓</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow" data-revstep="3" data-meaning="coffee（k首，含 f）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">ကော်ဖီ</td><td style="text-align:center">2</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-check">✓</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+                <tr class="bmmrow" data-revstep="3" data-meaning="club（k首，含 l）">
+                  <td style="font-size:1.1rem;letter-spacing:1px;">ကလပ်</td><td style="text-align:center">2</td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-dash">—</span></td><td style="text-align:center"><span class="lsim-check">✓</span></td><td class="lsim-meaning-cell unknown">?</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="lsim-formula-wrap">
+              <div class="lsim-formula-block">
+                <h5>→ 特徵交集推導（Boolean Logic）</h5>
+                <div class="lsim-formula-row hidden" id="bmf0">
+                  <span class="let">音節 = 3 唯一解：</span><span>နိုဝင်ဘာ</span><span class="arr">→</span><span class="result">November ✓</span>
+                </div>
+                <div class="lsim-formula-row hidden" id="bmf1">
+                  <span>November 確定 ∴ 尾 ဘာ = /ber/</span><span class="arr">→</span><span class="highlight">ရော်ဘာ（2音節 + -ber）</span><span class="arr">→</span><span class="result">rubber ✓</span>
+                </div>
+                <div class="lsim-formula-row hidden" id="bmf2">
+                  <span>首 အ ∩ 含 ဂျ</span><span class="arr">→</span><span class="highlight">唯一交集：အီဂျစ်</span><span class="arr">→</span><span class="result">Egypt ✓（auntie 無 ဂျ，Jack 無 အ）</span>
+                </div>
+              </div>
+            </div>
+            <div class="lsim-nav">
+              <button class="lsim-nav-btn lsim-prev-btn" id="bmsim-m-prev" type="button" disabled>← 上一步</button>
+              <div class="lsim-dots" id="bmsim-m-dots">
+                <div class="lsim-dot bmsim-dot-matrix active"></div>
+                <div class="lsim-dot bmsim-dot-matrix"></div>
+                <div class="lsim-dot bmsim-dot-matrix"></div>
+                <div class="lsim-dot bmsim-dot-matrix"></div>
+              </div>
+              <button class="lsim-nav-btn lsim-next-btn bmsim-next-matrix" id="bmsim-m-next" type="button">下一步 →</button>
+            </div>
+          </div><!-- /bmsim matrix -->
+
+          <div class="lsim-compare-note" style="margin-top:16px;">
+            <div class="lsim-cn-graph" style="border-color:#fecdd3;background:#fff1f2;">
+              <h5 style="color:#9f1239;">🕸️ 圖表法看到的</h5>
+              <p>圖表把「共用符號節點」設為方塊，把「詞彙節點」設為圓形。Egypt 是唯一同時連到 <code>အ</code> 和 <code>ဂျ</code> 兩個節點的詞——圖形上一眼就看出這個交集的唯一性。</p>
+            </div>
+            <div class="lsim-cn-matrix" style="border-color:#c7d2fe;background:#eef2ff;">
+              <h5 style="color:#3730a3;">📊 矩陣法看到的</h5>
+              <p>矩陣裡「首 အ ✓ 且 含 ဂျ ✓」同時打勾的只有 <em>အီဂျစ်</em> 一筆——交集唯一解，無需任何緬文知識即可確認 Egypt。這是矩陣法最強的一招：用 Boolean 欄位鎖定唯一解。</p>
+            </div>
+          </div>
+        </div><!-- /Burma dual sim -->
+      </div><!-- /analysis-card Burma -->
+
+    </section><!-- /extended-types -->
 
     <section class="section">
       <h2>比賽中的高頻誤區</h2>
@@ -4701,7 +5256,7 @@ siː dæːŋ = 紅色</div>
 
         <div class="box" style="font-size:0.97rem; line-height:2;">
           <strong>cgoy</strong> 煙草　｜　<strong>tmwd</strong> 耳朵　｜　<strong>gwglwn</strong> 鼾聲　｜　<strong>kmn</strong> 飛禽　｜　<strong>ñg</strong> 水<br/>
-          <strong>kwk</strong> 笑　　｜　<strong>tmey</strong> 壞　　｜　<strong>ñag</strong> 射　　｜　<strong>am</strong> 去　　｜　<strong>d</strong> 得到
+          <strong>kwk</strong> 笑聲　｜　<strong>tmey</strong> 壞　　｜　<strong>ñag</strong> 射　　｜　<strong>am</strong> 去　　｜　<strong>d</strong> 得到
         </div>
 
         <p style="margin-top:14px;">下面是一些卡拉姆語動詞及其漢語翻譯，它們的順序被打亂了：</p>
@@ -4747,6 +5302,32 @@ siː dæːŋ = 紅色</div>
       </div>
 
     </section>
+
+    <section class="section" id="writing-reminder">
+      <h2>命題委員會提醒：答題時的字母書寫</h2>
+      <p class="section-intro">作答時請留意以下字母的寫法，在必須區辨的題目中，若無法辨識則無法通融給分。</p>
+
+      <div class="warning">
+        <strong>字母「i」的寫法</strong><br/>
+        上面的點請習慣上<strong>不要用力撇，要好好寫點</strong>。在某些必須區別 <i>i</i>、<i>ì</i>、<i>í</i>、<i>ī</i> 的題目中，這一撇可能造成差異，就不能通融給分；例如去年 APLO 第一題即屬此類。
+      </div>
+
+      <div class="warning">
+        <strong>字母「a」的寫法</strong><br/>
+        雖然大多數時候可接受 a、ɑ 混寫，但在<strong>必需區辨的題目</strong>（可能是 IPA 或某些類 IPA）時，就不能通融給分。
+      </div>
+
+      <div class="callout">
+        <strong>字母「g」的寫法</strong><br/>
+        目前以下三種寫法<strong>沒有差異，均可接受</strong>：
+        <ul style="margin:0.5em 0 0 1.2em; padding-left:0.4em;">
+          <li>雙環（常見印刷體）：<span style="font-family: 'Times New Roman', serif;">g</span></li>
+          <li>單環（一般手寫）：<span style="font-family: Arial, sans-serif;">g</span></li>
+          <li>連筆（草寫體）：<span style="font-family: 'Brush Script MT', cursive;">g</span></li>
+        </ul>
+      </div>
+    </section>
+
   </main>
   <script>
     (function () {
@@ -5199,96 +5780,6 @@ siː dæːŋ = 紅色</div>
         tab.addEventListener('click', () => activateIpipe(parseInt(tab.dataset.ipipe)));
       });
 
-      /* ── Generic Dual-Sim factory ── */
-      function initDualSim(cfg) {
-        // cfg: { modeAttr, graphViewId, matrixViewId, modeBtnsSelector,
-        //        gPrevId, gNextId, gDotsSelector, gTitleId, gDescId, gSteps,
-        //        mPrevId, mNextId, mDotsSelector, mTitleId, mDescId, mSteps,
-        //        mRows, formulaIds, formulaByStep, mRowDataKey,
-        //        svgClass, svgStepAttr }
-        const graphView   = document.getElementById(cfg.graphViewId);
-        const matrixView  = document.getElementById(cfg.matrixViewId);
-        const modeBtns    = document.querySelectorAll(cfg.modeBtnsSelector);
-
-        modeBtns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            const mode = btn.dataset[cfg.modeAttr];
-            modeBtns.forEach(b => b.classList.toggle('active', b === btn));
-            if (graphView)  graphView.classList.toggle('active',  mode === 'graph');
-            if (matrixView) matrixView.classList.toggle('active', mode === 'matrix');
-          });
-        });
-
-        // Graph stepper
-        const gPrev = document.getElementById(cfg.gPrevId);
-        const gNext = document.getElementById(cfg.gNextId);
-        const gDots = document.querySelectorAll(cfg.gDotsSelector);
-        const gTit  = document.getElementById(cfg.gTitleId);
-        const gDesc = document.getElementById(cfg.gDescId);
-        const gSvg  = cfg.svgClass ? document.querySelector(cfg.svgClass) : null;
-        let gStep = 0;
-
-        function renderGStep(n) {
-          gStep = n;
-          if (gSvg && cfg.svgStepAttr) gSvg.setAttribute(cfg.svgStepAttr, String(n));
-          if (gTit)  gTit.textContent = cfg.gSteps[n].title;
-          if (gDesc) gDesc.innerHTML  = cfg.gSteps[n].desc;
-          if (gPrev) gPrev.disabled = (n === 0);
-          if (gNext) gNext.disabled = (n === cfg.gSteps.length - 1);
-          gDots.forEach((d, i) => d.classList.toggle('active', i === n));
-        }
-        if (gPrev) gPrev.addEventListener('click', () => { if (gStep > 0) renderGStep(gStep - 1); });
-        if (gNext) gNext.addEventListener('click', () => { if (gStep < cfg.gSteps.length - 1) renderGStep(gStep + 1); });
-        renderGStep(0);
-
-        // Matrix stepper
-        const mPrev = document.getElementById(cfg.mPrevId);
-        const mNext = document.getElementById(cfg.mNextId);
-        const mDots = document.querySelectorAll(cfg.mDotsSelector);
-        const mTit  = document.getElementById(cfg.mTitleId);
-        const mDesc = document.getElementById(cfg.mDescId);
-        const mRows = cfg.mTableSelector ? document.querySelectorAll(cfg.mTableSelector) : [];
-        const formulaIds    = cfg.formulaIds || [];
-        const formulaByStep = cfg.formulaByStep || [[], [], [], []];
-        let mStep = 0;
-
-        function renderMStep(n) {
-          mStep = n;
-          if (mTit)  mTit.textContent = cfg.mSteps[n].title;
-          if (mDesc) mDesc.innerHTML  = cfg.mSteps[n].desc;
-          if (mPrev) mPrev.disabled = (n === 0);
-          if (mNext) mNext.disabled = (n === cfg.mSteps.length - 1);
-          mDots.forEach((d, i) => d.classList.toggle('active', i === n));
-
-          mRows.forEach(row => {
-            const revStep = parseInt(row.dataset.revstep);
-            const meaning = row.dataset.meaning;
-            const cell = row.querySelector('.lsim-meaning-cell');
-            if (cell) {
-              if (n >= revStep) { cell.textContent = meaning; cell.classList.remove('unknown'); }
-              else              { cell.textContent = '?';     cell.classList.add('unknown'); }
-            }
-          });
-
-          const toShow = formulaByStep[n] || [];
-          formulaIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            if (toShow.includes(id)) {
-              el.classList.remove('hidden', 'visible');
-              void el.offsetWidth;
-              el.classList.add('visible');
-            } else {
-              el.classList.add('hidden');
-              el.classList.remove('visible');
-            }
-          });
-        }
-        if (mPrev) mPrev.addEventListener('click', () => { if (mStep > 0) renderMStep(mStep - 1); });
-        if (mNext) mNext.addEventListener('click', () => { if (mStep < cfg.mSteps.length - 1) renderMStep(mStep + 1); });
-        renderMStep(0);
-      }
-
       /* ── Hausa Dual Sim ── */
       initDualSim({
         modeAttr: 'hsmode',
@@ -5297,7 +5788,6 @@ siː dæːŋ = 紅色</div>
         gPrevId:'hssim-g-prev', gNextId:'hssim-g-next',
         gDotsSelector:'#hssim-g-dots .lsim-dot',
         gTitleId:'hssim-g-title', gDescId:'hssim-g-desc',
-        svgClass: '.hssim-svg', svgStepAttr: 'data-hsgstep',
         gSteps:[
           { title:'步驟 1：找出高頻詞根，設為節點',
             desc:'先不看英文，統計哪些片段反覆出現：<strong>bàakí-/bákí-</strong>（2 次）、<strong>rúwá-</strong>（2 次）、<strong>yátsà-</strong>（2 次）、<strong>cíkìi</strong>（2 次）。這 4 個是圖表的核心節點。注意：此時<em>不要猜意思</em>。' },
@@ -5307,14 +5797,8 @@ siː dæːŋ = 紅色</div>
             desc:'<strong>cíkìi</strong>（腹部）出現在情緒詞中：暗色腹部 = sorrow，白色腹部 = happiness。<br/><strong>yátsàa</strong>（手指）出現在植物詞中：yátsàn bíshíyàa = (tree) branch。<br/>這就是身體部位詞的「語意外溢」——圖表上這些邊跨越了不同語意場。' },
           { title:'步驟 4：確認圖形結構、收斂規律',
             desc:'整張圖呈現三種語意外溢路徑：<br/>① <strong>口/暗 → 水</strong>（物質邊界）<br/>② <strong>顏色 + 腹部 → 情緒</strong>（身體隱喻）<br/>③ <strong>手指 → 樹枝</strong>（植物結構隱喻）<br/>一句話：bàakí-/bákí- 是本題最關鍵的多義樞紐節點。' }
-        ],
-        mPrevId:'hssim-m-prev', mNextId:'hssim-m-next',
-        mDotsSelector:'#hssim-m-dots .lsim-dot',
-        mTitleId:'hssim-m-title', mDescId:'hssim-m-desc',
-        mTableSelector:'#hssim-mtable .hsmrow',
-        formulaIds:['hsf0','hsf1','hsf2','hsf3'],
-        formulaByStep:[[],['hsf0'],['hsf0','hsf1','hsf2'],['hsf0','hsf1','hsf2','hsf3']],
-        mSteps:[
+        ];
+        var hsmSteps = [
           { title:'步驟 1：建立語義特徵矩陣',
             desc:'不看意義，先標記每個詞根的形式特徵：能否單獨出現？位置在首還是尾？可能屬於身體部位、顏色修飾、還是自然物？特別注意黃色高亮列（身體部位）。' },
           { title:'步驟 2：消去法推導 bàakí- 和 rúwáa',
@@ -5323,8 +5807,80 @@ siː dæːŋ = 紅色</div>
             desc:'bákín cíkìi = sorrow（暗色腹部）\nfárín cíkìi = happiness（白色腹部）\n→ cíkìi 是情緒的承載部位！同一身體部位，配不同顏色，產生不同情緒。' },
           { title:'步驟 4：驗證植物延伸，收斂系統',
             desc:'yátsàn bíshíyàa = branch → 手指（yátsàa）延伸到樹枝，bíshíyàa = 樹木。\nrúwán bíshíyàa = tree sap → 水（rúwáa）延伸到植物汁液。\n三個語意外溢路徑都驗證完成！' }
-        ]
-      });
+        ];
+        var hsmFormulas = ['hsf0','hsf1','hsf2','hsf3'];
+        var hsmByStep = [[], ['hsf0'], ['hsf0','hsf1','hsf2'], ['hsf0','hsf1','hsf2','hsf3']];
+        var hsmRows = document.querySelectorAll('#hssim-mtable .hsmrow');
+
+        // Graph stepper
+        var hsgPrev = document.getElementById('hssim-g-prev');
+        var hsgNext = document.getElementById('hssim-g-next');
+        var hsgDots = document.querySelectorAll('#hssim-g-dots .lsim-dot');
+        var hsgTit  = document.getElementById('hssim-g-title');
+        var hsgDesc = document.getElementById('hssim-g-desc');
+        var hsgStep = 0;
+
+        function renderHsGStep(n) {
+          hsgStep = n;
+          hsgTit.textContent  = hsgSteps[n].title;
+          hsgDesc.innerHTML   = hsgSteps[n].desc;
+          hsgPrev.disabled    = (n === 0);
+          hsgNext.disabled    = (n === hsgSteps.length - 1);
+          hsgDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+        }
+        hsgPrev.addEventListener('click', function() { if (hsgStep > 0) renderHsGStep(hsgStep - 1); });
+        hsgNext.addEventListener('click', function() { if (hsgStep < hsgSteps.length - 1) renderHsGStep(hsgStep + 1); });
+        renderHsGStep(0);
+
+        // Matrix stepper
+        var hsmPrev = document.getElementById('hssim-m-prev');
+        var hsmNext = document.getElementById('hssim-m-next');
+        var hsmDots = document.querySelectorAll('#hssim-m-dots .lsim-dot');
+        var hsmTit  = document.getElementById('hssim-m-title');
+        var hsmDesc = document.getElementById('hssim-m-desc');
+        var hsmStep = 0;
+
+        function renderHsMStep(n) {
+          hsmStep = n;
+          hsmTit.textContent = hsmSteps[n].title;
+          hsmDesc.innerHTML  = hsmSteps[n].desc;
+          hsmPrev.disabled   = (n === 0);
+          hsmNext.disabled   = (n === hsmSteps.length - 1);
+          hsmDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+          hsmRows.forEach(function(row) {
+            var rev  = parseInt(row.dataset.revstep);
+            var cell = row.querySelector('.lsim-meaning-cell');
+            if (!cell) return;
+            if (n >= rev) { cell.textContent = row.dataset.meaning; cell.classList.remove('unknown'); }
+            else          { cell.textContent = '?';                  cell.classList.add('unknown'); }
+          });
+          var toShow = hsmByStep[n] || [];
+          hsmFormulas.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (toShow.indexOf(id) >= 0) {
+              el.classList.remove('hidden'); el.classList.remove('visible');
+              void el.offsetWidth;
+              el.classList.add('visible');
+            } else {
+              el.classList.add('hidden'); el.classList.remove('visible');
+            }
+          });
+        }
+        hsmPrev.addEventListener('click', function() { if (hsmStep > 0) renderHsMStep(hsmStep - 1); });
+        hsmNext.addEventListener('click', function() { if (hsmStep < hsmSteps.length - 1) renderHsMStep(hsmStep + 1); });
+        renderHsMStep(0);
+
+        // Mode toggle
+        document.querySelectorAll('[data-hsmode]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var mode = btn.dataset.hsmode;
+            document.querySelectorAll('[data-hsmode]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+            document.getElementById('hssim-graph-view').classList.toggle('active', mode === 'graph');
+            document.getElementById('hssim-matrix-view').classList.toggle('active', mode === 'matrix');
+          });
+        });
+      })();
 
       /* ── Tetum Dual Sim ── */
       initDualSim({
@@ -5334,7 +5890,6 @@ siː dæːŋ = 紅色</div>
         gPrevId:'ttsim-g-prev', gNextId:'ttsim-g-next',
         gDotsSelector:'#ttsim-g-dots .lsim-dot',
         gTitleId:'ttsim-g-title', gDescId:'ttsim-g-desc',
-        svgClass: '.ttsim-svg', svgStepAttr: 'data-ttgstep',
         gSteps:[
           { title:'步驟 1：找核心詞素，設為圖表節點',
             desc:'先只看詞素頻率：<strong>ai</strong>（4 次）、<strong>fuan</strong>（3 次）、<strong>kulit</strong>（3 次）、<strong>matan</strong>（3 次）、<strong>boot</strong>（3 次）。這 5 個是積木系統的基本單元，圖表從這裡出發。' },
@@ -5344,14 +5899,8 @@ siː dæːŋ = 紅色</div>
             desc:'kulit 單獨 = skin（皮膚）；ai + kulit = bark（樹皮）；ai fuan + kulit = fruit peel（果皮）；matan + kulit = eyelid（眼皮）。<br/>kulit 跨越了<strong>植物</strong>和<strong>身體</strong>兩個語意場——這是本題最關鍵的跨域詞素！' },
           { title:'步驟 4：生成身體部位複合詞，收斂系統',
             desc:'matan（眼）+ fuan（果實/心）= pupil（瞳孔）——眼球中的「果實」。<br/>matan + musan（種子）= 同樣指瞳孔，強調「球形小物」的意象。<br/>整個系統：植物詞素可以被移植到身體部位描述中，反映了一個有機的世界觀。' }
-        ],
-        mPrevId:'ttsim-m-prev', mNextId:'ttsim-m-next',
-        mDotsSelector:'#ttsim-m-dots .lsim-dot',
-        mTitleId:'ttsim-m-title', mDescId:'ttsim-m-desc',
-        mTableSelector:'#ttsim-mtable .ttmrow',
-        formulaIds:['ttf0','ttf1','ttf2','ttf3'],
-        formulaByStep:[[],['ttf0'],['ttf0','ttf1'],['ttf0','ttf1','ttf2'],['ttf0','ttf1','ttf2','ttf3']].slice(0,4),
-        mSteps:[
+        ];
+        var ttmSteps = [
           { title:'步驟 1：建立詞素特徵矩陣',
             desc:'先掃描每個詞素的出現域：只出現在植物複合詞？只出現在身體詞？還是兩者都有？特別注意「植物場 ✓ 且 身體場 ✓」的跨域詞素——那就是整題的積木核心。' },
           { title:'步驟 2：從 ai + boot 推出基本詞義',
@@ -5360,8 +5909,77 @@ siː dæːŋ = 紅色</div>
             desc:'kulit 單獨 = skin（皮膚）。\nfuan kulit = fruit peel → kulit = 皮膚/皮/外層（跨域！）\nmatan fuan = pupil → fuan 在身體域 = 「內部的圓形物」。' },
           { title:'步驟 4：生成推導，驗證系統完整性',
             desc:'matan kulit = eyelid（眼皮）；tilun boot = big ear。\n生成新詞：已知 ibun（嘴）+ boot = big mouth；ibun + kulit = lip（嘴唇皮）。\n整個系統以「跨域積木」為核心，形態透明且生成力強。' }
-        ]
-      });
+        ];
+        var ttmFormulas = ['ttf0','ttf1','ttf2','ttf3'];
+        var ttmByStep = [[], ['ttf0'], ['ttf0','ttf1'], ['ttf0','ttf1','ttf2','ttf3']];
+        var ttmRows = document.querySelectorAll('#ttsim-mtable .ttmrow');
+
+        var ttgPrev = document.getElementById('ttsim-g-prev');
+        var ttgNext = document.getElementById('ttsim-g-next');
+        var ttgDots = document.querySelectorAll('#ttsim-g-dots .lsim-dot');
+        var ttgTit  = document.getElementById('ttsim-g-title');
+        var ttgDesc = document.getElementById('ttsim-g-desc');
+        var ttgStep = 0;
+
+        function renderTtGStep(n) {
+          ttgStep = n;
+          ttgTit.textContent = ttgSteps[n].title;
+          ttgDesc.innerHTML  = ttgSteps[n].desc;
+          ttgPrev.disabled   = (n === 0);
+          ttgNext.disabled   = (n === ttgSteps.length - 1);
+          ttgDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+        }
+        ttgPrev.addEventListener('click', function() { if (ttgStep > 0) renderTtGStep(ttgStep - 1); });
+        ttgNext.addEventListener('click', function() { if (ttgStep < ttgSteps.length - 1) renderTtGStep(ttgStep + 1); });
+        renderTtGStep(0);
+
+        var ttmPrev = document.getElementById('ttsim-m-prev');
+        var ttmNext = document.getElementById('ttsim-m-next');
+        var ttmDots = document.querySelectorAll('#ttsim-m-dots .lsim-dot');
+        var ttmTit  = document.getElementById('ttsim-m-title');
+        var ttmDesc = document.getElementById('ttsim-m-desc');
+        var ttmStep = 0;
+
+        function renderTtMStep(n) {
+          ttmStep = n;
+          ttmTit.textContent = ttmSteps[n].title;
+          ttmDesc.innerHTML  = ttmSteps[n].desc;
+          ttmPrev.disabled   = (n === 0);
+          ttmNext.disabled   = (n === ttmSteps.length - 1);
+          ttmDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+          ttmRows.forEach(function(row) {
+            var rev  = parseInt(row.dataset.revstep);
+            var cell = row.querySelector('.lsim-meaning-cell');
+            if (!cell) return;
+            if (n >= rev) { cell.textContent = row.dataset.meaning; cell.classList.remove('unknown'); }
+            else          { cell.textContent = '?';                  cell.classList.add('unknown'); }
+          });
+          var toShow = ttmByStep[n] || [];
+          ttmFormulas.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (toShow.indexOf(id) >= 0) {
+              el.classList.remove('hidden'); el.classList.remove('visible');
+              void el.offsetWidth;
+              el.classList.add('visible');
+            } else {
+              el.classList.add('hidden'); el.classList.remove('visible');
+            }
+          });
+        }
+        ttmPrev.addEventListener('click', function() { if (ttmStep > 0) renderTtMStep(ttmStep - 1); });
+        ttmNext.addEventListener('click', function() { if (ttmStep < ttmSteps.length - 1) renderTtMStep(ttmStep + 1); });
+        renderTtMStep(0);
+
+        document.querySelectorAll('[data-ttmode]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var mode = btn.dataset.ttmode;
+            document.querySelectorAll('[data-ttmode]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+            document.getElementById('ttsim-graph-view').classList.toggle('active', mode === 'graph');
+            document.getElementById('ttsim-matrix-view').classList.toggle('active', mode === 'matrix');
+          });
+        });
+      })();
 
       /* ── Malagasy Dual Sim ── */
       initDualSim({
@@ -5371,7 +5989,6 @@ siː dæːŋ = 紅色</div>
         gPrevId:'mgsim-g-prev', gNextId:'mgsim-g-next',
         gDotsSelector:'#mgsim-g-dots .lsim-dot',
         gTitleId:'mgsim-g-title', gDescId:'mgsim-g-desc',
-        svgClass: '.mgsim-svg', svgStepAttr: 'data-mggstep',
         gSteps:[
           { title:'步驟 1：找出 zafy 與身體部位的比喻鏈骨架',
             desc:'先不管音形交替，只看語意方向：zafy（孫子）+ 身體部位 = 後代稱謂。身體位置越低（knee → ankle → sole），代際距離越遠。先把這條垂直鏈畫出來。' },
@@ -5381,14 +5998,8 @@ siː dæːŋ = 紅色</div>
             desc:'zafy + lohalika → zafin-dohalika：y → in（前接鼻音）；l → d（後濁化）<br/>zafy + faladia → zafim-paladia：y → im（前接雙唇音）；f → p<br/>這不是隨機的，而是一套系統性的鼻音同化規則。' },
           { title:'步驟 4：用反向題驗證系統完整性',
             desc:'如果系統正確：great³-grandson = zafy + ankle = zafin-kitrokely ✓<br/>hakitrokely = ha-（到…高度）+ kitrokely = up to the ankle ✓<br/>mahambozona = maha- + bozona（頸部）= one who can carry on neck ✓<br/>系統完全自洽，推導完成！' }
-        ],
-        mPrevId:'mgsim-m-prev', mNextId:'mgsim-m-next',
-        mDotsSelector:'#mgsim-m-dots .lsim-dot',
-        mTitleId:'mgsim-m-title', mDescId:'mgsim-m-desc',
-        mTableSelector:'#mgsim-mtable .mgmrow',
-        formulaIds:['mgf0','mgf1','mgf2','mgf3'],
-        formulaByStep:[[],['mgf0'],['mgf0','mgf1'],['mgf0','mgf1','mgf2'],['mgf0','mgf1','mgf2','mgf3']].slice(0,4),
-        mSteps:[
+        ];
+        var mgmSteps = [
           { title:'步驟 1：建立詞素特徵矩陣——區分三類詞',
             desc:'先把語料分三類：① zafy 系後代稱謂詞 ② 獨立身體部位詞 ③ 前綴類延伸詞（ha-、maha-）。分類後填入矩陣，特別注意「有音形交替」欄。' },
           { title:'步驟 2：確認比喻鏈方向（代際 ↔ 身體高度）',
@@ -5397,8 +6008,257 @@ siː dæːŋ = 紅色</div>
             desc:'zafy + lohalika → zafin-dohalika：y末→in，後接詞首 l→d。\nzafy + faladia → zafim-paladia：y末→im，後接詞首 f→p。\n規律：鼻音依後接輔音部位同化（alveolar n vs bilabial m）。' },
           { title:'步驟 4：前綴體系收斂',
             desc:'hakitrokely：ha- = up to（高度），+ 身體部位 = 到…高度。\nmahandohalika：maha- = 能夠，+ 身體動作 = 能夠做該動作的人。\n整個系統：比喻鏈 + 音形交替 + 前綴詞彙化，三層同時運作。' }
-        ]
-      });
+        ];
+        var mgmFormulas = ['mgf0','mgf1','mgf2','mgf3'];
+        var mgmByStep = [[], ['mgf0'], ['mgf0','mgf1'], ['mgf0','mgf1','mgf2','mgf3']];
+        var mgmRows = document.querySelectorAll('#mgsim-mtable .mgmrow');
+
+        var mggPrev = document.getElementById('mgsim-g-prev');
+        var mggNext = document.getElementById('mgsim-g-next');
+        var mggDots = document.querySelectorAll('#mgsim-g-dots .lsim-dot');
+        var mggTit  = document.getElementById('mgsim-g-title');
+        var mggDesc = document.getElementById('mgsim-g-desc');
+        var mggStep = 0;
+
+        function renderMgGStep(n) {
+          mggStep = n;
+          mggTit.textContent = mggSteps[n].title;
+          mggDesc.innerHTML  = mggSteps[n].desc;
+          mggPrev.disabled   = (n === 0);
+          mggNext.disabled   = (n === mggSteps.length - 1);
+          mggDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+        }
+        mggPrev.addEventListener('click', function() { if (mggStep > 0) renderMgGStep(mggStep - 1); });
+        mggNext.addEventListener('click', function() { if (mggStep < mggSteps.length - 1) renderMgGStep(mggStep + 1); });
+        renderMgGStep(0);
+
+        var mgmPrev = document.getElementById('mgsim-m-prev');
+        var mgmNext = document.getElementById('mgsim-m-next');
+        var mgmDots = document.querySelectorAll('#mgsim-m-dots .lsim-dot');
+        var mgmTit  = document.getElementById('mgsim-m-title');
+        var mgmDesc = document.getElementById('mgsim-m-desc');
+        var mgmStep = 0;
+
+        function renderMgMStep(n) {
+          mgmStep = n;
+          mgmTit.textContent = mgmSteps[n].title;
+          mgmDesc.innerHTML  = mgmSteps[n].desc;
+          mgmPrev.disabled   = (n === 0);
+          mgmNext.disabled   = (n === mgmSteps.length - 1);
+          mgmDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+          mgmRows.forEach(function(row) {
+            var rev  = parseInt(row.dataset.revstep);
+            var cell = row.querySelector('.lsim-meaning-cell');
+            if (!cell) return;
+            if (n >= rev) { cell.textContent = row.dataset.meaning; cell.classList.remove('unknown'); }
+            else          { cell.textContent = '?';                  cell.classList.add('unknown'); }
+          });
+          var toShow = mgmByStep[n] || [];
+          mgmFormulas.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (toShow.indexOf(id) >= 0) {
+              el.classList.remove('hidden'); el.classList.remove('visible');
+              void el.offsetWidth;
+              el.classList.add('visible');
+            } else {
+              el.classList.add('hidden'); el.classList.remove('visible');
+            }
+          });
+        }
+        mgmPrev.addEventListener('click', function() { if (mgmStep > 0) renderMgMStep(mgmStep - 1); });
+        mgmNext.addEventListener('click', function() { if (mgmStep < mgmSteps.length - 1) renderMgMStep(mgmStep + 1); });
+        renderMgMStep(0);
+
+        document.querySelectorAll('[data-mgmode]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var mode = btn.dataset.mgmode;
+            document.querySelectorAll('[data-mgmode]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+            document.getElementById('mgsim-graph-view').classList.toggle('active', mode === 'graph');
+            document.getElementById('mgsim-matrix-view').classList.toggle('active', mode === 'matrix');
+          });
+        });
+      })();
+
+      /* ── Khmer Dual Sim ── */
+      (function() {
+        var khgSteps = [
+          { title:'步驟 1：確立主食核心節點',
+            desc:'掃描語料字首：bay（飯，5次）、kuyteav（麵，4次）、salat（沙拉，3次）總是在最左邊。它們是高棉語複合詞的 Head。先把這三個設為圖表起點，不急著看後面的詞。' },
+          { title:'步驟 2：建構修飾語鏈條（語序：Head → Modifier）',
+            desc:'高棉語從左到右修飾：bay + cha（炒）= 炒飯；kuyteav + sut（蛋）= 蛋麵。再往右，bay cha 和 kuyteav sut 都要接上高頻詞 sach。這個鏈狀語序是本題關鍵結構。' },
+          { title:'步驟 3：發現樞紐節點 sach（肉）',
+            desc:'sach 出現 6 次，幾乎在所有食材名稱前面——bay cha + sach + ko（牛）= fried rice with beef。sach 是「肉」的分類詞，所有陸生哺乳類都需要透過它才能連接到主食。' },
+          { title:'步驟 4：從例外找語義邊界',
+            desc:'salat + trey（魚，直接連接，無 sach！）= fish salad。紅色虛線標示了這條例外路徑。結論：高棉語中「魚」不屬於「肉（sach）」分類，語義邊界由此確定。' }
+        ];
+        var khmSteps = [
+          { title:'步驟 1：建立詞頻與位置矩陣',
+            desc:'先計算各片段的出現頻率與位置。特別注意「前置 sach 欄」——有 sach（✓）的就是陸生哺乳類，沒有（✗）的就是例外。答案藏在這個欄位的空缺裡。' },
+          { title:'步驟 2：核心語序代數推導',
+            desc:'提取語序公式：salat + trey = fish salad → 高棉語是 [Head + Modifier]，左到右修飾。\n再看：salat + sach + ko = beef salad → sach 永遠夾在主食和動物詞之間。' },
+          { title:'步驟 3：消去法確認 sach 含義',
+            desc:'sach + ko（牛）= beef；sach + chruk（豬）= pork。\n消去：beef − ko = sach；pork − chruk = sach。\n∴ sach = 「肉」（陸生哺乳類分類詞）。' },
+          { title:'步驟 4：矩陣空缺揭露語義邊界',
+            desc:'矩陣裡 trey（魚）的「前置 sach」欄位是空白（✗）。這個空缺就是答案：高棉語的語義系統把魚類排除在「肉（sach）」之外。同樣地，tofu（豆腐）也沒有 sach。' }
+        ];
+        var khmFormulas = ['khf0','khf1','khf2'];
+        var khmByStep   = [[], ['khf0'], ['khf0','khf1'], ['khf0','khf1','khf2']];
+        var khmRows     = document.querySelectorAll('#khsim-mtable .khmrow');
+
+        var khgPrev = document.getElementById('khsim-g-prev');
+        var khgNext = document.getElementById('khsim-g-next');
+        var khgDots = document.querySelectorAll('#khsim-g-dots .lsim-dot');
+        var khgTit  = document.getElementById('khsim-g-title');
+        var khgDesc = document.getElementById('khsim-g-desc');
+        var khgStep = 0;
+
+        function renderKhGStep(n) {
+          khgStep = n;
+          khgTit.textContent = khgSteps[n].title;
+          khgDesc.innerHTML  = khgSteps[n].desc;
+          khgPrev.disabled   = (n === 0);
+          khgNext.disabled   = (n === khgSteps.length - 1);
+          khgDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+        }
+        khgPrev.addEventListener('click', function() { if (khgStep > 0) renderKhGStep(khgStep - 1); });
+        khgNext.addEventListener('click', function() { if (khgStep < khgSteps.length - 1) renderKhGStep(khgStep + 1); });
+        renderKhGStep(0);
+
+        var khmPrev = document.getElementById('khsim-m-prev');
+        var khmNext = document.getElementById('khsim-m-next');
+        var khmDots = document.querySelectorAll('#khsim-m-dots .lsim-dot');
+        var khmTit  = document.getElementById('khsim-m-title');
+        var khmDesc = document.getElementById('khsim-m-desc');
+        var khmStep = 0;
+
+        function renderKhMStep(n) {
+          khmStep = n;
+          khmTit.textContent = khmSteps[n].title;
+          khmDesc.innerHTML  = khmSteps[n].desc;
+          khmPrev.disabled   = (n === 0);
+          khmNext.disabled   = (n === khmSteps.length - 1);
+          khmDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+          khmRows.forEach(function(row) {
+            var rev  = parseInt(row.dataset.revstep);
+            var cell = row.querySelector('.lsim-meaning-cell');
+            if (!cell) return;
+            if (n >= rev) { cell.textContent = row.dataset.meaning; cell.classList.remove('unknown'); }
+            else          { cell.textContent = '?';                  cell.classList.add('unknown'); }
+          });
+          var toShow = khmByStep[n] || [];
+          khmFormulas.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (toShow.indexOf(id) >= 0) {
+              el.classList.remove('hidden'); el.classList.remove('visible');
+              void el.offsetWidth; el.classList.add('visible');
+            } else { el.classList.add('hidden'); el.classList.remove('visible'); }
+          });
+        }
+        khmPrev.addEventListener('click', function() { if (khmStep > 0) renderKhMStep(khmStep - 1); });
+        khmNext.addEventListener('click', function() { if (khmStep < khmSteps.length - 1) renderKhMStep(khmStep + 1); });
+        renderKhMStep(0);
+
+        document.querySelectorAll('[data-khmode]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var mode = btn.dataset.khmode;
+            document.querySelectorAll('[data-khmode]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+            document.getElementById('khsim-graph-view').classList.toggle('active', mode === 'graph');
+            document.getElementById('khsim-matrix-view').classList.toggle('active', mode === 'matrix');
+          });
+        });
+      })();
+
+      /* ── Burma Dual Sim ── */
+      (function() {
+        var bmgSteps = [
+          { title:'步驟 1：提取重複視覺符號，設為核心節點',
+            desc:'先不管意思，只看哪些緬文符號重複出現。<strong>ဘာ</strong> 在兩個詞中都出現；<strong>အ</strong> 在兩個詞開頭；<strong>ဂျ</strong> 在兩個詞中；<strong>က</strong> 在兩個詞開頭。這四個符號是圖表的中心節點（方塊）。' },
+          { title:'步驟 2：音節長度錨點——先破最長的詞',
+            desc:'နိုဝင်ဘာ 是所有詞中最長的（3個音節方塊）。英文選項中唯一的3音節詞是 November。第一個錨點確立！同時，單音節的 ဂျက် 對應 Jack（單音節）。' },
+          { title:'步驟 3：從 November 連鎖推導 rubber',
+            desc:'November = နိုဝင်ဘာ，所以結尾的 <strong>ဘာ</strong> 讀作 /ber/。<br/>另一個有 ဘာ 結尾的詞是 ရော်ဘာ（2音節，-ber 結尾）。有 /ber/ 結尾的2音節詞只有 rubber。第二個錨點確立！' },
+          { title:'步驟 4：特徵交集確認 Egypt，完成全圖',
+            desc:'有 <strong>အ</strong>（母音首）特徵的：auntie 和 Egypt。<br/>有 <strong>ဂျ</strong>（/j/）特徵的：Jack 和 Egypt。<br/>取交集：<strong>အီဂျစ်</strong> 同時具備兩個特徵 → 唯一交集 = Egypt ✓。於是 auntie、Jack、coffee、club 也依序確認。' }
+        ];
+        var bmmSteps = [
+          { title:'步驟 1：建立視覺特徵矩陣',
+            desc:'把緬文詞當圖形：數音節塊數（1/2/3），標記是否含特定符號（ဘာ 尾、အ 首、ဂျ 根、က 首）。完全不需要懂緬文，只靠 Boolean 表格就能推導。' },
+          { title:'步驟 2：音節長度配對（唯一解）',
+            desc:'唯一3音節詞：နိုဝင်ဘာ → November（確定）。\n唯一1音節詞：ဂျက် → Jack 或 club（待交叉確認）。\n長度特徵是最直接的第一步。' },
+          { title:'步驟 3：字尾特徵連鎖（ဘာ = /ber/）',
+            desc:'November 確定後，尾音 ဘာ = /ber/。\n只有 ရော်ဘာ 也有 ဘာ 尾 → rubber（-ber 結尾，2音節）✓。\n一個錨點帶出第二個答案。' },
+          { title:'步驟 4：多特徵交集鎖定 Egypt',
+            desc:'「首 အ」列：auntie、Egypt。\n「含 ဂျ」列：Jack、Egypt。\n取交集：同時打 ✓ 的只有 အီဂျစ် → Egypt ✓。\n剩下 auntie（僅首 အ）、Jack（僅含 ဂျ）、coffee/club（首 က）全部確認。' }
+        ];
+        var bmmFormulas = ['bmf0','bmf1','bmf2'];
+        var bmmByStep   = [[], ['bmf0'], ['bmf0','bmf1'], ['bmf0','bmf1','bmf2']];
+        var bmmRows     = document.querySelectorAll('#bmsim-mtable .bmmrow');
+
+        var bmgPrev = document.getElementById('bmsim-g-prev');
+        var bmgNext = document.getElementById('bmsim-g-next');
+        var bmgDots = document.querySelectorAll('#bmsim-g-dots .lsim-dot');
+        var bmgTit  = document.getElementById('bmsim-g-title');
+        var bmgDesc = document.getElementById('bmsim-g-desc');
+        var bmgStep = 0;
+
+        function renderBmGStep(n) {
+          bmgStep = n;
+          bmgTit.textContent = bmgSteps[n].title;
+          bmgDesc.innerHTML  = bmgSteps[n].desc;
+          bmgPrev.disabled   = (n === 0);
+          bmgNext.disabled   = (n === bmgSteps.length - 1);
+          bmgDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+        }
+        bmgPrev.addEventListener('click', function() { if (bmgStep > 0) renderBmGStep(bmgStep - 1); });
+        bmgNext.addEventListener('click', function() { if (bmgStep < bmgSteps.length - 1) renderBmGStep(bmgStep + 1); });
+        renderBmGStep(0);
+
+        var bmmPrev = document.getElementById('bmsim-m-prev');
+        var bmmNext = document.getElementById('bmsim-m-next');
+        var bmmDots = document.querySelectorAll('#bmsim-m-dots .lsim-dot');
+        var bmmTit  = document.getElementById('bmsim-m-title');
+        var bmmDesc = document.getElementById('bmsim-m-desc');
+        var bmmStep = 0;
+
+        function renderBmMStep(n) {
+          bmmStep = n;
+          bmmTit.textContent = bmmSteps[n].title;
+          bmmDesc.innerHTML  = bmmSteps[n].desc;
+          bmmPrev.disabled   = (n === 0);
+          bmmNext.disabled   = (n === bmmSteps.length - 1);
+          bmmDots.forEach(function(d, i) { d.classList.toggle('active', i === n); });
+          bmmRows.forEach(function(row) {
+            var rev  = parseInt(row.dataset.revstep);
+            var cell = row.querySelector('.lsim-meaning-cell');
+            if (!cell) return;
+            if (n >= rev) { cell.textContent = row.dataset.meaning; cell.classList.remove('unknown'); }
+            else          { cell.textContent = '?';                  cell.classList.add('unknown'); }
+          });
+          var toShow = bmmByStep[n] || [];
+          bmmFormulas.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            if (toShow.indexOf(id) >= 0) {
+              el.classList.remove('hidden'); el.classList.remove('visible');
+              void el.offsetWidth; el.classList.add('visible');
+            } else { el.classList.add('hidden'); el.classList.remove('visible'); }
+          });
+        }
+        bmmPrev.addEventListener('click', function() { if (bmmStep > 0) renderBmMStep(bmmStep - 1); });
+        bmmNext.addEventListener('click', function() { if (bmmStep < bmmSteps.length - 1) renderBmMStep(bmmStep + 1); });
+        renderBmMStep(0);
+
+        document.querySelectorAll('[data-bmmode]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var mode = btn.dataset.bmmode;
+            document.querySelectorAll('[data-bmmode]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+            document.getElementById('bmsim-graph-view').classList.toggle('active', mode === 'graph');
+            document.getElementById('bmsim-matrix-view').classList.toggle('active', mode === 'matrix');
+          });
+        });
+      })();
 
       /* ── Interactive Checklist ── */
       const clFill = document.getElementById('cl-fill');

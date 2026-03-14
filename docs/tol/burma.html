@@ -1,0 +1,423 @@
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, CheckCircle2, Info, Network, Grid3X3, ArrowRight } from 'lucide-react';
+
+// --- 資料定義 ---
+const nodes = [
+  // Symbols (Core Nodes)
+  { id: 'sym-ba', label: 'ဘာ (ba)', x: 450, y: 150, type: 'symbol' },
+  { id: 'sym-a', label: 'အ (vowel)', x: 150, y: 150, type: 'symbol' },
+  { id: 'sym-gy', label: 'ဂျ (j/gy)', x: 300, y: 300, type: 'symbol' },
+  { id: 'sym-k', label: 'က (k)', x: 300, y: 450, type: 'symbol' },
+  
+  // Words (Leaf Nodes)
+  { id: 'w-nov', label: 'နိုဝင်ဘာ', eng: 'November', x: 500, y: 50, type: 'word' },
+  { id: 'w-rub', label: 'ရော်ဘာ', eng: 'rubber', x: 550, y: 250, type: 'word' },
+  { id: 'w-aun', label: 'အန်တီ', eng: 'auntie', x: 50, y: 50, type: 'word' },
+  { id: 'w-egy', label: 'အီဂျစ်', eng: 'Egypt', x: 150, y: 250, type: 'word' },
+  { id: 'w-jac', label: 'ဂျက်', eng: 'Jack', x: 450, y: 350, type: 'word' },
+  { id: 'w-cof', label: 'ကော်ဖီ', eng: 'coffee', x: 150, y: 450, type: 'word' },
+  { id: 'w-clu', label: 'ကလပ်', eng: 'club', x: 450, y: 500, type: 'word' },
+];
+
+const edges = [
+  { source: 'w-nov', target: 'sym-ba', id: 'e1' },
+  { source: 'w-rub', target: 'sym-ba', id: 'e2' },
+  { source: 'w-aun', target: 'sym-a', id: 'e3' },
+  { source: 'w-egy', target: 'sym-a', id: 'e4' },
+  { source: 'w-egy', target: 'sym-gy', id: 'e5' },
+  { source: 'w-jac', target: 'sym-gy', id: 'e6' },
+  { source: 'w-cof', target: 'sym-k', id: 'e7' },
+  { source: 'w-clu', target: 'sym-k', id: 'e8' },
+];
+
+export default function BurmeseScriptApp() {
+  const [activeMode, setActiveMode] = useState('graph');
+  const [graphStep, setGraphStep] = useState(0);
+  const [matrixStep, setMatrixStep] = useState(0);
+
+  // --- 圖表法元件 ---
+  const GraphView = () => {
+    const steps = [
+      {
+        title: "步驟 1：提取重複的視覺符號",
+        desc: "觀察緬甸文單詞，找出重複出現的「方塊」。例如：「ဘာ」在兩個詞中出現；「အ」在兩個詞開頭；「ဂျ」和「က」也各自出現兩次。我們將這些符號設為核心節點。"
+      },
+      {
+        title: "步驟 2：音節長度與錨點定位",
+        desc: "最長的是「နိုဝင်ဘာ」(3個方塊)，英文只有 November 是3音節，所以確定它是 November。這意味著共用的結尾「ဘာ」發音是 /ber/ 或 /ba/！"
+      },
+      {
+        title: "步驟 3：透過共用節點進行連鎖解碼",
+        desc: "連著「ဘာ」的另一個詞是「ရော်ဘာ」，對應有 /ber/ 結尾的 rubber(橡皮)。\n同時，auntie 和 Egypt 都是母音開頭，共用「အ」。而 Egypt 又跟 Jack 共用代表 /j/ 音的「ဂျ」。"
+      },
+      {
+        title: "步驟 4：網絡完全解析",
+        desc: "最後，帶有「က」(k音) 的兩個詞，自然對應發音有 /k/ 的 coffee 與 club。圖表法利用「共用部件連線」將字體與音韻網路完美疊合！"
+      }
+    ];
+
+    return (
+      <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="p-4 bg-rose-50 border-b border-rose-100 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-bold text-rose-900">{steps[graphStep].title}</h3>
+            <p className="text-sm text-rose-800 mt-1 whitespace-pre-line">{steps[graphStep].desc}</p>
+          </div>
+        </div>
+        
+        <div className="flex-1 relative bg-slate-50 min-h-[450px] flex justify-center items-center overflow-auto p-4">
+          <svg width="650" height="550" className="max-w-full drop-shadow-md">
+            {/* Edges */}
+            {graphStep >= 1 && edges.map((edge, index) => {
+              if (graphStep === 1 && (edge.id !== 'e1' && edge.id !== 'e2')) return null;
+              if (graphStep === 2 && (edge.id === 'e7' || edge.id === 'e8')) return null;
+
+              const sourceNode = nodes.find(n => n.id === edge.source);
+              const targetNode = nodes.find(n => n.id === edge.target);
+              return (
+                <line 
+                  key={edge.id}
+                  x1={sourceNode.x} y1={sourceNode.y} 
+                  x2={targetNode.x} y2={targetNode.y} 
+                  stroke="#cbd5e1" strokeWidth="4"
+                  strokeDasharray="6,6"
+                  className="transition-all duration-700 ease-in-out animate-fade-in"
+                />
+              );
+            })}
+
+            {/* Nodes */}
+            {nodes.map((node) => {
+              // Node visibility logic
+              if (graphStep === 0 && node.type === 'word') return null;
+              if (graphStep === 1 && node.type === 'word' && node.id !== 'w-nov' && node.id !== 'w-rub') return null;
+              if (graphStep === 2 && node.type === 'word' && (node.id === 'w-cof' || node.id === 'w-clu')) return null;
+
+              const isSymbol = node.type === 'symbol';
+              
+              return (
+                <g key={node.id} className="transition-all duration-500 hover:scale-110 cursor-pointer animate-fade-in">
+                  {isSymbol ? (
+                    <rect 
+                      x={node.x - 35} y={node.y - 35} width="70" height="70" rx="12"
+                      fill="#f43f5e" stroke="white" strokeWidth="3" className="drop-shadow-md"
+                    />
+                  ) : (
+                    <circle 
+                      cx={node.x} cy={node.y} r="35" 
+                      fill="#3b82f6" stroke="white" strokeWidth="3" className="drop-shadow-sm"
+                    />
+                  )}
+                  <text 
+                    x={node.x} y={node.y + (isSymbol ? 5 : -5)} 
+                    textAnchor="middle" fontSize={isSymbol ? "18" : "20"} fontWeight="bold" fill="white"
+                  >
+                    {isSymbol ? node.label.split(' ')[0] : node.label}
+                  </text>
+                  
+                  {isSymbol && (
+                    <text 
+                      x={node.x} y={node.y + 25} 
+                      textAnchor="middle" fontSize="12" fill="#ffe4e6" fontWeight="bold"
+                    >
+                      {node.label.split(' ')[1]}
+                    </text>
+                  )}
+
+                  {/* English Translation under Words */}
+                  {!isSymbol && graphStep >= 1 && (
+                    <text 
+                      x={node.x} y={node.y + 20} 
+                      textAnchor="middle" fontSize="14" fill="#bfdbfe" fontWeight="bold"
+                    >
+                      {graphStep >= 1 && node.id === 'w-nov' ? 'November' : 
+                       graphStep >= 2 && node.id === 'w-rub' ? 'rubber' :
+                       graphStep >= 2 && node.id === 'w-aun' ? 'auntie' :
+                       graphStep >= 2 && node.id === 'w-egy' ? 'Egypt' :
+                       graphStep >= 2 && node.id === 'w-jac' ? 'Jack' :
+                       graphStep >= 3 ? node.eng : '?'}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+        
+        <div className="p-4 border-t border-slate-200 flex justify-between bg-white">
+          <button 
+            onClick={() => setGraphStep(Math.max(0, graphStep - 1))}
+            disabled={graphStep === 0}
+            className="flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-md hover:bg-slate-200 disabled:opacity-50"
+          >
+            <ChevronLeft size={16} className="mr-1" /> 上一步
+          </button>
+          <div className="flex gap-1 items-center">
+            {[0, 1, 2, 3].map(step => (
+              <div key={step} className={`h-2 w-2 rounded-full ${graphStep === step ? 'bg-rose-500' : 'bg-slate-300'}`} />
+            ))}
+          </div>
+          <button 
+            onClick={() => setGraphStep(Math.min(3, graphStep + 1))}
+            disabled={graphStep === 3}
+            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 disabled:opacity-50"
+          >
+            下一步 <ChevronRight size={16} className="ml-1" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // --- 矩陣法元件 ---
+  const MatrixView = () => {
+    const steps = [
+      {
+        title: "步驟 1：建立視覺特徵矩陣",
+        desc: "不需懂緬文，我們只需像算數學一樣，計算每個單詞的「視覺方塊數(音節)」，並標記它們是否包含某些特殊的重複符號（如：結尾的 ဘာ、開頭的 အ）。"
+      },
+      {
+        title: "步驟 2：音節長度配對 (Syllable Length)",
+        desc: "最明顯的特徵：唯一的三音節詞「နိုဝင်ဘာ」➔ 必然對應選項中唯一的 3 音節字 November。\n唯一的一音節詞「ဂျက်」➔ 對應 Jack 或 club。"
+      },
+      {
+        title: "步驟 3：字根與語音特徵代換 (Phonetic Substitution)",
+        desc: "既然 နိုဝင်ဘာ = November，那結尾的 ဘာ = ber。\n尋找另一個有 ဘာ 結尾的字「ရော်ဘာ」，對應到 rub-ber (橡皮)。"
+      },
+      {
+        title: "步驟 4：矩陣交集解密完成",
+        desc: "有 อ (母音開頭) 特徵的是 auntie, Egypt。\n有 ဂျ (j音) 特徵的是 Jack, Egypt。\n取交集：「အီဂျစ်」兼具母音與 j 音 ➔ 必然是 Egypt！其餘依此類推。"
+      }
+    ];
+
+    const matrixData = [
+      { word: 'နိုဝင်ဘာ', blocks: 3, endBa: true, startA: false, hasJ: false, hasK: false, meaning: matrixStep >= 1 ? 'November' : '?' },
+      { word: 'ရော်ဘာ', blocks: 2, endBa: true, startA: false, hasJ: false, hasK: false, meaning: matrixStep >= 2 ? 'rubber' : '?' },
+      { word: 'အန်တီ', blocks: 2, endBa: false, startA: true, hasJ: false, hasK: false, meaning: matrixStep >= 3 ? 'auntie' : '?' },
+      { word: 'အီဂျစ်', blocks: 2, endBa: false, startA: true, hasJ: true, hasK: false, meaning: matrixStep >= 3 ? 'Egypt' : '?' },
+      { word: 'ဂျက်', blocks: 1, endBa: false, startA: false, hasJ: true, hasK: false, meaning: matrixStep >= 1 ? 'Jack' : '?' },
+      { word: 'ကော်ဖီ', blocks: 2, endBa: false, startA: false, hasJ: false, hasK: true, meaning: matrixStep >= 3 ? 'coffee' : '?' },
+      { word: 'ကလပ်', blocks: 2, endBa: false, startA: false, hasJ: false, hasK: true, meaning: matrixStep >= 3 ? 'club' : '?' },
+    ];
+
+    return (
+      <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="p-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-bold text-indigo-900">{steps[matrixStep].title}</h3>
+            <p className="text-sm text-indigo-800 mt-1 whitespace-pre-line">{steps[matrixStep].desc}</p>
+          </div>
+        </div>
+        
+        <div className="flex-1 bg-slate-50 p-6 overflow-auto">
+          {/* 矩陣表格 */}
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-600 text-sm border-b border-slate-200">
+                  <th className="p-3 font-semibold">緬文單詞</th>
+                  <th className="p-3 font-semibold text-center">視覺方塊 (音節)</th>
+                  <th className="p-3 font-semibold text-center">結尾 ဘာ (ba)</th>
+                  <th className="p-3 font-semibold text-center">開頭 အ (a)</th>
+                  <th className="p-3 font-semibold text-center">含 ဂျ (j)</th>
+                  <th className="p-3 font-semibold text-center">含 က (k)</th>
+                  <th className="p-3 font-semibold text-indigo-600">破譯英文</th>
+                </tr>
+              </thead>
+              <tbody>
+                {matrixData.map((row, idx) => (
+                  <tr key={idx} className={`border-b border-slate-100 ${
+                    (matrixStep === 1 && (row.blocks === 3 || row.word === 'ဂျက်')) ? 'bg-yellow-50' : 
+                    (matrixStep === 2 && row.endBa) ? 'bg-indigo-50' : 
+                    (matrixStep === 3 && (row.startA || row.hasJ || row.hasK)) ? 'bg-emerald-50' : ''
+                  }`}>
+                    <td className="p-3 font-bold text-slate-800 text-lg">{row.word}</td>
+                    <td className="p-3 text-center text-slate-600 font-mono">{row.blocks}</td>
+                    <td className="p-3 text-center">{row.endBa ? <CheckCircle2 className="inline text-indigo-500" size={18} /> : '-'}</td>
+                    <td className="p-3 text-center">{row.startA ? <CheckCircle2 className="inline text-rose-500" size={18} /> : '-'}</td>
+                    <td className="p-3 text-center">{row.hasJ ? <CheckCircle2 className="inline text-amber-500" size={18} /> : '-'}</td>
+                    <td className="p-3 text-center">{row.hasK ? <CheckCircle2 className="inline text-teal-500" size={18} /> : '-'}</td>
+                    <td className="p-3 font-bold text-indigo-600">{row.meaning}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 公式推導區塊 */}
+          {matrixStep >= 1 && (
+            <div className="bg-slate-800 text-slate-100 rounded-lg p-5 font-mono text-sm animate-fade-in shadow-inner">
+              <h4 className="text-indigo-400 mb-3 font-bold flex items-center">
+                <ArrowRight size={16} className="mr-2"/> 特徵交集推導 (Feature Intersection)
+              </h4>
+              
+              <div className="space-y-3">
+                {matrixStep >= 1 && (
+                  <div className="p-2 bg-slate-700 rounded border border-slate-600 flex items-center animate-slide-right">
+                    <span className="text-yellow-300 w-24">Length = 3:</span> 
+                    နိုဝင်ဘာ ➔ <span className="text-white ml-2 font-bold bg-indigo-600/50 px-2 py-1 rounded">November</span>
+                  </div>
+                )}
+
+                {matrixStep >= 2 && (
+                  <div className="p-2 bg-slate-700 rounded border border-slate-600 flex items-center animate-slide-right delay-100">
+                    <span className="text-indigo-300 w-24">Suffix [ဘာ]:</span>
+                    <span>從 November 得知 ဘာ = /ber/。剩下 ရော်ဘာ ➔ <span className="text-white ml-2 font-bold bg-indigo-600/50 px-2 py-1 rounded">rubber</span></span>
+                  </div>
+                )}
+
+                {matrixStep >= 3 && (
+                  <div className="p-3 bg-slate-700/80 border-l-4 border-emerald-500 rounded flex flex-col gap-2 animate-slide-right delay-200">
+                    <div className="text-emerald-300 text-xs">// 矩陣特徵多重交集 (Intersection logic)</div>
+                    <div className="flex items-center text-slate-300">
+                      <span>1. <span className="text-rose-400">Prefix [အ]</span> = 母音開頭 (auntie, Egypt)</span>
+                    </div>
+                    <div className="flex items-center text-slate-300">
+                      <span>2. <span className="text-amber-400">Contain [ဂျ]</span> = 含有 /j/ 音 (Jack, Egypt)</span>
+                    </div>
+                    <div className="mt-1 pt-2 border-t border-slate-600 flex items-center">
+                      <ArrowRight size={14} className="inline mr-2 text-slate-400" />
+                      <span>交集確認：<span className="text-white font-bold text-lg mx-2">အီဂျစ်</span> = <span className="text-white font-bold bg-emerald-600/80 px-2 py-1 rounded">Egypt</span></span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 border-t border-slate-200 flex justify-between bg-white">
+          <button 
+            onClick={() => setMatrixStep(Math.max(0, matrixStep - 1))}
+            disabled={matrixStep === 0}
+            className="flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-md hover:bg-slate-200 disabled:opacity-50"
+          >
+            <ChevronLeft size={16} className="mr-1" /> 上一步
+          </button>
+          <div className="flex gap-1 items-center">
+            {[0, 1, 2, 3].map(step => (
+              <div key={step} className={`h-2 w-2 rounded-full ${matrixStep === step ? 'bg-indigo-500' : 'bg-slate-300'}`} />
+            ))}
+          </div>
+          <button 
+            onClick={() => setMatrixStep(Math.min(3, matrixStep + 1))}
+            disabled={matrixStep === 3}
+            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+          >
+            下一步 <ChevronRight size={16} className="ml-1" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-100 p-4 md:p-8 font-sans">
+      <div className="max-w-5xl mx-auto space-y-6">
+        
+        {/* Header */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">文字破譯解題思維動態模擬</h1>
+            <p className="text-slate-500 mt-1">2019 TOL 台灣語奧 問題6：緬甸文外來語 (Script Decipherment)</p>
+          </div>
+          
+          <div className="flex bg-slate-100 p-1 rounded-lg">
+            <button
+              onClick={() => setActiveMode('graph')}
+              className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeMode === 'graph' ? 'bg-white text-rose-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Network size={18} className="mr-2" />
+              圖表法 (Graph Method)
+            </button>
+            <button
+              onClick={() => setActiveMode('matrix')}
+              className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeMode === 'matrix' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Grid3X3 size={18} className="mr-2" />
+              矩陣與特徵法 (Matrix Method)
+            </button>
+          </div>
+        </div>
+
+        {/* Info Alert */}
+        <div className="bg-amber-50 text-amber-800 p-4 rounded-xl border border-amber-100 flex items-start gap-3 text-sm">
+          <Info className="shrink-0 mt-0.5" size={20} />
+          <div>
+            <strong>解題核心：從語義學跨界到書寫系統！</strong><br/>
+            這題考驗的不是詞彙的「意思組合」，而是<strong>「視覺符號」與「英文語音」</strong>的映射。我們同樣可以使用矩陣提取「音節長度與共用字母」，或者用圖表建構「字首與字尾網絡」，這正是語言學分析法能通用於各大題型的魅力所在！
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="h-[650px]">
+          {activeMode === 'graph' ? <GraphView /> : <MatrixView />}
+        </div>
+
+      </div>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideRight { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        .animate-slide-right { animation: slideRight 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+      `}} />
+    </div>
+  );
+}
+
+
+
+
+
+/* 這是一道非常精彩的**文字解密（Script Decipherment）**題目！雖然它不完全屬於我們前面討論的「語義學（Semantics）」，而是屬於「書寫系統（Writing Systems）」或「語音學（Phonetics）」，但**「圖表法」與「矩陣與特徵分析法」的核心邏輯，完全可以跨領域套用來破解這種類型的題目！**
+
+在處理未知文字的外來語時，我們尋找的不再是「意義的組合」，而是**「視覺符號的重複」與「語音特徵的對應」**。
+
+### 解題邏輯確認：將方法轉化為「符號與語音的映射」
+
+我們從你提供的 2019 TOL 緬甸文外來語片段中，挑出 7 個特徵最明顯的單詞來進行破解驗證：
+
+#### 1. 矩陣法：視覺特徵與音節長度分析
+
+我們將緬甸文的「視覺方塊數（通常對應音節）」與「重複出現的特殊符號」列成矩陣，再與英文發音對比：
+
+* **長度特徵**：
+* 3 個方塊：`နိုဝင်ဘာ` $\rightarrow$ 對應 3 音節英文：**November** (11月)。
+* 1 個方塊：`ဂျက်` $\rightarrow$ 對應單音節英文：**Jack**。
+
+
+* **字尾符號對應 (Suffix/Ending)**：
+* `နိုဝင်ဘာ` (November) 的結尾是 `ဘာ` (ba)。
+* 另一個字 `ရော်ဘာ` 也以 `ဘာ` 結尾，且為 2 音節 $\rightarrow$ 對應發音結尾有 -ber 的：**rubber** (橡皮)。
+
+
+* **字首與字根對應 (Prefix/Root)**：
+* `အန်တီ` 和 `အီဂျစ်` 有共同的開頭 `အ` (代表母音開頭) $\rightarrow$ 對應 **auntie** (阿姨) 和 **Egypt** (埃及)。
+* `အီဂျစ်` (Egypt) 和 單音節的 `ဂျက်` (Jack) 有共同符號 `ဂျ` $\rightarrow$ 證實 `ဂျ` 就是 /j/ (傑) 的音。
+* `ကော်ဖီ` 和 `ကလပ်` 都有 `က` 開頭 $\rightarrow$ 對應 /k/ 音的 **coffee** 和 **club**。
+
+
+
+#### 2. 圖表法：建立「字形與音素的關聯網」
+
+* 將共同的「緬文符號」設為中心節點，將「包含該符號的單詞」連向它。
+* 例如：`November` 和 `rubber` 同時連向節點 `[ဘာ]`；`Egypt` 連向 `[အ]` 與 `[ဂျ]`；`Jack` 連向 `[ဂျ]`；`auntie` 連向 `[အ]`。
+* 透過這個圖表網絡，只要確定一個詞，就能像骨牌一樣推倒出所有相連單詞的讀音。
+
+這兩種方法在破譯未知文字時同樣具有強大的威力。我已經將這個破譯過程，製作成**緬甸文外來語的動態模擬器**，請在右側操作體驗：
+
+### 兩種方法的跨界應用總結：
+
+1. **「矩陣與特徵法」無比適合解密書寫系統**：
+我們不再填入「意思」，而是填入**「視覺長度」**（1個方塊、2個方塊）和**「特定符號」**（結尾是否有 ဘာ）。這種作法可以讓大腦不被陌生的「毛毛蟲文字」干擾，直接將圖像轉為「Boolean (是/否) 邏輯表」，精準找出像 November 這種突破口。
+2. **「圖表法」揭露語音網絡**：
+透過畫線，我們可以清晰看到 /j/ 音（傑、埃及）和 /a/ 音（阿姨、埃及）是如何在 `အီဂျစ်` (Egypt) 這個詞上產生交集的。
+
+透過這種系統化的工具思考，不論是「語義學」還是「文字解密」，解題都會變得像在解數獨一樣有邏輯且暢快！ */

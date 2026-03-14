@@ -1,0 +1,396 @@
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, CheckCircle2, Info, Network, Grid3X3, ArrowRight } from 'lucide-react';
+
+// --- 資料定義 ---
+const nodes = [
+  // Base Nouns
+  { id: 'bay', label: 'បាយ (bay)', eng: '飯', x: 100, y: 150, type: 'core' },
+  { id: 'kuy', label: 'គុយទាវ (kuyteav)', eng: '粿條/麵', x: 100, y: 400, type: 'core' },
+  { id: 'salat', label: 'សាឡាត់ (salat)', eng: '沙拉', x: 100, y: 280, type: 'core' },
+  
+  // Modifiers 1 (Cooking / Type)
+  { id: 'cha', label: 'ឆា (cha)', eng: '炒', x: 250, y: 150, type: 'mod1' },
+  { id: 'sut', label: 'ស៊ុត (sut)', eng: '蛋', x: 250, y: 400, type: 'mod1' },
+  
+  // The crucial "Meat" classifier node
+  { id: 'sach', label: 'សាច់ (sach)', eng: '肉 (分類詞)', x: 400, y: 280, type: 'class' },
+  
+  // Proteins (Animals / Tofu)
+  { id: 'chruk', label: 'ជ្រូក (chruk)', eng: '豬', x: 550, y: 180, type: 'protein' },
+  { id: 'ko', label: 'គោ (ko)', eng: '牛', x: 550, y: 380, type: 'protein' },
+  { id: 'trey', label: 'ត្រី (trey)', eng: '魚', x: 550, y: 280, type: 'protein' },
+];
+
+const edges = [
+  // Bay chain
+  { source: 'bay', target: 'cha', label: '+ ឆា', id: 'e1' },
+  { source: 'cha', target: 'sach', label: '+ សាច់', id: 'e2' },
+  // Kuyteav chain
+  { source: 'kuy', target: 'sut', label: '+ ស៊ុត', id: 'e3' },
+  { source: 'sut', target: 'sach', label: '+ សាច់', id: 'e4' },
+  // Salat chain
+  { source: 'salat', target: 'sach', label: '+ សាច់', id: 'e5' },
+  // Sach (Meat) chain
+  { source: 'sach', target: 'chruk', label: '豬肉', id: 'e6' },
+  { source: 'sach', target: 'ko', label: '牛肉', id: 'e7' },
+  // Exception (Fish)
+  { source: 'salat', target: 'trey', label: '直接連接', id: 'e8' },
+];
+
+export default function KhmerSemanticsApp() {
+  const [activeMode, setActiveMode] = useState('graph');
+  const [graphStep, setGraphStep] = useState(0);
+  const [matrixStep, setMatrixStep] = useState(0);
+
+  // --- 圖表法元件 ---
+  const GraphView = () => {
+    const steps = [
+      {
+        title: "步驟 1：確立主食核心節點",
+        desc: "掃描語料字首，我們發現大量的「បាយ」(出現5次，對應rice飯)、「គុយទាវ」(出現4次，對應noodles麵) 以及「សាឡាត់」(出現2次，對應salad沙拉)。它們是句子的起點。"
+      },
+      {
+        title: "步驟 2：建構修飾語鏈條",
+        desc: "高棉語是「由左至右」修飾。以飯為例：បាយ (飯) 接上 ឆា (炒)，變成「炒飯」。គុយទាវ (麵) 接上 ស៊ុត (蛋)，變成「雞蛋麵」。"
+      },
+      {
+        title: "步驟 3：發現神祕的樞紐節點「សាច់ (sach)」",
+        desc: "這題最精彩的地方來了！你會發現「炒飯」和「沙拉」要接續「牛、豬、水牛」之前，全部都要先經過一個高頻字「សាច់」(出現6次)。這個字正是「肉 (Meat)」！"
+      },
+      {
+        title: "步驟 4：語義分類的例外 (Exception)",
+        desc: "觀察 fish salad (សាឡាត់ត្រី)：沙拉(salat) 竟然直接連到魚(trey)，中間沒有經過「肉(sach)」。這證明了在高棉語的語義分類中，「魚」不屬於「肉類」！"
+      }
+    ];
+
+    return (
+      <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="p-4 bg-orange-50 border-b border-orange-100 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-bold text-orange-900">{steps[graphStep].title}</h3>
+            <p className="text-sm text-orange-800 mt-1 whitespace-pre-line">{steps[graphStep].desc}</p>
+          </div>
+        </div>
+        
+        <div className="flex-1 relative bg-slate-50 min-h-[450px] flex justify-center items-center overflow-auto p-4">
+          <svg width="650" height="550" className="max-w-full drop-shadow-md">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+              </marker>
+              <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444" />
+              </marker>
+            </defs>
+            
+            {/* Edges */}
+            {graphStep >= 1 && edges.map((edge) => {
+              // Edge visibility logic
+              if (graphStep === 1 && (edge.id !== 'e1' && edge.id !== 'e3' && edge.id !== 'e5' && edge.id !== 'e8')) return null;
+              if (graphStep === 2 && edge.id === 'e8') return null; // Hide fish temporarily in step 2
+              if (graphStep < 3 && edge.id === 'e8') return null;
+
+              const sourceNode = nodes.find(n => n.id === edge.source);
+              const targetNode = nodes.find(n => n.id === edge.target);
+              const isException = edge.id === 'e8';
+
+              return (
+                <g key={edge.id} className="transition-all duration-700 ease-in-out animate-fade-in">
+                  <line 
+                    x1={sourceNode.x} y1={sourceNode.y} 
+                    x2={targetNode.x} y2={targetNode.y} 
+                    stroke={isException ? "#ef4444" : "#cbd5e1"} 
+                    strokeWidth={isException ? "4" : "3"}
+                    strokeDasharray={isException ? "5,5" : "none"}
+                    markerEnd={isException ? "url(#arrowhead-red)" : "url(#arrowhead)"}
+                  />
+                  {graphStep >= 2 && !isException && (
+                    <rect 
+                      x={(sourceNode.x + targetNode.x)/2 - 30} 
+                      y={(sourceNode.y + targetNode.y)/2 - 12} 
+                      width="60" height="24" rx="4" fill="white" stroke="#e2e8f0"
+                    />
+                  )}
+                  {graphStep >= 2 && !isException && (
+                    <text 
+                      x={(sourceNode.x + targetNode.x)/2} 
+                      y={(sourceNode.y + targetNode.y)/2 + 4} 
+                      textAnchor="middle" fontSize="11" fill="#475569" fontWeight="bold"
+                    >
+                      {edge.label}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+
+            {/* Nodes */}
+            {nodes.map((node) => {
+              if (graphStep === 0 && node.type !== 'core') return null;
+              if (graphStep === 1 && node.type === 'class') return null;
+              if (graphStep < 3 && node.id === 'trey') return null;
+
+              return (
+                <g key={node.id} className="transition-all duration-500 hover:scale-110 cursor-pointer animate-fade-in">
+                  <circle 
+                    cx={node.x} cy={node.y} r="30" 
+                    fill={
+                      node.type === 'core' ? '#3b82f6' : 
+                      node.type === 'mod1' ? '#10b981' : 
+                      node.type === 'class' ? '#f59e0b' : '#8b5cf6'
+                    } 
+                    stroke={node.type === 'class' && graphStep >= 2 ? '#fbbf24' : 'white'} 
+                    strokeWidth={node.type === 'class' && graphStep >= 2 ? '6' : '3'} 
+                    className="drop-shadow-sm"
+                  />
+                  <text 
+                    x={node.x} y={node.y - 38} 
+                    textAnchor="middle" fontSize="16" fontWeight="bold" fill="#1e293b"
+                  >
+                    {node.label.split(' ')[0]}
+                  </text>
+                  <text 
+                    x={node.x} y={node.y + 5} 
+                    textAnchor="middle" fontSize="12" fontWeight="bold" fill="white"
+                  >
+                    {node.eng.split(' ')[0]}
+                  </text>
+                  {graphStep >= 2 && node.type === 'class' && (
+                    <circle cx={node.x} cy={node.y} r="45" fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4,4" className="animate-spin-slow" />
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+        
+        <div className="p-4 border-t border-slate-200 flex justify-between bg-white">
+          <button 
+            onClick={() => setGraphStep(Math.max(0, graphStep - 1))}
+            disabled={graphStep === 0}
+            className="flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-md hover:bg-slate-200 disabled:opacity-50"
+          >
+            <ChevronLeft size={16} className="mr-1" /> 上一步
+          </button>
+          <div className="flex gap-1 items-center">
+            {[0, 1, 2, 3].map(step => (
+              <div key={step} className={`h-2 w-2 rounded-full ${graphStep === step ? 'bg-orange-500' : 'bg-slate-300'}`} />
+            ))}
+          </div>
+          <button 
+            onClick={() => setGraphStep(Math.min(3, graphStep + 1))}
+            disabled={graphStep === 3}
+            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 disabled:opacity-50"
+          >
+            下一步 <ChevronRight size={16} className="ml-1" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // --- 矩陣法元件 ---
+  const MatrixView = () => {
+    const steps = [
+      {
+        title: "步驟 1：建立詞頻與位置矩陣",
+        desc: "首先，計算高頻詞。បាយ(飯)出現5次，សាច់(肉)出現6次。特別注意它們的位置：បាយ 總是在句首 (Head)，而 សាច់ 總是在句中 (Middle)。"
+      },
+      {
+        title: "步驟 2：核心語序代數推導",
+        desc: "提取：សាឡាត់ត្រី = fish salad (沙拉+魚)；សាឡាត់សាច់គោ = beef salad (沙拉+肉+牛)。\n由此得出高棉語的公式：【名詞 + 修飾語】。"
+      },
+      {
+        title: "步驟 3：發現「泛稱分類詞」的規律",
+        desc: "矩陣揭露了一個重大差異：pork, beef, buffalo 都帶有 សាច់ (sach / 肉)。\n公式：sach(肉) + ko(牛) = beef。\n公式：sach(肉) + chruk(豬) = pork。"
+      },
+      {
+        title: "步驟 4：利用空缺 (Gaps) 找出例外",
+        desc: "在矩陣中，Fish(ត្រី) 和 Tofu(តៅហ៊ូ) 的「含 សាច់ (sach)」欄位是空白的(False)。\n結論：高棉語的 meat(សាច់) 只用於陸地哺乳類，海鮮與素食不加此分類詞！"
+      }
+    ];
+
+    const matrixData = [
+      { word: 'បាយ (bay)', type: '主食', freq: 5, pos: '首 (Head)', hasSach: '-', meaning: matrixStep >= 1 ? 'Rice (飯)' : '?' },
+      { word: 'សាច់ (sach)', type: '樞紐', freq: 6, pos: '中 (Mid)', hasSach: '-', meaning: matrixStep >= 2 ? 'Meat (肉)' : '?' },
+      { word: 'គោ (ko)', type: '食材', freq: 2, pos: '尾 (Tail)', hasSach: true, meaning: matrixStep >= 2 ? 'Cow (牛)' : '?' },
+      { word: 'ជ្រូក (chruk)', type: '食材', freq: 2, pos: '尾 (Tail)', hasSach: true, meaning: matrixStep >= 2 ? 'Pig (豬)' : '?' },
+      { word: 'ត្រី (trey)', type: '食材', freq: 2, pos: '尾 (Tail)', hasSach: false, meaning: matrixStep >= 1 ? 'Fish (魚)' : '?' },
+      { word: 'តៅហ៊ូ (tofu)', type: '食材', freq: 1, pos: '尾 (Tail)', hasSach: false, meaning: matrixStep >= 3 ? 'Tofu (豆腐)' : '?' },
+    ];
+
+    return (
+      <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="p-4 bg-teal-50 border-b border-teal-100 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-bold text-teal-900">{steps[matrixStep].title}</h3>
+            <p className="text-sm text-teal-800 mt-1 whitespace-pre-line">{steps[matrixStep].desc}</p>
+          </div>
+        </div>
+        
+        <div className="flex-1 bg-slate-50 p-6 overflow-auto">
+          {/* 矩陣表格 */}
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden mb-6">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-600 text-sm border-b border-slate-200">
+                  <th className="p-3 font-semibold">高棉語單詞</th>
+                  <th className="p-3 font-semibold text-center">詞類</th>
+                  <th className="p-3 font-semibold text-center">頻率</th>
+                  <th className="p-3 font-semibold text-center">位置</th>
+                  <th className="p-3 font-semibold text-center">前置「សាច់」(肉)</th>
+                  <th className="p-3 font-semibold text-teal-600">破譯語義</th>
+                </tr>
+              </thead>
+              <tbody>
+                {matrixData.map((row, idx) => (
+                  <tr key={idx} className={`border-b border-slate-100 ${
+                    (matrixStep === 1 && row.freq >= 5) ? 'bg-yellow-50' : 
+                    (matrixStep === 2 && row.hasSach === true) ? 'bg-orange-50' : 
+                    (matrixStep === 3 && row.hasSach === false) ? 'bg-red-50' : ''
+                  }`}>
+                    <td className="p-3 font-bold text-slate-800 text-lg">{row.word}</td>
+                    <td className="p-3 text-center text-slate-500">{row.type}</td>
+                    <td className="p-3 text-center font-mono">{row.freq}</td>
+                    <td className="p-3 text-center text-slate-600">{row.pos}</td>
+                    <td className="p-3 text-center">
+                      {row.hasSach === true ? <CheckCircle2 className="inline text-orange-500" size={18} /> : 
+                       row.hasSach === false ? <span className="text-red-500 font-bold">X (無)</span> : row.hasSach}
+                    </td>
+                    <td className="p-3 font-bold text-teal-600">{row.meaning}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 公式推導區塊 */}
+          {matrixStep >= 1 && (
+            <div className="bg-slate-800 text-slate-100 rounded-lg p-5 font-mono text-sm animate-fade-in shadow-inner">
+              <h4 className="text-teal-400 mb-3 font-bold flex items-center">
+                <ArrowRight size={16} className="mr-2"/> 語法與分類詞代數 (Syntax & Classifier Logic)
+              </h4>
+              
+              <div className="space-y-3">
+                {matrixStep >= 1 && (
+                  <div className="p-2 bg-slate-700 rounded border border-slate-600 flex flex-col gap-1 animate-slide-right">
+                    <span className="text-yellow-300">Word Order Check:</span> 
+                    <span>សាឡាត់(salat) + ត្រី(trey) = fish salad</span>
+                    <span>➔ Noun (Head) + Modifier (Tail)</span>
+                  </div>
+                )}
+
+                {matrixStep >= 2 && (
+                  <div className="p-2 bg-slate-700 rounded border border-slate-600 flex items-center animate-slide-right delay-100">
+                    <span className="text-orange-300 w-24 border-r border-slate-500 mr-2">សាច់ (sach):</span>
+                    <div className="flex flex-col">
+                      <span>sach + ko(牛) = beef</span>
+                      <span>sach + chruk(豬) = pork</span>
+                    </div>
+                  </div>
+                )}
+
+                {matrixStep >= 3 && (
+                  <div className="p-3 bg-slate-700/80 border-l-4 border-red-500 rounded flex flex-col gap-2 animate-slide-right delay-200">
+                    <div className="text-red-300 text-xs">// 語義分類例外偵測 (Semantic Exception Detection)</div>
+                    <div className="flex items-center text-slate-300">
+                      <span>If fish = ត្រី (trey), why not សាច់ត្រី (sach trey)?</span>
+                    </div>
+                    <div className="mt-1 pt-2 border-t border-slate-600 flex items-center">
+                      <ArrowRight size={14} className="inline mr-2 text-slate-400" />
+                      <span>解答：<span className="text-white font-bold bg-red-600/80 px-2 py-1 rounded">高棉語將「魚/豆腐」排除在「肉類(sach)」分類之外</span></span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 border-t border-slate-200 flex justify-between bg-white">
+          <button 
+            onClick={() => setMatrixStep(Math.max(0, matrixStep - 1))}
+            disabled={matrixStep === 0}
+            className="flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-md hover:bg-slate-200 disabled:opacity-50"
+          >
+            <ChevronLeft size={16} className="mr-1" /> 上一步
+          </button>
+          <div className="flex gap-1 items-center">
+            {[0, 1, 2, 3].map(step => (
+              <div key={step} className={`h-2 w-2 rounded-full ${matrixStep === step ? 'bg-teal-500' : 'bg-slate-300'}`} />
+            ))}
+          </div>
+          <button 
+            onClick={() => setMatrixStep(Math.min(3, matrixStep + 1))}
+            disabled={matrixStep === 3}
+            className="flex items-center px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-md hover:bg-teal-700 disabled:opacity-50"
+          >
+            下一步 <ChevronRight size={16} className="ml-1" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-100 p-4 md:p-8 font-sans">
+      <div className="max-w-5xl mx-auto space-y-6">
+        
+        {/* Header */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">語義分類解題思維動態模擬</h1>
+            <p className="text-slate-500 mt-1">2024 UKLO Round 1 問題3：高棉語 (Khmer) 菜單破譯</p>
+          </div>
+          
+          <div className="flex bg-slate-100 p-1 rounded-lg">
+            <button
+              onClick={() => setActiveMode('graph')}
+              className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeMode === 'graph' ? 'bg-white text-orange-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Network size={18} className="mr-2" />
+              圖表法 (Graph Method)
+            </button>
+            <button
+              onClick={() => setActiveMode('matrix')}
+              className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeMode === 'matrix' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Grid3X3 size={18} className="mr-2" />
+              矩陣與特徵法 (Matrix Method)
+            </button>
+          </div>
+        </div>
+
+        {/* Info Alert */}
+        <div className="bg-emerald-50 text-emerald-800 p-4 rounded-xl border border-emerald-100 flex items-start gap-3 text-sm">
+          <Info className="shrink-0 mt-0.5" size={20} />
+          <div>
+            <strong>解題核心：從「句法結構」看見「語義分類」</strong><br/>
+            這題並非單純的單字替換！透過分析，我們發現英文的 Beef (牛肉) 和 Pork (豬肉) 在高棉語中必須拆解為 <strong>「肉 + 牛」</strong> 和 <strong>「肉 + 豬」</strong>。但最有趣的是，Fish (魚) 前面並不會加上「肉」字。這種語言中隱藏的<strong>「語義分類詞 (Classifier)」</strong>，正是這道題目的靈魂！
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="h-[650px]">
+          {activeMode === 'graph' ? <GraphView /> : <MatrixView />}
+        </div>
+
+      </div>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideRight { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        .animate-slide-right { animation: slideRight 0.5s ease-out forwards; }
+        .animate-spin-slow { animation: spinSlow 10s linear infinite; transform-origin: center; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+      `}} />
+    </div>
+  );
+}
