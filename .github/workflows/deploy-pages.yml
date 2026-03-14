@@ -1,0 +1,40 @@
+# Deploy GitHub Pages with docs/ (including tol/ copy)
+# In repo Settings → Pages, set Source to "GitHub Actions" for this to run.
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy tol into docs
+        run: |
+          cp -r tol docs/ || true
+          ls -la docs/tol/ || true
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
