@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV · 謝舒凱</title>
+  <link rel="icon" type="image/png" href="me.png" />
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    /* ── CV layout ── */
+    .cv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .cv-title-block h1 { margin-bottom: 4px; }
+
+    .cv-title-block .cv-title-en {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .cv-download {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      color: var(--accent);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .cv-download:hover {
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Info grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .info-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+
+    .info-card .info-label {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .info-card .info-val {
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Section heading */
+    .cv-section {
+      margin-bottom: 36px;
+    }
+
+    .cv-section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .cv-section-head h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .cv-section-head::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Research interest chips */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .chip {
+      background: var(--soft);
+      border: 1px solid var(--accent2);
+      border-radius: 10px;
+      padding: 5px 14px;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Publication list */
+    .pub-list { list-style: none; margin: 0; padding: 0; }
+
+    .pub-list li {
+      padding: 12px 0 12px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .pub-list li:last-child { border-bottom: none; }
+
+    .pub-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .pub-year {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent2);
+      padding: 1px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+
+    .pub-award {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #b45309;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      padding: 1px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    /* Project cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .project-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .project-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .project-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media print {
+      nav.site-nav, footer.site-footer, .cv-download { display: none; }
+      .page { padding: 0; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">謝舒凱</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="posts.html">Blog</a></li>
+      <li><a href="cv.html" class="active">CV</a></li>
+      <li><a href="tol/language_culture_handout.html">TOL</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="page">
+
+  <!-- Header -->
+  <div class="cv-header">
+    <div class="cv-title-block">
+      <h1>謝舒凱</h1>
+      <p class="cv-title-en">Shu-Kai Hsieh &nbsp;·&nbsp; Curriculum Vitae</p>
+    </div>
+    <a class="cv-download" href="CV/sk_CV.pdf" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Full CV (PDF)
+    </a>
+  </div>
+
+  <!-- Basic Info -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-label">現職</div>
+      <div class="info-val">國立台灣大學 語言學研究所 / 腦與心智科學研究所<br><em>教授</em></div>
+    </div>
+    <div class="info-card">
+      <div class="info-label">研究單位</div>
+      <div class="info-val">神經生物與認知科學中心 · AI 與機器人中心<br>數位法律科技中心 · Nvidia 台大聯合研究中心</div>
+    </div>
+    <div class="info-card">
+      <div class="info-label">聯絡</div>
+      <div class="info-val">
+        <a href="mailto:shukaihsieh@ntu.edu.tw">shukaihsieh@ntu.edu.tw</a><br>
+        +886-2-3366-1970<br>
+        <span style="font-size:0.82em;color:var(--muted)">台北市羅斯福路四段一號 語言學研究所</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research Interests -->
+  <section class="cv-section">
+    <div class="cv-section-head"><h2>Research Interests</h2></div>
+    <p style="margin-bottom:16px;font-size:0.95rem;">
+      主要研究興趣集中在<strong>計算語言學</strong>、語言資源與評測的交叉領域，致力於構建知識本體論、語料庫與詞彙語意資源，以提升 NLP 與 AI 系統效能，並推動數位人文（e-Humanities）的發展。
+    </p>
+    <div class="chip-group">
+      <span class="chip">Computational Semantics</span>
+      <span class="chip">Lexical Resources &amp; Ontology</span>
+      <span class="chip">Language &amp; LLM</span>
+      <span class="chip">Quantum Linguistics</span>
+      <span class="chip">e-Humanities</span>
+      <span class="chip">Cognitive Neurolinguistics</span>
+      <span class="chip">Construction Grammar</span>
+    </div>
+  </section>
+
+  <!-- Books -->
+  <section class="cv-section">
+    <div class="cv-section-head"><h2>Books &amp; Book Chapters</h2></div>
+    <ul class="pub-list">
+      <li>
+        <span class="pub-year">2026</span>
+        Wang, B.Y. and <strong>Shu-Kai Hsieh</strong>. "Multimodal Lexical Items." In: <em>International Encyclopedia of Language and Linguistics</em>, 3rd ed. Elsevier.
+      </li>
+      <li>
+        <span class="pub-year">2025</span>
+        <strong>謝舒凱</strong>。「語料庫與語言研究的實證方法」。收錄於黃宣範（主編）：《語言學：結構、認知與文化的探索》。台大出版中心。
+      </li>
+      <li>
+        <span class="pub-year">2023</span>
+        <strong>Hsieh, Shu-Kai</strong>. "Computational Learning of Construction in Chinese." In: <em>Chinese Language Learning and Technology</em>. Springer.
+      </li>
+      <li>
+        <span class="pub-year">2022</span>
+        <strong>Hsieh, Shu-Kai</strong> et al. "The Extreme Poverty of Affixation in Chinese." In: <em>Cambridge Handbook of Chinese Linguistics</em>.
+      </li>
+      <li>
+        <span class="pub-year">2022</span>
+        <strong>Hsieh, Shu-Kai</strong>. "DeepLEX." In: <em>Chinese Language Resources</em>. Springer Nature.
+      </li>
+      <li>
+        <span class="pub-year">2020</span>
+        <strong>謝舒凱</strong>（譯註）。《生成詞彙理論：邁向計算語意的新視野》。台北：聯經出版社。
+      </li>
+      <li>
+        <span class="pub-year">2017</span>
+        Huang, Chu-Ren, <strong>Shu-Kai Hsieh</strong>, and Keh-Jiann Chen (eds). <em>Mandarin Chinese Words and Parts of Speech: A corpus-based study</em>. Routledge.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Selected Journal Articles -->
+  <section class="cv-section">
+    <div class="cv-section-head"><h2>Selected Journal Articles</h2></div>
+    <ul class="pub-list">
+      <li>
+        <span class="pub-year">2025</span>
+        Lian, D.-C., et al., &amp; <strong>Shu-Kai Hsieh</strong>. "Empowering elementary learning: Utilizing large language models to craft tailored textbooks with expert insight." <em>Journal of Library and Information Studies</em>, 23(2).
+      </li>
+      <li>
+        <span class="pub-year">2024</span>
+        <strong>Hsieh, Shu-Kai</strong>, et al. "Self-supervised learning for Formosan speech representation and linguistic phylogeny." <em>Frontiers in Language Sciences</em> 3.
+      </li>
+      <li>
+        <span class="pub-year">2023</span>
+        Wang, B-Y and <strong>Shu-Kai Hsieh</strong>. "Incorporating Structural Topic Modeling into Short Text Analysis." <em>Concentric: Studies in Linguistics</em>.
+      </li>
+      <li>
+        <span class="pub-year">2022</span>
+        Pin-Er Chen, et al., &amp; <strong>Shu-Kai Hsieh</strong>. "Analyzing Discourse Functions with Acoustic Features and Phone Embeddings: Non-Lexical Items in Taiwan Mandarin." <em>IJCLCLP</em> 27(2).
+        <span class="pub-award">Best Paper Award</span>
+      </li>
+      <li>
+        <span class="pub-year">2021</span>
+        Lai, C-H, <strong>Shu-Kai Hsieh</strong>, et al. "Neuro-Cognitive Differences in Semantic Processing Between Native Speakers and Proficient Learners." <em>Frontiers in Psychology</em>.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Selected Conference Papers -->
+  <section class="cv-section">
+    <div class="cv-section-head"><h2>Selected Conference Papers <span style="font-weight:400;font-size:0.8em;color:var(--muted)">(since 2020)</span></h2></div>
+    <ul class="pub-list">
+      <li><span class="pub-year">2025</span>Prevot, L., Wang, S-F., Chi, J-A., &amp; <strong>Shu-Kai Hsieh</strong>. "Extending the BabyLM Initiative to Diverse Languages and Development."</li>
+      <li><span class="pub-year">2023</span>Tseng, Yu-Hsiang, et al., &amp; <strong>Shu-Kai Hsieh</strong>. "Vec2Gloss: definition modeling leveraging contextualized vectors with Wordnet gloss." <em>PACLIC 37</em>, Hong Kong.</li>
+      <li><span class="pub-year">2023</span>Lin, Zheng-Lin, et al., &amp; <strong>Shu-Kai Hsieh</strong>. "Solving Linguistic Olympiad Problems with Tree-of-Thought Prompting." <em>ROCLING 2023</em>, Taipei.</li>
+      <li><span class="pub-year">2023</span>Watty, D., Kitsunai, M., &amp; <strong>Shu-Kai Hsieh</strong>. "Prompt-based translation of Chinese into Taiwan Braille." <em>IALP 2023</em>, Singapore.</li>
+      <li><span class="pub-year">2022</span>Tseng, Yu-Hsiang and <strong>Shu-Kai Hsieh</strong>. "Character Jacobian: modeling Chinese character meanings with deep learning model." <em>COLING 2022</em>, South Korea.</li>
+      <li><span class="pub-year">2022</span>Tseng, Yu-Hsiang, et al., &amp; <strong>Shu-Kai Hsieh</strong>. "CxLM: A Construction and Context-aware Language Model." <em>LREC 2022</em>.</li>
+      <li><span class="pub-year">2020</span>Tseng, Yu-Hsiang, <strong>Shu-Kai Hsieh</strong>, et al. "Computational Modeling of Affixoid Behavior in Chinese Morphology." <em>COLING 2020</em>.</li>
+    </ul>
+  </section>
+
+  <!-- Key Projects -->
+  <section class="cv-section">
+    <div class="cv-section-head"><h2>Key Projects</h2></div>
+    <div class="project-grid">
+      <div class="project-card">
+        <h3>Chinese Wordnet (CWN)</h3>
+        <p>主要開發者。構建中文詞彙語意網絡之核心資源，廣泛應用於 NLP 與 AI 研究。</p>
+      </div>
+      <div class="project-card">
+        <h3>LOPEN</h3>
+        <p>語言資料開放與數位人文分析工具開發計畫，推動 e-Humanities 研究工具的公開共享。</p>
+      </div>
+      <div class="project-card">
+        <h3>跨領域合作</h3>
+        <p>長期與神經科學、心理學、法律學界合作，應用計算語言學模型解決跨域問題（情緒分析、認知神經、Braille 翻譯等）。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  © 2024 Shu-Kai Hsieh &nbsp;·&nbsp;
+  <a href="https://github.com/loperntu" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+  <a href="mailto:shukaihsieh@ntu.edu.tw">shukaihsieh@ntu.edu.tw</a>
+</footer>
+
+</body>
+</html>
