@@ -1,5 +1,6 @@
-# Deploy GitHub Pages with docs/ (including tol/ copy)
-# In repo Settings → Pages, set Source to "GitHub Actions" for this to run.
+# Deploy GitHub Pages directly from docs/
+# docs/tol/ is now committed to git, no copy step needed.
+# In repo Settings → Pages, set Source to "GitHub Actions".
 name: Deploy Pages
 
 on:
@@ -24,14 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Copy tol into docs
-        run: |
-          ls -la tol/
-          rm -rf docs/tol
-          cp -r tol docs/
-          ls -la docs/tol/
-          test -f docs/tol/language_culture_handout.html || (echo "ERROR: handout missing after copy" && exit 1)
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
