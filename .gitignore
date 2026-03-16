@@ -132,3 +132,8 @@ dmypy.json
 
 /.luarc.json
 .Rproj.user
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+docs/**/.DS_Store
