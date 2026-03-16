@@ -16,24 +16,24 @@ POST_TEMPLATE = """\
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
+  <title>__TITLE__</title>
   <link rel="icon" href="../../me.png" type="image/png">
   <link rel="stylesheet" href="../../site.css">
   <style>
-    .post-nav {{ padding: 2rem 0 0; }}
-    .post-nav a {{ font-size: 0.9rem; color: var(--accent); text-decoration: none; }}
-    .post-nav a:hover {{ text-decoration: underline; }}
-    article {{ max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }}
-    article h1 {{ font-family: 'Noto Sans TC', sans-serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }}
-    .post-date {{ color: #999; font-size: 0.85rem; margin-bottom: 2.5rem; display: block; }}
-    .post-body {{ font-family: 'Noto Serif TC', serif; line-height: 1.85; font-size: 1.05rem; }}
-    .post-body h2 {{ font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; margin-top: 2.5rem; }}
-    .post-body h3 {{ font-family: 'Noto Sans TC', sans-serif; font-size: 1.1rem; margin-top: 2rem; }}
-    .post-body blockquote {{ border-left: 3px solid #ddd; margin-left: 0; padding-left: 1.2rem; color: #666; }}
-    .post-body code {{ background: #f5f5f5; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }}
-    .post-body pre {{ background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto; }}
-    .post-body img {{ max-width: 100%; border-radius: 4px; }}
-    footer.post-footer {{ text-align: center; padding: 2rem; color: #bbb; font-size: 0.85rem; border-top: 1px solid #eee; }}
+    .post-nav { padding: 2rem 0 0; }
+    .post-nav a { font-size: 0.9rem; color: var(--accent); text-decoration: none; }
+    .post-nav a:hover { text-decoration: underline; }
+    article { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    article h1 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
+    .post-date { color: #999; font-size: 0.85rem; margin-bottom: 2.5rem; display: block; }
+    .post-body { font-family: 'Noto Serif TC', serif; line-height: 1.85; font-size: 1.05rem; }
+    .post-body h2 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; margin-top: 2.5rem; }
+    .post-body h3 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.1rem; margin-top: 2rem; }
+    .post-body blockquote { border-left: 3px solid #ddd; margin-left: 0; padding-left: 1.2rem; color: #666; }
+    .post-body code { background: #f5f5f5; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }
+    .post-body pre { background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    .post-body img { max-width: 100%; border-radius: 4px; }
+    footer.post-footer { text-align: center; padding: 2rem; color: #bbb; font-size: 0.85rem; border-top: 1px solid #eee; }
   </style>
 </head>
 <body>
@@ -41,10 +41,10 @@ POST_TEMPLATE = """\
     <a href="../../posts.html">← 返回文章列表</a>
   </div>
   <article>
-    <h1>{title}</h1>
-    <time class="post-date" datetime="{date}">{date}</time>
+    <h1>__TITLE__</h1>
+    <time class="post-date" datetime="__DATE__">__DATE__</time>
     <div class="post-body">
-{body}
+__BODY__
     </div>
   </article>
   <footer class="post-footer">謝舒凱 · <a href="../../index.html" style="color:#bbb;">loperntu.github.io</a></footer>
@@ -87,11 +87,15 @@ def extract_body(soup):
 
 def convert_post(path: Path, dry_run=False):
     html = path.read_text(encoding="utf-8")
+    # Skip already-converted files (no quarto marker in first 500 chars)
+    if "quarto" not in html[:500].lower():
+        print(f"Skipping (already converted): {path}")
+        return
     soup = BeautifulSoup(html, "html.parser")
     title = extract_title(soup)
     date = extract_date(soup)
     body = extract_body(soup)
-    new_html = POST_TEMPLATE.format(title=title, date=date, body=body)
+    new_html = POST_TEMPLATE.replace("__TITLE__", title).replace("__DATE__", date).replace("__BODY__", body)
     if dry_run:
         print(f"[DRY RUN] Would convert: {path} (title={title!r}, date={date})")
         return
@@ -99,11 +103,14 @@ def convert_post(path: Path, dry_run=False):
     print(f"Converted: {path}")
 
 def main():
-    docs = Path("docs/posts")
+    docs = Path(__file__).parent.parent / "docs/posts"
     posts = sorted(docs.glob("*/index.html"))
     print(f"Found {len(posts)} posts")
     for p in posts:
-        convert_post(p, dry_run=DRY_RUN)
+        try:
+            convert_post(p, dry_run=DRY_RUN)
+        except Exception as e:
+            print(f"ERROR converting {p}: {e}", file=sys.stderr)
     if not DRY_RUN:
         print(f"\nDone. {len(posts)} posts converted.")
 
