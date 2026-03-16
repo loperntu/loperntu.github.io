@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>緬甸語外來詞發音練習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&display=swap');
+        .burmese-font { font-family: 'Noto Sans Myanmar', sans-serif; }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .loading-pulse { animation: pulse-soft 1.5s infinite; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen pb-12">
+
+    <!-- Header -->
+    <header class="bg-white border-b sticky top-0 z-10 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <h1 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <i data-lucide="languages" class="text-indigo-600"></i>
+                緬甸語發音助手 (優化版)
+            </h1>
+            <div class="flex items-center gap-3">
+                <button onclick="preloadAll()" id="preload-btn" class="text-sm bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full hover:bg-indigo-100 transition flex items-center gap-2">
+                    <i data-lucide="download-cloud" class="w-4 h-4"></i>
+                    <span>預載所有發音 (消除延遲)</span>
+                </button>
+                <div id="global-status" class="text-xs text-gray-500 italic hidden sm:block">點擊卡片聽發音</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6">
+        <div id="words-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Cards will be injected here -->
+        </div>
+
+        <!-- Error Message Overlay -->
+        <div id="error-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl">
+                <h3 class="text-lg font-bold text-red-600 mb-2">發生錯誤</h3>
+                <p id="error-text" class="text-gray-600 mb-4"></p>
+                <button onclick="closeError()" class="w-full bg-gray-100 hover:bg-gray-200 py-2 rounded-lg transition">關閉</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const apiKey = ""; 
+        const audioCache = new Map(); // 快取下載過的音檔
+        let isGlobalLoading = false;
+
+        const words = [
+            { id: 1, my: "တီဗီ", romaji: "Ti-vī", hanyu: "踢-逼", en: "TV (電視)" },
+            { id: 2, my: "ရေဒီယို", romaji: "Yay-dì-yò", hanyu: "耶-底-優", en: "Radio (收音機)" },
+            { id: 3, my: "ရမ်", romaji: "Yan", hanyu: "延", en: "Rum (蘭姆酒)" },
+            { id: 4, my: "နိုဝင်ဘာ", romaji: "Nò-wìn-bà", hanyu: "怒-溫-吧", en: "November (十一月)" },
+            { id: 5, my: "ဂေါက်", romaji: "Gauk", hanyu: "告", en: "Golf (高爾夫)" },
+            { id: 6, my: "ရော်ဘာ", romaji: "Yaw-bà", hanyu: "喲-吧", en: "Rubber (橡膠)" },
+            { id: 7, my: "ဆွယ်တာ", romaji: "Swè-tà", hanyu: "刷-打", en: "Sweater (毛衣)" },
+            { id: 8, my: "အန်တီ", romaji: "An-tì", hanyu: "安-底", en: "Auntie (阿姨)" },
+            { id: 9, my: "စပိန်", romaji: "Sa-pèin", hanyu: "撒-班", en: "Spain (西班牙)" },
+            { id: 10, my: "ကော်ဖီ", romaji: "Kaw-phì", hanyu: "勾-費", en: "Coffee (咖啡)" },
+            { id: 11, my: "ဧပြီ", romaji: "È-pyì", hanyu: "欸-畢", en: "April (四月)" },
+            { id: 12, my: "ဂျက်", romaji: "Jet", hanyu: "傑", en: "Jet (噴射機)" },
+            { id: 13, my: "နယ်သာလန်", romaji: "Nè-thà-làn", hanyu: "內-打-藍", en: "Netherlands (荷蘭)" },
+            { id: 14, my: "ဝိုင်", romaji: "Wain", hanyu: "歪", en: "Wine (葡萄酒)" },
+            { id: 15, my: "ကတ်", romaji: "Kat", hanyu: "嘎", en: "Card (卡片)" },
+            { id: 16, my: "ကလပ်", romaji: "Ka-lap", hanyu: "嘎-拉", en: "Club (俱樂部)" },
+            { id: 17, my: "မေ", romaji: "Mè", hanyu: "妹", en: "May (五月)" },
+            { id: 18, my: "အီဂျစ်", romaji: "Ì-jit", hanyu: "伊-傑", en: "Egypt (埃及)" }
+        ];
+
+        function renderCards() {
+            const grid = document.getElementById('words-grid');
+            grid.innerHTML = words.map(word => `
+                <div onclick="handleClick(${word.id})" id="card-${word.id}" 
+                     class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">NO. ${word.id}</span>
+                            <h2 class="text-3xl font-bold text-gray-800 burmese-font mt-1 mb-2">${word.my}</h2>
+                            <p class="text-indigo-600 font-medium">${word.romaji}</p>
+                            <div class="mt-4 space-y-1">
+                                <p class="text-sm text-gray-500 flex items-center gap-1">
+                                    <i data-lucide="ear" class="w-3 h-3"></i> 中文諧音：${word.hanyu}
+                                </p>
+                                <p class="text-sm text-gray-500 flex items-center gap-1">
+                                    <i data-lucide="info" class="w-3 h-3"></i> 英文原意：${word.en}
+                                </p>
+                            </div>
+                        </div>
+                        <div id="icon-container-${word.id}" class="p-3 rounded-full bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                            <i data-lucide="volume-2" id="icon-${word.id}"></i>
+                        </div>
+                    </div>
+                    <!-- 緩存指示燈 -->
+                    <div id="cache-dot-${word.id}" class="absolute top-3 right-3 w-2 h-2 rounded-full bg-transparent"></div>
+                    <!-- 進度條 -->
+                    <div id="loading-${word.id}" class="absolute bottom-0 left-0 h-1 bg-indigo-600 w-0 transition-all duration-300"></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        async function handleClick(id) {
+            const word = words.find(w => w.id === id);
+            if (!word) return;
+
+            // 如果已經在快取中，直接播放，不設定全域鎖定
+            if (audioCache.has(id)) {
+                playAudio(id);
+                return;
+            }
+
+            // 如果正在載入中，則不重複觸發
+            if (isGlobalLoading) return;
+            
+            await fetchAndPlay(word);
+        }
+
+        async function fetchAndPlay(word) {
+            const loader = document.getElementById(`loading-${word.id}`);
+            const status = document.getElementById('global-status');
+            const icon = document.getElementById(`icon-${word.id}`);
+
+            try {
+                isGlobalLoading = true;
+                loader.style.width = '100%';
+                document.getElementById(`card-${word.id}`).classList.add('loading-pulse');
+                status.innerText = "連線中...";
+
+                const audioUrl = await getAudioUrl(word);
+                audioCache.set(word.id, audioUrl);
+                updateCacheUI(word.id);
+                
+                playAudio(word.id);
+
+            } catch (error) {
+                showError("音檔載入失敗，請檢查網路連線。");
+            } finally {
+                isGlobalLoading = false;
+                loader.style.width = '0%';
+                document.getElementById(`card-${word.id}`).classList.remove('loading-pulse');
+                status.innerText = "點擊卡片聽發音";
+            }
+        }
+
+        function playAudio(id) {
+            const audioUrl = audioCache.get(id);
+            if (!audioUrl) return;
+
+            const audio = new Audio(audioUrl);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            audio.onplay = () => {
+                icon.setAttribute('data-lucide', 'music');
+                lucide.createIcons();
+            };
+            audio.onended = () => {
+                icon.setAttribute('data-lucide', 'volume-2');
+                lucide.createIcons();
+            };
+            audio.play();
+        }
+
+        async function getAudioUrl(word) {
+            const audioBuffer = await fetchTTS(word.my);
+            const wavBlob = pcmToWav(audioBuffer, 24000);
+            return URL.createObjectURL(wavBlob);
+        }
+
+        async function preloadAll() {
+            const btn = document.getElementById('preload-btn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            
+            let count = 0;
+            for (const word of words) {
+                if (!audioCache.has(word.id)) {
+                    btn.innerHTML = `<span>正在預載 (${count + 1}/${words.length})...</span>`;
+                    try {
+                        const url = await getAudioUrl(word);
+                        audioCache.set(word.id, url);
+                        updateCacheUI(word.id);
+                    } catch (e) { console.error(e); }
+                }
+                count++;
+            }
+            
+            btn.innerHTML = `<span><i data-lucide="check" class="w-4 h-4 inline"></i> 全部預載完成</span>`;
+            lucide.createIcons();
+            setTimeout(() => {
+                btn.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateCacheUI(id) {
+            const dot = document.getElementById(`cache-dot-${id}`);
+            if (dot) dot.classList.replace('bg-transparent', 'bg-green-400');
+        }
+
+        // --- TTS 核心函式 ---
+        async function fetchTTS(text, retries = 5, delay = 1000) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } }
+                    }
+                }
+            };
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error();
+                    const data = await response.json();
+                    const base64Audio = data.candidates[0].content.parts[0].inlineData.data;
+                    return Uint8Array.from(atob(base64Audio), c => c.charCodeAt(0)).buffer;
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    await new Promise(r => setTimeout(r, delay * Math.pow(2, i)));
+                }
+            }
+        }
+
+        function pcmToWav(buffer, sampleRate) {
+            const header = new ArrayBuffer(44);
+            const view = new DataView(header);
+            const writeString = (view, offset, string) => {
+                for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+            };
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + buffer.byteLength, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, buffer.byteLength, true);
+            return new Blob([header, buffer], { type: 'audio/wav' });
+        }
+
+        function showError(msg) {
+            document.getElementById('error-text').innerText = msg;
+            document.getElementById('error-modal').classList.remove('hidden');
+        }
+
+        function closeError() {
+            document.getElementById('error-modal').classList.add('hidden');
+        }
+
+        window.onload = renderCards;
+    </script>
+</body>
+</html>
