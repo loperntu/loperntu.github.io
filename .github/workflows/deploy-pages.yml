@@ -36,10 +36,19 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Prepare clean deploy directory
+        run: |
+          cp -r docs /tmp/site
+          find /tmp/site -name '.DS_Store' -delete
+          echo "=== tol/ in clean site ==="
+          ls -la /tmp/site/tol/
+          echo "=== total files ==="
+          find /tmp/site -type f | wc -l
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: /tmp/site
 
       - name: Deploy to GitHub Pages
         id: deployment
