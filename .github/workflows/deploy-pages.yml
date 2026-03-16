@@ -26,6 +26,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug - verify tol/ contents
+        run: |
+          echo "=== docs/tol/ contents ==="
+          ls -la docs/tol/ || echo "docs/tol/ not found"
+          echo "=== total files in docs/ ==="
+          find docs/ -type f | wc -l
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
