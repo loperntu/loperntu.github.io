@@ -58,7 +58,7 @@ POST_TEMPLATE = """\
     article { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
     article h1 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
     .post-date { color: #999; font-size: 0.85rem; margin-bottom: 2.5rem; display: block; }
-    .post-body { font-family: 'Noto Serif TC', serif; line-height: 1.85; font-size: 1.05rem; }
+    .post-body { font-family: Georgia, 'Noto Serif TC', serif; line-height: 1.85; font-size: 1.05rem; }
     .post-body h2 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; margin-top: 2.5rem; }
     .post-body h3 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.1rem; margin-top: 2rem; }
     .post-body blockquote { border-left: 3px solid #ddd; margin-left: 0; padding-left: 1.2rem; color: #666; }

@@ -27,7 +27,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: "Noto Serif TC", "Source Han Serif TC", Georgia, serif;
+  font-family: Georgia, "Noto Serif TC", "Source Han Serif TC", serif;
   line-height: 1.85;
   -webkit-font-smoothing: antialiased;
 }
