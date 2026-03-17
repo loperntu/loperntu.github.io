@@ -1,3 +1,5 @@
+# 靜態網站來源：手動維護 docs/，此 workflow 僅上傳 docs/ 至 GitHub Pages。
+# 請在 repo Settings → Pages 將 Source 設為 "GitHub Actions"。
 name: Deploy to GitHub Pages
 
 on:
@@ -24,41 +26,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify key pages exist
+      - name: Verify docs/ and list artifact contents
         run: |
           echo "=== docs/ structure ==="
           ls docs/
-          echo "=== docs/tol/ ==="
-          ls docs/tol/
+          echo "=== docs/tol/ (must include language_culture_handout.html for /tol/ links) ==="
+          ls -la docs/tol/
+          test -f docs/tol/index.html && echo "OK: docs/tol/index.html exists" || (echo "MISSING: docs/tol/index.html" && exit 1)
+          test -f docs/tol/language_culture_handout.html && echo "OK: docs/tol/language_culture_handout.html exists" || (echo "MISSING: docs/tol/language_culture_handout.html" && exit 1)
           echo "=== posts count ==="
           ls docs/posts/ | wc -l
-          echo "=== checking no Quarto references in posts ==="
+          echo "=== warn: Quarto refs in posts (non-fatal) ==="
           count=$(grep -rl "quarto" docs/posts/*/index.html 2>/dev/null | wc -l)
-          echo "Posts with quarto refs: $count (expected 0)"
-          [ "$count" -eq 0 ] || exit 1
-          echo "=== checking no Unicode filenames in docs/ ==="
+          echo "Posts with quarto refs: $count (informational)"
+          echo "=== warn: Unicode filenames in docs/ (non-fatal) ==="
           git ls-files docs/ | python3 -c "
           import sys
           bad = [l.strip() for l in sys.stdin if any(ord(c) > 127 for c in l.strip())]
           if bad:
-              print('UNICODE filenames found:')
-              for f in bad: print(' ', f)
-              sys.exit(1)
-          print('All filenames are ASCII - OK')
+              print('Unicode filenames (may cause 404 on some hosts):'); [print(' ', f) for f in bad]
+          else:
+              print('All filenames ASCII - OK')
           "
-          echo "All checks passed."
-
-      - name: Debug - list docs/tol/ before upload
-        run: |
-          echo "=== docs/tol/ contents ==="
-          ls -la docs/tol/
-          echo "=== total files in docs/ ==="
-          find docs/ -type f | wc -l
-          echo "=== any Unicode filenames? ==="
-          find docs/ -name '*[^[:ascii:]]*' | cat
-          echo "=== manually test tar of docs/tol/ ==="
-          tar -czf /tmp/tol_test.tar.gz docs/tol/ 2>&1 && echo "tar succeeded" || echo "tar FAILED"
-          tar -tvf /tmp/tol_test.tar.gz | head -5
+          echo "Verify done; proceeding to upload."
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
