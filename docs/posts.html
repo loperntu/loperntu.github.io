@@ -51,7 +51,7 @@
 
     .post-meta {
       flex-shrink: 0;
-      width: 100px;
+      width: 160px;
       text-align: right;
     }
 
@@ -61,7 +61,21 @@
       font-weight: 700;
       color: var(--muted);
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      border-radius: 999px;
+      padding: 2px 10px;
+      white-space: nowrap;
+      line-height: 1.6;
     }
 
     .post-content { flex: 1; min-width: 0; }
@@ -74,7 +88,7 @@
       text-decoration: none;
       line-height: 1.4;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .post-title:hover { color: var(--accent); text-decoration: none; }
@@ -88,9 +102,10 @@
 
     .post-item[data-hidden="true"] { display: none; }
 
-    @media (max-width: 600px) {
-      .post-item { flex-direction: column; gap: 8px; }
-      .post-meta { width: auto; text-align: left; }
+    @media (max-width: 640px) {
+      .post-item { flex-direction: column; gap: 6px; }
+      .post-meta { width: auto; text-align: left; display: flex; align-items: center; gap: 10px; }
+      .post-date { margin-bottom: 0; }
     }
 
     /* Blog header with artwork */
