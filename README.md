@@ -58,6 +58,21 @@ GitHub Pages 偵測到新 push 後，約 **3 分鐘**內自動部署。不需要
 - **不使用 Quarto**：網站已於 2026-03 從 Quarto 遷移為純 HTML。請勿執行 `quarto render`。
 - **路徑 `/tol/` 已廢棄**：舊路徑因 GitHub Pages 快取鎖死問題無法修復，現改用 `/iol/`。
 - **字型**：標題用 Noto Sans TC，內文用 Noto Serif TC，由 Google Fonts CDN 載入。
+- **數學渲染**：使用 MathJax 3，支援 `\(...\)` inline 與 `\[...\]` display 語法。**只有含數學的貼文需要加載**，在 `<head>` 加入：
+
+  ```html
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [["$","$"],["\\(","\\)"]],
+      displayMath: [["$$","$$"],["\\[","\\]"]]
+    }
+  };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  ```
+
+  目前含數學的貼文：`posts/2025-01-13/`、`posts/2026-03-05/`
 
 ---
 
