@@ -7,19 +7,6 @@
   <link rel="icon" type="image/png" href="me.png" />
   <link rel="stylesheet" href="site.css" />
   <style>
-    .blog-header {
-      margin-bottom: 40px;
-    }
-
-    .blog-header h1 { margin-bottom: 6px; }
-
-    .blog-header p {
-      font-family: "Noto Sans TC", sans-serif;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 0;
-    }
-
     /* Filter row */
     .filter-row {
       display: flex;
@@ -105,6 +92,44 @@
       .post-item { flex-direction: column; gap: 8px; }
       .post-meta { width: auto; text-align: left; }
     }
+
+    /* Blog header with artwork */
+    .blog-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .blog-header-text { flex: 1; }
+    .blog-header-text h1 { margin-bottom: 6px; }
+    .blog-header-text p {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .blog-artwork {
+      flex-shrink: 0;
+      width: 140px;
+      opacity: 0.88;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .blog-artwork img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .blog-header { align-items: flex-start; }
+      .blog-artwork { width: 90px; }
+    }
   </style>
 </head>
 <body>
@@ -123,8 +148,13 @@
 
 <main class="page">
   <div class="blog-header">
-    <h1>Blog &amp; Notes</h1>
-    <p>語言學、量子語意、AI、以及偶爾的生活隨筆</p>
+    <div class="blog-header-text">
+      <h1>Blog &amp; Notes</h1>
+      <p>語言學、量子語意、AI、以及偶爾的生活隨筆</p>
+    </div>
+    <div class="blog-artwork" title="SK, 2020.5">
+      <img src="images/about.png" alt="手繪 · SK 2020.5" />
+    </div>
   </div>
 
   <div class="filter-row">
