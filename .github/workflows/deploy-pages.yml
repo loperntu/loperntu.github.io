@@ -48,6 +48,18 @@ jobs:
           "
           echo "All checks passed."
 
+      - name: Debug - list docs/tol/ before upload
+        run: |
+          echo "=== docs/tol/ contents ==="
+          ls -la docs/tol/
+          echo "=== total files in docs/ ==="
+          find docs/ -type f | wc -l
+          echo "=== any Unicode filenames? ==="
+          find docs/ -name '*[^[:ascii:]]*' | cat
+          echo "=== manually test tar of docs/tol/ ==="
+          tar -czf /tmp/tol_test.tar.gz docs/tol/ 2>&1 && echo "tar succeeded" || echo "tar FAILED"
+          tar -tvf /tmp/tol_test.tar.gz | head -5
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
