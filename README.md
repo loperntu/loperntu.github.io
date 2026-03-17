@@ -46,10 +46,70 @@ GitHub Pages 偵測到新 push 後，約 **3 分鐘**內自動部署。不需要
 |---|---|
 | 改首頁內容 | `docs/index.html` |
 | 更新 CV | `docs/cv.html` |
-| 新增 blog 貼文 | 新增 `docs/posts/YYYY-MM-DD/index.html` |
+| 新增 blog 貼文 | 用 `scripts/md2post.py` 轉換（見下方） |
 | 更新 Blog 列表 | `docs/posts.html`（手動加一列） |
 | 改 IOL 頁面 | `docs/iol/` 裡對應的 html |
 | 改全站字型 / 顏色 | `docs/site.css` |
+
+---
+
+## 新增 Blog 貼文（Markdown 工作流程）
+
+用 Markdown 寫作，一行指令轉成符合網站風格的 HTML。
+
+**1. 建立 Markdown 檔**（放在任何地方，例如 `posts/`）
+
+```
+posts/2026-03-20-my-post.md
+```
+
+**2. 填入 frontmatter + 正文**
+
+```markdown
+---
+title: 文章標題
+date: 2026-03-20
+category: Life
+description: 一行摘要（用於 posts.html 列表）
+math: false        # 有 LaTeX 數學就改成 true
+---
+
+## 小節標題
+
+正文，支援 **粗體**、*斜體*、`code`、表格、引言、圍欄程式碼區塊。
+```
+
+**3. 轉換**
+
+```bash
+python scripts/md2post.py posts/2026-03-20-my-post.md
+# → 輸出 docs/posts/2026-03-20/index.html
+```
+
+**4. 更新 Blog 列表，然後 push**
+
+在 `docs/posts.html` 的 `<div class="post-list">` 裡手動加一列：
+
+```html
+<div class="post-item" data-cats="Life">
+  <div class="post-meta">
+    <span class="post-date">2026-03-20</span>
+    <span class="tag">Life</span>
+  </div>
+  <div class="post-content">
+    <a class="post-title" href="posts/2026-03-20/index.html">文章標題</a>
+    <p class="post-desc">一行摘要</p>
+  </div>
+</div>
+```
+
+```bash
+git add docs/posts/2026-03-20/ docs/posts.html
+git commit -m "post: 文章標題"
+git push origin main
+```
+
+> `category` 可用值：`Quantum Semantics` / `LLM and Linguistics` / `Geometry of Language` / `Emergence` / `Humanities and AI` / `Life`
 
 ---
 
