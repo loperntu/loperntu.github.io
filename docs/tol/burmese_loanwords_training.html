@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOL 2019 緬甸語外來詞｜語奧培訓式動態講解</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&display=swap');
+    .burmese-font { font-family: 'Noto Sans Myanmar', sans-serif; }
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .loading-pulse { animation: pulse-soft 1.5s infinite; }
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #dbe3ef;
+      --accent: #1d4ed8;
+      --accent-2: #7c3aed;
+      --good: #0f766e;
+      --warn: #b45309;
+      --rose: #be185d;
+      --soft: #eef4ff;
+      --soft2: #f5f3ff;
+      --hl: #fff7cc;
+      --greenbg: #ecfdf5;
+      --redbg: #fff1f2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, #f8fbff, #f4f7fb);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #eef4ff, #f8f7ff);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.25;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .pillrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .pill {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: #334155;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, #fbfdff);
+    }
+    .panel-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+    .panel-note {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .panel-body { padding: 18px; }
+    .stepbox {
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .stepno {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .steptitle {
+      font-size: 22px;
+      line-height: 1.35;
+      margin: 0 0 10px;
+    }
+    .steptext { color: #334155; font-size: 16px; }
+    .logic {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: var(--soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      font-size: 15px;
+    }
+    .controlbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.15s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .btn-light { background: #eef2f7; color: #334155; }
+    .btn-main { background: var(--accent); color: white; }
+    .btn-ghost { background: #fff; color: #334155; border: 1px solid var(--line); }
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1;
+    }
+    .dot.on { background: var(--accent); }
+    .mini-note {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .wordlist {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .wordlist h3 {
+      margin: 0;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+    }
+    .wordlist ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 620px;
+      overflow: auto;
+    }
+    .worditem {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #eef2f7;
+      align-items: start;
+    }
+    .worditem:last-child { border-bottom: 0; }
+    .worditem .idx {
+      font-weight: 700;
+      color: #64748b;
+    }
+    .burmese {
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0.3px;
+    }
+    .eng {
+      font-size: 21px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      color: #64748b;
+    }
+    .hot {
+      background: var(--hl) !important;
+      box-shadow: inset 0 0 0 1px #eadf8a;
+    }
+    .solved {
+      background: var(--greenbg) !important;
+      box-shadow: inset 0 0 0 1px #99f6e4;
+    }
+    .candidate-off {
+      opacity: 0.35;
+    }
+    .mapping {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #eef2f7;
+      vertical-align: top;
+    }
+    th {
+      background: #f8fafc;
+      font-size: 14px;
+      text-align: left;
+      color: #334155;
+    }
+    td { font-size: 15px; }
+    .final {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .answerbox {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      overflow: hidden;
+    }
+    .answerbox h3 {
+      margin: 0;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+    }
+    .answerbox .inner {
+      padding: 14px;
+      font-size: 15px;
+    }
+    .bur-list {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+    .insight {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--soft2);
+      border: 1px solid #e6ddff;
+      font-size: 15px;
+    }
+    .footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .top-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 1fr; }
+      .grid2, .final { grid-template-columns: 1fr; }
+      .burmese { font-size: 25px; }
+    }
+  </style>
+</head>
+<body>
+<a href="index.html" id="tol-back-link" style="position:fixed;top:12px;left:12px;z-index:9999;background:rgba(15,118,110,0.92);color:white;font-family:'Noto Sans TC',sans-serif;font-size:0.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);letter-spacing:0.02em;backdrop-filter:blur(4px);">&#8592; TOL 首頁</a>
+  <div class="wrap">
+    <section class="hero">
+      <h1>TOL 2019 緬甸語外來詞：語奧培訓式動態講解</h1>
+      <div class="sub">這個版本根據題目與官方解答重做，保留「逐步揭露」的互動風格，但改成更貼近語奧培訓的推理順序：先找錨點，再做排除，再歸納借詞規律。</div>
+      <div class="pillrow">
+        <span class="pill">題型：script decipherment / loanword matching</span>
+        <span class="pill">核心技能：長度、重複片段、音節結構、排除法</span>
+        <span class="pill">重點提醒：不要急著逐字硬對；先找最穩的突破口</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">動態解題模擬</h2>
+          <p class="panel-note">按「下一步」模擬一位選手如何把 18 組配對慢慢收束。</p>
+        </div>
+        <div class="panel-body">
+          <div class="stepbox">
+            <div class="stepno" id="stepno">Step 1</div>
+            <h3 class="steptitle" id="steptitle"></h3>
+            <div class="steptext" id="steptext"></div>
+            <div class="logic" id="logic"></div>
+          </div>
+
+          <div class="controlbar">
+            <button class="btn-light" id="prevBtn">上一步</button>
+            <div class="dots" id="dots"></div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-ghost" id="resetBtn">重設</button>
+              <button class="btn-main" id="nextBtn">下一步</button>
+            </div>
+          </div>
+
+          <div class="insight" id="insight"></div>
+
+          <div class="mapping">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:70px;">字母</th>
+                  <th>英文</th>
+                  <th style="width:80px;">題號</th>
+                  <th>緬文</th>
+                </tr>
+              </thead>
+              <tbody id="mappingBody"></tbody>
+            </table>
+          </div>
+
+          <div class="final">
+            <div class="answerbox">
+              <h3>第 (2) 題答案</h3>
+              <div class="inner" id="q2box"></div>
+            </div>
+            <div class="answerbox">
+              <h3>第 (3) 題答案</h3>
+              <div class="inner bur-list" id="q3box"></div>
+            </div>
+          </div>
+
+          <div class="footer">
+            這題的培訓重點，不是「看懂緬文」，而是學會借詞題的套路。第一步先找最長、最短、最醒目的詞；第二步找可重複利用的片段；第三步才是排除法收尾。題目本身就是把 18 個緬文借詞與 18 個英文來源打亂配對，外加兩個延伸小題。
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">題目資料面板</h2>
+          <p class="panel-note">左邊是 18 個緬甸語借詞，右邊是 18 個英文來源詞。高亮顯示的是當前步驟的焦點。</p>
+        </div>
+        <div class="panel-body">
+          <div class="grid2">
+            <div class="wordlist">
+              <h3>緬甸語（題號）</h3>
+              <ul id="burmeseList"></ul>
+            </div>
+            <div class="wordlist">
+              <h3>英文候選（字母）</h3>
+              <ul id="englishList"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 緬甸語發音助手（優化版） -->
+  <section class="bg-gray-50 mt-12 pb-12 border-t border-gray-200">
+    <header class="bg-white border-b sticky top-0 z-10 shadow-sm">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+          <i data-lucide="languages" class="text-indigo-600"></i>
+          緬甸語發音助手 (優化版)
+        </h2>
+        <div class="flex items-center gap-3">
+          <button onclick="preloadAll()" id="preload-btn" class="text-sm bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full hover:bg-indigo-100 transition flex items-center gap-2">
+            <i data-lucide="download-cloud" class="w-4 h-4"></i>
+            <span>預載所有發音 (消除延遲)</span>
+          </button>
+          <div id="global-status" class="text-xs text-gray-500 italic hidden sm:block">點擊卡片聽發音</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6">
+      <div id="words-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Cards will be injected here -->
+      </div>
+
+      <!-- Error Message Overlay -->
+      <div id="error-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl">
+          <h3 class="text-lg font-bold text-red-600 mb-2">發生錯誤</h3>
+          <p id="error-text" class="text-gray-600 mb-4"></p>
+          <button onclick="closeError()" class="w-full bg-gray-100 hover:bg-gray-200 py-2 rounded-lg transition">關閉</button>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <script>
+    const burmese = [
+      { id: 1, text: 'တီဗီ' },
+      { id: 2, text: 'ရေဒီယို' },
+      { id: 3, text: 'ရမ်' },
+      { id: 4, text: 'နိုဝင်ဘာ' },
+      { id: 5, text: 'ဂေါက်' },
+      { id: 6, text: 'ရော်ဘာ' },
+      { id: 7, text: 'ဆွယ်တာ' },
+      { id: 8, text: 'အန်တီ' },
+      { id: 9, text: 'စပိန်' },
+      { id: 10, text: 'ကော်ဖီ' },
+      { id: 11, text: 'ဧပြီ' },
+      { id: 12, text: 'ဂျက်' },
+      { id: 13, text: 'နယ်သာလန်' },
+      { id: 14, text: 'ဝိုင်' },
+      { id: 15, text: 'ကတ်' },
+      { id: 16, text: 'ကလပ်' },
+      { id: 17, text: 'မေ' },
+      { id: 18, text: 'အီဂျစ်' },
+    ];
+
+    const english = [
+      { key: 'a', text: 'April' },
+      { key: 'b', text: 'auntie' },
+      { key: 'c', text: 'card' },
+      { key: 'd', text: 'club' },
+      { key: 'e', text: 'coffee' },
+      { key: 'f', text: 'Egypt' },
+      { key: 'g', text: 'golf' },
+      { key: 'h', text: 'Jack' },
+      { key: 'i', text: 'May' },
+      { key: 'j', text: 'Netherlands' },
+      { key: 'k', text: 'November' },
+      { key: 'l', text: 'radio' },
+      { key: 'm', text: 'rubber' },
+      { key: 'n', text: 'rum' },
+      { key: 'o', text: 'Spain' },
+      { key: 'p', text: 'sweater' },
+      { key: 'q', text: 'TV' },
+      { key: 'r', text: 'wine' },
+    ];
+
+    const finalMap = {
+      a: 11, b: 8, c: 15, d: 16, e: 10, f: 18,
+      g: 5, h: 12, i: 17, j: 13, k: 4, l: 2,
+      m: 6, n: 3, o: 9, p: 7, q: 1, r: 14
+    };
+
+    const idToBur = Object.fromEntries(burmese.map(x => [x.id, x.text]));
+
+    const steps = [
+      {
+        title: '先辨識題型：這不是翻譯題，而是借詞解密題',
+        text: '看到的是英文借入緬甸語之後的寫法，所以不應期待逐字對應；你要觀察的是「音節數、重複片段、起首/結尾模式、哪些音在緬甸語中會被改寫」。題目資料中一共有 18 個緬文形式與 18 個英文來源，要做整體配對。',
+        logic: '策略先後：① 找最長、最短與最醒目的形式；② 找重複片段；③ 用排除法；④ 最後才總結規則。',
+        hotBur: [], hotEng: [], solved: [], insight: '培訓提醒：外來詞題最怕一開始就逐字對。先抓結構，再抓音值，往往一通百通。'
+      },
+      {
+        title: '先抓最長詞：13 = Netherlands，而不是 November',
+        text: '13 號「နယ်သာလန်」最長，而且裡面可以看出某些成分重複回環。官方解答的思路指出，若跟 November 相比，Netherlands 更像是會在借入後保留多節結構、而且含有重複的 n / l / nd 類型節點。',
+        logic: '因此 j = 13。這一步一旦確立，後面很多 n- / -land / -l- 型訊息都會跟著鬆開。',
+        hotBur: [13], hotEng: ['j','k'], solved: [['j',13]], insight: '這裡的關鍵不是「我會不會緬文」，而是「我能否判斷哪個英文在借入後更可能保留多音節骨架」。'
+      },
+      {
+        title: '再用 n- 開頭與月份語義感：4 = November',
+        text: '既然 13 已經拿走 Netherlands，那另一個明顯較長、且起首也像 n- 的 4 號「နိုဝင်ဘာ」就自然對上 November。更重要的是它的尾段「-ဘာ」後面會變成下一步的共用鑰匙。',
+        logic: '所以 k = 4。此時我們得到一條非常好用的線索：緬文尾段「ဘာ」大致對應英文中的 -ber。',
+        hotBur: [4,13], hotEng: ['j','k','m'], solved: [['j',13],['k',4]], insight: '外來詞題常常是「先解一個長詞，順手解出一個片段值」，那個片段值再回頭解第二批詞。'
+      },
+      {
+        title: '片段回收：有 -ဘာ 的另一個詞就是 rubber → 6',
+        text: '既然 4 = November，而其尾段對應 -ber，那另一個也以「-ဘာ」結尾的 6 號「ရော်ဘာ」便高度可疑。候選英文裡最符合的是 rubber。',
+        logic: '因此 m = 6。你現在不是只配對一個字，而是建立一個可重複使用的對應片段。',
+        hotBur: [4,6], hotEng: ['k','m'], solved: [['j',13],['k',4],['m',6]], insight: '真正的高手不是「猜到答案」，而是會把答案變成下一題的工具。'
+      },
+      {
+        title: '看內部鼻音與詞首母音：8 = auntie',
+        text: '8 號「အန်တီ」帶有明顯的內部 nasal 成分，而且不是詞尾才出現；英文候選裡 auntie 恰好符合。官方解答也用這一步去讀出「တီ」這個片段，之後能反過來識別 TV 與 coffee。',
+        logic: '因此 b = 8。並且可暫記：တီ ≈ /ti/。',
+        hotBur: [8,1,10], hotEng: ['b','e','q'], solved: [['j',13],['k',4],['m',6],['b',8]], insight: '在借詞題裡，一旦你拿到一個高把握的音節值，例如 /ti/，常會像拔蘿蔔一樣，後面一串都跟著出來。'
+      },
+      {
+        title: '用 /ti/ 連鎖解：1 = TV，10 = coffee，7 = sweater',
+        text: '1 號「တီဗီ」幾乎直接就是 TV 的音節拆寫；10 號「ကော်ဖီ」末尾有 -ဖီ，對應 coffee 的 -fee；7 號「ဆွယ်တာ」則因為含有 clear 的 t 音結構，可與 sweater 對上。這幾個詞把 /t/、/i/、/f/ 類對應逐漸固定下來。',
+        logic: '所以 q = 1，e = 10，p = 7。至此，高頻借詞骨架已經大致穩住。',
+        hotBur: [1,7,10], hotEng: ['q','e','p'], solved: [['j',13],['k',4],['m',6],['b',8],['q',1],['e',10],['p',7]], insight: '這一步的重點是「片段複用」：不是每次重新猜，而是讓一個片段帶出一串配對。'
+      },
+      {
+        title: '從 /l/ 與開頭輔音看：16 = club，15 = card，11 = April',
+        text: '官方解答接著利用 Netherlands / November / sweater 中抽出的母音與輔音線索，推知某些位置對應 /l/。因此 16 號「ကလပ်」很自然是 club，15 號「ကတ်」對應 card，而 11 號「ဧပြီ」是月份詞 April。',
+        logic: '所以 d = 16，c = 15，a = 11。你也可順手記下：卡類起首並不必然是 c，可能是 k/c/g 類借入後的結果。',
+        hotBur: [11,15,16], hotEng: ['a','c','d'], solved: [['j',13],['k',4],['m',6],['b',8],['q',1],['e',10],['p',7],['d',16],['c',15],['a',11]], insight: '很多學生卡在「card 為什麼不是以 c 開頭的專屬字母」。借詞題切記：你看到的是借入後的音值，不是英文拼寫本身。'
+      },
+      {
+        title: '最後用共享片段與排除：12 = Jack，18 = Egypt，其餘隨之收束',
+        text: '12 號「ဂျက်」與 18 號「အီဂျစ်」共享中間的 j-like 成分，因此 12 = Jack、18 = Egypt 很穩。再加上 17 號「မေ」顯然是 May，2 號「ရေဒီယို」是 radio，3 號「ရမ်」是 rum，9 號「စပိန်」是 Spain，14 號「ဝိုင်」是 wine，5 號「ဂေါက်」是 golf。整張表於是完成。',
+        logic: '因此 h = 12，f = 18，i = 17，l = 2，n = 3，o = 9，r = 14，g = 5。',
+        hotBur: [2,3,5,9,12,14,17,18], hotEng: ['f','g','h','i','l','n','o','r'], solved: [['j',13],['k',4],['m',6],['b',8],['q',1],['e',10],['p',7],['d',16],['c',15],['a',11],['h',12],['f',18],['i',17],['l',2],['n',3],['o',9],['r',14],['g',5]], insight: '收尾時往往不是再猜新規則，而是把「共享片段 + 排除法」做乾淨。語奧很多題目，妙處都在最後一哩。'
+      },
+      {
+        title: '規則總結：借詞不是照抄英文拼字，而是服從緬甸語音節結構',
+        text: '官方解答特別提醒：緬甸語音節不能任意以英語那種複雜輔音叢收尾，因此借詞會被改造成開音節、喉塞尾或鼻音尾等較可接受的形式；某些英語音也會系統性改寫，例如 /r/ 常對應成類 y/j 的成分，/v/ 可能進入 b / w，/f/ 可表成 aspirated p 類。',
+        logic: '這就是為什麼外來詞題不能只背字母，而要看「目標語如何消化外來音段」。懂規則，比背表更有用。',
+        hotBur: [], hotEng: [], solved: Object.entries(finalMap), insight: '語奧訓練的真正目標，是從一題借詞題學會一整套觀察法：音節合法性、借入策略、可重複使用的片段值，以及最後的排除法。'
+      }
+    ];
+
+    const q2Answers = [
+      ['စက်တင်ဘာ', 'September'],
+      ['ဟမ်ဘာဂါ', 'hamburger']
+    ];
+
+    const q3Answers = [
+      ['video', 'ဗီဒီယို'],
+      ['Poland', 'ပိုလန်'],
+      ['guitar', 'ဂီတာ'],
+      ['Johnny', 'ဂျော်နီ']
+    ];
+
+    let step = 0;
+
+    function renderLists() {
+      const bList = document.getElementById('burmeseList');
+      const eList = document.getElementById('englishList');
+      bList.innerHTML = '';
+      eList.innerHTML = '';
+      const s = steps[step];
+      const solvedBur = new Set(s.solved.map(x => x[1]));
+      const solvedEng = new Set(s.solved.map(x => x[0]));
+
+      burmese.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'worditem';
+        if (s.hotBur.includes(item.id)) li.classList.add('hot');
+        if (solvedBur.has(item.id)) li.classList.add('solved');
+        li.innerHTML = `
+          <div class="idx">${item.id}.</div>
+          <div>
+            <div class="burmese">${item.text}</div>
+            ${solvedBur.has(item.id) ? `<span class="tag">已定位</span>` : ''}
+          </div>
+        `;
+        bList.appendChild(li);
+      });
+
+      english.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'worditem';
+        if (s.hotEng.includes(item.key)) li.classList.add('hot');
+        if (solvedEng.has(item.key)) li.classList.add('solved');
+        li.innerHTML = `
+          <div class="idx">${item.key}.</div>
+          <div>
+            <div class="eng">${item.text}</div>
+            ${solvedEng.has(item.key) ? `<span class="tag">已配對</span>` : ''}
+          </div>
+        `;
+        eList.appendChild(li);
+      });
+    }
+
+    function renderStep() {
+      const s = steps[step];
+      document.getElementById('stepno').textContent = `Step ${step + 1}`;
+      document.getElementById('steptitle').textContent = s.title;
+      document.getElementById('steptext').textContent = s.text;
+      document.getElementById('logic').textContent = s.logic;
+      document.getElementById('insight').innerHTML = `<strong>培訓提示：</strong>${s.insight}`;
+      document.getElementById('prevBtn').disabled = step === 0;
+      document.getElementById('nextBtn').disabled = step === steps.length - 1;
+      renderDots();
+      renderLists();
+      renderMapping();
+      renderAnswers();
+    }
+
+    function renderDots() {
+      const dots = document.getElementById('dots');
+      dots.innerHTML = '';
+      steps.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === step ? ' on' : '');
+        dots.appendChild(d);
+      });
+    }
+
+    function renderMapping() {
+      const body = document.getElementById('mappingBody');
+      const solvedNow = Object.fromEntries(steps[step].solved);
+      body.innerHTML = '';
+      english.forEach(e => {
+        const tr = document.createElement('tr');
+        const target = solvedNow[e.key];
+        tr.innerHTML = `
+          <td><strong>${e.key}</strong></td>
+          <td>${e.text}</td>
+          <td>${target ? target : '—'}</td>
+          <td>${target ? idToBur[target] : '—'}</td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+
+    function renderAnswers() {
+      const q2 = document.getElementById('q2box');
+      const q3 = document.getElementById('q3box');
+      if (step < steps.length - 1) {
+        q2.innerHTML = '完成全部步驟後顯示。';
+        q3.innerHTML = '完成全部步驟後顯示。';
+        return;
+      }
+      q2.innerHTML = q2Answers.map(([bur, eng], i) => `${i+1}. <span class="burmese" style="font-size:22px;">${bur}</span> → <strong>${eng}</strong>`).join('<br><br>');
+      q3.innerHTML = q3Answers.map(([eng, bur], i) => `${i+1}. ${eng} → ${bur}`).join('<br>');
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => { if (step > 0) { step--; renderStep(); } });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (step < steps.length - 1) { step++; renderStep(); } });
+    document.getElementById('resetBtn').addEventListener('click', () => { step = 0; renderStep(); });
+
+    renderStep();
+  </script>
+
+  <script>
+    // --- 緬甸語發音助手 (優化版) ---
+    const apiKey = "";
+    const audioCache = new Map();
+    let isGlobalLoading = false;
+
+    const words = [
+      { id: 1, my: "တီဗီ", romaji: "Ti-vī", hanyu: "踢-逼", en: "TV (電視)" },
+      { id: 2, my: "ရေဒီယို", romaji: "Yay-dì-yò", hanyu: "耶-底-優", en: "Radio (收音機)" },
+      { id: 3, my: "ရမ်", romaji: "Yan", hanyu: "延", en: "Rum (蘭姆酒)" },
+      { id: 4, my: "နိုဝင်ဘာ", romaji: "Nò-wìn-bà", hanyu: "怒-溫-吧", en: "November (十一月)" },
+      { id: 5, my: "ဂေါက်", romaji: "Gauk", hanyu: "告", en: "Golf (高爾夫)" },
+      { id: 6, my: "ရော်ဘာ", romaji: "Yaw-bà", hanyu: "喲-吧", en: "Rubber (橡膠)" },
+      { id: 7, my: "ဆွယ်တာ", romaji: "Swè-tà", hanyu: "刷-打", en: "Sweater (毛衣)" },
+      { id: 8, my: "အန်တီ", romaji: "An-tì", hanyu: "安-底", en: "Auntie (阿姨)" },
+      { id: 9, my: "စပိန်", romaji: "Sa-pèin", hanyu: "撒-班", en: "Spain (西班牙)" },
+      { id: 10, my: "ကော်ဖီ", romaji: "Kaw-phì", hanyu: "勾-費", en: "Coffee (咖啡)" },
+      { id: 11, my: "ဧပြီ", romaji: "È-pyì", hanyu: "欸-畢", en: "April (四月)" },
+      { id: 12, my: "ဂျက်", romaji: "Jet", hanyu: "傑", en: "Jet (噴射機)" },
+      { id: 13, my: "နယ်သာလန်", romaji: "Nè-thà-làn", hanyu: "內-打-藍", en: "Netherlands (荷蘭)" },
+      { id: 14, my: "ဝိုင်", romaji: "Wain", hanyu: "歪", en: "Wine (葡萄酒)" },
+      { id: 15, my: "ကတ်", romaji: "Kat", hanyu: "嘎", en: "Card (卡片)" },
+      { id: 16, my: "ကလပ်", romaji: "Ka-lap", hanyu: "嘎-拉", en: "Club (俱樂部)" },
+      { id: 17, my: "မေ", romaji: "Mè", hanyu: "妹", en: "May (五月)" },
+      { id: 18, my: "အီဂျစ်", romaji: "Ì-jit", hanyu: "伊-傑", en: "Egypt (埃及)" }
+    ];
+
+    function renderCards() {
+      const grid = document.getElementById('words-grid');
+      if (!grid) return;
+      grid.innerHTML = words.map(word => `
+        <div onclick="handleClick(${word.id})" id="card-${word.id}"
+             class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">NO. ${word.id}</span>
+              <h2 class="text-3xl font-bold text-gray-800 burmese-font mt-1 mb-2">${word.my}</h2>
+              <p class="text-indigo-600 font-medium">${word.romaji}</p>
+              <div class="mt-4 space-y-1">
+                <p class="text-sm text-gray-500 flex items-center gap-1">
+                  <i data-lucide="ear" class="w-3 h-3"></i> 中文諧音：${word.hanyu}
+                </p>
+                <p class="text-sm text-gray-500 flex items-center gap-1">
+                  <i data-lucide="info" class="w-3 h-3"></i> 英文原意：${word.en}
+                </p>
+              </div>
+            </div>
+            <div id="icon-container-${word.id}" class="p-3 rounded-full bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+              <i data-lucide="volume-2" id="icon-${word.id}"></i>
+            </div>
+          </div>
+          <div id="cache-dot-${word.id}" class="absolute top-3 right-3 w-2 h-2 rounded-full bg-transparent"></div>
+          <div id="loading-${word.id}" class="absolute bottom-0 left-0 h-1 bg-indigo-600 w-0 transition-all duration-300"></div>
+        </div>
+      `).join('');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    async function handleClick(id) {
+      const word = words.find(w => w.id === id);
+      if (!word) return;
+      if (audioCache.has(id)) {
+        playAudio(id);
+        return;
+      }
+      if (isGlobalLoading) return;
+      await fetchAndPlay(word);
+    }
+
+    async function fetchAndPlay(word) {
+      const loader = document.getElementById(`loading-${word.id}`);
+      const status = document.getElementById('global-status');
+      const icon = document.getElementById(`icon-${word.id}`);
+      if (!loader || !status) return;
+      try {
+        isGlobalLoading = true;
+        loader.style.width = '100%';
+        const card = document.getElementById(`card-${word.id}`);
+        if (card) card.classList.add('loading-pulse');
+        status.innerText = "連線中...";
+
+        const audioUrl = await getAudioUrl(word);
+        audioCache.set(word.id, audioUrl);
+        updateCacheUI(word.id);
+        playAudio(word.id);
+      } catch (error) {
+        showError("音檔載入失敗，請檢查網路連線。");
+      } finally {
+        isGlobalLoading = false;
+        loader.style.width = '0%';
+        const card = document.getElementById(`card-${word.id}`);
+        if (card) card.classList.remove('loading-pulse');
+        status.innerText = "點擊卡片聽發音";
+      }
+    }
+
+    function playAudio(id) {
+      const audioUrl = audioCache.get(id);
+      if (!audioUrl) return;
+      const audio = new Audio(audioUrl);
+      const icon = document.getElementById(`icon-${id}`);
+      if (icon) {
+        audio.onplay = () => {
+          icon.setAttribute('data-lucide', 'music');
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        };
+        audio.onended = () => {
+          icon.setAttribute('data-lucide', 'volume-2');
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        };
+      }
+      audio.play();
+    }
+
+    async function getAudioUrl(word) {
+      const audioBuffer = await fetchTTS(word.my);
+      const wavBlob = pcmToWav(audioBuffer, 24000);
+      return URL.createObjectURL(wavBlob);
+    }
+
+    async function preloadAll() {
+      const btn = document.getElementById('preload-btn');
+      if (!btn) return;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.classList.add('opacity-50');
+      let count = 0;
+      for (const word of words) {
+        if (!audioCache.has(word.id)) {
+          btn.innerHTML = `<span>正在預載 (${count + 1}/${words.length})...</span>`;
+          try {
+            const url = await getAudioUrl(word);
+            audioCache.set(word.id, url);
+            updateCacheUI(word.id);
+          } catch (e) { console.error(e); }
+        }
+        count++;
+      }
+      btn.innerHTML = `<span><i data-lucide="check" class="w-4 h-4 inline"></i> 全部預載完成</span>`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      setTimeout(() => { btn.style.display = 'none'; }, 3000);
+    }
+
+    function updateCacheUI(id) {
+      const dot = document.getElementById(`cache-dot-${id}`);
+      if (dot) dot.classList.replace('bg-transparent', 'bg-green-400');
+    }
+
+    async function fetchTTS(text, retries = 5, delay = 1000) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } }
+          }
+        }
+      };
+      for (let i = 0; i < retries; i++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) throw new Error();
+          const data = await response.json();
+          const base64Audio = data.candidates[0].content.parts[0].inlineData.data;
+          return Uint8Array.from(atob(base64Audio), c => c.charCodeAt(0)).buffer;
+        } catch (err) {
+          if (i === retries - 1) throw err;
+          await new Promise(r => setTimeout(r, delay * Math.pow(2, i)));
+        }
+      }
+    }
+
+    function pcmToWav(buffer, sampleRate) {
+      const header = new ArrayBuffer(44);
+      const view = new DataView(header);
+      const writeString = (view, offset, string) => {
+        for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+      };
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + buffer.byteLength, true);
+      writeString(view, 8, 'WAVE');
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2, true);
+      view.setUint16(32, 2, true);
+      view.setUint16(34, 16, true);
+      writeString(view, 36, 'data');
+      view.setUint32(40, buffer.byteLength, true);
+      return new Blob([header, buffer], { type: 'audio/wav' });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error-text');
+      const modal = document.getElementById('error-modal');
+      if (el) el.innerText = msg;
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeError() {
+      const modal = document.getElementById('error-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderCards);
+    } else {
+      renderCards();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOL 台灣語言學奧林匹亞</title>
+  <link rel="icon" type="image/png" href="../me.png" />
+  <link rel="stylesheet" href="../site.css" />
+  <style>
+    /* ── TOL-specific styles ── */
+    .tol-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 60%, #ecfdf5 100%);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(28px, 5vw, 48px) clamp(24px, 5vw, 48px);
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .tol-logo {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 14px;
+    }
+
+    .tol-hero-text h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .tol-hero-text .hero-sub {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+
+    .hero-links { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .hero-link {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-link:hover { background: var(--accent); color: white; text-decoration: none; }
+    .hero-link.filled { background: var(--accent); color: white; }
+    .hero-link.filled:hover { background: #0a6660; }
+
+    /* Block headers */
+    .block-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .block-num {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      background: var(--accent);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .block-head h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .block-head::after {
+      content: '';
+      flex: 1;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Card grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(15,118,110,0.1);
+      text-decoration: none;
+    }
+
+    .card-label {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .card-type {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .type-html { background: #dbeafe; color: #1d4ed8; }
+    .type-pdf  { background: #fce7f3; color: #be185d; }
+    .type-ext  { background: var(--accent2); color: var(--accent); }
+
+    /* Sub-category headings inside Block 2 */
+    .sub-head {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 32px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sub-head::after { content: ''; flex: 1; border-top: 1px dashed var(--line); }
+
+    /* Coming soon card */
+    .card-soon {
+      border-style: dashed;
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .card-soon:hover {
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .coming-badge {
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--warn);
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    @media (max-width: 640px) {
+      .tol-hero { flex-direction: column; gap: 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="../index.html">謝舒凱</a>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../posts.html">Blog</a></li>
+      <li><a href="../cv.html">CV</a></li>
+      <li><a href="index.html" class="active">TOL</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="page">
+
+  <!-- Hero -->
+  <div class="tol-hero">
+    <img class="tol-logo" src="tollogo.png" alt="TOL Logo" />
+    <div class="tol-hero-text">
+      <h1>台灣語言學奧林匹亞</h1>
+      <p class="hero-sub">Taiwan Olympiad of Linguistics &nbsp;·&nbsp; 解題培訓資源</p>
+      <div class="hero-links">
+        <a class="hero-link filled" href="https://ioltw.github.io/" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          官方網站 ioltw.github.io
+        </a>
+        <a class="hero-link" href="https://ioling.org/" target="_blank" rel="noopener">IOL 國際語奧</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BLOCK 1: 台灣語奧介紹 ═══ -->
+  <div class="block-head">
+    <span class="block-num">BLOCK 1</span>
+    <h2>台灣語奧介紹與未來發展</h2>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="card" href="語奧的發展與台灣的跨領域人才.html">
+      <span class="card-label">提案文件</span>
+      <span class="card-title">台灣語奧與新時代語言科學人才培育藍圖</span>
+      <span class="card-desc">語奧發展歷程、跨領域人才培育策略與制度化推動構想。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="IOL_Global_Rewards_Infographic.html">
+      <span class="card-label">升學制度</span>
+      <span class="card-title">IOL 全球國手獎勵與升學制度報告</span>
+      <span class="card-desc">各國語奧國手享有的大學升學優惠與獎勵制度比較圖表。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="top_linguistics_survey.html">
+      <span class="card-label">學術調查</span>
+      <span class="card-title">全球百大名校語言學系現況調查</span>
+      <span class="card-desc">頂尖大學語言學科系設置、研究方向與招生現況調查報告。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="語言學奧賽升學制度化比較.pdf" target="_blank" rel="noopener">
+      <span class="card-label">PDF 報告</span>
+      <span class="card-title">各國語奧升學制度化比較</span>
+      <span class="card-desc">跨國比較語言學奧賽與大學升學管道銜接機制。</span>
+      <div class="card-footer"><span class="card-type type-pdf">PDF</span></div>
+    </a>
+
+    <a class="card" href="頂尖大學語言學科系調查.pdf" target="_blank" rel="noopener">
+      <span class="card-label">PDF 報告</span>
+      <span class="card-title">頂尖大學語言學科系調查</span>
+      <span class="card-desc">全球頂尖大學語言學相關科系的完整調查資料。</span>
+      <div class="card-footer"><span class="card-type type-pdf">PDF</span></div>
+    </a>
+
+  </div>
+
+  <!-- ═══ BLOCK 2: 解題講義 ═══ -->
+  <div class="block-head">
+    <span class="block-num">BLOCK 2</span>
+    <h2>解題講義</h2>
+  </div>
+
+  <!-- 構詞句法題 -->
+  <div class="sub-head">構詞句法題</div>
+  <div class="card-grid">
+
+    <a class="card" href="morphology_handout.html">
+      <span class="card-label">備考單元</span>
+      <span class="card-title">語言學奧賽備考：構詞學</span>
+      <span class="card-desc">系統性構詞學概念介紹，含派生、屈折、複合詞分析，附解題練習與解答。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="burma.html">
+      <span class="card-label">動態模擬</span>
+      <span class="card-title">緬甸文字破譯解題模擬</span>
+      <span class="card-desc">互動式文字系統分析模擬，訓練從有限樣本歸納書寫規則的解題思維。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+  </div>
+
+  <!-- 語意題 -->
+  <div class="sub-head">語意題</div>
+  <div class="card-grid">
+
+    <a class="card" href="language_culture_handout.html">
+      <span class="card-label">主要講義</span>
+      <span class="card-title">語意學問題與文化：解題策略</span>
+      <span class="card-desc">語意分析核心概念、文化語意框架，以及語奧語意題解題方法論，含多語種範例。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="homework_solution_standalone.html">
+      <span class="card-label">解題模擬</span>
+      <span class="card-title">語義學解題模擬：Manx &amp; Kalam</span>
+      <span class="card-desc">曼島語（Manx）與 Kalam 語義分類題的動態互動解題演示。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="khmer.html">
+      <span class="card-label">動態模擬</span>
+      <span class="card-title">高棉語語義分類解題模擬</span>
+      <span class="card-desc">Khmer 語詞彙語義分類題的互動式解題思維動態演示。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+  </div>
+
+  <!-- 語音聲韻題 -->
+  <div class="sub-head">語音與聲韻題</div>
+  <div class="card-grid">
+
+    <a class="card" href="burmese_loanwords_training.html">
+      <span class="card-label">培訓講義</span>
+      <span class="card-title">緬甸語外來詞：培訓式動態講解</span>
+      <span class="card-desc">TOL 2019 緬甸語外來詞題型完整培訓，含音韻規律分析與逐步解題過程。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="burmese-loanword.html">
+      <span class="card-label">練習工具</span>
+      <span class="card-title">緬甸語外來詞發音練習</span>
+      <span class="card-desc">互動式緬甸語外來詞發音練習，強化音韻對應規則的直覺掌握。</span>
+      <div class="card-footer"><span class="card-type type-html">HTML</span></div>
+    </a>
+
+    <a class="card" href="kalam-sol.pdf" target="_blank" rel="noopener">
+      <span class="card-label">解答</span>
+      <span class="card-title">Kalam 語音題解答</span>
+      <span class="card-desc">Kalam 語言語音學解題完整解答與分析說明。</span>
+      <div class="card-footer"><span class="card-type type-pdf">PDF</span></div>
+    </a>
+
+    <a class="card" href="TOL2019_p6.pdf" target="_blank" rel="noopener">
+      <span class="card-label">歷屆試題</span>
+      <span class="card-title">TOL 2019 第 6 題</span>
+      <span class="card-desc">台灣語言學奧賽 2019 年語音題原題。</span>
+      <div class="card-footer"><span class="card-type type-pdf">PDF</span></div>
+    </a>
+
+  </div>
+
+  <!-- 認知題 -->
+  <div class="sub-head">認知題</div>
+  <div class="card-grid">
+
+    <div class="card card-soon">
+      <span class="card-label">預告</span>
+      <span class="card-title">認知語言學解題單元</span>
+      <span class="card-desc">概念隱喻、範疇化、原型理論等認知語言學核心概念的解題講義，敬請期待。</span>
+      <div class="card-footer"><span class="coming-badge">Coming Soon</span></div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  © 2024 Shu-Kai Hsieh &nbsp;·&nbsp;
+  <a href="https://ioltw.github.io/" target="_blank" rel="noopener">ioltw.github.io</a> &nbsp;·&nbsp;
+  <a href="../index.html">回到主頁</a>
+</footer>
+
+</body>
+</html>

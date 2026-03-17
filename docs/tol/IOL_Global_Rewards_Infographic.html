@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國際語言學奧林匹亞 (IOL) 全球國手獎勵與升學制度報告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #F8FAFC; /* Slate-50 */
+            color: #1E293B; /* Slate-800 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Card Hover Effects */
+        .policy-card {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-bottom-color: #F59E0B; /* Amber-500 */
+        }
+
+        /* Custom Scrollbar for side-scrolling containers */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .gradient-header {
+            background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
+        }
+    </style>
+    <!-- Chosen Palette: Energetic & Professional (Indigo, Amber, Emerald) -->
+    <!-- Palette Hex: Primary #4F46E5 (Indigo), Secondary #F59E0B (Amber), Accent #10B981 (Emerald), Background #F8FAFC -->
+    
+    <!-- Application Structure Plan:
+        1. Hero Section: Title and core question (How much is an IOL medal worth?).
+        2. Global Overview (Map/Grid): Categorizing countries into "Direct Admission", "Bonus Points", and "Holistic".
+        3. Deep Dive Sections:
+           - Eastern Europe (The Gold Standard): Russia, Bulgaria, Romania.
+           - East Asia (Systematic Rewards): Taiwan, Japan, Korea, China/HK.
+           - Americas & Others (Prestige): USA, Canada, India, Brazil.
+        4. Data Analysis:
+           - Chart 1: Estimated Monetary Value comparison.
+           - Chart 2: Spider chart comparing "Admission Power" vs "Cash" vs "Flexibility".
+        5. Conclusion: Summary of trends.
+    -->
+    
+    <!-- Visualization & Content Choices:
+        - Global Categorization -> Goal: Organize -> Colored Grid Cards -> Grouping countries by policy type allows quick comparison.
+        - Monetary Rewards -> Goal: Compare -> Bar Chart -> Best for comparing numerical values (USD equivalents) across categories (Countries).
+        - Policy Benefit Profile -> Goal: Compare -> Radar Chart -> Shows the multi-dimensional nature of rewards (Admission vs Money vs Prestige).
+        - Pathway Flows -> Goal: Change/Process -> HTML/CSS Flow -> Visualizing the steps from Medal to University without SVG.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+<a href="index.html" id="tol-back-link" style="position:fixed;top:12px;left:12px;z-index:9999;background:rgba(15,118,110,0.92);color:white;font-family:'Noto Sans TC',sans-serif;font-size:0.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);letter-spacing:0.02em;backdrop-filter:blur(4px);">&#8592; TOL 首頁</a>
+
+    <!-- Hero Section -->
+    <header class="gradient-header text-white py-16 px-4 sm:px-6 lg:px-8 shadow-lg">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-block px-4 py-1 mb-4 border border-indigo-300 rounded-full bg-indigo-800/50 backdrop-blur-sm text-sm font-medium tracking-wide">
+                全球跨領域語言科技人才培育政策分析
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+                IOL 語言學奧賽：<br>
+                
+                <span class="text-amber-400">各國國手獎勵與升學制度綜合分析</span>
+            </h1>
+            <p class="text-indigo-100 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            台大語言學研究所語奧團隊 2025/12/23
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        <!-- Section 1: Policy Spectrum -->
+        <section>
+            <div class="mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4 border-l-8 border-indigo-600 pl-4">全球政策光譜</h2>
+                <p class="text-slate-600 max-w-4xl text-lg">
+                    世界各國對於語言學奧賽人才的優待政策大致可分為三類。東歐國家通常給予最具體的升學保障，東亞國家傾向制度化的加分或保送，而北美則視為頂尖大學申請的重要資歷。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Type A -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-emerald-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-xl text-slate-800">直接保送型</h3>
+                        <span class="text-2xl">🏛️</span>
+                    </div>
+                    <p class="text-slate-500 text-sm mb-4">
+                        獲獎即視為通過大學入學考試，可直接選擇相關科系就讀。
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded">俄羅斯</span>
+                        <span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded">羅馬尼亞</span>
+                        <span class="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded">保加利亞</span>
+                    </div>
+                </div>
+
+                <!-- Type B -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-amber-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-xl text-slate-800">制度優待型</h3>
+                        <span class="text-2xl">⚖️</span>
+                    </div>
+                    <p class="text-slate-500 text-sm mb-4">
+                        政府明文規定獎勵辦法，包含保送資格、推薦甄選加分或獎學金。
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <!-- <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded">台灣(希望！)</span> -->
+                        <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded">韓國</span>
+                        <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded">日本 (AO入試)</span>
+                    </div>
+                </div>
+
+                <!-- Type C -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-indigo-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-xl text-slate-800">全人評估型</h3>
+                        <span class="text-2xl">🎓</span>
+                    </div>
+                    <p class="text-slate-500 text-sm mb-4">
+                        無官方保送機制，但獎牌是進入世界頂尖名校極具份量的敲門磚。
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">美國</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">加拿大</span>
+                        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">香港</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+
+        <!-- Section 2: Eastern Europe & Others Comparison -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Eastern Europe -->
+                <div class="bg-indigo-900 text-white p-8 rounded-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500 rounded-full blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+                    <h2 class="text-2xl font-bold mb-4">東歐：奧賽強權的黃金通道</h2>
+                    <p class="text-indigo-200 mb-6 text-sm leading-relaxed">
+                        在俄羅斯、羅馬尼亞與保加利亞，IOL 國手擁有極高的社會地位與升學優勢。這是國家級的人才戰略。
+                    </p>
+                    <div class="space-y-3">
+                        <div class="bg-indigo-800/50 p-3 rounded-lg border border-indigo-700">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-amber-400">🇷🇺 俄羅斯</span>
+                                <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded">免試入學</span>
+                            </div>
+                            <p class="text-xs text-indigo-200">決賽文憑持有者可免除大學入學考試 (EGE)，直接進入高等經濟學院 (HSE) 或莫斯科國立大學相關科系。</p>
+                        </div>
+                        <div class="bg-indigo-800/50 p-3 rounded-lg border border-indigo-700">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-amber-400">🇷🇴 羅馬尼亞</span>
+                                <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded">全額獎學金</span>
+                            </div>
+                            <p class="text-xs text-indigo-200">除了免試入學外，政府提供奧賽獲獎者每月獎學金及各類現金獎勵。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- India & Brazil & NA -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">美洲與南亞：特色選才</h2>
+                    <p class="text-slate-600 mb-6 text-sm">
+                        此區域不依賴統一的國家分發，而是由個別頂尖大學針對 IOL 人才開設特殊通道。
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <!-- India -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-xl mr-4">🇮🇳</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">印度 (India) - IIIT Hyderabad 模式</h4>
+                                <p class="text-sm text-slate-500">
+                                    IIIT Hyderabad 開設「奧林匹亞管道」(Olympiad Mode)，IOL 獲選國手可直接獲得面試資格或錄取計算語言學雙學位學程。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- USA -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl mr-4">🇺🇸</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">美加 (USA/Canada) - 頂大敲門磚</h4>
+                                <p class="text-sm text-slate-500">
+                                    無政府獎金。但在 Common App 中填寫 IOL Medal 是極高榮譽。MIT、Harvard、Stanford 等校有大量 IOL 選手就讀。
+                                </p>
+                            </div>
+                        </div>
+
+                         <!-- Brazil -->
+                         <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-xl mr-4">🇧🇷</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">巴西 (Brazil) - 奧賽專屬名額</h4>
+                                <p class="text-sm text-slate-500">
+                                    Unicamp、USP 等大學設有 "Vagas Olímpicas" (奧林匹亞名額)，專門錄取各學科競賽獲獎者，無需參加一般高考 (Vestibular)。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+          <!-- Section 3: Regional Deep Dive (East Asia & Taiwan) -->
+          <section class="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6">東亞：台灣與鄰國的制度化路徑</h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        台灣對於傳統 STEM 奧賽擁有明確的法規保障奧賽選手權益。與日韓相比，台灣的獎勵金制度最為透明且直接。中國大陸則隨著「強基計畫」的推行，將奧賽成績轉化為入圍頂尖大學校測的資格。建議政府可以將語奧納入 STEM 奧賽的獎勵金制度中，以培育頂尖人才，強化國力。
+                    </p>
+                    
+                    
+
+                    <div class="space-y-4">
+                        <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="w-8 h-8 flex items-center justify-center bg-slate-200 rounded-full mr-3 text-sm">🇰🇷</span>
+                            <div>
+                                <span class="block font-bold text-slate-700">韓國 (South Korea)</span>
+                                <span class="text-xs text-slate-500">KAIST 等名校有「特長生」選拔管道，IOL 成績是重要指標，但非絕對保送。</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="w-8 h-8 flex items-center justify-center bg-slate-200 rounded-full mr-3 text-sm">🇯🇵</span>
+                            <div>
+                                <span class="block font-bold text-slate-700">日本 (Japan)</span>
+                                <span class="text-xs text-slate-500">透過「綜合型選拔」(AO入試) 或「推薦入試」。早稻田、慶應、東大皆有認可 IOL 的入學管道。</span>
+                            </div>
+                        </div>
+                         <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="w-8 h-8 flex items-center justify-center bg-slate-200 rounded-full mr-3 text-sm">🇨🇳</span>
+                            <div>
+                                <span class="block font-bold text-slate-700">中國 (China)</span>
+                                <span class="text-xs text-slate-500">不再直接保送。主要透過「強基計畫」破格入圍，需參加校測。部分高校認可度極高。</span>
+                            </div>
+                        
+                        
+                        
+                        
+                        </div>
+
+                        <!-- Taiwan Specific Card -->
+                    <div class="bg-amber-50 rounded-xl p-6 border-l-4 border-amber-500 mb-6">
+                        <h3 class="text-lg font-bold text-amber-800 mb-2">🇹🇼 台灣 (Taiwan) 僅專注傳統 STEM 奧賽</h3>
+                        <ul class="space-y-2 text-sm text-amber-900">
+                            <li class="flex items-start">
+                                <span class="mr-2 text-amber-600">★</span>
+                                <span><strong>升學：</strong>依教育部【參加國際數理學科奧林匹亞競賽及國際科學展覽成績優良學生升學優待辦法】，金/銀/銅牌得主可保送或推薦至大學相關科系等）。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 text-amber-600">★</span>
+                                <span><strong>獎金：</strong>金牌 20 萬元、銀牌 10 萬元、銅牌 5 萬元新台幣。</span>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Visual: Benefit Profile Radar Chart -->
+                <div class="flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-700 mb-4 text-center">區域獎勵結構比較</h3>
+                    <div class="chart-container">
+                        <canvas id="benefitRadarChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-slate-400 mt-4">
+                        *數據基於各國公開政策之綜合權重評估 (1-10分)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 4: Quantitative Analysis (Bar Chart) -->
+        <section>
+            <div class="flex flex-col md:flex-row items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">官方現金獎勵估算 (美元)</h2>
+                    <p class="text-sm text-slate-500">金牌得主可獲得的一次性政府/官方機構獎金 (依匯率估算)</p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <div class="chart-container">
+                    <canvas id="cashRewardChart"></canvas>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-4 text-xs text-slate-500 justify-center">
+                    <span class="flex items-center"><span class="w-3 h-3 bg-amber-400 rounded-full mr-2"></span>高度獎勵</span>
+                    <span class="flex items-center"><span class="w-3 h-3 bg-slate-300 rounded-full mr-2"></span>無/少現金獎勵</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 py-8 text-center">
+            <p class="text-slate-500 font-medium">Global Linguistics Olympiad Rewards Analysis</p>
+            <p class="text-slate-400 text-sm mt-2">資料來源：各國奧賽官方網站、教育部法規及大學招生簡章 (2024-2025)</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Utility: Label Wrapping ---
+        const wrapLabel = (str) => {
+            if (str.length <= 16) return str;
+            const words = str.split(' ');
+            let lines = [], currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+
+        // --- Common Chart Options ---
+        Chart.defaults.font.family = "'Noto Sans TC', sans-serif";
+        Chart.defaults.color = '#64748B';
+        const tooltipConfig = {
+            backgroundColor: 'rgba(30, 41, 59, 0.95)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    const label = item.chart.data.labels[item.dataIndex];
+                    return Array.isArray(label) ? label.join(' ') : label;
+                }
+            }
+        };
+
+        // --- Chart 1: Cash Rewards (Bar) ---
+        const ctxCash = document.getElementById('cashRewardChart').getContext('2d');
+        const countries = ['台灣 (Taiwan)', '俄羅斯 (Russia)', '羅馬尼亞 (Romania)', '韓國 (Korea)', '美國 (USA)', '日本 (Japan)', '香港 (Hong Kong)'];
+        // Estimated values in USD for Gold Medal
+        const cashValues = [6500, 5000, 4500, 1000, 0, 0, 500]; 
+        // Note: Taiwan ~200k TWD -> ~6500 USD. Russia varies by region (Moscow pays high), taken avg. USA/Japan usually scholarships, not cash. HK has scholarship fund.
+
+        const processedCountries = countries.map(wrapLabel);
+
+        new Chart(ctxCash, {
+            type: 'bar',
+            data: {
+                labels: processedCountries,
+                datasets: [{
+                    label: '金牌獎金估算 (USD)',
+                    data: cashValues,
+                    backgroundColor: [
+                        '#F59E0B', // Taiwan - High (Amber)
+                        '#4F46E5', // Russia - High (Indigo)
+                        '#4F46E5', // Romania - High
+                        '#10B981', // Korea - Med (Emerald)
+                        '#CBD5E1', // USA - None
+                        '#CBD5E1', // Japan - None
+                        '#10B981'  // HK - Low/Med
+                    ],
+                    borderRadius: 6,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: tooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#F1F5F9' },
+                        title: { display: true, text: '美元 (USD)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Benefit Profile (Radar) ---
+        const ctxRadar = document.getElementById('benefitRadarChart').getContext('2d');
+        
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['直接入學保障', '現金獎勵', '名校錄取權重', '選系自由度', '競賽普及度'],
+                datasets: [
+                    {
+                        label: '東歐 (俄羅斯/羅馬尼亞)',
+                        data: [10, 8, 9, 9, 7],
+                        borderColor: '#4F46E5', // Indigo
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        pointBackgroundColor: '#4F46E5'
+                    },
+                    {
+                        label: '台灣 (Taiwan)',
+                        data: [9, 9, 7, 8, 6],
+                        borderColor: '#F59E0B', // Amber
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        pointBackgroundColor: '#F59E0B'
+                    },
+                    {
+                        label: '北美 (USA/Canada)',
+                        data: [2, 1, 10, 5, 8],
+                        borderColor: '#10B981', // Emerald
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        pointBackgroundColor: '#10B981'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#E2E8F0' },
+                        grid: { color: '#E2E8F0' },
+                        pointLabels: {
+                            font: { size: 12, family: "'Noto Sans TC'" },
+                            color: '#475569'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: tooltipConfig
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
