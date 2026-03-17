@@ -1,10 +1,11 @@
-# 靜態網站來源：手動維護 docs/，此 workflow 僅上傳 docs/ 至 GitHub Pages。
-# 請在 repo Settings → Pages 將 Source 設為 "GitHub Actions"。
+# 靜態網站來源：手動維護 docs/，此 workflow 只負責把 docs/ 部署到 GitHub Pages。
+# 請在 Settings → Pages 將 Source 設為「GitHub Actions」。
+
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +13,6 @@ permissions:
   pages: write
   id-token: write
 
-# Only one deployment at a time; cancel any in-progress run if a new one starts.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -24,49 +24,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Verify docs/ and list artifact contents
-        run: |
-          echo "=== docs/ structure ==="
-          ls docs/
-          echo "=== docs/tol/ (must include language_culture_handout.html for /tol/ links) ==="
-          ls -la docs/tol/
-          test -f docs/tol/index.html && echo "OK: docs/tol/index.html exists" || (echo "MISSING: docs/tol/index.html" && exit 1)
-          test -f docs/tol/language_culture_handout.html && echo "OK: docs/tol/language_culture_handout.html exists" || (echo "MISSING: docs/tol/language_culture_handout.html" && exit 1)
-          echo "=== posts count ==="
-          ls docs/posts/ | wc -l
-          echo "=== warn: Quarto refs in posts (non-fatal) ==="
-          count=$(grep -rl "quarto" docs/posts/*/index.html 2>/dev/null | wc -l)
-          echo "Posts with quarto refs: $count (informational)"
-          echo "=== warn: Unicode filenames in docs/ (non-fatal) ==="
-          git ls-files docs/ | python3 -c "
-          import sys
-          bad = [l.strip() for l in sys.stdin if any(ord(c) > 127 for c in l.strip())]
-          if bad:
-              print('Unicode filenames (may cause 404 on some hosts):'); [print(' ', f) for f in bad]
-          else:
-              print('All filenames ASCII - OK')
-          "
-          echo "Verify done; proceeding to upload."
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: List files to be deployed (root and tol/)
-        run: |
-          echo "=== Files at artifact root (first 30) ==="
-          find docs -maxdepth 1 -type f | head -30
-          echo "=== All files under docs/tol/ ==="
-          find docs/tol -type f | sort
-          echo "=== Simulate zip of docs/ (first 50 entries) ==="
-          set -e
-          cd docs
-          zip -r /tmp/docs.zip . -q
-          unzip -l /tmp/docs.zip | head -50
-
-      - name: "Upload artifact (v2; v3 can drop tol/)"
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload docs/ as artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: docs/
 
