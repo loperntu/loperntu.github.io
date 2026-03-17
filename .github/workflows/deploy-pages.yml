@@ -60,7 +60,10 @@ jobs:
           echo "=== All files under docs/tol/ ==="
           find docs/tol -type f | sort
           echo "=== Simulate zip of docs/ (first 50 entries) ==="
-          (cd docs && zip -r /tmp/docs.zip . -q && unzip -l /tmp/docs.zip | head -50)
+          set -e
+          cd docs
+          zip -r /tmp/docs.zip . -q
+          unzip -l /tmp/docs.zip | head -50
 
       - name: Upload artifact (v2: better compatibility with paths; v3 can drop tol/)
         uses: actions/upload-pages-artifact@v2
