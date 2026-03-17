@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 舊課程頁面，已由 /ai2017-course/ 取代
+Disallow: /ai2017/
