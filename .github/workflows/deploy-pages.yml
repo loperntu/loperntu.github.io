@@ -1,55 +1,28 @@
-# Deploy GitHub Pages directly from docs/
-# docs/tol/ is now committed to git, no copy step needed.
-# In repo Settings → Pages, set Source to "GitHub Actions".
-name: Deploy Pages
+# GitHub Pages deploys automatically from main branch /docs folder.
+# (Settings → Pages → Source: Deploy from a branch → main, /docs)
+# This workflow just validates the docs/ structure on each push.
+name: Validate docs
 
 on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Debug - verify tol/ contents
+      - name: Verify key pages exist
         run: |
-          echo "=== docs/tol/ contents ==="
-          ls -la docs/tol/ || echo "docs/tol/ not found"
-          echo "=== total files in docs/ ==="
-          find docs/ -type f | wc -l
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Prepare clean deploy directory
-        run: |
-          cp -r docs /tmp/site
-          find /tmp/site -name '.DS_Store' -delete
-          echo "=== tol/ in clean site ==="
-          ls -la /tmp/site/tol/
-          echo "=== total files ==="
-          find /tmp/site -type f | wc -l
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: /tmp/site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          echo "=== docs/ structure ==="
+          ls docs/
+          echo "=== docs/tol/ ==="
+          ls docs/tol/
+          echo "=== posts count ==="
+          ls docs/posts/ | wc -l
+          echo "=== checking no Quarto references in posts ==="
+          count=$(grep -rl "quarto" docs/posts/*/index.html 2>/dev/null | wc -l)
+          echo "Posts with quarto refs: $count (expected 0)"
+          [ "$count" -eq 0 ] || exit 1
+          echo "All checks passed."
