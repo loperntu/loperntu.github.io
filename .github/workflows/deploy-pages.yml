@@ -1,14 +1,25 @@
-# GitHub Pages deploys automatically from main branch /docs folder.
-# (Settings → Pages → Source: Deploy from a branch → main, /docs)
-# This workflow just validates the docs/ structure on each push.
-name: Validate docs
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; cancel any in-progress run if a new one starts.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  validate:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,4 +36,26 @@ jobs:
           count=$(grep -rl "quarto" docs/posts/*/index.html 2>/dev/null | wc -l)
           echo "Posts with quarto refs: $count (expected 0)"
           [ "$count" -eq 0 ] || exit 1
+          echo "=== checking no Unicode filenames in docs/ ==="
+          git ls-files docs/ | python3 -c "
+          import sys
+          bad = [l.strip() for l in sys.stdin if any(ord(c) > 127 for c in l.strip())]
+          if bad:
+              print('UNICODE filenames found:')
+              for f in bad: print(' ', f)
+              sys.exit(1)
+          print('All filenames are ASCII - OK')
+          "
           echo "All checks passed."
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
