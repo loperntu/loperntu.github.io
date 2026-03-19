@@ -5782,14 +5782,8 @@ siː dæːŋ = 紅色</div>
       });
 
       /* ── Hausa Dual Sim ── */
-      initDualSim({
-        modeAttr: 'hsmode',
-        graphViewId: 'hssim-graph-view', matrixViewId: 'hssim-matrix-view',
-        modeBtnsSelector: '[data-hsmode]',
-        gPrevId:'hssim-g-prev', gNextId:'hssim-g-next',
-        gDotsSelector:'#hssim-g-dots .lsim-dot',
-        gTitleId:'hssim-g-title', gDescId:'hssim-g-desc',
-        gSteps:[
+      (function() {
+        var hsgSteps = [
           { title:'步驟 1：找出高頻詞根，設為節點',
             desc:'先不看英文，統計哪些片段反覆出現：<strong>bàakí-/bákí-</strong>（2 次）、<strong>rúwá-</strong>（2 次）、<strong>yátsà-</strong>（2 次）、<strong>cíkìi</strong>（2 次）。這 4 個是圖表的核心節點。注意：此時<em>不要猜意思</em>。' },
           { title:'步驟 2：根據位置連線（head 與 modifier）',
@@ -5884,14 +5878,8 @@ siː dæːŋ = 紅色</div>
       })();
 
       /* ── Tetum Dual Sim ── */
-      initDualSim({
-        modeAttr: 'ttmode',
-        graphViewId: 'ttsim-graph-view', matrixViewId: 'ttsim-matrix-view',
-        modeBtnsSelector: '[data-ttmode]',
-        gPrevId:'ttsim-g-prev', gNextId:'ttsim-g-next',
-        gDotsSelector:'#ttsim-g-dots .lsim-dot',
-        gTitleId:'ttsim-g-title', gDescId:'ttsim-g-desc',
-        gSteps:[
+      (function() {
+        var ttgSteps = [
           { title:'步驟 1：找核心詞素，設為圖表節點',
             desc:'先只看詞素頻率：<strong>ai</strong>（4 次）、<strong>fuan</strong>（3 次）、<strong>kulit</strong>（3 次）、<strong>matan</strong>（3 次）、<strong>boot</strong>（3 次）。這 5 個是積木系統的基本單元，圖表從這裡出發。' },
           { title:'步驟 2：連出植物語意場（ai 為核心）',
@@ -5983,14 +5971,8 @@ siː dæːŋ = 紅色</div>
       })();
 
       /* ── Malagasy Dual Sim ── */
-      initDualSim({
-        modeAttr: 'mgmode',
-        graphViewId: 'mgsim-graph-view', matrixViewId: 'mgsim-matrix-view',
-        modeBtnsSelector: '[data-mgmode]',
-        gPrevId:'mgsim-g-prev', gNextId:'mgsim-g-next',
-        gDotsSelector:'#mgsim-g-dots .lsim-dot',
-        gTitleId:'mgsim-g-title', gDescId:'mgsim-g-desc',
-        gSteps:[
+      (function() {
+        var mggSteps = [
           { title:'步驟 1：找出 zafy 與身體部位的比喻鏈骨架',
             desc:'先不管音形交替，只看語意方向：zafy（孫子）+ 身體部位 = 後代稱謂。身體位置越低（knee → ankle → sole），代際距離越遠。先把這條垂直鏈畫出來。' },
           { title:'步驟 2：加入非後代延伸詞（bary, maha-）',
