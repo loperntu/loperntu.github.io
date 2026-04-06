@@ -25,7 +25,7 @@ bash build.sh
 bash build.sh --open
 ```
 
-## 🚀 部署到 GitHub Pages (loperntu.github.io/mathling/)
+## 🚀 部署到 GitHub Pages (`loperntu.github.io/mathling/`)
 
 1. **自動偵測**：在 `mathling/` 目錄下執行時，若未傳入路徑且未設定 `GITHUB_PAGES_REPO`，腳本會自動偵測上一層目錄是否為 GitHub Pages 倉庫（含 `docs/` 或路徑名含 `github.io`），並以此為 deploy 目標。因此多數情況只需：
    ```bash
@@ -47,9 +47,24 @@ bash build.sh --open
    # 或 bash deploy.sh --no-build ..
    ```
 
-4. **部署目標**：此站為 Quarto 網站，GitHub Pages 從 `docs/` 發布，故 deploy 會寫入 **`docs/mathling/`**（非 repo 根目錄的 `mathling/`）。推送成功後腳本會提示；網站更新約需 1–2 分鐘。
+4. **部署目標**：目前網站採「手動維護 `docs/` 靜態檔」流程，GitHub Pages 從 `main` 分支的 `docs/` 發布。  
+   因此 deploy 會寫入 **`docs/mathling/`**（不是 repo 根目錄的 `mathling/`）。推送成功後通常 1–2 分鐘上線。
 
-部署後書本網址：**https://loperntu.github.io/mathling/**
+部署後網址：
+- **Landing page**：`https://loperntu.github.io/mathling/`
+- **Book**：`https://loperntu.github.io/mathling/book.html`
+- **Simulator**：`https://loperntu.github.io/mathling/language_complexity_simulator.html`
+
+## 🌐 與 `docs/mathling/` 的對應關係
+
+- `mathling/index.html`：本地產生的完整書本頁（不要直接在 `docs/` 手改）
+- `docs/mathling/book.html`：實際上線用的書本頁（由 deploy 腳本同步）
+- `docs/mathling/index.html`：`/mathling/` 的入口頁（連到 `book.html` 與 simulator）
+
+如果你只想更新書本內容，通常流程是：
+1. 改 `book.md`
+2. `python3 build.py`
+3. `bash deploy.sh`（或手動複製到 `docs/mathling/` 後 commit/push）
 
 ## ✏️ 編輯 book.md 的語法
 
@@ -170,6 +185,6 @@ $$H(X) = -\sum_{x} P(x) \log_2 P(x)$$
 
 - `build.py` 只需 Python 3.8+，**不需安裝任何套件**
 - 數學公式由 KaTeX CDN 在瀏覽器端渲染，需要網路連線
-- **產出檔為 `index.html`**（由 `build.sh` / `build.py` 自動產生），請勿直接編輯
+- **產出檔為 `index.html`**（由 `build.sh` / `build.py` 自動產生），請勿直接手改產出結果
 - 所有內容修改都應在 `book.md` 中進行
-- 若 deploy 時 `git push` 失敗，腳本會顯示錯誤；可手動於 repo 根目錄執行 `git push`
+- 若 deploy 時 `git push` 失敗，腳本會顯示錯誤；可在 repo 根目錄先 `git pull --rebase` 再 `git push`
