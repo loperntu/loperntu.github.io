@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-build.py — Convert book.md → geometry_of_grammar.html
+build.py — Convert book.md → temp/book.html
 
 Usage:
-    python3 build.py                      # defaults: book.md → geometry_of_grammar.html
+    python3 build.py                      # defaults: book.md → temp/book.html
     python3 build.py mybook.md out.html   # custom paths
 
 Requires: Python 3.8+ (no external dependencies!)
@@ -26,7 +26,7 @@ from pathlib import Path
 
 # ─── Paths ───────────────────────────────────────────
 SRC      = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("book.md")
-OUT      = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("geometry_of_grammar.html")
+OUT      = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("temp/book.html")
 TEMPLATE = Path("template.html")
 
 # ─── Read inputs ─────────────────────────────────────
@@ -152,6 +152,12 @@ for chunk in chunks:
     for block in blocks:
         block = block.strip()
         if not block:
+            continue
+        
+        # ─── Raw HTML block (starts with <) ──────────
+        if block.startswith('<div') or block.startswith('<section') or block.startswith('<style') or block.startswith('<script'):
+            html_blocks.append(block)
+            is_first_block = False
             continue
         
         # ─── Fenced code block (```...```) ───────────
@@ -299,6 +305,7 @@ output = output.replace('{{DATE}}', date)
 output = output.replace('{{NAV}}', nav_html)
 output = output.replace('{{BODY}}', body_html)
 
+OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(output, encoding='utf-8')
 print(f"✓ Built {OUT}  ({len(body_parts)} chapters, {len(nav_items)} nav items)")
 print(f"  Source:   {SRC}")

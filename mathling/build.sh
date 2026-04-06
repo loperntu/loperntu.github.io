@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════
-#  build.sh — One-command build: book.md → HTML
+#  build.sh — One-command build: book.md → temp/book.html
 # ═══════════════════════════════════════════════════
 #
 #  Usage:
@@ -16,11 +16,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 SRC="${1:-book.md}"
-OUT="${2:-geometry_of_grammar.html}"
+OUT="${2:-temp/book.html}"
 
 # Skip flags
 [[ "$SRC" == --* ]] && SRC="book.md"
-[[ "$OUT" == --* ]] && OUT="geometry_of_grammar.html"
+[[ "$OUT" == --* ]] && OUT="temp/book.html"
 
 echo "🔨 Building..."
 python3 build.py "$SRC" "$OUT"
