@@ -1,33 +1,60 @@
-# The Geometry of Grammar — Source Files
+# Mathling Authoring Guide
 
-## 📁 File Structure
+This folder is the **source workspace** for Mathling.
 
-```
-├── book.md                    ← ✏️  你編輯這個檔案
-├── template.html              ← 🎨 HTML/CSS 模板（含網站導覽列）
-├── build.py                   ← ⚙️  轉換引擎 (Python 3, 零依賴)
-├── build.sh                   ← 🚀 一鍵建置
-├── temp/book.html             ← 📖 預設產出網頁 (勿直接編輯)
+- Write and edit here: `mathling/book.md`, `mathling/template.html`
+- Live website reads from: `docs/mathling/book.html`
+
+If you only edit `mathling/` but do not publish to `docs/`, the website will not change.
+
+## Folder Map
+
+```text
+mathling/
+├── book.md               # source content (edit this)
+├── template.html         # HTML/CSS template
+├── build.py              # markdown -> html converter
+├── build.sh              # convenience wrapper for build.py
+├── publish.sh            # build + sync to docs/mathling/book.html
+├── temp/book.html        # default build output (generated)
 └── README.md
 ```
 
-## 🔨 建置
+## Quick Start (Recommended)
+
+From `mathling/`:
 
 ```bash
-python3 build.py          # 預設: book.md → temp/book.html
-bash build.sh --open      # 建置並開啟瀏覽器 (macOS)
+bash publish.sh
 ```
 
-## 🎨 設計
+This does:
+1. `book.md` -> `temp/book.html`
+2. `temp/book.html` -> `docs/mathling/book.html`
 
-與 [loperntu.github.io](https://loperntu.github.io/) 整合：
+Then commit/push from repo root:
 
-- **頂部導覽列** — 深灰 `#343a40`，含 Home / Blog / CV / TOL / Book
-- **書本側欄** — 暖棕 `#2B2B2B`，Cormorant Garamond 書名，自動追蹤閱讀位置
-- **內文** — 學術書籍排版，暖米色背景，KaTeX 數學公式
-- **封面動畫** / **進度條** / **Back-to-top** / **響應式** / **列印友善**
+```bash
+git add docs/mathling/book.html
+git commit -m "update mathling book"
+git push origin main
+```
 
-## ✏️ Markdown 語法
+## Build Only
+
+```bash
+cd mathling
+python3 build.py
+# default output: temp/book.html
+```
+
+Optional:
+
+```bash
+bash build.sh --open
+```
+
+## Markdown Conventions
 
 ```markdown
 ---
@@ -38,26 +65,38 @@ date: "Draft — February 2026"
 ---
 
 <!-- part: Part I · Discrete Foundations -->
-# Chapter 1. Title {#ch1}         ← 章節
-# Preface {.unnumbered}           ← 不編號章節
-### 1.1 Section                    ← 小節
+# Chapter 1. Title {#ch1}
+# Preface {.unnumbered}
+### 1.1 Section
 
-> "Quote" \n> — Author            ← 題詞（每章首個 blockquote 自動）
+> "Quote"
+> — Author
 {.epigraph}
 
-> *Example sentence*              ← 例句
+> *Example sentence*
 {.example}
 
-> 深入說明...                      ← 深入區塊
+> Deep explanation block
 {.deep-dive}
 
-$inline$  $$display$$             ← KaTeX 數學
-```python                         ← 程式碼
-code here
-```
-![alt](url)                       ← 圖片
+$inline$ and $$display$$ math
 ```
 
-## 🚀 部署
+## Troubleshooting
 
-將 `temp/book.html` 複製到 `docs/mathling/book.html` 後 commit/push 即可上線。
+- **“Website didn’t update”**  
+  Most likely `docs/mathling/book.html` was not updated/committed.
+
+- **“I can build, but style is broken”**  
+  Ensure `docs/site_libs/` is present and committed (used by `docs/mathling/book.html`).
+
+- **“Wrong output file”**  
+  Current default output is `temp/book.html` (not `geometry_of_grammar.html`).
+
+## Design Notes
+
+The template is integrated with the main site style:
+- top navigation
+- book sidebar TOC
+- responsive layout
+- math rendering and long-form reading design

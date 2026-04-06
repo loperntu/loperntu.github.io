@@ -104,6 +104,13 @@ python3 build.py
 cp mathling/temp/book.html docs/mathling/book.html
 ```
 
+Or use one command:
+
+```bash
+cd mathling
+bash publish.sh
+```
+
 4. Commit/push deployed file:
 
 ```bash
