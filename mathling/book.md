@@ -540,7 +540,212 @@ so there is a natural correspondence between tree depth and hyperbolic distance.
 
 ### 9.3 Poincaré Embeddings and Lexical Entailment
 
-Hyperbolic embeddings have been extended to model lexical entailment — where the meaning of one word is contained in another. More broadly, the choice of geometric space becomes a modeling decision with linguistic content. Euclidean space $\mathbb{E}^n$ is appropriate for symmetric similarity. Hyperbolic space $\mathbb{H}^n$ is appropriate for hierarchies. Spherical space $\mathbb{S}^n$ may be appropriate for cyclical structures. And product spaces $\mathbb{H}^{n_1} \times \mathbb{S}^{n_2} \times \mathbb{E}^{n_3}$ may be needed for the complex mixture of relations found in natural language semantics.
+The Poincaré disk model maps the entire infinite hyperbolic plane onto the interior of a unit circle. The key insight is that distance in this model is not uniform: moving a fixed Euclidean distance near the boundary corresponds to a much larger hyperbolic distance than the same Euclidean step near the centre. Formally, the distance between two points $\mathbf{u}, \mathbf{v}$ in the Poincaré ball is:
+
+$$d(\mathbf{u}, \mathbf{v}) = \mathrm{arcosh}\!\left(1 + \frac{2\,\|\mathbf{u} - \mathbf{v}\|^2}{(1 - \|\mathbf{u}\|^2)(1 - \|\mathbf{v}\|^2)}\right)$$
+
+Notice the denominator: as either point approaches the boundary ($\|\mathbf{u}\| \to 1$), the factor $(1 - \|\mathbf{u}\|^2) \to 0$, which sends the distance to infinity. This is exactly what makes the Poincaré disk a natural home for hierarchies. The root of a taxonomy sits near the origin; each successive level of specialization pushes nodes outward, and the exponentially growing "room" near the boundary accommodates the exponentially branching leaves.
+
+For lexical entailment, this geometric property has a clean semantic interpretation: if concept $A$ entails concept $B$ (i.e., $A$ is more specific), then $A$ should be embedded farther from the origin than $B$, and the geodesic from $A$ to $B$ should point inward. Nickel and Kiela (2017) showed that a simple constraint — $\|\mathbf{v}_{\text{hypernym}}\| < \|\mathbf{v}_{\text{hyponym}}\|$ — captures the is-a relation with high accuracy in just 2 dimensions.
+
+The interactive simulation below lets you experience this directly. Drag any word toward the boundary and watch the hyperbolic distances explode — even though the Euclidean displacement is small. Click two nodes to compare their distances. Toggle the geodesic view to see the curved shortest path.
+
+<div class="interactive-widget" id="poincare-widget">
+<style>
+.pw-container {
+  background: linear-gradient(145deg, #1a1814 0%, #2a2520 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid #3d3630;
+  font-family: 'Source Sans 3', sans-serif;
+  color: #e8e0d6;
+}
+.pw-header {
+  display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.3rem;
+}
+.pw-header h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: #E8CBA8; margin: 0;
+}
+.pw-header .pw-badge {
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(176,137,104,0.2); color: #B08968; padding: 0.15em 0.6em;
+  border-radius: 3px; font-weight: 600;
+}
+.pw-desc {
+  font-size: 0.82rem; color: #9e958a; margin-bottom: 1rem; line-height: 1.5;
+}
+.pw-layout {
+  display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;
+}
+.pw-canvas-wrap { position: relative; flex: 0 0 auto; }
+.pw-canvas-wrap canvas {
+  border-radius: 50%; cursor: grab;
+  box-shadow: 0 0 30px rgba(176,137,104,0.1), inset 0 0 60px rgba(0,0,0,0.3);
+}
+.pw-canvas-wrap canvas:active { cursor: grabbing; }
+.pw-panel { flex: 1; min-width: 220px; }
+.pw-info-box {
+  background: rgba(255,255,255,0.04); border-radius: 8px;
+  padding: 0.9rem 1rem; margin-bottom: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.pw-info-box .pw-label {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #8a8279; margin-bottom: 0.3rem;
+}
+.pw-info-box .pw-value {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: #E8CBA8;
+}
+.pw-info-box .pw-explain {
+  font-size: 0.75rem; color: #7a7268; margin-top: 0.25rem; line-height: 1.4;
+}
+.pw-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.pw-btn {
+  background: rgba(176,137,104,0.15); border: 1px solid rgba(176,137,104,0.3);
+  color: #B08968; padding: 0.35em 0.8em; border-radius: 5px; cursor: pointer;
+  font-size: 0.75rem; font-family: inherit; transition: all 0.2s;
+}
+.pw-btn:hover { background: rgba(176,137,104,0.3); color: #E8CBA8; }
+.pw-btn.active { background: rgba(176,137,104,0.4); color: #fff; border-color: #B08968; }
+.pw-legend {
+  font-size: 0.72rem; color: #7a7268; margin-top: 0.8rem; line-height: 1.6;
+}
+.pw-legend span { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+@media (max-width: 700px) {
+  .pw-layout { flex-direction: column; align-items: center; }
+  .pw-panel { min-width: 100%; }
+}
+</style>
+<div class="pw-container">
+  <div class="pw-header">
+    <h4>Interactive: Poincaré Disk Model</h4>
+    <span class="pw-badge">drag to explore</span>
+  </div>
+  <p class="pw-desc">
+    The Poincaré disk maps the infinite hyperbolic plane onto a finite circle.
+    Points near the centre are "general" concepts (high in the hierarchy); points near the boundary are "specific" (deep leaves).
+    <strong>Drag any word</strong> to feel how hyperbolic distance grows exponentially near the edge.
+    <strong>Click two nodes</strong> to compare distances.
+  </p>
+  <div class="pw-layout">
+    <div class="pw-canvas-wrap">
+      <canvas id="poincareCanvas" width="420" height="420"></canvas>
+    </div>
+    <div class="pw-panel">
+      <div class="pw-info-box">
+        <div class="pw-label">Selected pair</div>
+        <div class="pw-value" id="pwPair">click two nodes</div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">Hyperbolic distance d(u,v)</div>
+        <div class="pw-value" id="pwDist">—</div>
+        <div class="pw-explain" id="pwDistExplain"></div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">Euclidean distance ‖u−v‖</div>
+        <div class="pw-value" id="pwEuclid">—</div>
+        <div class="pw-explain" id="pwEuclidExplain"></div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">Distance formula (Poincaré ball)</div>
+        <div class="pw-value" style="font-size:0.78rem; color:#9e958a;">
+          d(u,v) = arcosh(1 + 2‖u−v‖² / ((1−‖u‖²)(1−‖v‖²)))
+        </div>
+      </div>
+      <div class="pw-controls">
+        <button class="pw-btn" onclick="pwReset()">Reset</button>
+        <button class="pw-btn" id="pwGeodesicBtn" onclick="pwToggleGeodesic()">Geodesic</button>
+        <button class="pw-btn" id="pwGridBtn" onclick="pwToggleGrid()">Grid</button>
+      </div>
+      <div class="pw-legend">
+        <span style="background:#E8CBA8;"></span> Root &nbsp;
+        <span style="background:#8CB4A0;"></span> Mid &nbsp;
+        <span style="background:#7A9CC6;"></span> Leaf &nbsp;
+        <span style="background:#C97A7A;"></span> Leaf (alt)
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const canvas = document.getElementById('poincareCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, R = W/2 - 15, cx = W/2, cy = H/2;
+  const nodes = [
+    { label: 'entity',    x: 0.00, y: 0.00, color: '#E8CBA8', depth: 0 },
+    { label: 'organism',  x:-0.18, y:-0.22, color: '#8CB4A0', depth: 1 },
+    { label: 'artifact',  x: 0.22, y:-0.15, color: '#8CB4A0', depth: 1 },
+    { label: 'substance', x: 0.05, y: 0.25, color: '#8CB4A0', depth: 1 },
+    { label: 'animal',    x:-0.38, y:-0.45, color: '#7A9CC6', depth: 2 },
+    { label: 'plant',     x: 0.05, y:-0.50, color: '#7A9CC6', depth: 2 },
+    { label: 'vehicle',   x: 0.50, y:-0.30, color: '#7A9CC6', depth: 2 },
+    { label: 'food',      x: 0.20, y: 0.50, color: '#7A9CC6', depth: 2 },
+    { label: 'dog',       x:-0.55, y:-0.68, color: '#C97A7A', depth: 3 },
+    { label: 'cat',       x:-0.20, y:-0.72, color: '#C97A7A', depth: 3 },
+    { label: 'oak',       x: 0.15, y:-0.73, color: '#C97A7A', depth: 3 },
+    { label: 'car',       x: 0.70, y:-0.45, color: '#C97A7A', depth: 3 },
+    { label: 'boat',      x: 0.68, y:-0.15, color: '#C97A7A', depth: 3 },
+    { label: 'bread',     x: 0.10, y: 0.72, color: '#C97A7A', depth: 3 },
+    { label: 'rice',      x: 0.35, y: 0.65, color: '#C97A7A', depth: 3 },
+  ];
+  const edges = [[0,1],[0,2],[0,3],[1,4],[1,5],[2,6],[3,7],[4,8],[4,9],[5,10],[6,11],[6,12],[7,13],[7,14]];
+  let origPos = nodes.map(n => ({x:n.x, y:n.y}));
+  let lastPair = [null, null], showGeodesic = false, showGrid = false;
+  let dragging = null, dragOff = {x:0,y:0};
+
+  function pd(u,v) {
+    const dx=u.x-v.x, dy=u.y-v.y, num=dx*dx+dy*dy;
+    const nu=u.x*u.x+u.y*u.y, nv=v.x*v.x+v.y*v.y;
+    const den=(1-nu)*(1-nv); if(den<=0)return Infinity;
+    return Math.acosh(Math.max(1,1+2*num/den));
+  }
+  function ed(u,v){return Math.sqrt((u.x-v.x)**2+(u.y-v.y)**2);}
+  function toS(p){return{x:cx+p.x*R,y:cy+p.y*R};}
+  function toP(s){return{x:(s.x-cx)/R,y:(s.y-cy)/R};}
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    g.addColorStop(0,'#2a2520');g.addColorStop(0.85,'#1f1b17');g.addColorStop(1,'#151210');
+    ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.strokeStyle='rgba(176,137,104,0.3)';ctx.lineWidth=1.5;ctx.stroke();
+    if(showGrid){for(let r=0.2;r<1;r+=0.2){ctx.beginPath();ctx.arc(cx,cy,r*R,0,Math.PI*2);ctx.strokeStyle='rgba(176,137,104,0.08)';ctx.lineWidth=1;ctx.stroke();}for(let a=0;a<Math.PI;a+=Math.PI/6){ctx.beginPath();ctx.moveTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.lineTo(cx-R*Math.cos(a),cy-R*Math.sin(a));ctx.strokeStyle='rgba(176,137,104,0.06)';ctx.lineWidth=1;ctx.stroke();}}
+    edges.forEach(([i,j])=>{const a=toS(nodes[i]),b=toS(nodes[j]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(176,137,104,0.15)';ctx.lineWidth=1;ctx.stroke();});
+    if(showGeodesic&&lastPair[0]!==null&&lastPair[1]!==null){const u=nodes[lastPair[0]],v=nodes[lastPair[1]];const sp=toS(u),ep=toS(v);const mx=(u.x+v.x)/2,my=(u.y+v.y)/2,mn=Math.sqrt(mx*mx+my*my),pull=0.3*(1-mn);const cp=toS({x:mx*(1-pull),y:my*(1-pull)});ctx.beginPath();ctx.moveTo(sp.x,sp.y);ctx.quadraticCurveTo(cp.x,cp.y,ep.x,ep.y);ctx.strokeStyle='rgba(232,203,168,0.6)';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
+    nodes.forEach((n,i)=>{const s=toS(n);const r=n.depth===0?7:n.depth===1?6:n.depth===2?5:4.5;ctx.beginPath();ctx.arc(s.x,s.y,r+4,0,Math.PI*2);ctx.fillStyle=n.color+'18';ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,r,0,Math.PI*2);ctx.fillStyle=n.color;if(lastPair.includes(i)){ctx.fillStyle='#fff';ctx.shadowColor=n.color;ctx.shadowBlur=12;}ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#c8c0b6';ctx.font=(lastPair.includes(i)?'bold ':'')+'11px "Source Sans 3",sans-serif';ctx.textAlign='center';ctx.fillText(n.label,s.x,s.y-r-5);});
+  }
+
+  function info() {
+    if(lastPair[0]!==null&&lastPair[1]!==null){
+      const a=nodes[lastPair[0]],b=nodes[lastPair[1]];
+      const hd=pd(a,b),eu=ed(a,b),ratio=hd/Math.max(eu,0.001);
+      document.getElementById('pwPair').textContent=a.label+' ↔ '+b.label;
+      document.getElementById('pwDist').textContent=hd===Infinity?'∞':hd.toFixed(3);
+      document.getElementById('pwEuclid').textContent=eu.toFixed(3);
+      document.getElementById('pwDistExplain').textContent=hd>4?'Very far — different hierarchy branches.':hd>2?'Moderate — several levels apart.':'Close — nearby in hierarchy.';
+      document.getElementById('pwEuclidExplain').textContent='Ratio: '+ratio.toFixed(1)+'× — '+(ratio>3?'boundary distortion amplifies true distance!':'near center, distances are similar.');
+    }
+  }
+
+  canvas.addEventListener('mousedown',e=>{const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;let best=-1,bd=20;nodes.forEach((n,i)=>{const s=toS(n);const d=Math.sqrt((mx-s.x)**2+(my-s.y)**2);if(d<bd){bd=d;best=i;}});if(best>=0){dragging=best;const s=toS(nodes[best]);dragOff={x:mx-s.x,y:my-s.y};if(lastPair[0]===null){lastPair[0]=best;}else if(lastPair[1]===null&&lastPair[0]!==best){lastPair[1]=best;}else{lastPair=[best,null];}info();draw();}});
+  canvas.addEventListener('mousemove',e=>{if(dragging===null)return;const rect=canvas.getBoundingClientRect();const p=toP({x:e.clientX-rect.left-dragOff.x,y:e.clientY-rect.top-dragOff.y});const norm=Math.sqrt(p.x*p.x+p.y*p.y),mx=0.92;if(norm>mx){p.x*=mx/norm;p.y*=mx/norm;}nodes[dragging].x=p.x;nodes[dragging].y=p.y;info();draw();});
+  canvas.addEventListener('mouseup',()=>{dragging=null;});
+  canvas.addEventListener('mouseleave',()=>{dragging=null;});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];canvas.dispatchEvent(new MouseEvent('mousedown',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();const t=e.touches[0];canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+  canvas.addEventListener('touchend',()=>{dragging=null;});
+
+  window.pwReset=function(){origPos.forEach((p,i)=>{nodes[i].x=p.x;nodes[i].y=p.y;});lastPair=[null,null];document.getElementById('pwPair').textContent='click two nodes';document.getElementById('pwDist').textContent='—';document.getElementById('pwEuclid').textContent='—';document.getElementById('pwDistExplain').textContent='';document.getElementById('pwEuclidExplain').textContent='';draw();};
+  window.pwToggleGeodesic=function(){showGeodesic=!showGeodesic;document.getElementById('pwGeodesicBtn').classList.toggle('active',showGeodesic);draw();};
+  window.pwToggleGrid=function(){showGrid=!showGrid;document.getElementById('pwGridBtn').classList.toggle('active',showGrid);draw();};
+  draw();
+})();
+</script>
+</div>
+
+More broadly, the choice of geometric space becomes a modeling decision with linguistic content. Euclidean space $\mathbb{E}^n$ is appropriate for symmetric similarity. Hyperbolic space $\mathbb{H}^n$ is appropriate for hierarchies. Spherical space $\mathbb{S}^n$ may be appropriate for cyclical structures (colour terms, days of the week, seasonal vocabulary). And product spaces $\mathbb{H}^{n_1} \times \mathbb{S}^{n_2} \times \mathbb{E}^{n_3}$ may be needed for the complex mixture of relations found in natural language semantics — where hierarchical, cyclical, and flat similarity relations coexist.
 
 ### 9.4 The Manifold Hypothesis in Language Models
 
