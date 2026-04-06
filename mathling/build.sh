@@ -1,10 +1,10 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════
-#  build.sh — One-command build: book.md → index.html
+#  build.sh — One-command build: book.md → HTML
 # ═══════════════════════════════════════════════════
 #
 #  Usage:
-#    bash build.sh              # build book.md → index.html
+#    bash build.sh              # build with defaults
 #    bash build.sh --open       # build and open in browser (macOS)
 #    bash build.sh src.md o.html # custom paths
 #
@@ -16,11 +16,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 SRC="${1:-book.md}"
-OUT="${2:-index.html}"
+OUT="${2:-geometry_of_grammar.html}"
 
 # Skip flags
 [[ "$SRC" == --* ]] && SRC="book.md"
-[[ "$OUT" == --* ]] && OUT="index.html"
+[[ "$OUT" == --* ]] && OUT="geometry_of_grammar.html"
 
 echo "🔨 Building..."
 python3 build.py "$SRC" "$OUT"

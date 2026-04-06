@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-build.py — Convert book.md → index.html
+build.py — Convert book.md → geometry_of_grammar.html
 
 Usage:
-    python3 build.py                      # defaults: book.md → index.html
+    python3 build.py                      # defaults: book.md → geometry_of_grammar.html
     python3 build.py mybook.md out.html   # custom paths
 
 Requires: Python 3.8+ (no external dependencies!)
@@ -15,8 +15,7 @@ Markdown conventions recognised:
     # Title {.unnumbered}        Unnumbered chapter (Preface, Bibliography…)
     ### Section Title             Section within chapter
     > quote\\n> — Attribution     Blockquote; becomes epigraph if first in chapter
-    > *italic sentence*          Example sentence block (if tagged {.example} or {.example: Title})
-    > ... {.deep-dive} or        Deep-dive aside block (optional {.deep-dive: Title})
+    > *italic sentence*          Example sentence block (if tagged {.example})
     $...$  and  $$...$$          LaTeX math (passed through for KaTeX)
     - item / 1. item             Lists
     **bold**  *italic*  `code`   Inline formatting
@@ -25,19 +24,9 @@ Markdown conventions recognised:
 import re, sys, textwrap
 from pathlib import Path
 
-# ─── Helpers ─────────────────────────────────────────
-def escape_html(text: str) -> str:
-    return (text
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;"))
-
-# Global store for fenced code blocks extracted from the markdown source.
-CODE_BLOCKS = []
-
 # ─── Paths ───────────────────────────────────────────
 SRC      = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("book.md")
-OUT      = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("index.html")
+OUT      = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("geometry_of_grammar.html")
 TEMPLATE = Path("template.html")
 
 # ─── Read inputs ─────────────────────────────────────
@@ -48,52 +37,19 @@ template = TEMPLATE.read_text(encoding="utf-8")
 meta = {}
 fm_match = re.match(r'^---\n(.*?)\n---\n', md_text, re.DOTALL)
 if fm_match:
-    lines = fm_match.group(1).splitlines()
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.strip()
-        if stripped.startswith('#') or ':' not in line:
-            i += 1
-            continue
-        k, v = line.split(':', 1)
-        key, val = k.strip(), v.strip()
-        # Multi-line value: key: "line1\nline2" or key: "line1 (no closing quote, next line continues)
-        if (val.startswith('"') or val.startswith("'")) and len(val) > 1 and val[-1] not in '"\'':
-            i += 1
-            while i < len(lines) and val[-1] not in '"\'':
-                val += '\n' + lines[i]
-                i += 1
-        val = val.strip('"').strip("'")
-        if key == 'title' and not val:
-            i += 1
-            continue
-        meta[key] = val
-        i += 1
+    for line in fm_match.group(1).splitlines():
+        if ':' in line:
+            k, v = line.split(':', 1)
+            meta[k.strip()] = v.strip().strip('"').strip("'")
     md_text = md_text[fm_match.end():]
 
-title        = meta.get('title') or 'Untitled'
-subtitle     = meta.get('subtitle', '')
-author       = meta.get('author', '')
-# Allow line breaks in affiliation: use <br> or \n in the value
-affiliation  = (meta.get('affiliation', '')
-                .replace('\\n', '<br>')
-                .replace('\n', '<br>'))
-date         = meta.get('date', '')
+title    = meta.get('title', 'Untitled')
+subtitle = meta.get('subtitle', '')
+date     = meta.get('date', '')
+author   = meta.get('author', '')
 
 # ─── Strip HTML comments (except <!-- part: ... -->) ─
 md_text = re.sub(r'<!--(?!\s*part:).*?-->', '', md_text, flags=re.DOTALL)
-
-# ─── Extract fenced code blocks (```...```) globally ─
-# This must happen BEFORE splitting into chapters, since code blocks may
-# contain lines starting with "# " that would otherwise be misparsed as
-# chapter headings.
-def stash_codeblock(m):
-    lang = (m.group(1) or '').strip()
-    code = m.group(2)
-    CODE_BLOCKS.append((lang, code))
-    return f'\x00CODEBLOCK{len(CODE_BLOCKS)-1}\x00'
-md_text = re.sub(r'```([^\n`]*)\n([\s\S]*?)\n```', stash_codeblock, md_text)
 
 # ─── Inline Markdown → HTML ─────────────────────────
 def inline(text):
@@ -197,14 +153,24 @@ for chunk in chunks:
         block = block.strip()
         if not block:
             continue
-
-        # ─── Fenced code block placeholder ───────────
-        cb_match = re.fullmatch(r'\x00CODEBLOCK(\d+)\x00', block)
-        if cb_match:
-            idx = int(cb_match.group(1))
-            lang, code = CODE_BLOCKS[idx]
-            lang_attr = f' class="language-{escape_html(lang)}"' if lang else ''
-            html_blocks.append(f'<pre><code{lang_attr}>{escape_html(code)}</code></pre>')
+        
+        # ─── Fenced code block (```...```) ───────────
+        if block.startswith('```'):
+            lang_match = re.match(r'^```(\w*)\n', block)
+            lang = lang_match.group(1) if lang_match else ''
+            code_content = re.sub(r'^```\w*\n', '', block)
+            code_content = re.sub(r'\n```$', '', code_content)
+            code_content = code_content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+            html_blocks.append(f'<pre><code>{code_content}</code></pre>')
+            is_first_block = False
+            continue
+        
+        # ─── Image ![alt](url) ───────────────────────
+        img_match = re.match(r'^!\[([^\]]*)\]\(([^)]+)\)\s*$', block)
+        if img_match:
+            alt = img_match.group(1)
+            src = img_match.group(2)
+            html_blocks.append(f'<img src="{src}" alt="{alt}" loading="lazy">')
             is_first_block = False
             continue
         
@@ -228,38 +194,17 @@ for chunk in chunks:
             
             bq_text = '\n'.join(bq_lines).strip()
             is_example = '{.example' in tag_line
-            is_deep_dive = '{.deep-dive' in tag_line
-            is_epigraph = '{.epigraph}' in tag_line or (is_first_block and not is_example and not is_deep_dive)
+            is_epigraph = '{.epigraph}' in tag_line or (is_first_block and not is_example and '{.deep-dive}' not in tag_line)
+            is_deep_dive = '{.deep-dive}' in tag_line
             
-            if is_example:
-                # Optional title: {.example} or {.example: Title}
-                ex_title = ''
-                ex_title_match = re.search(r'\{\.example(?:\s*:\s*([^}]+))?\}', tag_line)
-                if ex_title_match and ex_title_match.group(1):
-                    ex_title = ex_title_match.group(1).strip()
-                title_html = f'<div class="example-title">{inline(ex_title)}</div>\n  ' if ex_title else ''
+            if is_deep_dive:
                 html_blocks.append(
-                    f'<div class="example-block">{title_html}<p>{inline(bq_text)}</p></div>'
+                    f'<div class="deep-dive">{inline(bq_text)}</div>'
                 )
-            elif is_deep_dive:
-                # Optional title: {.deep-dive} or {.deep-dive: Title}
-                dd_title = ''
-                dd_title_match = re.search(r'\{\.deep-dive(?:\s*:\s*([^}]+))?\}', tag_line)
-                if dd_title_match and dd_title_match.group(1):
-                    dd_title = dd_title_match.group(1).strip()
-                paras = [p.strip() for p in bq_text.split('\n\n') if p.strip()]
-                body_html = '\n'.join(f'  <p>{inline(p)}</p>' for p in paras)
-                if dd_title:
-                    html_blocks.append(
-                        f'<div class="deep-dive">\n'
-                        f'  <div class="deep-dive-title">{inline(dd_title)}</div>\n'
-                        f'  {body_html}\n'
-                        f'</div>'
-                    )
-                else:
-                    html_blocks.append(
-                        f'<div class="deep-dive">\n{body_html}\n</div>'
-                    )
+            elif is_example:
+                html_blocks.append(
+                    f'<div class="example-block"><p>{inline(bq_text)}</p></div>'
+                )
             elif is_epigraph:
                 # Split quote from attribution
                 attr_match = re.search(r'\n\s*—\s*(.+)$', bq_text)
@@ -297,53 +242,12 @@ for chunk in chunks:
                 html_blocks.append(f'<h3>{inline(sec_title)}</h3>')
             is_first_block = False
             continue
-
-        # ─── Paragraph followed by bullets (same block) ───────────────
-        # Common in pasted notes: "Intro line:\n  • a\n  • b" without a blank line.
-        # Split into a paragraph + an unordered list.
-        if (
-            '\n' in block
-            and re.search(r'^\s*(?:[-*]|•)\s+', block, flags=re.MULTILINE)
-            and not re.match(r'^\s*(?:[-*]|•)\s+', block)
-        ):
-            lines = block.split('\n')
-            first_bullet = None
-            for i, ln in enumerate(lines):
-                if re.match(r'^\s*(?:[-*]|•)\s+', ln):
-                    first_bullet = i
-                    break
-            if first_bullet is not None:
-                para = '\n'.join(lines[:first_bullet]).strip()
-                list_part = '\n'.join(lines[first_bullet:]).strip()
-                if para:
-                    html_blocks.append(f'<p>{inline(para)}</p>')
-                items = []
-                for ln in list_part.split('\n'):
-                    m = re.match(r'^\s*(?:[-*]|•)\s+(.*)$', ln)
-                    if m:
-                        items.append(m.group(1).strip())
-                    else:
-                        if items and ln.strip():
-                            items[-1] += ' ' + ln.strip()
-                li_html = '\n'.join(f'  <li>{inline(it)}</li>' for it in items if it)
-                html_blocks.append(f'<ul>\n{li_html}\n</ul>')
-                is_first_block = False
-                continue
         
         # ─── Unordered list ──────────────────────────
-        # Support '-', '*', and the common bullet '•' (often pasted from notes),
-        # with optional leading indentation.
-        if re.match(r'^\s*(?:[-*]|•)\s+', block):
-            items = []
-            for ln in block.split('\n'):
-                m = re.match(r'^\s*(?:[-*]|•)\s+(.*)$', ln)
-                if m:
-                    items.append(m.group(1).strip())
-                else:
-                    # Continuation line: append to previous item (simple heuristic).
-                    if items and ln.strip():
-                        items[-1] += ' ' + ln.strip()
-            li_html = '\n'.join(f'  <li>{inline(it)}</li>' for it in items if it)
+        if re.match(r'^[-*]\s', block):
+            items = re.split(r'\n[-*]\s', '\n' + block)
+            items = [it.strip() for it in items if it.strip()]
+            li_html = '\n'.join(f'  <li>{inline(it)}</li>' for it in items)
             html_blocks.append(f'<ul>\n{li_html}\n</ul>')
             is_first_block = False
             continue
@@ -354,19 +258,6 @@ for chunk in chunks:
             items = [it.strip() for it in items if it.strip()]
             li_html = '\n'.join(f'  <li>{inline(it)}</li>' for it in items)
             html_blocks.append(f'<ol>\n{li_html}\n</ol>')
-            is_first_block = False
-            continue
-        
-        # ─── Image (Markdown ![](url) or ![alt](url)) ─
-        img_match = re.match(r'^!\[([^\]]*)\]\(([^)]+)\)\s*$', block.strip())
-        if img_match:
-            alt_text = img_match.group(1).strip()
-            src = img_match.group(2).strip()
-            html_blocks.append(
-                f'<figure class="book-figure">\n'
-                f'  <img src="{src}" alt="{alt_text}" loading="lazy">\n'
-                f'</figure>'
-            )
             is_first_block = False
             continue
         
@@ -400,19 +291,13 @@ nav_html = '\n'.join(nav_html_parts)
 # ─── Fill template ───────────────────────────────────
 body_html = '\n\n'.join(body_parts)
 
-# Ensure title is never empty (e.g. if front-matter was misparsed)
-if not title or not title.strip():
-    title = 'Untitled'
-
 output = template
-output = output.replace('{{NAV}}', nav_html)
-output = output.replace('{{BODY}}', body_html)
-# Replace meta placeholders last so they apply to the full document
 output = output.replace('{{TITLE}}', title)
 output = output.replace('{{SUBTITLE}}', subtitle)
 output = output.replace('{{AUTHOR}}', author)
-output = output.replace('{{AFFILIATION}}', affiliation)
 output = output.replace('{{DATE}}', date)
+output = output.replace('{{NAV}}', nav_html)
+output = output.replace('{{BODY}}', body_html)
 
 OUT.write_text(output, encoding='utf-8')
 print(f"✓ Built {OUT}  ({len(body_parts)} chapters, {len(nav_items)} nav items)")
