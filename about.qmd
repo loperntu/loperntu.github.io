@@ -1,9 +1,0 @@
----
-title: "About"
----
-
-This website documents my learning journey.
-A more detailed academic profile is available at [Grokipedia](https://grokipedia.com/page/hsieh-shukai).
-
-
-![](./images/about.png){width="45%"}
