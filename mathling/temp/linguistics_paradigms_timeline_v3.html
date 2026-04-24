@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語言學史與自然科學典範對比年表</title>
+<style>
+:root {
+  --bg: #f9f8f5;
+  --bg2: #f1efe8;
+  --text: #2c2c2a;
+  --text2: #5f5e5a;
+  --text3: #888780;
+  --border: rgba(44,44,42,0.12);
+  --border2: rgba(44,44,42,0.22);
+  --radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18;
+    --bg2: #222220;
+    --text: #e8e6de;
+    --text2: #b4b2a9;
+    --text3: #888780;
+    --border: rgba(232,230,222,0.1);
+    --border2: rgba(232,230,222,0.2);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Hiragino Sans', 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); padding: 2rem 1rem; }
+h1 { font-size: 15px; font-weight: 500; color: var(--text2); margin-bottom: 1.5rem; padding-bottom: .75rem; border-bottom: .5px solid var(--border2); letter-spacing: .03em; }
+.w { width: 100%; max-width: 860px; margin: 0 auto; }
+.tl { display: grid; grid-template-columns: 60px 1fr 6px 1fr; min-width: 520px; overflow-x: auto; }
+.era { grid-column: 1/5; padding: 10px 0 3px; }
+.era span { font-size: 10px; font-weight: 500; letter-spacing: .05em; color: var(--text3); padding: 2px 8px; border-radius: 10px; background: var(--bg2); border: .5px solid var(--border); }
+.yr { font-size: 10px; font-weight: 500; color: var(--text3); padding: 8px 6px 8px 0; text-align: right; line-height: 1.4; }
+.sp { grid-column: 3/4; background: var(--border); position: relative; }
+.dot { position: absolute; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--bg); }
+.c { padding: 4px 8px 8px; }
+.k { border-radius: 7px; padding: 5px 9px 6px; border: .5px solid; cursor: pointer; transition: opacity .15s; }
+.k:hover { opacity: .8; }
+.kt { font-size: 11.5px; font-weight: 500; line-height: 1.3; }
+.ks { font-size: 10.5px; line-height: 1.4; margin-top: 2px; }
+.kn { font-size: 10px; line-height: 1.35; margin-top: 3px; padding-top: 3px; border-top: .5px solid; opacity: .7; }
+.ling { background: #EEEDFE; border-color: #AFA9EC; }
+.ling .kt { color: #3C3489; } .ling .ks { color: #534AB7; } .ling .kn { color: #534AB7; border-color: #AFA9EC; }
+.sci { background: #E1F5EE; border-color: #5DCAA5; }
+.sci .kt { color: #085041; } .sci .ks { color: #0F6E56; } .sci .kn { color: #0F6E56; border-color: #5DCAA5; }
+.br { background: #FAEEDA; border-color: #EF9F27; }
+.br .kt { color: #633806; } .br .ks { color: #854F0B; }
+@media (prefers-color-scheme: dark) {
+  .ling { background: #26215C; border-color: #534AB7; } .ling .kt { color: #CECBF6; } .ling .ks { color: #AFA9EC; } .ling .kn { color: #AFA9EC; border-color: #534AB7; }
+  .sci { background: #04342C; border-color: #1D9E75; } .sci .kt { color: #9FE1CB; } .sci .ks { color: #5DCAA5; } .sci .kn { color: #5DCAA5; border-color: #1D9E75; }
+  .br { background: #412402; border-color: #BA7517; } .br .kt { color: #FAC775; } .br .ks { color: #EF9F27; }
+}
+.hdr { grid-column: 1/5; display: grid; grid-template-columns: 60px 1fr 6px 1fr; padding-bottom: 6px; margin-bottom: 2px; border-bottom: .5px solid var(--border2); }
+.hl { grid-column: 2; font-size: 11px; font-weight: 500; color: #534AB7; padding-left: 8px; }
+.hr { grid-column: 4; font-size: 11px; font-weight: 500; color: #0F6E56; padding-left: 8px; }
+@media (prefers-color-scheme: dark) { .hl { color: #AFA9EC; } .hr { color: #5DCAA5; } }
+.bspan { grid-column: 2/5; padding: 3px 8px 8px; }
+.meta { margin-top: 1.2rem; border: .5px solid var(--border2); border-radius: 9px; overflow: hidden; }
+.mhd { font-size: 10.5px; font-weight: 500; color: var(--text2); padding: 6px 10px 4px; border-bottom: .5px solid var(--border); }
+.mrow { display: flex; }
+.ms { flex: 1; padding: 6px 6px 7px; text-align: center; position: relative; cursor: pointer; transition: opacity .15s; }
+.ms:hover { opacity: .8; }
+.ms:not(:last-child)::after { content: '›'; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--text3); z-index: 2; }
+.mc { font-size: 9.5px; font-weight: 500; margin-bottom: 2px; }
+.ml { font-size: 11px; font-weight: 500; margin-bottom: 1px; }
+.md { font-size: 9.5px; line-height: 1.3; }
+.m1 { background: #EAF3DE; } .m1 .mc { color: #3B6D11; } .m1 .ml { color: #27500A; } .m1 .md { color: #3B6D11; }
+.m2 { background: #E6F1FB; } .m2 .mc { color: #185FA5; } .m2 .ml { color: #0C447C; } .m2 .md { color: #185FA5; }
+.m3 { background: #EEEDFE; } .m3 .mc { color: #534AB7; } .m3 .ml { color: #3C3489; } .m3 .md { color: #534AB7; }
+.m4 { background: #E1F5EE; } .m4 .mc { color: #0F6E56; } .m4 .ml { color: #085041; } .m4 .md { color: #0F6E56; }
+@media (prefers-color-scheme: dark) {
+  .m1 { background: #173404; } .m1 .mc { color: #C0DD97; } .m1 .ml { color: #EAF3DE; } .m1 .md { color: #97C459; }
+  .m2 { background: #042C53; } .m2 .mc { color: #85B7EB; } .m2 .ml { color: #B5D4F4; } .m2 .md { color: #85B7EB; }
+  .m3 { background: #26215C; } .m3 .mc { color: #AFA9EC; } .m3 .ml { color: #CECBF6; } .m3 .md { color: #AFA9EC; }
+  .m4 { background: #04342C; } .m4 .mc { color: #5DCAA5; } .m4 .ml { color: #9FE1CB; } .m4 .md { color: #5DCAA5; }
+}
+.leg { font-size: 10px; color: var(--text3); margin-top: .7rem; line-height: 1.6; }
+.tooltip { display: none; position: fixed; background: var(--bg); border: .5px solid var(--border2); border-radius: 7px; padding: 6px 10px; font-size: 11px; color: var(--text2); max-width: 240px; z-index: 99; box-shadow: 0 2px 12px rgba(0,0,0,.08); pointer-events: none; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="w">
+<h1>語言學史與自然科學典範對比年表</h1>
+
+<div class="tl">
+  <div class="hdr">
+    <div></div>
+    <div class="hl">◈ 語言學典範</div>
+    <div></div>
+    <div class="hr">◈ 自然科學典範</div>
+  </div>
+
+  <div class="era"><span>浪漫主義・有機論時期</span></div>
+  <div class="yr">19世紀初</div>
+  <div class="c"><div class="k ling"><div class="kt">洪堡特 Humboldt</div><div class="ks">語言有機形式・energeia・Weltanschauung</div><div class="kn">語言如生命體，有內在形式驅動表現</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#639922"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">生物分類學・自然哲學</div><div class="ks">Lamarck・Cuvier・謝林有機論</div><div class="kn">語言學借用「生命體」隱喻：生長、演化、譜系</div></div></div>
+
+  <div class="yr">1820–<br>1870</div>
+  <div class="c"><div class="k ling"><div class="kt">歷史比較語言學</div><div class="ks">葛林・博普・語言譜系樹・語音對應</div><div class="kn">語言分化如物種分化，可重建祖先語言</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#1D9E75"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">達爾文演化論</div><div class="ks">物種起源 1859・共同祖先・漸進變化</div><div class="kn">譜系樹同時成為語言學核心工具</div></div></div>
+
+  <div class="era"><span>實證主義・定律科學時期</span></div>
+  <div class="yr">1870s–<br>1890s</div>
+  <div class="c"><div class="k ling"><div class="kt">青年語法學派</div><div class="ks">Brugmann・Osthoff・音變無例外・類比</div><div class="kn">語音演變如自然力，不以人的意志為轉移</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#7F77DD"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">實證主義・熱力學</div><div class="ks">孔德・馬赫・決定論・硬性定律觀</div><div class="kn">物理定律無例外 → 語音規律無例外的平行移植</div></div></div>
+
+  <div class="era"><span>結構主義・系統論時期</span></div>
+  <div class="yr">1900–<br>1916</div>
+  <div class="c"><div class="k ling"><div class="kt">索緒爾 Saussure</div><div class="ks">共時/歷時・langue/parole・差異系統</div><div class="kn">意義在關係中產生，不在元素本身（類場論）</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#1D9E75"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">關係論・場論思維</div><div class="ks">馬赫・龐加萊・系統關係優先於實體</div><div class="kn">元素的性質由其在系統中的位置決定</div></div></div>
+
+  <div class="yr">1926–<br>1940s</div>
+  <div class="c"><div class="k ling"><div class="kt">布拉格學派</div><div class="ks">雅各布森・特魯別茨科伊・音位對立</div><div class="kn">語音是功能關係網，非物理音響</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#7F77DD"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">量子力學・哥本哈根詮釋</div><div class="ks">波耳・海森堡・互補性・觀測介入現象</div><div class="kn">「現象不獨立於觀測行為存在」</div></div></div>
+
+  <div class="yr">1930s</div>
+  <div class="bspan"><div class="k br"><div class="kt">★ 跨典範實質交流：葉姆斯列夫 ↔ 尼爾斯・波耳（哥本哈根）</div><div class="ks">Hjelmslev 語符學：內容/表達平面皆為純關係代數，排除物質性 ｜ 波耳互補性：觀測者與對象不可分，現象由關係定義 ｜ 兩人同在丹麥皇家科學院，共享「關係先於實體」的系統觀</div></div></div>
+
+  <div class="yr">1930s–<br>1950s</div>
+  <div class="c"><div class="k ling"><div class="kt">哥本哈根語言學派</div><div class="ks">葉姆斯列夫・語符學・純關係形式代數</div><div class="kn">追求不依賴「物質」的形式描述，如量子力學</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#EF9F27"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">操作主義・形式公理化</div><div class="ks">布里奇曼・希爾伯特・維也納學圈</div><div class="kn">科學概念必須可操作定義 → 語言分析去物質化</div></div></div>
+
+  <div class="era"><span>美國行為主義・描述語言學時期</span></div>
+  <div class="yr">1910s–<br>1950s</div>
+  <div class="c"><div class="k ling"><div class="kt">美國描述語言學</div><div class="ks">博厄斯・薩丕爾・布魯姆菲爾德・語言相對論</div><div class="kn">拒絕談「心智」，僅分析可觀察語料</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#1D9E75"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">行為主義心理學</div><div class="ks">華生・斯金納・操作制約・可觀測行為</div><div class="kn">黑箱方法論：只談輸入輸出，不談內部機制</div></div></div>
+
+  <div class="era"><span>認知革命・生成論時期</span></div>
+  <div class="yr">1957–<br>1980s</div>
+  <div class="c"><div class="k ling"><div class="kt">喬姆斯基 Chomsky</div><div class="ks">生成語法・普遍語法・LAD・深層/表層結構</div><div class="kn">語言＝心智器官；有限規則→無限句子（類圖靈機/遺傳密碼）</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#7F77DD"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">計算理論・分子生物學</div><div class="ks">圖靈・Shannon・Watson &amp; Crick DNA 1953</div><div class="kn">語法規則 ≈ 遺傳密碼：有限符碼生成無限複雜性</div></div></div>
+
+  <div class="yr">1950s<br>共鳴</div>
+  <div class="bspan"><div class="k br"><div class="kt">★ 時代共鳴：生成語法 ↔ 遺傳密碼（1950s）</div><div class="ks">Chomsky 普遍語法/LAD（1957） ↔ Watson &amp; Crick DNA 雙螺旋（1953）｜兩者同時體現：有限底層符碼（語法規則／四鹼基）生成無限複雜表層現象（句子／蛋白質）的深層結構邏輯</div></div></div>
+
+  <div class="era"><span>認知語言學・功能語言學時期</span></div>
+  <div class="yr">1980s–<br>2000s</div>
+  <div class="c"><div class="k ling"><div class="kt">認知語言學・功能語法</div><div class="ks">Lakoff・Langacker・Halliday・框架語意・Construction Grammar</div><div class="kn">語言根植於身體經驗；範疇化為原型結構</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#1D9E75"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">複雜系統・具身認知・神經科學</div><div class="ks">Maturana・Varela・自生系統・動態系統・湧現</div><div class="kn">語言是湧現現象，非預先程序設計的模組</div></div></div>
+
+  <div class="era"><span>計算語言學・統計 NLP 時期</span></div>
+  <div class="yr">1990s–<br>2010s</div>
+  <div class="c"><div class="k ling"><div class="kt">計算語言學・語料庫語言學</div><div class="ks">統計 NLP・詞向量・Word2Vec・分散式語義</div><div class="kn">從規則演繹句子 → 從數據歸納規律</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#7F77DD"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">統計機器學習・貝葉斯推論</div><div class="ks">SVM・最大熵・概率圖模型・PAC 學習</div><div class="kn">概率取代確定性：語言規律是統計傾向</div></div></div>
+
+  <div class="era"><span>大型語言模型・量子語言學時期</span></div>
+  <div class="yr">2017–<br>今</div>
+  <div class="c"><div class="k ling"><div class="kt">LLM 時代語言學</div><div class="ks">Transformer・機制可解釋性・SAE・Construction Grammar ↔ NLP</div><div class="kn">縮放定律：統計物理的冪次律在語言模型中重現</div></div></div>
+  <div class="sp"><div class="dot" style="top:10px;background:#1D9E75"></div></div>
+  <div class="c"><div class="k sci"><div class="kt">深度學習・縮放定律・量子計算</div><div class="ks">GPT・Transformer・縮放冪次律・NISQ 量子電路</div><div class="kn">語言模型行為呈現統計物理的相變與臨界現象</div></div></div>
+
+  <div class="yr">2010s–<br>今</div>
+  <div class="bspan"><div class="k br"><div class="kt">★ 新興交會：量子語言學・DisCoCat（Coecke, Sadrzadeh, Clark 2010）</div><div class="ks">Pregroup grammar ≅ 量子過程（同為 rigid monoidal category）｜ Strong monoidal functor F: Grammar → FinVect 將句法映射至語義向量空間｜ String diagram 同時可視化句法與量子電路｜ QNLP：語法結構直接編譯為量子電路參數</div></div></div>
+</div>
+
+<div class="meta">
+  <div class="mhd">後設敘事：語言學依次像哪個自然科學？</div>
+  <div class="mrow">
+    <div class="ms m1"><div class="mc">19世紀</div><div class="ml">植物學</div><div class="md">採集語料・分類語系・繪製譜系樹</div></div>
+    <div class="ms m2"><div class="mc">20世紀初</div><div class="ml">化學・物理</div><div class="md">音位＝元素・結構平衡・對立系統</div></div>
+    <div class="ms m3"><div class="mc">20世紀中</div><div class="ml">數位邏輯</div><div class="md">生成規則・圖靈機・形式運算</div></div>
+    <div class="ms m4"><div class="mc">21世紀</div><div class="ml">統計物理・神經科學</div><div class="md">概率分布・聯結主義・相變・湧現</div></div>
+  </div>
+</div>
+
+<p class="leg">◈ 紫色＝語言學典範　◈ 綠色＝自然科學典範　◈ 橙色★＝跨典範交流節點</p>
+</div>
+</body>
+</html>
