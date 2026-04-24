@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 科技、語言資源與華語教學應用</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=LXGW+WenKai+TC:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --vermillion: #c73e1d;
+  --gold: #c9a227;
+  --jade: #2d6a4f;
+  --paper: #f5f0e8;
+  --paper-dark: #e8e0d0;
+  --cloud: #d4c5a9;
+  --water: #3a6ea5;
+  --light-jade: #d8f3dc;
+  --soft-red: #fff0ed;
+  --soft-gold: #fef9ef;
+  --soft-blue: #edf2fb;
+  --section-gap: 6rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(170deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+  color: var(--paper);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(201,162,39,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(199,62,29,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-bg-char {
+  position: absolute;
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: clamp(8rem, 20vw, 18rem);
+  opacity: 0.04;
+  color: var(--gold);
+  user-select: none;
+  pointer-events: none;
+}
+.hero-bg-char:nth-child(1) { top: 5%; left: 5%; transform: rotate(-12deg); }
+.hero-bg-char:nth-child(2) { bottom: 10%; right: 8%; transform: rotate(8deg); }
+.hero-bg-char:nth-child(3) { top: 40%; right: 15%; transform: rotate(-5deg); font-size: clamp(5rem, 12vw, 10rem); }
+
+.hero-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.35;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+
+.hero h1 .accent { color: var(--gold); }
+
+.hero-sub {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: rgba(245,240,232,0.7);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.7s forwards;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: rgba(245,240,232,0.5);
+  opacity: 0;
+  animation: fadeUp 0.8s 0.9s forwards;
+}
+
+.hero-meta span::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--vermillion);
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeUp 0.8s 1.2s forwards, bounce 2s 2s infinite;
+}
+
+.scroll-hint svg { width: 24px; height: 24px; stroke: var(--gold); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* === NAV === */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26,26,46,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,162,39,0.2);
+  padding: 0.6rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sticky-nav a {
+  color: rgba(245,240,232,0.6);
+  text-decoration: none;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.sticky-nav a:hover, .sticky-nav a.active {
+  color: var(--paper);
+  background: rgba(201,162,39,0.2);
+}
+
+/* === CONTENT WRAPPER === */
+.content { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+
+.ai-empty-slide {
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* === SECTION HEADERS === */
+.section-header {
+  padding: var(--section-gap) 0 2.5rem;
+  position: relative;
+}
+
+.section-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--cloud);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.section-header h2 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.section-header h2 .tag {
+  display: inline-block;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+  position: relative;
+  top: -2px;
+}
+
+.tag-cwn { background: var(--light-jade); color: var(--jade); }
+.tag-corpus { background: var(--soft-blue); color: var(--water); }
+.tag-ai { background: var(--soft-red); color: var(--vermillion); }
+
+.section-header .lead {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 1.05rem;
+  color: #666;
+  margin-top: 0.8rem;
+  max-width: 700px;
+}
+
+/* === CARDS & BLOCKS === */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.card h3 .icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.icon-jade { background: var(--light-jade); }
+.icon-red { background: var(--soft-red); }
+.icon-gold { background: var(--soft-gold); }
+.icon-blue { background: var(--soft-blue); }
+
+.card p, .card li {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.9;
+}
+
+.card ul { list-style: none; padding-left: 0; }
+.card ul li::before {
+  content: '▸';
+  color: var(--jade);
+  margin-right: 0.5rem;
+  font-weight: 700;
+}
+
+/* highlight box */
+.highlight-box {
+  background: linear-gradient(135deg, var(--soft-gold), #fefcf5);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 12px 12px 0;
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+}
+
+.highlight-box .label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* key concept */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.concept-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.concept-item .big-char {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.concept-item .en { font-size: 0.78rem; color: #888; }
+.concept-item .zh { font-size: 0.92rem; font-weight: 500; margin-top: 0.3rem; }
+
+/* === INTERACTIVE DEMOS === */
+.demo-wrapper {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2.5rem 0;
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(201,162,39,0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.demo-wrapper .demo-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding: 0.25rem 0.8rem;
+  background: rgba(201,162,39,0.12);
+  border-radius: 20px;
+}
+
+.demo-wrapper h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.demo-wrapper .desc {
+  color: rgba(245,240,232,0.65);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+}
+
+/* polysemy game */
+.polysemy-game {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.polysemy-target {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.polysemy-target .big {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 40px rgba(201,162,39,0.3);
+}
+
+.polysemy-target .sub {
+  font-size: 0.82rem;
+  color: rgba(245,240,232,0.5);
+  margin-top: 0.3rem;
+}
+
+.polysemy-sentence {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 1.15rem;
+  text-align: center;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.polysemy-sentence .highlight-word {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.polysemy-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.polysemy-opt {
+  padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-size: 0.88rem;
+  color: var(--paper);
+  text-align: left;
+}
+
+.polysemy-opt:hover {
+  background: rgba(201,162,39,0.15);
+  border-color: var(--gold);
+}
+
+.polysemy-opt.correct {
+  background: rgba(45,106,79,0.3) !important;
+  border-color: #52b788 !important;
+}
+
+.polysemy-opt.wrong {
+  background: rgba(199,62,29,0.3) !important;
+  border-color: var(--vermillion) !important;
+}
+
+.polysemy-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: rgba(245,240,232,0.5);
+}
+
+.polysemy-score { color: var(--gold); font-weight: 500; }
+
+.btn-next {
+  padding: 0.5rem 1.2rem;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.82rem;
+  transition: all 0.25s;
+}
+.btn-next:hover { background: #d4ad2e; transform: scale(1.02); }
+.btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* construction game */
+.cx-game {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cx-pattern {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.cx-pattern .pattern-text {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--paper);
+  letter-spacing: 0.1em;
+}
+
+.cx-pattern .pattern-text .slot {
+  color: var(--vermillion);
+  background: rgba(199,62,29,0.15);
+  padding: 0 0.3rem;
+  border-radius: 4px;
+}
+
+.cx-example {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 1rem;
+  color: rgba(245,240,232,0.6);
+  margin-top: 0.5rem;
+}
+
+.cx-options {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cx-opt {
+  padding: 0.7rem 1.8rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.cx-opt:hover { transform: scale(1.05); }
+.cx-opt.correct { border-color: #52b788 !important; background: rgba(45,106,79,0.3) !important; }
+.cx-opt.wrong { border-color: var(--vermillion) !important; background: rgba(199,62,29,0.2) !important; }
+
+.cx-explanation {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  font-size: 0.88rem;
+  color: rgba(245,240,232,0.7);
+  display: none;
+  border-left: 3px solid var(--gold);
+}
+
+.cx-explanation.show { display: block; }
+
+/* diagram */
+.diagram-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.diagram-node {
+  background: #fff;
+  border: 2px solid var(--jade);
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  min-width: 100px;
+}
+
+.diagram-arrow {
+  color: var(--cloud);
+  font-size: 1.2rem;
+}
+
+/* example table */
+.example-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0;
+  font-size: 0.88rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.example-table th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.example-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  vertical-align: top;
+}
+
+.example-table tr:nth-child(even) td { background: rgba(0,0,0,0.015); }
+.example-table tr:last-child td { border-bottom: none; }
+
+/* transition bridge */
+.bridge {
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.bridge::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cloud), transparent);
+}
+
+.bridge .bridge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  background: var(--paper);
+  border: 2px solid var(--cloud);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* wordnet tree visualization */
+.tree-viz {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.85rem;
+  padding: 1.5rem;
+  background: #fafaf8;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.tree-node {
+  padding: 0.3rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.tree-node::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--cloud);
+}
+
+.tree-node::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 1rem;
+  width: 0.8rem;
+  height: 1px;
+  background: var(--cloud);
+}
+
+.tree-node:last-child::before { height: 1rem; }
+
+.tree-label {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+
+.tree-label.synset { background: var(--light-jade); color: var(--jade); }
+.tree-label.sense { background: var(--soft-blue); color: var(--water); }
+.tree-label.lemma { background: var(--soft-gold); color: #8b7200; }
+.tree-label.relation { background: var(--soft-red); color: var(--vermillion); font-style: italic; }
+
+/* corpus section */
+.corpus-example {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin: 0.8rem 0;
+  border-left: 3px solid var(--water);
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.corpus-example .source {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.72rem;
+  color: #999;
+  margin-top: 0.4rem;
+}
+
+.corpus-example .kw {
+  background: rgba(58,110,165,0.1);
+  color: var(--water);
+  padding: 0 0.2rem;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* comparison blocks */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+
+.compare-col {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-top: 3px solid var(--jade);
+}
+
+.compare-col.alt { border-top-color: var(--water); }
+
+.compare-col h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), var(--jade));
+}
+
+.tl-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.65rem;
+  top: 0.4rem;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+}
+
+.tl-item .tl-year {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.tl-item .tl-text {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* footer */
+.page-footer {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  color: #999;
+  font-size: 0.78rem;
+}
+
+.page-footer .next-preview {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.page-footer .next-preview strong { color: var(--gold); }
+
+/* slide-in animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* hanzi radical mini demo */
+.hanzi-demo {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.hanzi-card {
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.hanzi-card:hover { transform: scale(1.08); }
+
+.hanzi-card .char {
+  font-family: 'LXGW WenKai TC', serif;
+  font-size: 3rem;
+  line-height: 1.2;
+  color: var(--paper);
+}
+
+.hanzi-card .pinyin {
+  font-size: 0.75rem;
+  color: rgba(245,240,232,0.5);
+}
+
+.hanzi-card .meaning {
+  font-size: 0.7rem;
+  color: var(--gold);
+  margin-top: 0.2rem;
+}
+
+/* notional syllabus diagram */
+.ns-diagram {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.ns-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.ns-circle .ns-label {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.ns-circle.notion { background: rgba(201,162,39,0.12); border: 2px solid var(--gold); }
+.ns-circle.function { background: rgba(45,106,79,0.1); border: 2px solid var(--jade); }
+.ns-circle.cx { background: rgba(199,62,29,0.08); border: 2px solid var(--vermillion); }
+
+.ns-plus { font-size: 1.5rem; color: var(--cloud); font-weight: 300; }
+
+/* responsive */
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  .polysemy-options { grid-template-columns: 1fr; }
+  .concept-grid { grid-template-columns: 1fr; }
+  .hero-meta { flex-direction: column; gap: 0.5rem; }
+  .ns-diagram { flex-direction: column; gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg-char">語</div>
+  <div class="hero-bg-char">詞</div>
+  <div class="hero-bg-char">意</div>
+
+  <div class="hero-label">華語教學與應用工作坊 ── 台師大華教系</div>
+  <h1>AI 科技、語言資源<br>與<span class="accent">華語教學</span>應用</h1>
+  <p class="hero-sub">從詞彙網路到社群語料，從語言資源到 AI 賦能的教學轉型</p>
+  <div class="hero-meta">
+    <span>謝舒凱 王伯雅 台大語言學研究所</span>
+    <span>Part 1 & 2：語言資源篇</span>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+
+
+
+<!-- ============ NAV ============ -->
+<nav class="sticky-nav">
+  <a href="#part1">Part 1：CWN 詞彙網路</a>
+  <a href="#demo-polysemy">🎮 多義詞遊戲</a>
+  <a href="#part2">Part 2：社群語料庫</a>
+  <a href="#demo-cx">🎮 構式猜情緒</a>
+  <a href="#demo-hanzi">🎮 漢字偵探</a>
+  <a href="#bridge-ai">AI 教學整合</a>
+</nav>
+
+<!-- ============ AI background ============ -->
+
+
+<section id="ai-bg-02" class="ai-empty-slide reveal">
+  <div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;">
+    <h3 style="margin-bottom:1rem;text-align:center;"><span class="icon icon-jade">🤖</span>時代變化得很快</h3>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center;">
+    <img src="sk.jpg" alt="AI 時代背景 1" style="width:90%;height:100%;object-fit:cover;border-radius:8px;">
+    <img src="sk2.png" alt="AI 時代背景 2" style="width:90%;height:120%;justify-self:center;object-fit:contain;border-radius:8px;">
+  </div>
+</section>
+
+<section id="ai-bg-03" class="ai-empty-slide reveal">
+  <div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#999;">
+  
+  <img src="shukai-mysteries.png" alt="AI 時代背景 3" style="width:60%;height:60%;object-fit:cover;border-radius:8px;">  
+
+  真假不分，AI slop 橫行 
+
+
+  </div>
+</section>
+
+<section id="ai-bg-04" class="ai-empty-slide reveal">
+  <div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#999;">
+  
+  但，語言學習也變成了史無前例的方便 
+  <img src="translate.png" alt="AI 時代背景 4" style="width:30%;height:30%;object-fit:cover;border-radius:6px;">  
+
+
+  </div>
+</section>
+
+
+<section id="ai-bg-05" class="ai-empty-slide reveal">
+
+<div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#999;">
+
+不懂程式也可以開發系統<br>
+  <img src="jp.png" alt="Hermes Agent" style="width:40%;height:40%;object-fit:cover;border-radius:6px;">  
+</div>
+</section>
+
+
+
+
+
+<section id="ai-bg-04" class="ai-empty-slide reveal">
+  <div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#999;">
+  
+<h3><span class="icon icon-jade">🤖</span>Agentic AI 帶來更多的可能</h3> <br>
+<br>
+demo: Hermes Agent 
+
+  </div>
+</section>
+
+
+<section id="ai-bg-06" class="ai-empty-slide reveal">
+
+<div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#ad0707;">
+
+<h3>AI 帶來許多有關「教學」的挑戰，<br>也加速兩個不同的學門的交錯。</h3> 
+
+
+<ul>
+  <li>（華語教學）如何用 AI 協助人類學習語言與文化</li>
+  <li>（計算語言）如何協助 AI 學習人類語言與文化</li>
+</ul>
+
+  </div>
+</section>
+
+
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 1: CWN -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="part1">
+  <div class="section-header reveal">
+    <div class="section-num">01</div>
+    <h2>詞意教學的導航：Chinese Wordnet <span class="tag tag-cwn">CWN</span></h2>
+    <p class="lead">如何利用中文詞彙網路豐富的語意關係，協助學生精準掌握詞義辨析？</p>
+  </div>
+
+  <!-- What is CWN -->
+  <div class="card reveal">
+    <h3><span class="icon icon-jade">📖</span> 什麼是 Chinese Wordnet？</h3>
+    <p>Chinese Wordnet（中文詞彙網路）<a href="https://lopentu.github.io/CwnWeb/" target="_blank">https://lopentu.github.io/CwnWeb/</a> 是以 Princeton WordNet 為藍本，專為（當代）漢語建置的大型詞彙語意知識庫。它不只是一本「電子辭典」，更是一張巨大的<strong>語意地圖</strong> —— 每個詞意都是地圖上的一個節點，節點之間以各種語意關係（同義、反義、上下位、部分-整體⋯⋯）相互連結。</p>
+    <p style="margin-top:0.8rem">對華語教師而言，CWN 就像是一套 <strong>詞彙教學的 GPS</strong>：它能告訴你一個詞「在哪裡」（語意位置）、「附近有什麼」（相關詞彙）、以及「怎麼去」（從已知詞彙通往未知詞彙的路徑）。</p>
+  </div>
+
+  <!-- Core concepts -->
+  <div class="concept-grid reveal">
+    <div class="concept-item">
+      <div class="big-char" style="color:var(--jade);">詞</div>
+      <div class="en">Lemma</div>
+      <div class="zh">詞條（字面形式）</div>
+    </div>
+    <div class="concept-item">
+      <div class="big-char" style="color:var(--water);">義</div>
+      <div class="en">Sense</div>
+      <div class="zh">詞意（一詞多義）</div>
+    </div>
+    <div class="concept-item">
+      <div class="big-char" style="color:var(--gold);">群</div>
+      <div class="en">Synset</div>
+      <div class="zh">同義詞群（概念聚集）</div>
+    </div>
+    <div class="concept-item">
+      <div class="big-char" style="color:var(--vermillion);">繫</div>
+      <div class="en">Relation</div>
+      <div class="zh">語意關係（連結網絡）</div>
+    </div>
+  </div>
+
+  <!-- Data structure -->
+  <div class="card reveal">
+    <h3><span class="icon icon-jade">🌳</span> CWN 的資料結構：以「打」為例</h3>
+    <p>讓我們用華語學習者最害怕的動詞之一 ——「打」——來看看 CWN 如何組織詞彙資訊：</p>
+    <div class="tree-viz">
+      <div style="font-weight:700;margin-bottom:0.5rem"><span class="tree-label lemma">Lemma 詞條</span> 打 (ID: 06613)</div>
+      <div class="tree-node">
+        <span class="tree-label sense">Sense 01</span> 用手或器具撞擊。<em style="color:#999;">「打人」「打鼓」</em>
+        <div class="tree-node">
+          <span class="tree-label relation">↑ 上位詞</span> 撞擊
+        </div>
+        <div class="tree-node">
+          <span class="tree-label relation">→ 同義</span> 擊、敲
+        </div>
+      </div>
+      <div class="tree-node">
+        <span class="tree-label sense">Sense 02</span> 從事某種活動。<em style="color:#999;">「打球」「打牌」</em>
+        <div class="tree-node">
+          <span class="tree-label relation">↑ 上位詞</span> 從事
+        </div>
+      </div>
+      <div class="tree-node">
+        <span class="tree-label sense">Sense 03</span> 以電話等方式聯繫。<em style="color:#999;">「打電話」</em>
+      </div>
+      <div class="tree-node">
+        <span class="tree-label sense">Sense 04</span> 編織、製作。<em style="color:#999;">「打毛衣」「打結」</em>
+      </div>
+      <div class="tree-node" style="color:#999;font-style:italic;">
+        ⋯⋯（CWN 收錄「打」超過 120 個義項）
+      </div>
+    </div>
+  </div>
+
+  <section id="cwn-02" class="ai-empty-slide reveal">
+      <div class="card" style="width:min(880px,100%);min-height:56vh;margin:0;display:flex;align-items:center;justify-content:center;color:#999;">那「吧」呢？</div>
+  </section>
+
+
+
+  <!-- Semantic relations -->
+  <div class="card reveal">
+    <h3><span class="icon icon-gold">🔗</span> 語意關係：教學的核心武器</h3>
+    <p>CWN 裡的語意關係不只是「語言學知識」，它們就是教學策略的骨架：</p>
+    <table class="example-table" style="margin-top:1rem">
+      <thead>
+        <tr><th>語意關係</th><th>教學應用</th><th>例子</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>上下位</strong><br>Hypernymy</td>
+          <td>從「大概念」出發，引導學生收斂到具體詞彙，或由具體詞彙歸納上位概念</td>
+          <td>交通工具 → 車、船、飛機<br>水果 → 蘋果、香蕉、芒果</td>
+        </tr>
+        <tr>
+          <td><strong>同義關係</strong><br>Synonymy</td>
+          <td>辨析近義詞，強調語用/語域差異</td>
+          <td>看 vs. 瞧 vs. 觀看 vs. 注視<br>（正式程度遞增）</td>
+        </tr>
+        <tr>
+          <td><strong>反義關係</strong><br>Antonymy</td>
+          <td>成對教學，利用對比加深記憶</td>
+          <td>冷↔熱、開心↔難過、進↔出</td>
+        </tr>
+        <tr>
+          <td><strong>部分-整體</strong><br>Meronymy</td>
+          <td>建構「場景詞彙包」，情境教學</td>
+          <td>身體 → 頭、手、腳⋯</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box reveal">
+    <div class="label">💡 教學洞察</div>
+    <p>傳統教材是線性排列的詞彙表，學生只能「前後」記憶。CWN 提供的語意網路讓學生可以「上下左右」地拓展詞彙，這正是母語者心理詞彙（mental lexicon）的組織方式。教師可以利用 CWN 設計以「概念」為核心而非以「課文」為核心的詞彙教學活動。</p>
+  </div>
+
+  <!-- CWN tools -->
+  <div class="card reveal">
+    <h3><span class="icon icon-blue">🛠</span> 如何取用 CWN 資料？</h3>
+    <p>CWN 提供了多種取用方式，適合不同使用情境：</p>
+    <div class="compare-grid" style="margin-top:1rem">
+      <div class="compare-col">
+        <h4>🌐 網頁查詢</h4>
+        <p style="font-size:0.88rem;color:#555;">CwnWeb 是一個完全靜態的網頁介面，任何人都可以直接搜尋、瀏覽 CWN 的詞條與語意關係。適合教師備課時快速查詢。</p>
+      </div>
+      <div class="compare-col alt">
+        <h4>🐍 Python 程式套件</h4>
+        <p style="font-size:0.88rem;color:#555;">透過 <code>CwnGraph</code> 套件，可以用 Python 程式化地存取整個詞彙網路，適合進階應用：自動化教材生成、研究分析、或開發教學 App。</p>
+      </div>
+    </div>
+    <div style="background:#f6f6f4;border-radius:8px;padding:1rem 1.2rem;margin-top:1rem;font-family:monospace;font-size:0.82rem;color:#444;overflow-x:auto">
+      <div style="color:#999;margin-bottom:0.5rem"># Python 快速上手</div>
+      <div><span style="color:var(--water)">from</span> CwnGraph <span style="color:var(--water)">import</span> CwnImage</div>
+      <div>cwn = CwnImage.<span style="color:var(--jade)">latest</span>()</div>
+      <div style="margin-top:0.5rem"><span style="color:#999"># 查詢「打」的所有詞意</span></div>
+      <div>senses = cwn.<span style="color:var(--jade)">find_senses</span>(<span style="color:var(--vermillion)">"打"</span>)</div>
+      <div><span style="color:var(--water)">for</span> s <span style="color:var(--water)">in</span> senses:</div>
+      <div>&nbsp;&nbsp;print(s.definition)</div>
+    </div>
+  </div>
+
+  <!-- Teaching activity -->
+  <div class="card reveal">
+    <h3><span class="icon icon-red">🎯</span> 教學活動設計：「語意星空」</h3>
+    <p>利用 CWN 的上下位關係設計「語意星空」活動——讓學生從一個核心概念出發，像星座一樣向外擴展相關詞彙：</p>
+    <div class="diagram-flow" style="margin-top:1.5rem">
+      <div class="diagram-node" style="border-color:var(--gold);background:var(--soft-gold)"><strong>情緒</strong><br><small>（核心概念）</small></div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node"><strong>正面</strong><br>開心、興奮、滿足</div>
+      <div class="diagram-arrow">→</div>
+      <div class="diagram-node"><strong>負面</strong><br>難過、生氣、焦慮</div>
+    </div>
+    <div class="diagram-flow">
+      <div class="diagram-arrow" style="transform:rotate(90deg)">→</div>
+    </div>
+    <div class="diagram-flow">
+      <div class="diagram-node" style="font-size:0.8rem">開心 → 高興/愉快/快樂<br><small style="color:#999">（同義辨析）</small></div>
+      <div class="diagram-arrow">⟷</div>
+      <div class="diagram-node" style="font-size:0.8rem">難過 → 傷心/悲傷/哀痛<br><small style="color:#999">（正式度差異）</small></div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.9rem;color:#666;">學生先從上位概念理解整體分類，再深入同義詞辨析，最後反義配對。每一步都可以有 CWN 的語意關係作為「鷹架」（scaffolding），幫助學生理解詞意。甚至將語意場（或結合 <strong>FrameNet</strong> 的概念融入，讓學生可以在使用脈絡中學習。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- DEMO 1: POLYSEMY GAME -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="demo-polysemy">
+  <div class="section-header reveal">
+    <div class="section-num" style="-webkit-text-stroke-color:var(--vermillion)">⚡</div>
+    <h2>AI 教學示範：多義詞猜猜看 <span class="tag tag-ai">互動遊戲</span></h2>
+    <p class="lead">將 CWN 的多義詞資料轉化為互動遊戲，讓進階學習者在語境中辨析詞義。</p>
+  </div>
+
+  <div class="demo-wrapper reveal">
+    <div class="demo-label">🎮 LIVE DEMO</div>
+    <h3>「打」的一百種意思</h3>
+    <p class="desc">根據句子中「打」的用法，選出正確的義項。這個遊戲的題目可以由 AI 從 CWN 資料自動生成。</p>
+
+    <div class="polysemy-game" id="polysemyGame">
+      <div class="polysemy-target">
+        <div class="big" id="polyChar">打</div>
+        <div class="sub" id="polyProgress">第 1 題 / 共 5 題</div>
+      </div>
+      <div class="polysemy-sentence" id="polySentence"></div>
+      <div class="polysemy-options" id="polyOptions"></div>
+      <div class="polysemy-footer">
+        <span class="polysemy-score" id="polyScore">得分：0 / 0</span>
+        <button class="btn-next" id="polyNext" onclick="nextPolysemy()" disabled>下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box reveal">
+    <div class="label">🤖 AI 如何賦能？</div>
+    <p>教師只需指定目標詞彙和難度等級，LLM 就能：① 從 CWN 擷取該詞的所有義項，② 自動生成包含該義項的自然例句，③ 產生具有「干擾效果」的錯誤選項（利用語意相近但不同的義項）。整個題庫可以在幾分鐘內自動產出，教師再做最後審核即可。</p>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- BRIDGE -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="bridge">
+  <div class="bridge-icon">🌊</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 2: SOCIAL MEDIA CORPUS -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="part2">
+  <div class="section-header reveal">
+    <div class="section-num">02</div>
+    <h2>捕捉真實語言的律動：社群媒體語料庫 <span class="tag tag-corpus">Corpus</span></h2>
+    <p class="lead">傳統教材與當代語言之間的落差，正是語料庫可以彌補的。</p>
+  </div>
+
+  <div class="card reveal">
+    <h3><span class="icon icon-blue">🌍</span> 為什麼需要社群媒體語料庫？</h3>
+    <p>華語教學有一個長期存在的痛點：教材裡教的，跟真實世界說的，往往不一樣。</p>
+    <div class="compare-grid" style="margin-top:1rem">
+      <div class="compare-col">
+        <h4>📚 教材的語言</h4>
+        <p style="font-size:0.88rem;color:#555;">「你好，請問這件衣服多少錢？」<br>「三百五十元。」<br>「好的，謝謝你。」</p>
+        <p style="font-size:0.78rem;color:#aaa;margin-top:0.5rem">（標準、規範、但有時不自然）</p>
+      </div>
+      <div class="compare-col alt">
+        <h4>💬 社群的語言</h4>
+        <p style="font-size:0.88rem;color:#555;">「這件也太好看了吧！求連結🙏」<br>「+1 想知道在哪買的」<br>「已私你～」</p>
+        <p style="font-size:0.78rem;color:#aaa;margin-top:0.5rem">（真實、動態、充滿創意）</p>
+      </div>
+    </div>
+    <p style="margin-top:1rem;">社群媒體語料庫讓我們能夠系統性地觀察當代漢語的「活」語言——包括新詞、流行語、語碼混用、非典型句構等等，這些都是進階學習者在真實溝通中必須面對的。</p>
+  </div>
+
+  <!-- Cross-strait differences -->
+  <div class="card reveal">
+    <h3><span class="icon icon-gold">🔍</span> 兩岸漢語的動態變異</h3>
+    <p>此外，透過語料庫比較，我們也可以觀察到世界漢語在詞彙、語法、甚至語用上的有趣差異：</p>
+    <table class="example-table" style="margin-top:1rem">
+      <thead>
+        <tr><th style="width:15%">面向</th><th style="width:42%">台灣華語</th><th style="width:42%">中國普通話</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>詞彙</strong></td>
+          <td>軟體、網路、資訊、捷運</td>
+          <td>軟件、網絡/互聯網、信息、地鐵</td>
+        </tr>
+        <tr>
+          <td><strong>新詞</strong></td>
+          <td>台味、佛系、躺平</td>
+          <td>內卷、擺爛、整頓職場</td>
+        </tr>
+        <tr>
+          <td><strong>語氣詞</strong></td>
+          <td>齁、吼、蛤、欸</td>
+          <td>呦、唄</td>
+        </tr>
+        <tr>
+          <td><strong>程度表達</strong></td>
+          <td>超、有夠、爆</td>
+          <td>巨、絕了、YYDS</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;font-size:0.9rem;color:#666;">這些差異不只是「詞彙表」的問題。它們反映了不同社會文化脈絡下語言使用者的認知框架與互動策略。<br>
+   【我們走吧】vs 【我們走唄】</p>
+  </div>
+
+  <!-- Corpus examples -->
+  <div class="card reveal">
+    <h3><span class="icon icon-blue">💬</span> 語料庫中的真實語言樣貌</h3>
+    <p>以下是從社群媒體語料庫擷取的真實語言使用例：</p>
+
+    <div class="corpus-example">
+      「這家店的牛肉麵<span class="kw">也太</span>好吃<span class="kw">了吧</span>！排了一個小時<span class="kw">完全值得</span>」
+      <div class="source">── PTT 美食版</div>
+    </div>
+    <div class="corpus-example">
+      「<span class="kw">不是</span>，你<span class="kw">認真的嗎</span>？這個價格也太扯了」
+      <div class="source">── Dcard 閒聊版</div>
+    </div>
+    <div class="corpus-example">
+      「欸<span class="kw">我跟你說</span>，昨天那個<span class="kw">什麼什麼</span>的，你有看嗎？」
+      <div class="source">── Facebook 留言</div>
+    </div>
+
+    <p style="margin-top:1rem;font-size:0.9rem;">注意這些例子中的「也太⋯了吧」、「不是，」（感嘆標記）、「我跟你說」（話語標記）——這些都是教材裡不太會教，但在真實對話中頻繁出現的<strong>構式</strong>（construction）。</p>
+  </div>
+
+  <!-- Notional Syllabus -->
+  <div class="card reveal">
+    <h3><span class="icon icon-red">📐</span> 從 Notional Syllabus 到構式教學</h3>
+    <p>D.A. Wilkins（1972）提出的 <strong>Notional Syllabus</strong>（意念大綱）主張：語言教學應該以「表達什麼意義」（notions/functions）而非「教什麼語法」來組織課程。這個理念與當代構式語法（Construction Grammar）不謀而合：</p>
+
+    <div class="ns-diagram">
+      <div class="ns-circle notion">
+        <div class="ns-label">意念</div>
+        <div style="font-size:0.75rem">Notion</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.2rem">「表達不滿」</div>
+      </div>
+      <div class="ns-plus">＋</div>
+      <div class="ns-circle function">
+        <div class="ns-label">功能</div>
+        <div style="font-size:0.75rem">Function</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.2rem">「抱怨、責備」</div>
+      </div>
+      <div class="ns-plus">→</div>
+      <div class="ns-circle cx">
+        <div class="ns-label">構式</div>
+        <div style="font-size:0.75rem">Construction</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.2rem">「X 什麼 X」</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1rem;">構式是「形式-意義」的配對體（form-meaning pairing）。社群語料庫讓我們可以大量觀察這些構式在真實使用中的<strong>分佈</strong>（distribution）和<strong>語用制約</strong>（pragmatic constraints），進而設計出更貼近真實的教學活動。</p>
+  </div>
+
+
+
+
+
+
+  <!-- Construction examples -->
+  <div class="card reveal">
+    <h3><span class="icon icon-gold">🧩</span> 華語教學中的高頻構式</h3>
+    <table class="example-table">
+      <thead>
+        <tr><th>構式模板</th><th>意念/功能</th><th>例句</th><th>情緒傾向</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>X 什麼 X</strong></td>
+          <td>否定、不耐煩</td>
+          <td>「吃什麼吃，你沒看到我在忙嗎？」</td>
+          <td style="color:var(--vermillion)">😤 負面</td>
+        </tr>
+        <tr>
+          <td><strong>還在那邊 XX</strong></td>
+          <td>責備、嫌棄</td>
+          <td>「都幾點了還在那邊睡覺！」</td>
+          <td style="color:var(--vermillion)">😒 負面</td>
+        </tr>
+        <tr>
+          <td><strong>也太 X(X) 了吧</strong></td>
+          <td>驚訝（超出預期）</td>
+          <td>「這也太好吃了吧！」</td>
+          <td style="color:var(--jade)">😲 中性偏正</td>
+        </tr>
+        <tr>
+          <td><strong>V 就 V，誰怕誰</strong></td>
+          <td>挑戰、決心</td>
+          <td>「走就走，誰怕誰！」</td>
+          <td style="color:var(--gold)">💪 強勢</td>
+        </tr>
+        <tr>
+          <td><strong>不 V 不知道，一 V 嚇一跳</strong></td>
+          <td>意外發現</td>
+          <td>「不查不知道，一查嚇一跳！」</td>
+          <td style="color:var(--water)">😮 驚訝</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card reveal">
+    <h3><span class="icon icon-gold"></span>SoMe 台灣社群語料庫</h3>
+    
+    <img src="SoMe.png" alt="SoMe Logo" style="width:800px;height:300px;">
+
+
+    <p>SoMe 台灣社群語料庫：<a href="https://lopen.linguistics.ntu.edu.tw/ptt-corpus/">https://lopen.linguistics.ntu.edu.tw/ptt-corpus/</a></p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- DEMO 2: CONSTRUCTION EMOTION GAME -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="demo-cx">
+  <div class="section-header reveal">
+    <div class="section-num" style="-webkit-text-stroke-color:var(--vermillion)">⚡</div>
+    <h2>AI 教學示範：構式情緒猜猜看 <span class="tag tag-ai">互動遊戲</span></h2>
+    <p class="lead">根據構式的語境判斷說話者的情緒——訓練學習者的語用敏感度。</p>
+  </div>
+
+  <div class="demo-wrapper reveal">
+    <div class="demo-label">🎮 LIVE DEMO</div>
+    <h3>這句話什麼情緒？</h3>
+    <p class="desc">看到句子後，猜猜說話者最可能的情緒。AI 可以從語料庫自動生成這類題目。</p>
+
+    <div class="cx-game" id="cxGame">
+      <div class="cx-pattern">
+        <div class="pattern-text" id="cxSentence"></div>
+        <div class="cx-example" id="cxHint"></div>
+      </div>
+      <div class="cx-options" id="cxOptions"></div>
+      <div class="cx-explanation" id="cxExplanation"></div>
+      <div class="polysemy-footer">
+        <span class="polysemy-score" id="cxScore">得分：0 / 0</span>
+        <button class="btn-next" id="cxNext" onclick="nextCx()" disabled>下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box reveal">
+    <div class="label">🤖 AI 如何賦能？</div>
+    <p>LLM 可以扮演兩個角色：① <strong>題目生成器</strong>——從語料庫中找出含有特定構式的例句，並標註情緒；② <strong>即時教練</strong>——當學習者答錯時，AI 可以用該學習者的母語解釋為什麼這個構式帶有特定情緒色彩，甚至舉出母語中類似的表達方式來幫助理解。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- DEMO 3: HANZI DETECTIVE -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="demo-hanzi">
+  <div class="section-header reveal">
+    <div class="section-num" style="-webkit-text-stroke-color:var(--vermillion)">⚡</div>
+    <h2>AI 教學示範：漢字偵探 <span class="tag tag-ai">互動遊戲</span></h2>
+    <p class="lead">結合偵錯機制與書法文化，讓漢字學習不只是筆畫練習。</p>
+  </div>
+
+  <div class="demo-wrapper reveal">
+    <div class="demo-label">🎮 LIVE DEMO</div>
+    <h3>找出錯字！</h3>
+    <p class="desc">每題有一個句子包含錯別字，點選你認為有錯的字。AI 會解釋為什麼這兩個字容易混淆，並從字形、字義、文化角度提供記憶策略。</p>
+
+    <div id="hanziGame">
+      <div class="polysemy-sentence" id="hanziSentence" style="font-size:1.3rem;letter-spacing:0.15em;flex-wrap:wrap;gap:0.3rem;cursor:pointer;"></div>
+      <div id="hanziResult" style="margin-top:1rem;min-height:3rem;"></div>
+      <div class="polysemy-footer" style="margin-top:1rem;">
+        <span class="polysemy-score" id="hanziScore">得分：0 / 0</span>
+        <button class="btn-next" id="hanziNext" onclick="nextHanzi()" disabled>下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card reveal" style="margin-top:2rem">
+    <h3><span class="icon icon-gold">🖌</span> 從偵錯到書法文化</h3>
+    <p>漢字偵錯不只是「找出錯字」，它也是通往漢字文化的窗口。當 AI 解釋「已」和「己」的差別時，可以同時呈現：</p>
+    <ul style="margin-top:0.8rem">
+      <li><strong>字形分析</strong>：「已」的末筆出頭，「己」的末筆不出頭——在書法中，這個微小差異可以用「收」與「放」的概念來理解</li>
+      <li><strong>字源故事</strong>：從甲骨文、金文的演變看漢字如何「長」成現在的樣子</li>
+      <li><strong>形近字系統</strong>：已、己、巳——三個字只差一點，AI 可以自動生成比較表和記憶口訣</li>
+      <li><strong>書法體驗</strong>：搭配數位書法工具，讓學生感受「筆意」——漢字不只是符號，更是書寫的藝術</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- AI BRIDGE -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="bridge-ai">
+  <div class="section-header reveal">
+    <div class="section-num">∞</div>
+    <h2>語言資源 × AI：教學的新方程式</h2>
+    <p class="lead">將 CWN、語料庫與 AI 串聯，開啟華語教學的無限可能。</p>
+  </div>
+
+  <div class="card reveal">
+    <h3><span class="icon icon-red">🔄</span> 整合架構：從資源到教室</h3>
+    <div class="diagram-flow" style="margin-top:1.5rem">
+      <div class="diagram-node" style="border-color:var(--jade)">CWN<br><small>語意知識</small></div>
+      <div class="diagram-arrow">＋</div>
+      <div class="diagram-node" style="border-color:var(--water)">語料庫<br><small>真實語言</small></div>
+      <div class="diagram-arrow">＋</div>
+      <div class="diagram-node" style="border-color:var(--vermillion)">LLM<br><small>生成 & 互動</small></div>
+    </div>
+    <div class="diagram-flow">
+      <div class="diagram-arrow">↓</div>
+    </div>
+    <div class="diagram-flow">
+      <div class="diagram-node" style="border-color:var(--gold);background:var(--soft-gold);min-width:300px"><strong>適性化教學內容</strong><br><small>自動生成、即時回饋、文化融入</small></div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <h3><span class="icon icon-jade">🧭</span> AI 在華語教學中的角色光譜</h3>
+    <table class="example-table">
+      <thead>
+        <tr><th>角色</th><th>功能</th><th>範例</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>教材生成器</strong></td>
+          <td>根據 CWN 資料自動產出詞彙練習、填空題、配對題</td>
+          <td>「為 B1 程度學生生成『情緒詞彙』的配對練習」</td>
+        </tr>
+        <tr>
+          <td><strong>語料分析師</strong></td>
+          <td>從語料庫中提取特定構式、搭配、用法模式</td>
+          <td>「找出語料庫中所有 X什麼X 的用例並分類情緒」</td>
+        </tr>
+        <tr>
+          <td><strong>互動教練</strong></td>
+          <td>用對話方式引導學生理解語意差異</td>
+          <td>「為什麼『看醫生』是去看病，不是觀看醫生？」</td>
+        </tr>
+        <tr>
+          <td><strong>遊戲設計師</strong></td>
+          <td>將語言知識轉化為互動遊戲機制</td>
+          <td>多義詞闖關、構式情緒猜測、漢字偵探</td>
+        </tr>
+        <tr>
+          <td><strong>評量工具</strong></td>
+          <td>自動評分、錯誤分析、學習路徑建議</td>
+          <td>「分析學生的作文，找出構式使用錯誤」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box reveal">
+    <div class="label">🔮 下一步：Part 3 預告</div>
+    <p>第三個鐘頭的 Lab Session，我們將<strong>實際動手</strong>，利用 LLM 快速建構一個多模態構式教材原型，親身體驗 AI 如何成為你的教學開發夥伴。</p>
+  </div>
+</section>
+
+</div><!-- .content -->
+
+<!-- ============ FOOTER ============ -->
+<footer class="page-footer">
+  <div class="next-preview">
+    Part 3 → <strong>Lab Session：AI 賦能的教學轉型</strong><br>
+    <span style="font-size:0.78rem;">從教材輔助工具到遊戲化應用的實作體驗</span>
+  </div>
+  <p>AI 科技、語言資源與華語教學應用 ── 華語教學與應用工作坊</p>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+// === Scroll reveal ===
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// === Active nav ===
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sticky-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════
+// POLYSEMY GAME
+// ═══════════════════════════════════════
+const polyData = [
+  {
+    sentence: '弟弟在院子裡<span class="highlight-word">打</span>籃球。',
+    options: [
+      { text: '用手或器具撞擊', correct: false },
+      { text: '從事某種球類活動', correct: true },
+      { text: '以電話方式聯繫', correct: false },
+      { text: '編織、製作', correct: false }
+    ]
+  },
+  {
+    sentence: '你等一下幫我<span class="highlight-word">打</span>個電話給媽媽。',
+    options: [
+      { text: '用手或器具撞擊', correct: false },
+      { text: '從事某種活動', correct: false },
+      { text: '以通訊工具聯繫對方', correct: true },
+      { text: '計算、估量', correct: false }
+    ]
+  },
+  {
+    sentence: '奶奶正在<span class="highlight-word">打</span>毛衣，要送給孫子當生日禮物。',
+    options: [
+      { text: '撞擊', correct: false },
+      { text: '編織、製作', correct: true },
+      { text: '從事活動', correct: false },
+      { text: '開啟', correct: false }
+    ]
+  },
+  {
+    sentence: '老闆叫我先<span class="highlight-word">打</span>個草稿再正式寫報告。',
+    options: [
+      { text: '撞擊', correct: false },
+      { text: '從事活動', correct: false },
+      { text: '擬定、起草', correct: true },
+      { text: '以電話聯繫', correct: false }
+    ]
+  },
+  {
+    sentence: '天氣太冷了，出門前記得<span class="highlight-word">打</span>開暖氣。',
+    options: [
+      { text: '開啟、使運作', correct: true },
+      { text: '撞擊', correct: false },
+      { text: '編織', correct: false },
+      { text: '計算', correct: false }
+    ]
+  }
+];
+
+let polyIdx = 0, polyCorrect = 0, polyTotal = 0, polyAnswered = false;
+
+function renderPolysemy() {
+  const q = polyData[polyIdx];
+  document.getElementById('polySentence').innerHTML = q.sentence;
+  document.getElementById('polyProgress').textContent = `第 ${polyIdx + 1} 題 / 共 ${polyData.length} 題`;
+  const optDiv = document.getElementById('polyOptions');
+  optDiv.innerHTML = '';
+  polyAnswered = false;
+  document.getElementById('polyNext').disabled = true;
+
+  // Shuffle options
+  const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+  shuffled.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'polysemy-opt';
+    btn.textContent = opt.text;
+    btn.onclick = () => {
+      if (polyAnswered) return;
+      polyAnswered = true;
+      polyTotal++;
+      if (opt.correct) {
+        btn.classList.add('correct');
+        polyCorrect++;
+      } else {
+        btn.classList.add('wrong');
+        optDiv.querySelectorAll('.polysemy-opt').forEach(b => {
+          if (b.textContent === q.options.find(o => o.correct).text) b.classList.add('correct');
+        });
+      }
+      document.getElementById('polyScore').textContent = `得分：${polyCorrect} / ${polyTotal}`;
+      document.getElementById('polyNext').disabled = polyIdx >= polyData.length - 1;
+      if (polyIdx < polyData.length - 1) document.getElementById('polyNext').disabled = false;
+    };
+    optDiv.appendChild(btn);
+  });
+}
+
+function nextPolysemy() {
+  if (polyIdx < polyData.length - 1) {
+    polyIdx++;
+    renderPolysemy();
+  }
+}
+
+renderPolysemy();
+
+// ═══════════════════════════════════════
+// CONSTRUCTION EMOTION GAME
+// ═══════════════════════════════════════
+const cxData = [
+  {
+    sentence: '「吃<span class="slot">什麼</span>吃！你沒看到大家都在等你嗎？」',
+    hint: '構式：X 什麼 X',
+    options: ['😊 開心', '😤 不耐煩', '😢 難過', '😲 驚訝'],
+    correct: 1,
+    explanation: '「X 什麼 X」構式幾乎總是帶有否定、不耐煩或責備的語氣。說話者用這個構式來中斷或否定對方正在做的動作。這是華語中非常典型的「構式義大於組合義」的例子——你無法從「吃」和「什麼」的字面意思推論出不耐煩的情緒。'
+  },
+  {
+    sentence: '「都十二點了，你<span class="slot">還在那邊</span>滑手機！」',
+    hint: '構式：還在那邊 XX',
+    options: ['😒 嫌棄/責備', '😊 欣賞', '😢 同情', '😲 好奇'],
+    correct: 0,
+    explanation: '「還在那邊 XX」是一個典型的負面評價構式。「那邊」在此不是真正的空間指示，而是一種「心理距離化」——說話者藉此與對方的行為劃清界線，暗示「你做的事很不應該」。'
+  },
+  {
+    sentence: '「這家餐廳<span class="slot">也太</span>好吃<span class="slot">了吧</span>！我要馬上推薦給朋友！」',
+    hint: '構式：也太 A 了吧',
+    options: ['😤 生氣', '😲 驚喜/讚嘆', '😒 嫌棄', '😢 失望'],
+    correct: 1,
+    explanation: '「也太 A 了吧」表達超出預期的感受，可正可負，但在社群語料中正面使用比例較高（約 65%）。「了吧」加強了語氣的感嘆性，讓整句帶有「我沒想到會這麼好」的驚喜感。'
+  },
+  {
+    sentence: '「走<span class="slot">就</span>走，<span class="slot">誰怕誰</span>！」',
+    hint: '構式：V 就 V，誰怕誰',
+    options: ['😢 委屈', '😊 開心', '💪 挑釁/不示弱', '😲 驚訝'],
+    correct: 2,
+    explanation: '「V 就 V，誰怕誰」是一個挑戰型構式，說話者用它來表達不退縮、不害怕的態度。「就」在此表示「毫不猶豫地接受挑戰」，而「誰怕誰」是反問句，強化了對等較勁的語氣。'
+  },
+  {
+    sentence: '「<span class="slot">不</span>問<span class="slot">不</span>知道，<span class="slot">一</span>問<span class="slot">嚇一跳</span>！原來房價已經漲這麼多了。」',
+    hint: '構式：不V不知道，一V嚇一跳',
+    options: ['😊 滿足', '😤 憤怒', '😮 震驚/意外發現', '😒 無聊'],
+    correct: 2,
+    explanation: '「不V不知道，一V嚇一跳」表達在行動後才發現令人震驚的事實。這個構式的語用力量來自「不知道」與「嚇一跳」的對比——從無知到震驚的認知轉變。它經常被用在發現負面事實的語境中。'
+  }
+];
+
+let cxIdx = 0, cxCorrect = 0, cxTotal = 0, cxAnswered = false;
+
+function renderCx() {
+  const q = cxData[cxIdx];
+  document.getElementById('cxSentence').innerHTML = q.sentence;
+  document.getElementById('cxHint').textContent = q.hint;
+  const optDiv = document.getElementById('cxOptions');
+  optDiv.innerHTML = '';
+  cxAnswered = false;
+  document.getElementById('cxNext').disabled = true;
+  document.getElementById('cxExplanation').classList.remove('show');
+  document.getElementById('cxExplanation').textContent = '';
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cx-opt';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if (cxAnswered) return;
+      cxAnswered = true;
+      cxTotal++;
+      if (i === q.correct) {
+        btn.classList.add('correct');
+        cxCorrect++;
+      } else {
+        btn.classList.add('wrong');
+        optDiv.children[q.correct].classList.add('correct');
+      }
+      document.getElementById('cxScore').textContent = `得分：${cxCorrect} / ${cxTotal}`;
+      const expEl = document.getElementById('cxExplanation');
+      expEl.textContent = q.explanation;
+      expEl.classList.add('show');
+      if (cxIdx < cxData.length - 1) document.getElementById('cxNext').disabled = false;
+    };
+    optDiv.appendChild(btn);
+  });
+}
+
+function nextCx() {
+  if (cxIdx < cxData.length - 1) {
+    cxIdx++;
+    renderCx();
+  }
+}
+
+renderCx();
+
+// ═══════════════════════════════════════
+// HANZI DETECTIVE GAME
+// ═══════════════════════════════════════
+const hanziData = [
+  {
+    sentence: '我已經把作業交給老師了。',
+    wrongIdx: 1,
+    wrongChar: '已',
+    correctChar: '已',
+    isTrick: true,
+    explanation: '這一題其實沒有錯字！「已」（yǐ）表示「已經」，是正確的。常見錯誤是把它跟「己」（jǐ，自己）搞混。記住：「已」半開口，事已了結；「己」全封口，自成一體。'
+  },
+  {
+    sentence: '他做事非常認真，一絲不苟，值得我們學習。',
+    wrongIdx: -1,
+    isTrick: true,
+    explanation: '這題也沒有錯字！但很多學生會懷疑「苟」是不是「茍」。其實「一絲不苟」的「苟」就是「隨便、馬虎」的意思。'
+  },
+  {
+    sentence: '這個城市的交通非常擁擠，尤其是尖鋒時刻。',
+    wrongIdx: 12,
+    wrongChar: '鋒',
+    correctChar: '峰',
+    explanation: '應為「尖峰時刻」！「峰」是山峰，比喻最高點（peak）；「鋒」是鋒利，指刀刃銳利。「尖峰」取的是「最高峰」的意思。記憶法：山⛰️有「峰」，刀🔪有「鋒」。'
+  },
+  {
+    sentence: '老師建議我們多閱讀課外書藉，增廣見聞。',
+    wrongIdx: 12,
+    wrongChar: '藉',
+    correctChar: '籍',
+    explanation: '應為「書籍」！「籍」（jí）是竹字頭，古代用竹簡記錄文字，所以書籍從「竹」；「藉」（jiè/jí）是草字頭，意為憑藉、慰藉。記憶法：「竹」簡是古代的書→書籍用竹字頭。'
+  },
+  {
+    sentence: '他因為太緊張了，說話的時候結結乙乙的。',
+    wrongIdx: 13,
+    wrongChar: '乙',
+    correctChar: '巴',
+    explanation: '應為「結結巴巴」！「巴」表示口齒不清的樣子，「乙」是天干的第二位。兩個字形相近但意思完全不同。「結巴」是疊詞型態詞，形容說話不流利。'
+  }
+];
+
+let hanziIdx = 0, hanziCorrect = 0, hanziTotal = 0, hanziAnswered = false;
+
+function renderHanzi() {
+  const q = hanziData[hanziIdx];
+  const container = document.getElementById('hanziSentence');
+  container.innerHTML = '';
+  hanziAnswered = false;
+  document.getElementById('hanziNext').disabled = true;
+  document.getElementById('hanziResult').innerHTML = '';
+
+  q.sentence.split('').forEach((char, i) => {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.display = 'inline-block';
+    span.style.padding = '0.2rem 0.15rem';
+    span.style.borderRadius = '4px';
+    span.style.transition = 'all 0.2s';
+    span.style.cursor = 'pointer';
+    span.onmouseenter = () => { if (!hanziAnswered) span.style.background = 'rgba(201,162,39,0.2)'; };
+    span.onmouseleave = () => { if (!hanziAnswered) span.style.background = 'transparent'; };
+    span.onclick = () => {
+      if (hanziAnswered) return;
+      hanziAnswered = true;
+      hanziTotal++;
+
+      const resultDiv = document.getElementById('hanziResult');
+
+      if (q.isTrick && (q.wrongIdx === -1 || i !== q.wrongIdx)) {
+        // No actual wrong char or clicked the wrong one
+        if (q.wrongIdx === -1) {
+          hanziCorrect++; // It's a trick - no error exists
+          span.style.background = 'rgba(45,106,79,0.3)';
+          resultDiv.innerHTML = `<div style="background:rgba(45,106,79,0.15);border-radius:8px;padding:1rem;border-left:3px solid #52b788;font-size:0.9rem;">${q.explanation}</div>`;
+        } else {
+          span.style.background = 'rgba(199,62,29,0.3)';
+          resultDiv.innerHTML = `<div style="background:rgba(199,62,29,0.15);border-radius:8px;padding:1rem;border-left:3px solid var(--vermillion);font-size:0.9rem;">${q.explanation}</div>`;
+        }
+      } else if (q.wrongIdx >= 0 && i === q.wrongIdx) {
+        hanziCorrect++;
+        span.style.background = 'rgba(201,162,39,0.4)';
+        span.style.color = 'var(--gold)';
+        span.style.fontWeight = '700';
+        resultDiv.innerHTML = `<div style="background:rgba(201,162,39,0.12);border-radius:8px;padding:1rem;border-left:3px solid var(--gold);font-size:0.9rem;">✅ 找到了！「<strong>${q.wrongChar}</strong>」應為「<strong>${q.correctChar}</strong>」。<br><br>${q.explanation}</div>`;
+      } else {
+        span.style.background = 'rgba(199,62,29,0.3)';
+        if (q.wrongIdx >= 0) {
+          container.children[q.wrongIdx].style.background = 'rgba(201,162,39,0.4)';
+          container.children[q.wrongIdx].style.color = 'var(--gold)';
+        }
+        resultDiv.innerHTML = `<div style="background:rgba(199,62,29,0.15);border-radius:8px;padding:1rem;border-left:3px solid var(--vermillion);font-size:0.9rem;">❌ 錯誤的位置！${q.wrongIdx >= 0 ? `「<strong>${q.wrongChar}</strong>」應為「<strong>${q.correctChar}</strong>」。` : ''}<br><br>${q.explanation}</div>`;
+      }
+
+      document.getElementById('hanziScore').textContent = `得分：${hanziCorrect} / ${hanziTotal}`;
+      if (hanziIdx < hanziData.length - 1) document.getElementById('hanziNext').disabled = false;
+    };
+    container.appendChild(span);
+  });
+
+  // Add "no error" button
+  const noErrBtn = document.createElement('button');
+  noErrBtn.textContent = '✓ 這句沒有錯字';
+  noErrBtn.style.cssText = 'margin-top:1rem;padding:0.5rem 1.2rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--paper);cursor:pointer;font-size:0.85rem;transition:all 0.2s;display:block;margin-left:auto;margin-right:auto;';
+  noErrBtn.onmouseenter = () => noErrBtn.style.background = 'rgba(255,255,255,0.15)';
+  noErrBtn.onmouseleave = () => noErrBtn.style.background = 'rgba(255,255,255,0.08)';
+  noErrBtn.onclick = () => {
+    if (hanziAnswered) return;
+    hanziAnswered = true;
+    hanziTotal++;
+    const resultDiv = document.getElementById('hanziResult');
+    if (q.isTrick && q.wrongIdx === -1) {
+      hanziCorrect++;
+      resultDiv.innerHTML = `<div style="background:rgba(45,106,79,0.15);border-radius:8px;padding:1rem;border-left:3px solid #52b788;font-size:0.9rem;">✅ 答對了！${q.explanation}</div>`;
+    } else if (q.isTrick && q.wrongIdx >= 0) {
+      hanziCorrect++;
+      resultDiv.innerHTML = `<div style="background:rgba(45,106,79,0.15);border-radius:8px;padding:1rem;border-left:3px solid #52b788;font-size:0.9rem;">✅ 沒錯！${q.explanation}</div>`;
+    } else {
+      if (q.wrongIdx >= 0) {
+        container.children[q.wrongIdx].style.background = 'rgba(201,162,39,0.4)';
+        container.children[q.wrongIdx].style.color = 'var(--gold)';
+      }
+      resultDiv.innerHTML = `<div style="background:rgba(199,62,29,0.15);border-radius:8px;padding:1rem;border-left:3px solid var(--vermillion);font-size:0.9rem;">❌ 其實有錯字！「<strong>${q.wrongChar}</strong>」應為「<strong>${q.correctChar}</strong>」。<br><br>${q.explanation}</div>`;
+    }
+    document.getElementById('hanziScore').textContent = `得分：${hanziCorrect} / ${hanziTotal}`;
+    if (hanziIdx < hanziData.length - 1) document.getElementById('hanziNext').disabled = false;
+  };
+  container.parentNode.insertBefore(noErrBtn, document.getElementById('hanziResult'));
+}
+
+function nextHanzi() {
+  // Remove old "no error" button
+  const oldBtn = document.querySelector('#hanziGame > button');
+  if (oldBtn) oldBtn.remove();
+  if (hanziIdx < hanziData.length - 1) {
+    hanziIdx++;
+    renderHanzi();
+  }
+}
+
+renderHanzi();
+</script>
+
+</body>
+</html>
