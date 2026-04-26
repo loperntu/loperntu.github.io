@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NACLO 培訓手冊：考題分析 × 計算語言學入門</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Source+Code+Pro:wght@400;600&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: true }
+};
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg:#faf8f4; --fg:#1a1a1a; --accent:#c0392b; --accent2:#2c3e50;
+  --muted:#7f8c8d; --card:#fff; --border:#e0dcd4;
+  --code-bg:#2d2d2d; --code-fg:#f8f8f2;
+  --u1:#e74c3c; --u2:#8e44ad; --u3:#2980b9; --u4:#27ae60; --u5:#f39c12;
+  --highlight:#fef9e7;
+  --tag-morph:#e74c3c; --tag-script:#8e44ad; --tag-num:#2980b9;
+  --tag-phon:#27ae60; --tag-comp:#f39c12; --tag-sem:#16a085;
+  --tag-syn:#d35400; --tag-nlp:#c0392b; --tag-hist:#7f8c8d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans','Noto Serif TC',sans-serif;background:var(--bg);color:var(--fg);line-height:1.8;padding:2.5rem;max-width:1000px;margin:0 auto}
+h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:2.1rem;color:var(--accent2);border-bottom:4px solid var(--accent);padding-bottom:.5rem;margin-bottom:.4rem}
+.subtitle{color:var(--muted);font-size:.92rem;margin-bottom:2.5rem}
+h2{font-family:'Noto Serif TC',serif;font-weight:700;font-size:1.5rem;color:var(--accent);margin:2.8rem 0 .8rem;padding-left:.8rem;border-left:4px solid var(--accent)}
+h3{font-size:1.12rem;font-weight:700;color:var(--accent2);margin:1.8rem 0 .5rem}
+p{margin-bottom:1rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-title{font-weight:700;font-size:1.05rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.card-title .icon{font-size:1.3rem}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:4px;color:#fff;margin:2px 3px 2px 0}
+.tag-morph{background:var(--tag-morph)}.tag-script{background:var(--tag-script)}
+.tag-comp{background:var(--tag-comp)}.tag-nlp{background:var(--tag-nlp)}
+.examples{font-family:'Source Code Pro',monospace;font-size:.82rem;color:var(--muted);margin-top:.3rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.9rem}
+th{background:var(--accent2);color:#fff;text-align:left;padding:.55rem .8rem;font-weight:600}
+td{padding:.5rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f7f5f0}
+.bar-container{display:flex;align-items:center;gap:.5rem;margin:.3rem 0}
+.bar-label{width:160px;font-size:.85rem;text-align:right;flex-shrink:0}
+.bar-track{flex:1;background:#e8e4dc;height:22px;border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:.72rem;font-weight:700;color:#fff;min-width:28px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.note{background:var(--highlight);border-left:4px solid var(--u5);padding:.8rem 1rem;margin:1rem 0;font-size:.92rem;border-radius:0 6px 6px 0}
+.naclo-ref{background:#f0e6f6;border-left:4px solid var(--u2);padding:.6rem 1rem;margin:.8rem 0;font-size:.88rem;border-radius:0 6px 6px 0}
+.naclo-ref strong{color:var(--u2)}
+.section-intro{font-size:.95rem;color:#444;margin-bottom:1.5rem}
+.footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--border);font-size:.82rem;color:var(--muted);text-align:center}
+
+/* Unit headers */
+.unit-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;border-radius:8px;color:#fff;margin:2.5rem 0 1.2rem}
+.unit-header .unit-num{font-family:'Source Code Pro',monospace;font-weight:600;font-size:.82rem;background:rgba(255,255,255,.25);padding:2px 10px;border-radius:4px;flex-shrink:0}
+.unit-header .unit-title{font-family:'Noto Serif TC',serif;font-weight:700;font-size:1.3rem}
+.u1{background:var(--u1)}.u2{background:var(--u2)}.u3{background:var(--u3)}.u4{background:var(--u4)}.u5{background:var(--u5)}
+
+/* Pedagogy steps */
+.pedagogy-step{display:flex;gap:.8rem;margin-bottom:.8rem;align-items:flex-start}
+.pedagogy-step .step-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;color:#fff}
+.step-analogy .step-icon{background:#e67e22}.step-formal .step-icon{background:#2c3e50}.step-code .step-icon{background:#27ae60}
+.pedagogy-step .step-body{flex:1}
+.step-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.15rem}
+.step-analogy .step-label{color:#e67e22}.step-formal .step-label{color:#2c3e50}.step-code .step-label{color:#27ae60}
+
+/* Formula blocks (MathJax) */
+.formula{background:#f4f1ea;border:1px solid var(--border);padding:1rem 1.4rem;border-radius:6px;margin:.8rem 0 1.2rem;text-align:center;overflow-x:auto}
+.formula-note{font-family:'DM Sans','Noto Serif TC',sans-serif;font-size:.82rem;color:var(--muted);margin-top:.3rem}
+
+/* Code blocks */
+pre{background:var(--code-bg);color:var(--code-fg);font-family:'Source Code Pro',monospace;font-size:.82rem;line-height:1.55;padding:1rem 1.2rem;border-radius:6px;overflow-x:auto;margin:.5rem 0 1rem}
+code{font-family:'Source Code Pro',monospace;font-size:.88em;background:#eee8dc;padding:1px 5px;border-radius:3px}
+pre code{background:none;padding:0}
+
+/* Interactive sim containers */
+.sim-box{background:var(--card);border:2px solid var(--border);border-radius:10px;padding:1.5rem;margin:1.2rem 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sim-box h4{font-size:.95rem;font-weight:700;color:var(--accent2);margin:0 0 .8rem;display:flex;align-items:center;gap:.5rem}
+.sim-box h4::before{content:'▶';font-size:.7rem;color:var(--accent)}
+.sim-row{display:flex;gap:.8rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap}
+.sim-input{font-family:'Source Code Pro',monospace;font-size:.9rem;padding:.4rem .7rem;border:1px solid var(--border);border-radius:5px;background:#fff;flex:1;min-width:120px}
+.sim-btn{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;padding:.4rem 1rem;border:none;border-radius:5px;color:#fff;cursor:pointer;transition:opacity .2s}
+.sim-btn:hover{opacity:.85}
+.sim-output{font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;border:1px solid var(--border);border-radius:6px;padding:.8rem 1rem;margin-top:.6rem;white-space:pre-wrap;line-height:1.6;overflow-x:auto;min-height:40px}
+.sim-canvas-wrap{margin-top:.6rem;overflow-x:auto}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:2rem}
+.toc-title{font-weight:700;font-size:.95rem;margin-bottom:.5rem;color:var(--accent2)}
+.toc a{color:var(--accent);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.toc ol{padding-left:1.4rem;font-size:.9rem;line-height:1.9}
+.toc li{margin-bottom:.1rem}
+
+/* DP matrix */
+.dp-table{border-collapse:collapse;margin:.6rem 0;font-family:'Source Code Pro',monospace;font-size:.82rem}
+.dp-table td,.dp-table th{width:36px;height:32px;text-align:center;border:1px solid #ccc;padding:2px}
+.dp-table .dp-path{background:#e74c3c;color:#fff;font-weight:700}
+.dp-table .dp-header{background:var(--accent2);color:#fff;font-weight:600}
+
+/* Embedding scatter */
+.embed-dot{cursor:pointer;transition:r .15s}
+.embed-dot:hover{r:8}
+
+@media(max-width:660px){
+  body{padding:1rem}h1{font-size:1.5rem}
+  .grid-2{grid-template-columns:1fr}
+  .unit-header{flex-direction:column;gap:.3rem}
+  .bar-label{width:110px;font-size:.78rem}
+  .sim-row{flex-direction:column;align-items:stretch}
+}
+</style>
+</head>
+<body>
+
+<h1>NACLO 為主的語奧計算語言題目培訓手冊</h1>
+<p class="subtitle">NACLO考題分析（2007–2026）× 計算語言學互動入門</p>
+
+<div class="toc">
+  <div class="toc-title">目錄</div>
+  <ol>
+    <li><a href="#part1">NACLO 考題類型與分布</a></li>
+    <li><a href="#part2">語言學知識點與計算思維面向</a></li>
+    <li><a href="#part3">計算語言學入門：五個互動單元</a>
+      <ol style="list-style-type:lower-roman;padding-left:1.2rem">
+        <li><a href="#unit1">有限狀態自動機（FSA）與轉寫機（FST）</a></li>
+        <li><a href="#unit2">上下文無關文法（CFG）與剖析樹</a></li>
+        <li><a href="#unit3">編輯距離（Edit Distance）</a></li>
+        <li><a href="#unit4">詞嵌入與向量空間語意學</a></li>
+        <li><a href="#unit5">資訊理論：熵與 Huffman 編碼</a></li>
+      </ol>
+    </li>
+    <li><a href="#summary">五單元速覽與教學建議</a></li>
+    <li><a href="#mock">模擬試題：程式語言作為未知語言</a>（含互動模擬器與詳解）
+      <ol style="list-style-type:lower-roman;padding-left:1.2rem">
+        <li><a href="#mock-q1">Koro — Stack 語言</a></li>
+        <li><a href="#mock-q2">Jex — Quotation 語言</a></li>
+        <li><a href="#mock-q3">Relka — 邏輯語言</a></li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<!-- ====================== PART 1 ====================== -->
+<h2 id="part1">一、考題類型與分布</h2>
+
+<p class="section-intro">
+NACLO 每年設 Open Round（公開賽，約 8–10 題）與 Invitational Round（邀請賽，約 5–8 題，難度更高）。根據 2007–2026 年共約 280+ 道題目，可歸納為九大類型。
+</p>
+
+<h3>類型分布概覽</h3>
+<div class="bar-container"><div class="bar-label">形態─翻譯（Rosetta）</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--tag-morph)">~38%</div></div></div>
+<div class="bar-container"><div class="bar-label">文字系統／書寫</div><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--tag-script)">~14%</div></div></div>
+<div class="bar-container"><div class="bar-label">計算／形式語言</div><div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--tag-comp)">~12%</div></div></div>
+<div class="bar-container"><div class="bar-label">音韻學</div><div class="bar-track"><div class="bar-fill" style="width:9%;background:var(--tag-phon)">~9%</div></div></div>
+<div class="bar-container"><div class="bar-label">數詞系統</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--tag-num)">~8%</div></div></div>
+<div class="bar-container"><div class="bar-label">語意／語用</div><div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--tag-sem)">~7%</div></div></div>
+<div class="bar-container"><div class="bar-label">NLP / ML 應用</div><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--tag-nlp)">~5%</div></div></div>
+<div class="bar-container"><div class="bar-label">句法</div><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--tag-syn)">~5%</div></div></div>
+<div class="bar-container"><div class="bar-label">歷史／比較語言學</div><div class="bar-track"><div class="bar-fill" style="width:3%;background:var(--tag-hist)">~3%</div></div></div>
+
+<div class="note">
+  <strong>趨勢觀察：</strong>2020 年後 NLP/ML 相關題目明顯增加（如 attention mechanism、GloVe embeddings、LLM 行為分析），反映該競賽與時俱進的特色。同時，涉及瀕危語言與原住民語言的題目比例也逐年提高。
+</div>
+
+<h3>各類型詳述</h3>
+<div class="card"><div class="card-title"><span class="icon">🗂</span> 形態─翻譯型（Rosetta Stone）<span class="tag tag-morph">最大宗</span></div><p>提供未知語言的句子與對譯，要求歸納形態規則後翻譯新句。涵蓋南島語族、北美原住民語、非洲語言、高加索語言等。</p><div class="examples">代表題：Witsuwit'en Word Salad (2026) · Meowing in Māori (2026) · Paiwan in Progress (2024) · A Menya Puzzle (2018)</div></div>
+<div class="card"><div class="card-title"><span class="icon">✍️</span> 文字系統與書寫</div><p>古文字解讀、非拉丁文字對應、人造書寫系統。核心是 pattern recognition 與符號─音韻對映推理。</p><div class="examples">代表題：A Tale of Three Scripts (2026) · A Handheld Tablet (2025) · N'ko, M'kay (2018) · Phoenician Fun (2013)</div></div>
+<div class="card"><div class="card-title"><span class="icon">⚙️</span> 計算／形式語言 <span class="tag tag-comp">NACLO 特色</span></div><p>FSA/FST、Huffman 編碼、DAWG、CFG/CCG、edit distance、密碼學、邏輯推理。這是 NACLO 區別於 IOL 的標誌性特色。</p><div class="examples">代表題：Follow the Rules (2024) · DAWG Breeds (2016) · Horn Clauses (2016) · CCG (2014) · Huffman (2013) · aw-TOM-uh-tuh (2008)</div></div>
+<div class="card"><div class="card-title"><span class="icon">🤖</span> NLP / 機器學習應用</div><p>近年新增：attention 可視化、word embeddings 空間分析、LLM 錯誤模式辨識、機器翻譯後編輯等。</p><div class="examples">代表題：aLLMost, but not quite (2024) · GloVe Compartment (2021) · Pay Attention (2020) · Not Quite Right (2025)</div></div>
+
+<!-- ====================== PART 2 ====================== -->
+<h2 id="part2">二、語言學知識點與計算思維面向</h2>
+
+<h3>A. 語言學知識點</h3>
+<table>
+<tr><th>知識領域</th><th>具體考點</th><th>頻率</th></tr>
+<tr><td><strong>形態學</strong></td><td>黏著 vs 屈折、詞綴切分、重疊、名詞類別、動詞一致性、領屬標記</td><td>★★★★★</td></tr>
+<tr><td><strong>音韻學</strong></td><td>元音和諧、輔音交替、聲調、重音規則、音節結構、規則排序</td><td>★★★☆☆</td></tr>
+<tr><td><strong>文字學</strong></td><td>字母、音節文字、語素文字、abugida/abjad 辨識；正寫法設計</td><td>★★★☆☆</td></tr>
+<tr><td><strong>句法學</strong></td><td>語序類型、關係子句、格標記、一致性、ergativity</td><td>★★★☆☆</td></tr>
+<tr><td><strong>語意學</strong></td><td>詞義關係、evidentiality、TAM、真值條件、親屬稱謂</td><td>★★☆☆☆</td></tr>
+<tr><td><strong>語言多樣性</strong></td><td>瀕危語言、polysynthesis、serial verbs、classifiers、pidgin/creole</td><td>★★★★☆</td></tr>
+</table>
+
+<h3>B. 計算思維面向</h3>
+<table>
+<tr><th>計算能力</th><th>在 NACLO 中的表現</th><th>頻率</th></tr>
+<tr><td><strong>模式辨識</strong></td><td>從平行語料歸納形態─語意對映規則</td><td>★★★★★</td></tr>
+<tr><td><strong>約束滿足</strong></td><td>多重條件下找唯一合法對映（CSP）</td><td>★★★★☆</td></tr>
+<tr><td><strong>遞迴與組合性</strong></td><td>數詞乘加結構、嵌套關係子句</td><td>★★★☆☆</td></tr>
+<tr><td><strong>形式語言與自動機</strong></td><td>FSA/FST、CFG、Huffman、正規表達式</td><td>★★★☆☆</td></tr>
+<tr><td><strong>搜尋與回溯</strong></td><td>密碼破解、Levenshtein distance</td><td>★★☆☆☆</td></tr>
+<tr><td><strong>向量空間推理</strong></td><td>GloVe 幾何、attention 矩陣、LLM 偏差分析</td><td>★★☆☆☆</td></tr>
+</table>
+
+<h3>C. 跨域整合出題模式</h3>
+<div class="grid-2">
+  <div class="card"><div class="card-title">形態分析 × 約束滿足</div><p>不完整翻譯對照表，多重形態規則交叉限制，消去法求解。</p></div>
+  <div class="card"><div class="card-title">音韻規則 × 形式語言</div><p>音韻交替以 FST 或 rewrite rules 呈現。</p></div>
+  <div class="card"><div class="card-title">語意場 × 向量空間</div><p>GloVe/WordNet 中推理詞義關係。</p></div>
+  <div class="card"><div class="card-title">文字解碼 × 搜尋演算法</div><p>密碼破解 = combinatorial search + 音韻/形態約束。</p></div>
+</div>
+
+
+<!-- ====================== PART 3 ====================== -->
+<h2 id="part3">三、計算語言學入門：五個互動單元</h2>
+<p class="section-intro">每單元依循<strong>「類比 → 公式 → 互動模擬」</strong>三段遞進，為人文社會背景學生設計。</p>
+
+<!-- ====== UNIT 1: FSA/FST ====== -->
+<div class="unit-header u1" id="unit1">
+  <span class="unit-num">UNIT 1</span>
+  <span class="unit-title">有限狀態自動機（FSA）與轉寫機（FST）</span>
+</div>
+
+<div class="pedagogy-step step-analogy"><div class="step-icon">🎯</div><div class="step-body"><div class="step-label">類比</div>
+<p>想像捷運站閘門——它只記得「目前在什麼狀態」（等待 → 已投幣 → 已通過），根據輸入決定下一步，沒有記憶、沒有計算器。這就是 FSA。若閘門在每次轉換時還<em>輸出</em>動作（印收據、亮燈），那就是 <strong>FST</strong>——語言學中用它描述音韻規則。</p></div></div>
+
+<div class="pedagogy-step step-formal"><div class="step-icon">∑</div><div class="step-body"><div class="step-label">形式定義</div>
+<div class="formula">$$\text{FSA} = (Q,\;\Sigma,\;\delta,\;q_0,\;F)$$<div class="formula-note">$Q$ = 有限狀態集，$\Sigma$ = 輸入字母表，$\delta\colon Q \times \Sigma \to Q$ = 轉移函數，$q_0 \in Q$ = 起始狀態，$F \subseteq Q$ = 接受狀態</div></div>
+<p>FST 擴展為 $(Q,\,\Sigma,\,\Gamma,\,\delta,\,\omega,\,q_0,\,F)$，多了輸出字母表 $\Gamma$ 和輸出函數 $\omega\colon Q \times \Sigma \to \Gamma^*$。</p>
+</div></div>
+
+<div class="pedagogy-step step-code"><div class="step-icon">⌨</div><div class="step-body"><div class="step-label">互動模擬：土耳其語元音和諧 FST</div></div></div>
+
+<div class="sim-box" id="sim-fst">
+  <h4>元音和諧轉寫機</h4>
+  <p style="font-size:.88rem;color:var(--muted)">輸入土耳其語詞幹，後綴模板中的大寫 <code>A</code> 會根據詞幹最後元音的前/後特徵自動和諧。前元音 (e, i, ö, ü) → A=e；後元音 (a, ı, o, u) → A=a。</p>
+  <div class="sim-row">
+    <input class="sim-input" id="fst-stem" value="göz" placeholder="詞幹 (如 ev, araba, göz)">
+    <input class="sim-input" id="fst-suffix" value="lAr" placeholder="後綴模板 (如 lAr)" style="max-width:120px">
+    <button class="sim-btn" style="background:var(--u1)" onclick="runFST()">轉寫 ▶</button>
+  </div>
+  <div class="sim-output" id="fst-out"></div>
+</div>
+
+<script>
+function runFST(){
+  const stem=document.getElementById('fst-stem').value.trim();
+  const suffix=document.getElementById('fst-suffix').value.trim();
+  const FRONT=new Set('eiöü'),BACK=new Set('aıou');
+  let state='back',log=[];
+  log.push(`初始狀態: [BACK]`);
+  for(const ch of stem){
+    if(FRONT.has(ch)){state='front';log.push(`  讀入 '${ch}' (前元音) → 狀態切換為 [FRONT]`)}
+    else if(BACK.has(ch)){state='back';log.push(`  讀入 '${ch}' (後元音) → 狀態維持 [BACK]`)}
+    else{log.push(`  讀入 '${ch}' (子音) → 狀態不變 [${state.toUpperCase()}]`)}
+  }
+  const map={front:'e',back:'a'};
+  let out='';
+  log.push(`\n後綴轉寫 (A → ${map[state]}):`);
+  for(const ch of suffix){
+    if(ch==='A'){out+=map[state];log.push(`  A → '${map[state]}'`)}
+    else{out+=ch;log.push(`  '${ch}' → '${ch}'`)}
+  }
+  const result=stem+out;
+  log.push(`\n結果: ${stem} + ${suffix} → ${result}`);
+  document.getElementById('fst-out').textContent=log.join('\n');
+}
+runFST();
+</script>
+
+<div class="naclo-ref"><strong>NACLO 實戰題：</strong><em>aw-TOM-uh-tuh</em>（2008）·<em>Harmongolia</em>（2019）·<em>Follow the Rules</em>（2024）</div>
+<div class="note"><strong>語言學洞見：</strong>Kaplan &amp; Kay (1994) 證明幾乎所有音韻規則都可用 FST composition 表達。FST 的「局部性」限制恰好對應音韻規則的線性本質。</div>
+
+
+<!-- ====== UNIT 2: CFG ====== -->
+<div class="unit-header u2" id="unit2">
+  <span class="unit-num">UNIT 2</span>
+  <span class="unit-title">上下文無關文法（CFG）與剖析樹</span>
+</div>
+
+<div class="pedagogy-step step-analogy"><div class="step-icon">🎯</div><div class="step-body"><div class="step-label">類比</div>
+<p>CFG 就像食譜——「一份沙拉 = 底菜 + 配料 + 醬汁」，而「底菜」可展開為「生菜 | 菠菜」。$\text{S} \to \text{NP}\;\text{VP}$ 是語言的食譜：句子拆成名詞片語和動詞片語。FSA 無法處理 $a^n b^n$（需記住出現次數），CFG 靠<strong>遞迴</strong>做到。</p></div></div>
+
+<div class="pedagogy-step step-formal"><div class="step-icon">∑</div><div class="step-body"><div class="step-label">形式定義</div>
+<div class="formula">$$\text{CFG} = (N,\;\Sigma,\;R,\;S) \qquad A \to \alpha,\;\; A \in N,\;\alpha \in (N \cup \Sigma)^*$$</div>
+</div></div>
+
+<div class="pedagogy-step step-code"><div class="step-icon">⌨</div><div class="step-body"><div class="step-label">互動模擬：中文迷你剖析器</div></div></div>
+
+<div class="sim-box" id="sim-cfg">
+  <h4>中文句子剖析樹</h4>
+  <p style="font-size:.88rem;color:var(--muted)">輸入由以下詞彙組成的中文句子。名詞：貓、魚、書、學生｜動詞：吃、讀、追｜限定詞：那、這</p>
+  <div class="sim-row">
+    <input class="sim-input" id="cfg-input" value="那貓追魚" placeholder="如：這學生讀書">
+    <button class="sim-btn" style="background:var(--u2)" onclick="runCFG()">剖析 ▶</button>
+  </div>
+  <div class="sim-output" id="cfg-out" style="font-size:.82rem"></div>
+</div>
+
+<script>
+function runCFG(){
+  const G={
+    S:[['NP','VP']],NP:[['Det','N'],['N']],VP:[['V','NP'],['V']],
+    Det:[['那'],['這']],N:[['貓'],['魚'],['學生'],['書']],V:[['吃'],['讀'],['追']]
+  };
+  const tokens=[...document.getElementById('cfg-input').value.trim()];
+  function parse(sym,pos){
+    if(!G[sym]){return pos<tokens.length&&tokens[pos]===sym?{n:sym,c:[],e:pos+1}:null}
+    for(const prod of G[sym]){
+      let ch=[],cur=pos,ok=true;
+      for(const s of prod){const r=parse(s,cur);if(!r){ok=false;break}ch.push(r);cur=r.e}
+      if(ok)return{n:sym,c:ch,e:cur};
+    }
+    return null;
+  }
+  function pretty(t,indent){
+    indent=indent||0;const pad='  '.repeat(indent);
+    if(!t.c.length)return pad+t.n;
+    return pad+'['+t.n+'\n'+t.c.map(c=>pretty(c,indent+1)).join('\n')+'\n'+pad+']';
+  }
+  const r=parse('S',0);
+  if(r&&r.e===tokens.length){document.getElementById('cfg-out').textContent=pretty(r)}
+  else{document.getElementById('cfg-out').textContent='❌ 無法剖析。請確認使用了詞典中的詞彙，且語序為 (Det) N V (Det) N。'}
+}
+runCFG();
+</script>
+
+<div class="naclo-ref"><strong>NACLO 實戰題：</strong><em>CCG</em>（2014）·<em>Sentences that go on and on</em>（2017）·<em>Intergalactic Grammars</em>（2018）</div>
+<div class="note"><strong>語言學洞見：</strong>Chomsky 層級 $\text{regular} \subset \text{context-free} \subset \text{context-sensitive} \subset \text{r.e.}$ 也是語言能力的度量。自然語言落在 CFG 與 mildly context-sensitive 之間——CCG、TAG 因此比純 CFG 更受青睞。</div>
+
+
+<!-- ====== UNIT 3: Edit Distance ====== -->
+<div class="unit-header u3" id="unit3">
+  <span class="unit-num">UNIT 3</span>
+  <span class="unit-title">編輯距離（Edit Distance）</span>
+</div>
+
+<div class="pedagogy-step step-analogy"><div class="step-icon">🎯</div><div class="step-body"><div class="step-label">類比</div>
+<p>「接龍變字」遊戲：cat → cot → cog → dog，3 步。Levenshtein distance 就是最佳解——最少幾次插入、刪除、替換能讓兩字串互變。語言學中，拉丁語 <em>pater</em> → 西班牙語 <em>padre</em> 之間的「編輯」就是歷史音變。</p></div></div>
+
+<div class="pedagogy-step step-formal"><div class="step-icon">∑</div><div class="step-body"><div class="step-label">遞推公式（動態規劃）</div>
+<div class="formula">$$D[i,j] = \min \begin{cases} D[i{-}1,\,j] + 1 & \text{（刪除）} \\[3pt] D[i,\,j{-}1] + 1 & \text{（插入）} \\[3pt] D[i{-}1,\,j{-}1] + \mathbb{1}_{[a_i \neq b_j]} & \text{（替換／保留）} \end{cases}$$</div>
+</div></div>
+
+<div class="pedagogy-step step-code"><div class="step-icon">⌨</div><div class="step-body"><div class="step-label">互動模擬：DP 矩陣視覺化</div></div></div>
+
+<div class="sim-box" id="sim-edit">
+  <h4>編輯距離計算器</h4>
+  <p style="font-size:.88rem;color:var(--muted)">輸入兩個字串，即時顯示 DP 矩陣與最優路徑（紅色標記）。</p>
+  <div class="sim-row">
+    <input class="sim-input" id="ed-a" value="pater" placeholder="字串 A">
+    <input class="sim-input" id="ed-b" value="padre" placeholder="字串 B">
+    <button class="sim-btn" style="background:var(--u3)" onclick="runED()">計算 ▶</button>
+  </div>
+  <div class="sim-canvas-wrap"><div id="ed-out"></div></div>
+  <div class="sim-output" id="ed-ops" style="margin-top:.5rem"></div>
+</div>
+
+<script>
+function runED(){
+  const a=document.getElementById('ed-a').value, b=document.getElementById('ed-b').value;
+  const m=a.length, n=b.length;
+  const D=Array.from({length:m+1},()=>Array(n+1).fill(0));
+  const P=Array.from({length:m+1},()=>Array(n+1).fill(''));
+  for(let i=1;i<=m;i++){D[i][0]=i;P[i][0]='↑'}
+  for(let j=1;j<=n;j++){D[0][j]=j;P[0][j]='←'}
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){
+    const cost=a[i-1]===b[j-1]?0:1;
+    const choices=[[D[i-1][j]+1,'↑'],[D[i][j-1]+1,'←'],[D[i-1][j-1]+cost,'↖']];
+    choices.sort((x,y)=>x[0]-y[0]);
+    D[i][j]=choices[0][0];P[i][j]=choices[0][1];
+  }
+  // Trace path
+  const path=new Set();let ci=m,cj=n;
+  while(ci>0||cj>0){path.add(ci+','+cj);
+    if(P[ci][cj]==='↖'){ci--;cj--}else if(P[ci][cj]==='↑')ci--;else cj--;}
+  path.add('0,0');
+  // Build operations
+  const ops=[];ci=m;cj=n;
+  while(ci>0||cj>0){
+    if(P[ci][cj]==='↖'){
+      ops.push(a[ci-1]===b[cj-1]?`  ${a[ci-1]} = ${b[cj-1]}`:`★ ${a[ci-1]} → ${b[cj-1]} (替換)`);ci--;cj--;
+    }else if(P[ci][cj]==='↑'){ops.push(`✂ ${a[ci-1]} → ∅ (刪除)`);ci--}
+    else{ops.push(`✚ ∅ → ${b[cj-1]} (插入)`);cj--}}
+  ops.reverse();
+  // Build HTML table
+  let h='<table class="dp-table"><tr><td class="dp-header"></td><td class="dp-header">ε</td>';
+  for(let j=0;j<n;j++)h+=`<td class="dp-header">${b[j]}</td>`;
+  h+='</tr>';
+  for(let i=0;i<=m;i++){
+    h+=`<tr><td class="dp-header">${i===0?'ε':a[i-1]}</td>`;
+    for(let j=0;j<=n;j++){
+      const cls=path.has(i+','+j)?'dp-path':'';
+      h+=`<td class="${cls}">${D[i][j]}</td>`;
+    }h+='</tr>';}h+='</table>';
+  h+=`<p style="margin-top:.4rem;font-size:.9rem">編輯距離 = <strong>${D[m][n]}</strong></p>`;
+  document.getElementById('ed-out').innerHTML=h;
+  document.getElementById('ed-ops').textContent=ops.join('\n');
+}
+runED();
+</script>
+
+<div class="naclo-ref"><strong>NACLO 實戰題：</strong><em>Levenshtein's Fine Signs</em>（2014）·<em>Playing the Cognate Game</em>（2013）·<em>Minimum Spelling Trees</em>（2015）</div>
+<div class="note"><strong>語言學洞見：</strong>歷史音變不是任意的——t→d（濁化）的成本應低於 t→m。實務上用<strong>加權編輯距離</strong>，權重由音韻特徵距離決定。這是 ALINE 同源詞對齊演算法的核心思路。</div>
+
+
+<!-- ====== UNIT 4: Word Embeddings ====== -->
+<div class="unit-header u4" id="unit4">
+  <span class="unit-num">UNIT 4</span>
+  <span class="unit-title">詞嵌入與向量空間語意學</span>
+</div>
+
+<div class="pedagogy-step step-analogy"><div class="step-icon">🎯</div><div class="step-body"><div class="step-label">類比</div>
+<p>向外星人描述水果——用「甜度」和「酸度」兩個軸，在座標紙上標出位置。蘋果和梨靠很近，檸檬遠在酸的那端。Word embedding 做同樣的事，只是維度從 2 變成 50–300，座標從海量文本的<strong>共現統計</strong>學出。Firth (1957)：<em>You shall know a word by the company it keeps</em>。</p></div></div>
+
+<div class="pedagogy-step step-formal"><div class="step-icon">∑</div><div class="step-body"><div class="step-label">核心概念</div>
+<div class="formula">$$J = \sum_{i,j} f\!\left(X_{ij}\right)\left(\mathbf{w}_i^\top \tilde{\mathbf{w}}_j + b_i + \tilde{b}_j - \log X_{ij}\right)^{\!2}$$<div class="formula-note">GloVe 目標函數：讓詞向量內積 ≈ 共現次數對數</div></div>
+<div class="formula">$$\vec{v}(\textit{king}) - \vec{v}(\textit{man}) + \vec{v}(\textit{woman}) \;\approx\; \vec{v}(\textit{queen})$$</div>
+<div class="formula">$$\cos\theta = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\|\;\|\mathbf{B}\|}$$<div class="formula-note">餘弦相似度：度量語意接近程度</div></div>
+</div></div>
+
+<div class="pedagogy-step step-code"><div class="step-icon">⌨</div><div class="step-body"><div class="step-label">互動模擬：2D 詞向量空間</div></div></div>
+
+<div class="sim-box" id="sim-embed">
+  <h4>詞向量散布圖與餘弦相似度</h4>
+  <p style="font-size:.88rem;color:var(--muted)">點擊任意兩個詞，計算它們的餘弦相似度。顏色代表語意群組。</p>
+  <div class="sim-canvas-wrap">
+    <svg id="embed-svg" width="580" height="380" style="background:#f7f5f0;border-radius:6px;border:1px solid #e0dcd4"></svg>
+  </div>
+  <div class="sim-output" id="embed-out" style="min-height:24px"></div>
+</div>
+
+<script>
+(function(){
+  // Pre-computed 2D positions (t-SNE-like) for demo words
+  const words=[
+    {w:'king',x:420,y:80,c:'#e74c3c',g:'royalty'},
+    {w:'queen',x:460,y:110,c:'#e74c3c',g:'royalty'},
+    {w:'prince',x:400,y:130,c:'#e74c3c',g:'royalty'},
+    {w:'man',x:280,y:180,c:'#3498db',g:'people'},
+    {w:'woman',x:320,y:210,c:'#3498db',g:'people'},
+    {w:'child',x:300,y:250,c:'#3498db',g:'people'},
+    {w:'cat',x:80,y:100,c:'#27ae60',g:'animal'},
+    {w:'dog',x:120,y:130,c:'#27ae60',g:'animal'},
+    {w:'fish',x:60,y:160,c:'#27ae60',g:'animal'},
+    {w:'bird',x:100,y:70,c:'#27ae60',g:'animal'},
+    {w:'Paris',x:440,y:300,c:'#f39c12',g:'city'},
+    {w:'Tokyo',x:480,y:270,c:'#f39c12',g:'city'},
+    {w:'London',x:420,y:330,c:'#f39c12',g:'city'},
+    {w:'France',x:350,y:310,c:'#9b59b6',g:'country'},
+    {w:'Japan',x:390,y:280,c:'#9b59b6',g:'country'},
+    {w:'England',x:340,y:340,c:'#9b59b6',g:'country'},
+    {w:'run',x:180,y:310,c:'#e67e22',g:'verb'},
+    {w:'walk',x:150,y:340,c:'#e67e22',g:'verb'},
+    {w:'eat',x:130,y:280,c:'#e67e22',g:'verb'},
+  ];
+  // Fake higher-dim vectors for cosine calc (simplified but illustrative)
+  const vecs={};
+  words.forEach(w=>{
+    // Create a rough vector from position + some semantic noise
+    const base=[w.x/500,w.y/400,(w.g==='royalty'?1:0),(w.g==='people'?1:0),
+                (w.g==='animal'?1:0),(w.g==='city'?1:0),(w.g==='country'?1:0),(w.g==='verb'?1:0)];
+    vecs[w.w]=base;
+  });
+  function cosine(a,b){
+    let dot=0,na=0,nb=0;
+    for(let i=0;i<a.length;i++){dot+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i]}
+    return dot/(Math.sqrt(na)*Math.sqrt(nb));
+  }
+  const svg=document.getElementById('embed-svg');
+  const ns='http://www.w3.org/2000/svg';
+  // Draw axes
+  const axLine=document.createElementNS(ns,'line');
+  // Draw dots
+  words.forEach(w=>{
+    const g=document.createElementNS(ns,'g');g.style.cursor='pointer';
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',w.x);c.setAttribute('cy',w.y);c.setAttribute('r',6);
+    c.setAttribute('fill',w.c);c.setAttribute('class','embed-dot');
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',w.x+10);t.setAttribute('y',w.y+4);
+    t.setAttribute('font-size','12');t.setAttribute('font-family','Source Code Pro, monospace');
+    t.setAttribute('fill','#333');t.textContent=w.w;
+    g.appendChild(c);g.appendChild(t);
+    g.addEventListener('click',()=>selectWord(w.w));
+    svg.appendChild(g);
+  });
+  // Legend
+  const groups=[['royalty','#e74c3c'],['people','#3498db'],['animal','#27ae60'],
+                ['city','#f39c12'],['country','#9b59b6'],['verb','#e67e22']];
+  groups.forEach(([name,color],i)=>{
+    const r=document.createElementNS(ns,'rect');
+    r.setAttribute('x',8);r.setAttribute('y',8+i*18);r.setAttribute('width',10);r.setAttribute('height',10);
+    r.setAttribute('fill',color);r.setAttribute('rx',2);svg.appendChild(r);
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',22);t.setAttribute('y',17+i*18);
+    t.setAttribute('font-size','11');t.setAttribute('font-family','DM Sans, sans-serif');
+    t.setAttribute('fill','#666');t.textContent=name;svg.appendChild(t);
+  });
+  let selected=[];
+  window.selectWord=function(w){
+    selected.push(w);
+    if(selected.length===2){
+      const [a,b]=selected;
+      const sim=cosine(vecs[a],vecs[b]);
+      document.getElementById('embed-out').textContent=
+        `cos(${a}, ${b}) = ${sim.toFixed(3)}  ${sim>.7?'✦ 高度相似':sim>.4?'~ 中度相似':'○ 低相似度'}`;
+      selected=[];
+    }else{
+      document.getElementById('embed-out').textContent=`已選: ${w}  ← 再點一個詞計算相似度`;
+    }
+  };
+})();
+</script>
+
+<div class="naclo-ref"><strong>NACLO 實戰題：</strong><em>GloVe Compartment</em>（2021）·<em>Nothing but (Net)works</em>（2017）·<em>WordNet Battleship</em>（2023）</div>
+<div class="note"><strong>語言學洞見：</strong>分佈向量捕捉的是「典型共現語境」而非「真值條件意義」。<em>king</em> 和 <em>queen</em> 的向量接近，是因為它們出現在相似句子中。理解 Firth 式語意 vs. Frege 式語意的區分，是從做題跨入語言學思考的關鍵一步。</div>
+
+
+<!-- ====== UNIT 5: Information Theory ====== -->
+<div class="unit-header u5" id="unit5">
+  <span class="unit-num">UNIT 5</span>
+  <span class="unit-title">資訊理論：熵與 Huffman 編碼</span>
+</div>
+
+<div class="pedagogy-step step-analogy"><div class="step-icon">🎯</div><div class="step-body"><div class="step-label">類比</div>
+<p>猜數字遊戲：1–100，用「是/否」問題猜，二分法最多 7 題（$2^7 = 128 > 100$）。<strong>熵</strong>衡量的就是「平均需要幾個二元問題才能確定答案」。Huffman 編碼是最優實現：高頻符號短碼，低頻長碼。自然語言天然如此——<em>the</em> 三字母，<em>antidisestablishmentarianism</em> 二十八字母。</p></div></div>
+
+<div class="pedagogy-step step-formal"><div class="step-icon">∑</div><div class="step-body"><div class="step-label">Shannon 熵</div>
+<div class="formula">$$H(X) = -\sum_{i}\, p(x_i)\;\log_2 p(x_i) \qquad \text{（bits）}$$</div>
+</div></div>
+
+<div class="pedagogy-step step-code"><div class="step-icon">⌨</div><div class="step-body"><div class="step-label">互動模擬：Huffman 編碼器</div></div></div>
+
+<div class="sim-box" id="sim-huffman">
+  <h4>Huffman 編碼與熵計算</h4>
+  <p style="font-size:.88rem;color:var(--muted)">輸入任意文本（英文或中文），自動計算字元頻率、Shannon 熵，並建構 Huffman 編碼表。</p>
+  <div class="sim-row">
+    <input class="sim-input" id="huf-input" value="the quick brown fox jumps over the lazy dog" placeholder="輸入文本">
+    <button class="sim-btn" style="background:var(--u5)" onclick="runHuffman()">編碼 ▶</button>
+  </div>
+  <div class="sim-output" id="huf-out" style="font-size:.8rem"></div>
+</div>
+
+<script>
+function runHuffman(){
+  const text=document.getElementById('huf-input').value;
+  const chars=[...text].filter(c=>c!==' ');
+  if(!chars.length){document.getElementById('huf-out').textContent='請輸入至少一個字元。';return}
+  // Frequency
+  const freq={};chars.forEach(c=>freq[c]=(freq[c]||0)+1);
+  const total=chars.length;
+  // Entropy
+  let entropy=0;
+  for(const c in freq){const p=freq[c]/total;entropy-=p*Math.log2(p)}
+  // Huffman
+  class Node{constructor(ch,f,l,r){this.ch=ch;this.f=f;this.l=l||null;this.r=r||null}}
+  let heap=Object.entries(freq).map(([ch,f])=>new Node(ch,f));
+  heap.sort((a,b)=>a.f-b.f);
+  while(heap.length>1){
+    const lo=heap.shift(),hi=heap.shift();
+    const merged=new Node(null,lo.f+hi.f,lo,hi);
+    let idx=heap.findIndex(n=>n.f>=merged.f);
+    if(idx===-1)idx=heap.length;
+    heap.splice(idx,0,merged);
+  }
+  const codes={};
+  function traverse(node,prefix){
+    if(!node)return;
+    if(node.ch!==null){codes[node.ch]=prefix||'0';return}
+    traverse(node.l,prefix+'0');traverse(node.r,prefix+'1');
+  }
+  if(heap.length)traverse(heap[0],'');
+  // Average code length
+  let avgLen=0;
+  for(const c in codes)avgLen+=codes[c].length*freq[c];
+  avgLen/=total;
+  // Output
+  const sorted=Object.entries(codes).sort((a,b)=>a[1].length-b[1].length||a[0].localeCompare(b[0]));
+  let out=`字元數: ${total}  ｜  不同字元: ${Object.keys(freq).length}\n`;
+  out+=`Shannon 熵: ${entropy.toFixed(3)} bits/char\n`;
+  out+=`Huffman 平均碼長: ${avgLen.toFixed(3)} bits/char\n`;
+  out+=`壓縮效率: ${((entropy/avgLen)*100).toFixed(1)}%\n\n`;
+  out+=`字元  頻率    Huffman 碼\n${'─'.repeat(34)}\n`;
+  sorted.forEach(([ch,code])=>{
+    const f=freq[ch];const pct=(f/total*100).toFixed(1);
+    out+=` '${ch}'   ${String(f).padStart(3)} (${pct.padStart(5)}%)   ${code}\n`;
+  });
+  document.getElementById('huf-out').textContent=out;
+}
+runHuffman();
+</script>
+
+<div class="naclo-ref"><strong>NACLO 實戰題：</strong><em>The Heads and Tails of Huffman</em>（2013）·<em>Pseudorandom Numbers</em>（2022）·<em>One, Two, Tree</em>（2012）</div>
+<div class="note"><strong>語言學洞見：</strong>Shannon 估算英語熵約 1.0–1.5 bits/char（最大值 $\log_2 26 \approx 4.7$），約 70% 冗餘。這種冗餘讓我們在嘈雜環境仍能理解語言。LLM 的 perplexity 本質上就是在估算這個熵——跟 Shannon 的猜字遊戲如出一轍。</div>
+
+
+<!-- ====================== SUMMARY ====================== -->
+<h2 id="summary">四、五單元速覽與教學建議</h2>
+
+<table>
+<tr><th>單元</th><th>核心概念</th><th>語言學連結</th><th>NACLO 密度</th><th>時數</th></tr>
+<tr><td style="color:var(--u1);font-weight:700">1. FSA/FST</td><td>狀態、轉移、輸入─輸出轉寫</td><td>音韻規則、正寫法轉換</td><td>★★★★</td><td>3h</td></tr>
+<tr><td style="color:var(--u2);font-weight:700">2. CFG</td><td>產生規則、遞迴、剖析樹</td><td>句法結構、Chomsky 層級</td><td>★★★</td><td>3h</td></tr>
+<tr><td style="color:var(--u3);font-weight:700">3. Edit Distance</td><td>DP 矩陣、對齊、加權成本</td><td>同源詞判定、音變模型</td><td>★★</td><td>2h</td></tr>
+<tr><td style="color:var(--u4);font-weight:700">4. Embeddings</td><td>向量空間、cosine、類比</td><td>分佈語意、詞義關係</td><td>★★★</td><td>2h</td></tr>
+<tr><td style="color:var(--u5);font-weight:700">5. 資訊理論</td><td>熵、Huffman、冗餘</td><td>Zipf、壓縮、perplexity</td><td>★★</td><td>2h</td></tr>
+</table>
+
+<div class="note">
+  <strong>整體建議：</strong>五單元合計約 12 小時，可作為 IOL 寒假集訓的「計算語言學週」。每單元：30 分鐘類比與概念 → 40 分鐘互動模擬實作 → 50 分鐘 NACLO 真題演練。若時間有限，Unit 1（FSA）和 Unit 4（Embeddings）的投資報酬率最高。
+</div>
+
+<!-- ====================== PART 5: MOCK EXAM ====================== -->
+<h2 id="mock" style="margin-top:3.5rem">五、模擬試題：程式語言作為未知語言</h2>
+<p class="section-intro">
+以下三題將真實的程式語言概念（stack machine、quotation、logic programming）包裝為「未知語言」，讓學生在零程式背景下體驗 NACLO 計算面向的題型。建議作答時間 90 分鐘。每題附有完整詳解與互動模擬器。
+</p>
+
+<!-- ============ PROBLEM 1: KORO ============ -->
+<div class="unit-header u1" id="mock-q1" style="margin-top:2rem">
+  <span class="unit-num">第一題</span>
+  <span class="unit-title">Koro（Stack 語言）</span>
+</div>
+
+<div class="card">
+<p><strong>Koro</strong> 是一種未知語言，作用於一個序列（stack）。序列以 <code>[…]</code> 表示，右端為頂端。元素可以是整數（如 3）、布林（T / F）、或子序列（如 {1 2}）。</p>
+
+<h3 style="margin-top:1rem">已知資料（順序已打亂）</h3>
+<table style="font-size:.85rem">
+<tr><th>編號</th><th>輸入</th><th>指令</th><th>輸出</th></tr>
+<tr><td>[A]</td><td><code>[4]</code></td><td>zaku</td><td><code>[4 4]</code></td></tr>
+<tr><td>[B]</td><td><code>[3 8]</code></td><td>pilo</td><td><code>[8 3]</code></td></tr>
+<tr><td>[C]</td><td><code>[2 5]</code></td><td>nari</td><td><code>[7]</code></td></tr>
+<tr><td>[D]</td><td><code>[F T]</code></td><td>nari</td><td><code>[T]</code></td></tr>
+<tr><td>[E]</td><td><code>[{1} {2 3}]</code></td><td>nari</td><td><code>[{1 2 3}]</code></td></tr>
+<tr><td>[F]</td><td><code>[2 5]</code></td><td>motu</td><td><code>[10]</code></td></tr>
+<tr><td>[G]</td><td><code>[{2 5} 9]</code></td><td>toro</td><td><code>[{2 5 9}]</code></td></tr>
+<tr><td>[H]</td><td><code>[9 {2 5}]</code></td><td>toro</td><td>invalid</td></tr>
+<tr><td>[I]</td><td><code>[100 200 T]</code></td><td>seku</td><td><code>[100]</code></td></tr>
+<tr><td>[J]</td><td><code>[100 200 F]</code></td><td>seku</td><td><code>[200]</code></td></tr>
+<tr><td>[K]</td><td><code>[T]</code></td><td>zaku nari</td><td><code>[T]</code></td></tr>
+<tr><td>[L]</td><td><code>[3 4]</code></td><td>zaku nari</td><td><code>[3 8]</code></td></tr>
+<tr><td>[M]</td><td><code>[3 4]</code></td><td>nari zaku</td><td><code>[7 7]</code></td></tr>
+</table>
+
+<h3>(a) 請說明每個指令的功能</h3>
+<p>zaku、pilo、nari、motu、toro、seku</p>
+
+<h3>(b) 請解釋為什麼</h3>
+<p>[K] 與 [L] 結果不同；[L] 與 [M] 結果不同</p>
+
+<h3>(c) 計算</h3>
+<p><code>[6] zaku nari</code><br><code>[2 3 4] pilo nari</code><br><code>[{1} {2}] nari zaku</code></p>
+
+<h3>(d) 關鍵題：以下哪些敘述正確？（可複選）</h3>
+<p>① nari 永遠是加法 ② nari 的行為取決於輸入型別 ③ toro 對任何輸入都有效 ④ seku 只依賴最後一個元素 ⑤ pilo 不會改變元素內容</p>
+</div>
+
+<!-- KORO SOLUTION -->
+<details style="margin:1rem 0">
+<summary style="cursor:pointer;font-weight:700;color:var(--u1);font-size:1.05rem">▶ 第一題詳解</summary>
+<div class="card" style="margin-top:.5rem;border-left:3px solid var(--u1)">
+
+<h3>(a) 指令功能</h3>
+<table style="font-size:.88rem">
+<tr><th>指令</th><th>功能</th><th>類比</th><th>推導依據</th></tr>
+<tr><td><strong>zaku</strong></td><td>複製頂端元素（dup）</td><td>影印機</td><td>[A]: 4→4 4</td></tr>
+<tr><td><strong>pilo</strong></td><td>交換頂端兩元素（swap）</td><td>翻牌</td><td>[B]: 3 8→8 3</td></tr>
+<tr><td><strong>nari</strong></td><td>合併頂端兩元素（多型：整數=加法、布林=OR、序列=串接）</td><td>黏合劑</td><td>[C]+[D]+[E] 三筆交叉比對</td></tr>
+<tr><td><strong>motu</strong></td><td>頂端兩整數相乘（mul）</td><td>乘法器</td><td>[F]: 2×5=10</td></tr>
+<tr><td><strong>toro</strong></td><td>將頂端元素追加到下方序列尾端（snoc）</td><td>排隊加人</td><td>[G] vs [H]：需序列在下、元素在上</td></tr>
+<tr><td><strong>seku</strong></td><td>依頂端布林從下方兩元素中選擇（T=較深者、F=較淺者）</td><td>if-then-else</td><td>[I] vs [J]</td></tr>
+</table>
+
+<h3>(b) K vs L vs M 的差異</h3>
+<p><strong>[K] vs [L]：</strong>zaku 只複製頂端，nari 只作用於最頂端的兩個元素。</p>
+<p style="font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;padding:.6rem;border-radius:4px">
+[K] [T] zaku → [T T]，nari(T,T) = T OR T = T → [T]<br>
+[L] [3 4] zaku → [3 4 4]，nari(4,4) = 4+4 = 8 → [3 8]<br>
+&nbsp;&nbsp;&nbsp;注意：nari 只消耗頂端兩個，底部的 3 不受影響
+</p>
+<p><strong>[L] vs [M]：</strong>指令順序不同，結果完全不同。</p>
+<p style="font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;padding:.6rem;border-radius:4px">
+[L] [3 4] → zaku → [3 4 4] → nari → [3 8]（先複製再合併）<br>
+[M] [3 4] → nari → [7] → zaku → [7 7]（先合併再複製）
+</p>
+<p>這體現了 stack 語言的核心特性：<strong>指令順序即程式邏輯</strong>。</p>
+
+<h3>(c) 計算</h3>
+<p style="font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;padding:.6rem;border-radius:4px">
+[6] zaku nari → [6 6] → [12]<br><br>
+[2 3 4] pilo nari<br>
+&nbsp;&nbsp;pilo 交換頂端兩個：[2 3 4] → [2 4 3]<br>
+&nbsp;&nbsp;nari 合併頂端兩個：4+3 = 7 → [2 7]<br><br>
+[{1} {2}] nari zaku<br>
+&nbsp;&nbsp;nari 串接序列：{1}+{2} = {1 2} → [{1 2}]<br>
+&nbsp;&nbsp;zaku 複製：→ [{1 2} {1 2}]
+</p>
+
+<h3>(d) 正確敘述</h3>
+<table style="font-size:.88rem">
+<tr><td>① nari 永遠是加法</td><td style="color:#e74c3c">✗</td><td>[D] 布林為 OR、[E] 序列為串接</td></tr>
+<tr><td>② nari 的行為取決於輸入型別</td><td style="color:#27ae60">✓</td><td>整數→加、布林→OR、序列→concat</td></tr>
+<tr><td>③ toro 對任何輸入都有效</td><td style="color:#e74c3c">✗</td><td>[H] 順序錯誤即 invalid</td></tr>
+<tr><td>④ seku 只依賴最後一個元素</td><td style="color:#e74c3c">✗</td><td>選擇邏輯依賴布林，但結果取決於另外兩個元素</td></tr>
+<tr><td>⑤ pilo 不會改變元素內容</td><td style="color:#27ae60">✓</td><td>只交換位置，不修改值</td></tr>
+</table>
+<p><strong>答：② ⑤</strong></p>
+
+<p style="font-size:.85rem;color:var(--muted);margin-top:1rem"><strong>語言學知識點：</strong>nari 的多型行為（polymorphism）對應自然語言中的<strong>一詞多義（polysemy）</strong>——同一個詞的意義隨上下文（此處為型別）而變。這也呼應了計算語言學中 type-driven semantics 的核心思想。</p>
+</div>
+</details>
+
+<!-- KORO INTERACTIVE SIMULATOR -->
+<div class="sim-box" id="sim-koro">
+  <h4>Koro 互動模擬器</h4>
+  <p style="font-size:.85rem;color:var(--muted)">輸入 stack 初始狀態和指令序列，逐步觀察 stack 變化。指令：zaku pilo nari motu toro seku</p>
+  <div class="sim-row">
+    <input class="sim-input" id="koro-stack" value="[3 4]" placeholder="初始 stack，如 [3 4]">
+    <input class="sim-input" id="koro-cmds" value="zaku nari" placeholder="指令序列">
+    <button class="sim-btn" style="background:var(--u1)" onclick="runKoro()">執行 ▶</button>
+  </div>
+  <div class="sim-output" id="koro-out"></div>
+</div>
+<script>
+function runKoro(){
+  let log=[];
+  try{
+    let raw=document.getElementById('koro-stack').value.trim();
+    // Parse stack: [a b c] or [4] etc
+    let inner=raw.replace(/^\[/,'').replace(/\]$/,'').trim();
+    let stack=parseKoroStack(inner);
+    log.push(`初始 stack: [${stack.map(showK).join(' ')}]`);
+    let cmds=document.getElementById('koro-cmds').value.trim().split(/\s+/);
+    for(const cmd of cmds){
+      log.push(`\n▸ ${cmd}`);
+      switch(cmd){
+        case 'zaku':
+          if(stack.length<1)throw 'stack 不足';
+          stack.push(JSON.parse(JSON.stringify(stack[stack.length-1])));
+          break;
+        case 'pilo':
+          if(stack.length<2)throw 'stack 不足';
+          let a=stack.pop(),b=stack.pop();stack.push(a);stack.push(b);
+          break;
+        case 'nari':{
+          if(stack.length<2)throw 'stack 不足';
+          let x=stack.pop(),y=stack.pop();
+          if(typeof x==='number'&&typeof y==='number'){stack.push(y+x);log.push(`  ${y} + ${x} = ${y+x}`)}
+          else if(typeof x==='boolean'&&typeof y==='boolean'){stack.push(y||x);log.push(`  ${y} OR ${x} = ${y||x}`)}
+          else if(Array.isArray(x)&&Array.isArray(y)){let r=y.concat(x);stack.push(r);log.push(`  concat`)}
+          else throw `nari: 型別不匹配 (${typeK(y)}, ${typeK(x)})`;
+          break;}
+        case 'motu':{
+          if(stack.length<2)throw 'stack 不足';
+          let x=stack.pop(),y=stack.pop();
+          if(typeof x==='number'&&typeof y==='number'){stack.push(y*x);log.push(`  ${y} × ${x} = ${y*x}`)}
+          else throw 'motu: 需要兩個整數';
+          break;}
+        case 'toro':{
+          if(stack.length<2)throw 'stack 不足';
+          let elem=stack.pop(),lst=stack.pop();
+          if(!Array.isArray(lst))throw `toro: invalid（下方非序列）`;
+          if(Array.isArray(elem))throw `toro: invalid（頂端不應為序列）`;
+          lst.push(elem);stack.push(lst);
+          break;}
+        case 'seku':{
+          if(stack.length<3)throw 'stack 不足';
+          let bool=stack.pop(),b2=stack.pop(),a2=stack.pop();
+          if(typeof bool!=='boolean')throw 'seku: 頂端需為布林';
+          stack.push(bool?a2:b2);
+          log.push(`  ${bool?'T→選較深者':'F→選較淺者'}`);
+          break;}
+        default:throw `未知指令: ${cmd}`;
+      }
+      log.push(`  → [${stack.map(showK).join(' ')}]`);
+    }
+    log.push(`\n結果: [${stack.map(showK).join(' ')}]`);
+  }catch(e){log.push(`\n❌ ${e}`)}
+  document.getElementById('koro-out').textContent=log.join('\n');
+}
+function parseKoroStack(s){
+  if(!s)return[];let tokens=tokenizeK(s),result=[];
+  for(let i=0;i<tokens.length;i++){
+    if(tokens[i]==='{'){let sub=[];i++;while(i<tokens.length&&tokens[i]!=='}'){sub.push(parseKVal(tokens[i]));i++}result.push(sub)}
+    else result.push(parseKVal(tokens[i]));
+  }return result;
+}
+function tokenizeK(s){let t=[];let cur='';for(const c of s){if(c===' '){if(cur)t.push(cur);cur=''}else if(c==='{'||c==='}'){if(cur)t.push(cur);t.push(c);cur=''}else cur+=c}if(cur)t.push(cur);return t}
+function parseKVal(t){if(t==='T')return true;if(t==='F')return false;if(!isNaN(t))return parseInt(t);return t}
+function showK(v){if(typeof v==='boolean')return v?'T':'F';if(Array.isArray(v))return'{'+v.map(showK).join(' ')+'}';return String(v)}
+function typeK(v){if(typeof v==='number')return'int';if(typeof v==='boolean')return'bool';if(Array.isArray(v))return'seq';return'?'}
+runKoro();
+</script>
+
+
+<!-- ============ PROBLEM 2: JEX ============ -->
+<div class="unit-header u2" id="mock-q2">
+  <span class="unit-num">第二題</span>
+  <span class="unit-title">Jex（Quotation 語言）</span>
+</div>
+
+<div class="card">
+<p><strong>Jex</strong> 是一種未知語言，其中 <code>[…]</code> 表示一段「可被執行的內容」（quotation）。</p>
+
+<h3 style="margin-top:1rem">資料</h3>
+<table style="font-size:.85rem">
+<tr><th>#</th><th>程式</th><th>結果</th></tr>
+<tr><td>[1]</td><td><code>4 dup</code></td><td><code>4 4</code></td></tr>
+<tr><td>[2]</td><td><code>3 8 swap</code></td><td><code>8 3</code></td></tr>
+<tr><td>[3]</td><td><code>[2 5 add] run</code></td><td><code>7</code></td></tr>
+<tr><td>[4]</td><td><code>3 [dup add] run</code></td><td><code>6</code></td></tr>
+<tr><td>[5]</td><td><code>[1 2] [dup concat] run</code></td><td><code>[1 2 1 2]</code></td></tr>
+<tr><td>[6]</td><td><code>[dup] run</code></td><td>invalid</td></tr>
+<tr><td>[7]</td><td><code>[3 dup] run</code></td><td><code>3 3</code></td></tr>
+<tr><td>[8]</td><td><code>[dup dup add] run</code></td><td>invalid</td></tr>
+<tr><td>[9]</td><td><code>4 [dup dup add add] run</code></td><td><code>12</code></td></tr>
+</table>
+
+<h3>(a) 解釋以下指令的功能</h3>
+<p>dup、swap、add、concat、run</p>
+
+<h3>(b) 為什麼 [6] 是 invalid，但 [7] 是 valid？</h3>
+
+<h3>(c) 以下哪個程式會成功執行？</h3>
+<p>① <code>[add] run</code> ② <code>[3 add] run</code> ③ <code>[dup add] run</code> ④ <code>5 [dup add] run</code></p>
+
+<h3>(d) 語境題：為什麼同一個 <code>[dup add]</code> 在不同情況下結果不同？</h3>
+</div>
+
+<!-- JEX SOLUTION -->
+<details style="margin:1rem 0">
+<summary style="cursor:pointer;font-weight:700;color:var(--u2);font-size:1.05rem">▶ 第二題詳解</summary>
+<div class="card" style="margin-top:.5rem;border-left:3px solid var(--u2)">
+
+<h3>(a) 指令功能</h3>
+<table style="font-size:.88rem">
+<tr><th>指令</th><th>功能</th><th>推導依據</th></tr>
+<tr><td><strong>dup</strong></td><td>複製 stack 頂端</td><td>[1]: 4→4 4</td></tr>
+<tr><td><strong>swap</strong></td><td>交換頂端兩元素</td><td>[2]: 3 8→8 3</td></tr>
+<tr><td><strong>add</strong></td><td>頂端兩元素相加</td><td>[3]: 2+5=7</td></tr>
+<tr><td><strong>concat</strong></td><td>串接兩個 quotation</td><td>[5]: [1 2]+[1 2]=[1 2 1 2]</td></tr>
+<tr><td><strong>run</strong></td><td>取出頂端的 quotation 並執行其內容</td><td>[3]–[9] 綜合推導</td></tr>
+</table>
+
+<h3>(b) [6] vs [7]</h3>
+<p><strong>[6] <code>[dup] run</code></strong>：run 取出 [dup] 並執行。此時 stack 是空的。dup 需要至少一個元素才能複製 → <strong>invalid</strong>（stack underflow）。</p>
+<p><strong>[7] <code>[3 dup] run</code></strong>：run 取出 [3 dup] 並執行。先 push 3，stack 變 [3]；再 dup → [3 3]。quotation 自帶資料，所以不會 underflow → <strong>valid</strong>。</p>
+<p style="font-size:.85rem;background:#f0e6f6;padding:.6rem;border-radius:4px">
+<strong>關鍵洞察：</strong>run 執行 quotation 時，quotation 可以存取外部 stack（如 [4]），也可以自帶資料（如 [7]）。但若 quotation 內的指令所需的資料既不在外部 stack 也不在 quotation 內部，就會失敗。
+</p>
+
+<h3>(c) 判斷</h3>
+<table style="font-size:.88rem">
+<tr><td>① <code>[add] run</code></td><td style="color:#e74c3c">✗</td><td>stack 空，add 需要兩個元素</td></tr>
+<tr><td>② <code>[3 add] run</code></td><td style="color:#e74c3c">✗</td><td>quotation 內 push 3，但 add 仍需兩個元素（只有一個）</td></tr>
+<tr><td>③ <code>[dup add] run</code></td><td style="color:#e74c3c">✗</td><td>stack 空，dup 就已失敗</td></tr>
+<tr><td>④ <code>5 [dup add] run</code></td><td style="color:#27ae60">✓</td><td>外部 stack 有 5 → dup=5 5 → add=10</td></tr>
+</table>
+<p><strong>答：僅 ④</strong></p>
+
+<h3>(d) 語境依賴</h3>
+<p><code>[dup add]</code> 本身只是一段「程式碼」，不包含資料。它的行為完全取決於 run 執行時的 <strong>stack 語境</strong>：</p>
+<p style="font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;padding:.6rem;border-radius:4px">
+• 空 stack + [dup add] run → invalid（無料可用）<br>
+• 5 [dup add] run → 5 dup = 5 5, add = 10<br>
+• 3 [dup add] run → 3 dup = 3 3, add = 6<br>
+• [1 2] [dup add] run → [1 2] dup = [1 2] [1 2], add → 型別錯誤？
+</p>
+<p style="font-size:.85rem;color:var(--muted)"><strong>語言學連結：</strong>這和自然語言中<strong>代詞</strong>的照應（anaphora）極為相似——「他跑了」中的「他」意義取決於前文語境。quotation 裡的 dup 就像一個代詞，它「指涉」的對象要到執行時才確定。這正是語用學中 <strong>context-dependence</strong> 的計算類比。</p>
+</div>
+</details>
+
+<!-- JEX INTERACTIVE SIMULATOR -->
+<div class="sim-box" id="sim-jex">
+  <h4>Jex 互動模擬器</h4>
+  <p style="font-size:.85rem;color:var(--muted)">輸入程式碼（如 <code>5 [dup add] run</code>），觀察逐步執行過程。</p>
+  <div class="sim-row">
+    <input class="sim-input" id="jex-input" value="4 [dup dup add add] run" placeholder="如：3 [dup add] run">
+    <button class="sim-btn" style="background:var(--u2)" onclick="runJex()">執行 ▶</button>
+  </div>
+  <div class="sim-output" id="jex-out"></div>
+</div>
+<script>
+function runJex(){
+  let log=[];
+  try{
+    let code=document.getElementById('jex-input').value.trim();
+    let tokens=tokenizeJex(code);
+    let stack=[];
+    log.push(`程式: ${code}`);
+    log.push(`初始 stack: (空)`);
+    executeJex(tokens,stack,log,0);
+    log.push(`\n結果: ${stack.length?stack.map(showJ).join(' '):'(空)'}`);
+  }catch(e){log.push(`\n❌ invalid — ${e}`)}
+  document.getElementById('jex-out').textContent=log.join('\n');
+}
+function executeJex(tokens,stack,log,depth){
+  let prefix='  '.repeat(depth);
+  let i=0;
+  while(i<tokens.length){
+    let t=tokens[i];
+    if(t==='['){
+      let d=1,j=i+1,inner=[];
+      while(j<tokens.length&&d>0){if(tokens[j]==='[')d++;if(tokens[j]===']')d--;if(d>0)inner.push(tokens[j]);j++}
+      stack.push({type:'quot',val:inner});
+      log.push(`${prefix}▸ push quotation [${inner.join(' ')}]`);
+      i=j;
+    }else if(t==='dup'){
+      if(stack.length<1)throw 'dup: stack 空';
+      stack.push(JSON.parse(JSON.stringify(stack[stack.length-1])));
+      log.push(`${prefix}▸ dup → ${stack.map(showJ).join(' ')}`);i++;
+    }else if(t==='swap'){
+      if(stack.length<2)throw 'swap: 需要兩個元素';
+      let a=stack.pop(),b=stack.pop();stack.push(a);stack.push(b);
+      log.push(`${prefix}▸ swap → ${stack.map(showJ).join(' ')}`);i++;
+    }else if(t==='add'){
+      if(stack.length<2)throw 'add: 需要兩個元素';
+      let a=stack.pop(),b=stack.pop();
+      if(typeof a!=='number'||typeof b!=='number')throw 'add: 需要兩個數字';
+      stack.push(b+a);
+      log.push(`${prefix}▸ add: ${b}+${a}=${b+a} → ${stack.map(showJ).join(' ')}`);i++;
+    }else if(t==='concat'){
+      if(stack.length<2)throw 'concat: 需要兩個 quotation';
+      let a=stack.pop(),b=stack.pop();
+      if(a.type!=='quot'||b.type!=='quot')throw 'concat: 需要兩個 quotation';
+      stack.push({type:'quot',val:b.val.concat(a.val)});
+      log.push(`${prefix}▸ concat → ${stack.map(showJ).join(' ')}`);i++;
+    }else if(t==='run'){
+      if(stack.length<1)throw 'run: stack 空';
+      let q=stack.pop();
+      if(!q||q.type!=='quot')throw 'run: 頂端不是 quotation';
+      log.push(`${prefix}▸ run [${q.val.join(' ')}]:`);
+      executeJex(q.val,stack,log,depth+1);i++;
+    }else if(!isNaN(t)){
+      stack.push(parseInt(t));
+      log.push(`${prefix}▸ push ${t}`);i++;
+    }else{throw `未知指令: ${t}`}
+  }
+}
+function tokenizeJex(s){let t=[];let cur='';for(const c of s){if(c===' '){if(cur){t.push(cur);cur=''}}else if(c==='['||c===']'){if(cur){t.push(cur);cur=''}t.push(c)}else cur+=c}if(cur)t.push(cur);return t}
+function showJ(v){if(v&&v.type==='quot')return'['+v.val.join(' ')+']';return String(v)}
+runJex();
+</script>
+
+
+<!-- ============ PROBLEM 3: RELKA ============ -->
+<div class="unit-header u3" id="mock-q3">
+  <span class="unit-num">第三題</span>
+  <span class="unit-title">Relka（邏輯語言）</span>
+</div>
+
+<div class="card">
+<p><strong>Relka</strong> 是一種描述關係的語言。</p>
+
+<h3 style="margin-top:1rem">事實</h3>
+<p style="font-family:'Source Code Pro',monospace;font-size:.9rem">
+par(ana, bo)&nbsp;&nbsp;par(ana, cy)&nbsp;&nbsp;par(bo, di)&nbsp;&nbsp;par(cy, el)<br>
+fem(ana)&nbsp;&nbsp;mas(bo)&nbsp;&nbsp;fem(cy)
+</p>
+
+<h3>規則</h3>
+<p style="font-family:'Source Code Pro',monospace;font-size:.9rem">
+mom(X,Y) :- par(X,Y), fem(X)<br>
+dad(X,Y) :- par(X,Y), mas(X)<br>
+sib(X,Y) :- par(Z,X), par(Z,Y)<br><br>
+anc(X,Y) :- par(X,Y)<br>
+anc(X,Y) :- par(X,Z), anc(Z,Y)
+</p>
+
+<h3>查詢範例</h3>
+<p style="font-family:'Source Code Pro',monospace;font-size:.9rem">
+?- mom(ana, bo) → yes&nbsp;&nbsp;&nbsp;?- dad(ana, bo) → no&nbsp;&nbsp;&nbsp;?- anc(ana, di) → yes
+</p>
+
+<h3>(a) 解釋符號</h3><p>par、:-、?-、anc</p>
+<h3>(b) 判斷</h3><p><code>?- dad(bo, di)</code>、<code>?- anc(ana, el)</code>、<code>?- sib(bo, bo)</code></p>
+<h3>(c) 陷阱題：為什麼 sib(bo, bo) 會成立？</h3>
+<h3>(d) 設計題：如何修正 sib 的定義？</h3>
+</div>
+
+<!-- RELKA SOLUTION -->
+<details style="margin:1rem 0">
+<summary style="cursor:pointer;font-weight:700;color:var(--u3);font-size:1.05rem">▶ 第三題詳解</summary>
+<div class="card" style="margin-top:.5rem;border-left:3px solid var(--u3)">
+
+<h3>(a) 符號解釋</h3>
+<table style="font-size:.88rem">
+<tr><th>符號</th><th>意義</th></tr>
+<tr><td><strong>par(X,Y)</strong></td><td>X 是 Y 的親代（parent）</td></tr>
+<tr><td><strong>:-</strong></td><td>規則定義符（「若右邊成立，則左邊成立」），等同於邏輯蘊含 ←</td></tr>
+<tr><td><strong>?-</strong></td><td>查詢符（「以下命題是否成立？」）</td></tr>
+<tr><td><strong>anc(X,Y)</strong></td><td>X 是 Y 的祖先（ancestor），由兩條遞迴規則定義</td></tr>
+</table>
+
+<h3>(b) 判斷</h3>
+<p style="font-family:'Source Code Pro',monospace;font-size:.85rem;background:#f7f5f0;padding:.8rem;border-radius:4px">
+?- dad(bo, di)<br>
+&nbsp;&nbsp;需要：par(bo, di) ✓ 且 mas(bo) ✓<br>
+&nbsp;&nbsp;→ <strong style="color:#27ae60">yes</strong><br><br>
+?- anc(ana, el)<br>
+&nbsp;&nbsp;嘗試規則 1：par(ana, el)？ 事實中沒有 → 失敗<br>
+&nbsp;&nbsp;嘗試規則 2：par(ana, Z), anc(Z, el)?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Z = cy：par(ana, cy) ✓，anc(cy, el)?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anc 規則 1：par(cy, el) ✓ → 成功！<br>
+&nbsp;&nbsp;→ <strong style="color:#27ae60">yes</strong>（ana 是 el 的祖母）<br><br>
+?- sib(bo, bo)<br>
+&nbsp;&nbsp;sib(X,Y) :- par(Z,X), par(Z,Y)<br>
+&nbsp;&nbsp;X=bo, Y=bo, Z=ana：par(ana, bo) ✓, par(ana, bo) ✓<br>
+&nbsp;&nbsp;→ <strong style="color:#e74c3c">yes</strong>（！）
+</p>
+
+<h3>(c) 為什麼 sib(bo, bo) 成立？</h3>
+<p>規則 <code>sib(X,Y) :- par(Z,X), par(Z,Y)</code> 只要求 X 和 Y <strong>有共同的親代 Z</strong>，但沒有排除 <strong>X 和 Y 是同一個人</strong>的情況。當 X=Y=bo、Z=ana 時，par(ana, bo) 被使用了兩次，兩個條件都滿足。</p>
+<p>這是一個經典的邏輯程式設計陷阱——<strong>缺少不等式約束</strong>。</p>
+
+<h3>(d) 修正方案</h3>
+<p>加入 X ≠ Y 的約束。用自然語言描述：</p>
+<p style="background:#f7f5f0;padding:.6rem;border-radius:4px;font-style:italic">
+「X 和 Y 是兄弟姊妹」的條件是：存在某人 Z 同時是 X 的親代和 Y 的親代，<strong>且 X 與 Y 不是同一個人</strong>。
+</p>
+<p>用 Relka 語法：<code>sib(X,Y) :- par(Z,X), par(Z,Y), X \= Y</code></p>
+
+<p style="font-size:.85rem;color:var(--muted);margin-top:1rem"><strong>語言學連結：</strong>anc 的遞迴定義是<strong>遞迴規則</strong>的典範——它對應語言學中的<strong>傳遞性閉包</strong>（transitive closure），與 Chomsky 層級中 CFG 的遞迴產生規則殊途同歸。而 sib 的 bug 則呼應了語意學中<strong>排除自指</strong>的問題——就像自然語言中「兄弟」一詞隱含「不是自己」的預設（presupposition），但形式化時若不明示，邏輯系統不會自動補上。</p>
+</div>
+</details>
+
+<!-- RELKA INTERACTIVE QUERY ENGINE -->
+<div class="sim-box" id="sim-relka">
+  <h4>Relka 查詢引擎</h4>
+  <p style="font-size:.85rem;color:var(--muted)">輸入 Relka 查詢（如 <code>dad(bo, di)</code>），引擎會顯示推導過程。</p>
+  <div class="sim-row">
+    <input class="sim-input" id="relka-q" value="anc(ana, el)" placeholder="如：mom(ana, bo)">
+    <button class="sim-btn" style="background:var(--u3)" onclick="runRelka()">查詢 ▶</button>
+  </div>
+  <div class="sim-output" id="relka-out"></div>
+</div>
+<script>
+(function(){
+  const facts={
+    par:[['ana','bo'],['ana','cy'],['bo','di'],['cy','el']],
+    fem:[['ana'],['cy']],
+    mas:[['bo']]
+  };
+  function hasFact(pred,args){return(facts[pred]||[]).some(f=>f.length===args.length&&f.every((v,i)=>v===args[i]))}
+  function query(pred,args,log,depth){
+    let pad='  '.repeat(depth);
+    log.push(`${pad}查詢: ${pred}(${args.join(', ')})`);
+    // Direct fact
+    if(hasFact(pred,args)){log.push(`${pad}→ 事實命中 ✓`);return true}
+    // Rules
+    if(pred==='mom'&&args.length===2){
+      let[x,y]=args;
+      if(query('par',[x,y],log,depth+1)&&query('fem',[x],log,depth+1)){log.push(`${pad}→ mom(${x},${y}) 成立 ✓`);return true}
+      log.push(`${pad}→ mom(${x},${y}) 不成立 ✗`);return false;
+    }
+    if(pred==='dad'&&args.length===2){
+      let[x,y]=args;
+      if(query('par',[x,y],log,depth+1)&&query('mas',[x],log,depth+1)){log.push(`${pad}→ dad(${x},${y}) 成立 ✓`);return true}
+      log.push(`${pad}→ dad(${x},${y}) 不成立 ✗`);return false;
+    }
+    if(pred==='sib'&&args.length===2){
+      let[x,y]=args;
+      for(const[z,child]of facts.par){
+        if(child===x){
+          log.push(`${pad}嘗試 Z=${z}`);
+          if(hasFact('par',[z,y])){log.push(`${pad}→ par(${z},${x}) ✓ 且 par(${z},${y}) ✓`);
+            log.push(`${pad}→ sib(${x},${y}) 成立 ✓${x===y?' ⚠️ 注意：X=Y！':''}`);return true}
+        }
+      }
+      log.push(`${pad}→ sib(${x},${y}) 不成立 ✗`);return false;
+    }
+    if(pred==='anc'&&args.length===2){
+      let[x,y]=args;
+      // Rule 1: par(x,y)
+      if(hasFact('par',[x,y])){log.push(`${pad}→ par(${x},${y}) ✓ → anc 規則 1 成立`);return true}
+      // Rule 2: par(x,z), anc(z,y)
+      for(const[p,c]of facts.par){
+        if(p===x){
+          log.push(`${pad}嘗試規則 2: par(${x},${c}), anc(${c},${y})?`);
+          if(query('anc',[c,y],log,depth+1)){log.push(`${pad}→ anc(${x},${y}) 成立 ✓`);return true}
+        }
+      }
+      log.push(`${pad}→ anc(${x},${y}) 不成立 ✗`);return false;
+    }
+    log.push(`${pad}→ 無法推導 ✗`);return false;
+  }
+  window.runRelka=function(){
+    let q=document.getElementById('relka-q').value.trim();
+    let m=q.match(/^(\w+)\(([^)]+)\)$/);
+    if(!m){document.getElementById('relka-out').textContent='格式錯誤，請輸入如 dad(bo, di)';return}
+    let pred=m[1],args=m[2].split(/\s*,\s*/);
+    let log=[];
+    let result=query(pred,args,log,0);
+    log.push(`\n最終結果: ${result?'✅ yes':'❌ no'}`);
+    document.getElementById('relka-out').textContent=log.join('\n');
+  };
+  runRelka();
+})();
+</script>
+
+<div class="note" style="margin-top:2rem">
+  <strong>出題設計說明：</strong>這三題分別對應計算語言學的三個核心典範——<strong>stack machine</strong>（操作語意學）、<strong>quotation / higher-order</strong>（lambda 演算的直覺版）、<strong>logic programming</strong>（Prolog / Horn clauses）。它們以「未知語言」的外衣呈現，讓零程式背景的學生也能從資料歸納規則、預測行為，與 NACLO 計算面向的題型設計哲學完全一致。
+</div>
+
+
+<div class="footer">
+  資料來源：<a href="https://naclo.org/practice.php" target="_blank">naclo.org/practice.php</a>（2007–2026）<br>
+  模擬試題設計：台灣語奧培訓計畫 ｜ 整理日期：2026-04-25
+</div>
+
+</body>
+</html>
