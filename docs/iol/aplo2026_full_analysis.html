@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APLO 2026 深度分析：亞洲十國與臺灣隊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #f8f9fc;
+  --surface: #ffffff;
+  --surface2: #f0f2f7;
+  --surface3: #e8ebf0;
+  --border: #d8dce6;
+  --border-light: #c0c7d4;
+  --text: #1e293b;
+  --text-dim: #64748b;
+  --text-faint: #94a3b8;
+  --gold: #d97706;
+  --silver: #64748b;
+  --bronze: #b45309;
+  --hm: #94a3b8;
+  --accent: #0284c7;
+  --accent2: #6366f1;
+  --tw: #e11d48;
+  --tw2: #be123c;
+  --jp: #dc2626;
+  --hk: #ea580c;
+  --sg: #059669;
+  --cn: #dc2626;
+  --kr: #2563eb;
+  --th: #7c3aed;
+  --kz: #0891b2;
+  --my: #d97706;
+  --mo: #6366f1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+::selection{background:#0284c733;color:#0f172a;}
+
+/* HERO */
+.hero{
+  padding:56px 32px 36px;text-align:center;
+  background:linear-gradient(180deg,#ffffff 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--border);position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:-80px;
+  background:radial-gradient(ellipse at 25% 40%,rgba(225,29,72,.06),transparent 55%),
+             radial-gradient(ellipse at 75% 60%,rgba(2,132,199,.05),transparent 55%);
+  pointer-events:none;
+}
+.hero h1{
+  font-family:'Instrument Serif',serif;font-size:2.6rem;font-weight:400;
+  letter-spacing:-0.5px;margin-bottom:8px;position:relative;
+}
+.hero h1 .hl{
+  background:linear-gradient(135deg,var(--tw),var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero .sub{color:var(--text-dim);font-size:.88rem;font-weight:300;}
+.container{max-width:1320px;margin:0 auto;padding:0 20px;}
+
+/* TABS */
+.tab-nav{display:flex;gap:2px;padding:20px 0 0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab-btn{
+  padding:11px 18px;background:none;border:none;color:var(--text-dim);
+  font-family:inherit;font-size:.85rem;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;transition:.2s;
+}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
+.panel{display:none;padding:28px 0 40px;}.panel.active{display:block;}
+
+/* CARDS */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:24px;margin-bottom:20px;
+}
+.card h2{font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:2px;}
+.card h3{font-size:.88rem;font-weight:400;color:var(--text-dim);margin-bottom:16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr;}.hero h1{font-size:1.6rem;}}
+
+/* CHARTS */
+.cw{position:relative;width:100%;max-height:420px;}
+.cw canvas{width:100%!important;}
+.cw-sm{max-height:320px;}
+.cw-tall{max-height:none;height:480px;}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);}
+th{color:var(--text-dim);font-weight:500;font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;position:sticky;top:0;background:var(--surface);}
+td{font-family:'JetBrains Mono',monospace;font-size:.78rem;}
+td.name{font-family:'Noto Sans TC',sans-serif;font-weight:500;}
+tr:hover{background:rgba(2,132,199,.04);}
+.tw-row{background:rgba(225,29,72,.06)!important;border-left:3px solid var(--tw);}
+.mg{color:var(--gold);font-weight:700;}
+.ms{color:var(--silver);font-weight:600;}
+.mb{color:var(--bronze);}
+.mh{color:var(--hm);}
+.top-val{background:rgba(2,132,199,.1);border-radius:4px;padding:1px 4px;}
+.low-val{background:rgba(225,29,72,.08);border-radius:4px;padding:1px 4px;color:var(--tw2);}
+
+/* STATS */
+.sr{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.sb{
+  flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:14px;text-align:center;
+}
+.sb .n{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:600;}
+.sb .l{font-size:.72rem;color:var(--text-dim);margin-top:2px;}
+.sb.gd .n{color:var(--gold);}.sb.sv .n{color:var(--silver);}.sb.bz .n{color:var(--bronze);}
+.sb.ac .n{color:var(--accent);}.sb.tw .n{color:var(--tw);}
+
+/* CALLOUT */
+.co{
+  background:var(--surface2);border-left:3px solid var(--accent);
+  padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0;
+  font-size:.88rem;line-height:1.75;
+}
+.co strong{color:var(--accent);}
+.co .tw-hl{color:var(--tw);font-weight:600;}
+.co .jp-hl{color:var(--jp);font-weight:600;}
+.co .sg-hl{color:var(--sg);font-weight:600;}
+.note{font-size:.76rem;color:var(--text-faint);margin-top:8px;}
+.sep{border:none;border-top:1px solid var(--border);margin:20px 0;}
+
+/* BADGE */
+.badge{
+  display:inline-block;padding:2px 8px;border-radius:6px;font-size:.7rem;
+  font-weight:600;font-family:'JetBrains Mono',monospace;
+}
+.badge-g{background:#d9770620;color:var(--gold);}
+.badge-s{background:#64748b18;color:var(--silver);}
+.badge-b{background:#b4530918;color:var(--bronze);}
+.badge-h{background:#94a3b818;color:var(--hm);}
+.badge-up{background:#05966918;color:#059669;}
+.badge-dn{background:#dc262618;color:#dc2626;}
+.badge-eq{background:#64748b18;color:#64748b;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="hl">APLO 2026</span> 深度分析</h1>
+  <div class="sub">亞太語言學奧林匹亞 · 10 國 80 名官方選手 · 5 題逐項比較 · 臺灣隊全員剖析</div>
+</div>
+
+<div class="container">
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="show('t1')">國家總覽</button>
+  <button class="tab-btn" onclick="show('t2')">逐題×國家</button>
+  <button class="tab-btn" onclick="show('t3')">臺灣隊 8 人</button>
+  <button class="tab-btn" onclick="show('t4')">個人排行</button>
+  <button class="tab-btn" onclick="show('t5')">跨年追蹤</button>
+</div>
+
+<!-- ===== T1: COUNTRY OVERVIEW ===== -->
+<div id="t1" class="panel active">
+  <div class="sr">
+    <div class="sb ac"><div class="n">294</div><div class="l">全體報名人數</div></div>
+    <div class="sb ac"><div class="n">80</div><div class="l">官方選手</div></div>
+    <div class="sb gd"><div class="n">68.0</div><div class="l">金牌門檻</div></div>
+    <div class="sb sv"><div class="n">56.0</div><div class="l">銀牌門檻</div></div>
+    <div class="sb bz"><div class="n">45.0</div><div class="l">銅牌門檻</div></div>
+  </div>
+
+  <div class="card">
+    <h2>國家排名與獎牌分佈</h2>
+    <h3>依 Top-8 平均分排序 · 題目：P1 Ja'a Kumiai / P2 Hiaki / P3 Ngiti / P4 Lulamogi / P5 Bangime</h3>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>#</th><th>國家</th><th>平均</th><th>最高</th><th>最低</th><th>σ</th><th>🥇</th><th>🥈</th><th>🥉</th><th>HM</th><th>全員獲獎率</th></tr></thead>
+      <tbody id="countryTbl"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><h2>各國 Top-8 平均分</h2><div class="cw" style="height:400px;max-height:none;"><canvas id="c_avg"></canvas></div></div>
+    <div class="card"><h2>各國分數分散度（σ）</h2><div class="cw" style="height:400px;max-height:none;"><canvas id="c_sigma"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <h2>各國 Top-8 分數箱型圖（模擬）</h2>
+    <h3>長條顯示最低～最高範圍，深色區間為中間 50%（Q1–Q3）</h3>
+    <div class="cw cw-tall"><canvas id="c_box"></canvas></div>
+  </div>
+
+  <div class="co">
+    <strong>國家層級觀察</strong><br>
+    ① <span class="jp-hl">日本</span>以 66.5 居冠，八人全員 ≥56 分（銀牌線），隊伍均勻度最佳（σ=10.4）。<br>
+    ② <span class="tw-hl">臺灣</span>第 3 名（58.1），八人全部獲獎（1G3S4B），但分數落差達 27.5 分（74.0→46.5），σ=9.7。<br>
+    ③ <span class="sg-hl">新加坡</span>第 4 名但 P3（Ngiti）團隊平均 18.0 為全場最強單題表現。<br>
+    ④ 哈薩克 σ=15.7 為全場最高，Top-1 拿金（72.0）但後四名皆低於 35 分。<br>
+    ⑤ 韓國無金牌，為前六名中唯一；但 P5 團隊平均 13.3 僅次於日本（15.1）。
+  </div>
+</div>
+
+<!-- ===== T2: PROBLEM × COUNTRY ===== -->
+<div id="t2" class="panel">
+  <div class="card">
+    <h2>各國×各題 Top-8 平均分 熱力圖</h2>
+    <h3>數值越高越亮 · 各題滿分 20 分</h3>
+    <div class="cw"><canvas id="c_heat"></canvas></div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><h2>各題全場統計（80 人）</h2>
+      <table>
+        <thead><tr><th>題目</th><th>語言</th><th>類型</th><th>平均</th><th>中位</th><th>σ</th><th>滿分</th><th>零分</th><th>最難？</th></tr></thead>
+        <tbody>
+          <tr><td>P1</td><td>Ja'a Kumiai</td><td>形態/音韻</td><td>11.3</td><td>12.3</td><td>5.4</td><td>2</td><td>2</td><td></td></tr>
+          <tr><td>P2</td><td>Hiaki</td><td>形態句法</td><td>12.2</td><td>12.5</td><td>4.2</td><td>1</td><td>1</td><td></td></tr>
+          <tr><td>P3</td><td>Ngiti</td><td>形態句法</td><td>12.6</td><td>15.5</td><td>7.3</td><td>8</td><td>7</td><td>兩極化</td></tr>
+          <tr><td>P4</td><td>Lulamogi</td><td>語意分析</td><td>6.3</td><td>5.3</td><td>3.7</td><td>0</td><td>3</td><td style="color:var(--tw);">✓ 最難</td></tr>
+          <tr><td>P5</td><td>Bangime</td><td>形態/分類</td><td>9.5</td><td>9.5</td><td>6.2</td><td>3</td><td>6</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card"><h2>各題得分分佈形態</h2><div class="cw cw-sm"><canvas id="c_violin"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <h2>臺灣 vs 日本 vs 新加坡 vs 韓國 — 逐題雷達</h2>
+    <h3>四強爭奪帶的逐題優劣對比 · 各國 Top-8 平均分</h3>
+    <div class="cw" style="height:440px;max-height:none;"><canvas id="c_radar4"></canvas></div>
+  </div>
+
+  <div class="co">
+    <strong>題目層級觀察</strong><br>
+    ① <strong>P3 (Ngiti)</strong> 是本屆最兩極化的題目——8 人滿分、7 人零分，中位數 15.5 但平均僅 12.6。新加坡在此題平均 18.0（8人中5人滿分或近滿分），為最大亮點。<br>
+    ② <strong>P4 (Lulamogi)</strong> 為全場公認最難題，全體平均 6.3、無人滿分、最高僅 13.5（新加坡 Dylan Cheng）。日本團隊平均 9.6，為此題唯一突破 9 分的國家。<br>
+    ③ <strong>P5 (Bangime)</strong> 呈現「全有或全無」——韓國전지강與哈薩克 Butantayev 各拿 20 分，但 6 人零分。<br>
+    ④ <span class="tw-hl">臺灣</span>的 P3 平均 15.4 為隊伍最強題，P5 平均 9.2 和 P4 平均 7.5 為弱項。P1 變異最大（σ=5.2），前兩名 ≥17.5 但後兩名 ≤7.5。
+  </div>
+</div>
+
+<!-- ===== T3: TAIWAN 8 ===== -->
+<div id="t3" class="panel">
+  <div class="sr">
+    <div class="sb tw"><div class="n">58.1</div><div class="l">Top-8 平均</div></div>
+    <div class="sb gd"><div class="n">1</div><div class="l">金牌</div></div>
+    <div class="sb sv"><div class="n">3</div><div class="l">銀牌</div></div>
+    <div class="sb bz"><div class="n">4</div><div class="l">銅牌</div></div>
+    <div class="sb ac"><div class="n">0</div><div class="l">HM（全員獲獎）</div></div>
+  </div>
+
+  <div class="card">
+    <h2>臺灣隊八人完整成績</h2>
+    <h3>含全場排名、逐題分數、與全場/國家平均比較</h3>
+    <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>#</th><th>姓名</th><th>P1<br><span style="font-size:.6rem;color:var(--text-faint)">20</span></th><th>P2<br><span style="font-size:.6rem;color:var(--text-faint)">20</span></th><th>P3<br><span style="font-size:.6rem;color:var(--text-faint)">20</span></th><th>P4<br><span style="font-size:.6rem;color:var(--text-faint)">20</span></th><th>P5<br><span style="font-size:.6rem;color:var(--text-faint)">20</span></th><th>總分</th><th>獎</th><th>特徵</th></tr></thead>
+      <tbody>
+        <tr class="tw-row"><td>5</td><td class="name">鄧子洋 Kanoa Z. Teng</td><td class="top-val">19.5</td><td>13.0</td><td>17.5</td><td>9.5</td><td>14.5</td><td><strong>74.0</strong></td><td><span class="badge badge-g">Gold</span></td><td>最均衡，五題皆 ≥9.5</td></tr>
+        <tr class="tw-row"><td>11</td><td class="name">吳柏霆 Bo-Ting Wu</td><td>17.5</td><td>16.0</td><td class="top-val">18.5</td><td>10.0</td><td>9.5</td><td><strong>71.5</strong></td><td><span class="badge badge-s">Silver</span></td><td>P1+P3 雙高，P5 偏弱</td></tr>
+        <tr class="tw-row"><td>21</td><td class="name">蔡尚恩 Shang-En Tsai</td><td>15.0</td><td>12.0</td><td class="top-val">18.0</td><td class="low-val">5.5</td><td>10.5</td><td><strong>61.0</strong></td><td><span class="badge badge-s">Silver</span></td><td>P3 強但 P4 拉分</td></tr>
+        <tr class="tw-row"><td>24</td><td class="name">于昂軒 Ang-Hsuan Yu</td><td>14.5</td><td>14.0</td><td>14.5</td><td>7.0</td><td>7.5</td><td><strong>57.5</strong></td><td><span class="badge badge-s">Silver</span></td><td>P1–P3 穩定但後兩題弱</td></tr>
+        <tr class="tw-row"><td>40</td><td class="name">周佑宣 Yu-Hsuan Chou</td><td>9.0</td><td class="top-val">17.0</td><td>15.5</td><td>6.5</td><td class="low-val">5.5</td><td><strong>53.5</strong></td><td><span class="badge badge-b">Bronze</span></td><td>P2 為隊內最高</td></tr>
+        <tr class="tw-row"><td>41</td><td class="name">施秉辰 Bing-Chen Shih</td><td>7.5</td><td>13.0</td><td>16.0</td><td class="low-val">5.0</td><td>11.5</td><td><strong>53.0</strong></td><td><span class="badge badge-b">Bronze</span></td><td>P3 穩健，P1/P4 弱</td></tr>
+        <tr class="tw-row"><td>58</td><td class="name">徐紹崵 Shao-Yang Hsu</td><td class="low-val">4.5</td><td>14.0</td><td class="low-val">3.5</td><td class="top-val">12.5</td><td>13.5</td><td><strong>48.0</strong></td><td><span class="badge badge-b">Bronze</span></td><td>P4 隊內最高！反向型</td></tr>
+        <tr class="tw-row"><td>60</td><td class="name">張佑安 Yu-An Chang</td><td>12.5</td><td>9.0</td><td class="top-val">20.0</td><td class="low-val">4.0</td><td class="low-val">1.0</td><td><strong>46.5</strong></td><td><span class="badge badge-b">Bronze</span></td><td>P3 滿分但 P5 近零</td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="font-weight:700;border-top:2px solid var(--border-light);"><td></td><td class="name">臺灣平均</td><td>12.5</td><td>13.5</td><td>15.4</td><td>7.5</td><td>9.2</td><td>58.1</td><td></td><td></td></tr>
+        <tr style="color:var(--text-dim);"><td></td><td>全場 Top-8 平均</td><td>11.3</td><td>12.2</td><td>12.6</td><td>6.3</td><td>9.5</td><td>51.9</td><td></td><td></td></tr>
+        <tr style="color:var(--text-dim);"><td></td><td>臺灣 vs 全場</td><td class="top-val">+1.2</td><td class="top-val">+1.3</td><td class="top-val">+2.8</td><td class="top-val">+1.2</td><td>-0.3</td><td class="top-val">+6.2</td><td></td><td></td></tr>
+      </tfoot>
+    </table>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h2>八人逐題雷達圖</h2>
+      <div class="cw"><canvas id="c_tw8radar"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>八人堆疊柱狀圖</h2>
+      <div class="cw"><canvas id="c_tw8stack"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h2>隊內各題變異係數（CV）</h2>
+      <h3>CV = σ/μ，越高代表隊員間差距越大</h3>
+      <div class="cw cw-sm"><canvas id="c_twcv"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>每人均衡度（五題 σ）</h2>
+      <h3>σ 越低 = 五題得分越均勻</h3>
+      <div class="cw cw-sm"><canvas id="c_twbal"></canvas></div>
+    </div>
+  </div>
+
+  <div class="co">
+    <strong>臺灣隊深度觀察</strong><br><br>
+    <span class="tw-hl">① 鄧子洋</span>：唯一五題皆 ≥9.5 分的臺灣選手，個人五題 σ=3.7 為隊內最低（最均衡）。P1（19.5）為全場第三高，僅次於哈薩克 Azatbekov（20.0）和日本東（19.0）。連續兩屆 APLO 金牌，2025→2026 進步 +6.0 分。<br><br>
+    <span class="tw-hl">② 吳柏霆</span>：P3（18.5）+ P1（17.5）雙引擎型，但 P5 僅 9.5，若 P5 提升至銀牌水平（~14），總分可達 76+。<br><br>
+    <span class="tw-hl">③ 徐紹崵（第 7）</span>：最特殊的「反向型」——全隊 P4 平均 7.5，他獨拿 12.5（隊內最高，全場前 10%），但 P1（4.5）和 P3（3.5）卻極低。顯示其語意分析能力突出，形態句法待加強。<br><br>
+    <span class="tw-hl">④ 張佑安（第 8）</span>：P3 拿下滿分 20.0（全場 8 人之一），但 P5 僅 1.0、P4 僅 4.0，為隊內單題極差最大者（19.0 分差距），是典型的「爆發-崩盤」型。<br><br>
+    <strong>⑤ 訓練啟示</strong>：P4（語意分析）為全隊系統性弱點（僅徐紹崵突出）；P5（Bangime）八人中四人低於 10 分，變異最大（CV=0.53）。建議未來訓練強化語意對應和分類語言學題型。P3 為團隊核心競爭力（平均 15.4，全場第二僅次於新加坡 18.0）。
+  </div>
+</div>
+
+<!-- ===== T4: INDIVIDUAL RANKING ===== -->
+<div id="t4" class="panel">
+  <div class="card">
+    <h2>全場 80 人個人排名</h2>
+    <h3>臺灣選手以紅色高亮 · 點擊表頭可排序</h3>
+    <div class="tbl-wrap" style="max-height:600px;overflow-y:auto;">
+    <table id="fullTbl">
+      <thead><tr><th>排名</th><th>國</th><th>姓名</th><th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>總分</th><th>獎</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== T5: CROSS-YEAR ===== -->
+<div id="t5" class="panel">
+  <div class="card">
+    <h2>回歸選手：APLO 2025 → 2026 表現變化</h2>
+    <h3>基準線上方 = 進步 · 紅點 = 臺灣選手 · 氣泡大小 = 變化幅度</h3>
+    <div class="cw"><canvas id="c_ret"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>臺灣回歸選手逐題進退</h2>
+    <table>
+      <thead><tr><th>選手</th><th>2025 總分</th><th>2026 總分</th><th>Δ</th><th>P1 Δ</th><th>P2 Δ</th><th>P3 Δ</th><th>P4 Δ</th><th>P5 Δ</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr class="tw-row"><td class="name">鄧子洋</td><td>68.0</td><td>74.0</td><td><span class="badge badge-up">+6.0</span></td><td>+2.5</td><td>-3.0</td><td>+3.5</td><td>+1.0</td><td>+2.0</td><td>四題進步，P2 略退</td></tr>
+        <tr class="tw-row"><td class="name">于昂軒</td><td>60.0</td><td>57.5</td><td><span class="badge badge-dn">-2.5</span></td><td>-4.5</td><td>+3.5</td><td>+0.0</td><td>-6.0</td><td>+4.5</td><td>P4 大幅下滑</td></tr>
+      </tbody>
+    </table>
+    <div class="note">註：2025 與 2026 題目不同（語言、題型皆異），分數差僅反映能力趨勢而非直接可比。</div>
+  </div>
+
+  <div class="co">
+    <strong>跨年關鍵發現</strong><br>
+    ① 全場 18 位回歸選手中，12 位進步、6 位退步。平均變化 +4.7 分。<br>
+    ② 進步最大：Karassayev🇰🇿（+43.5）、勞柏錤🇭🇰（+24.0）、ณรงค์ฤทธิ์🇹🇭（+16.8）、Dylan🇸🇬（+17.0）。<br>
+    ③ 退步最大：楊鍵鏘🇭🇰（-16.0）、Butantayev🇰🇿（-8.2）。<br>
+    ④ <span class="tw-hl">鄧子洋</span>連續兩屆金牌，+6.0 分穩步成長；<span class="tw-hl">于昂軒</span>微退 -2.5 分但維持銀牌。<br>
+    ⑤ 新加坡 Dylan Cheng 從 APLO 2025 銀牌（63.5）→ 2026 金牌（80.5），進步 +17.0，為亞洲頂尖選手中最大跳躍。
+  </div>
+</div>
+</div><!-- container -->
+
+<script>
+// ---- TAB ----
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ---- CHART DEFAULTS ----
+Chart.defaults.color='#64748b';
+Chart.defaults.borderColor='#e2e8f0';
+Chart.defaults.font.family="'Noto Sans TC','JetBrains Mono',sans-serif";
+Chart.defaults.font.size=11;
+const grid1={color:'#e8ebf0'};
+
+// ========== DATA ==========
+const ALL = [
+  {r:1,c:'🇯🇵',n:'東優樹',p:[19,17,20,11,18],t:85,a:'G'},
+  {r:2,c:'🇸🇬',n:'Dylan Cheng',p:[15.5,14,19,13.5,18.5],t:80.5,a:'G'},
+  {r:3,c:'🇭🇰',n:'梁睿祈',p:[17.5,15,18.5,9,15],t:75,a:'G'},
+  {r:4,c:'🇯🇵',n:'リー謙二',p:[18.5,15,17,6,18],t:74.5,a:'S'},
+  {r:5,c:'🇹🇼',n:'鄧子洋',p:[19.5,13,17.5,9.5,14.5],t:74,a:'G'},
+  {r:6,c:'🇹🇭',n:'ณรงค์ฤทธิ์',p:[10.5,17,20,10.8,15.5],t:73.8,a:'G'},
+  {r:7,c:'🇭🇰',n:'江曜宏',p:[15,16,20,7.5,14.5],t:73,a:'S'},
+  {r:8,c:'🇨🇳',n:'郝欣宜',p:[14.5,16,11,12.3,19],t:72.8,a:'G'},
+  {r:9,c:'🇰🇿',n:'Karassayev',p:[16.5,15,18.5,3,19],t:72,a:'G'},
+  {r:10,c:'🇯🇵',n:'二宮岬',p:[12,14,20,11.3,14.5],t:71.8,a:'S'},
+  {r:11,c:'🇹🇼',n:'吳柏霆',p:[17.5,16,18.5,10,9.5],t:71.5,a:'S'},
+  {r:12,c:'🇯🇵',n:'安井寛人',p:[14.5,18,18.5,9.3,10.5],t:70.8,a:'S'},
+  {r:13,c:'🇭🇰',n:'勞柏錤',p:[17.5,14,18.5,10.5,9.5],t:70,a:'S'},
+  {r:14,c:'🇭🇰',n:'紀樹青',p:[18.5,15,4,13.5,17],t:68,a:'S'},
+  {r:15,c:'🇨🇳',n:'乔奕铭',p:[17.5,14,15.5,8.5,11.5],t:67,a:'S'},
+  {r:16,c:'🇰🇷',n:'이시윤',p:[13.5,8,16,11.5,15],t:64,a:'S'},
+  {r:17,c:'🇸🇬',n:'Junheng Tan',p:[5,10,17,12.3,19],t:63.3,a:'S'},
+  {r:18,c:'🇹🇭',n:'ระพีร์พัชญ์',p:[11.5,10,19,4,18.5],t:63,a:'S'},
+  {r:19,c:'🇸🇬',n:'Ariel J. Lau',p:[16.5,6,18.5,9.8,12],t:62.8,a:'S'},
+  {r:20,c:'🇰🇷',n:'전지강',p:[5.5,18,18.5,0,20],t:62,a:'S'},
+  {r:21,c:'🇹🇼',n:'蔡尚恩',p:[15,12,18,5.5,10.5],t:61,a:'S'},
+  {r:21,c:'🇰🇷',n:'이시온',p:[13,14,20,5.5,8.5],t:61,a:'S'},
+  {r:23,c:'🇯🇵',n:'平田瑠輝',p:[19,13,0,10,18],t:60,a:'B'},
+  {r:24,c:'🇹🇼',n:'于昂軒',p:[14.5,14,14.5,7,7.5],t:57.5,a:'S'},
+  {r:24,c:'🇯🇵',n:'肥後千広',p:[18,11,5,13,10.5],t:57.5,a:'B'},
+  {r:26,c:'🇸🇬',n:'Leong S.Y.',p:[9.5,11,16.5,6.5,13.5],t:57,a:'S'},
+  {r:27,c:'🇨🇳',n:'朱凯风',p:[16,17,0,8.3,15.5],t:56.8,a:'S'},
+  {r:28,c:'🇯🇵',n:'尾田崇之',p:[7.5,13,10,9.8,16],t:56.3,a:'B'},
+  {r:28,c:'🇲🇾',n:'Tan H.Z.',p:[16.5,12,20,0.3,7.5],t:56.3,a:'S'},
+  {r:30,c:'🇯🇵',n:'戴梓澄',p:[6.5,12,16,6.5,15],t:56,a:'B'},
+  {r:30,c:'🇰🇿',n:'Azatbekov',p:[20,18,14,2.5,1.5],t:56,a:'S'},
+  {r:32,c:'🇨🇳',n:'还佳齐',p:[3,16,17.5,7.8,11.5],t:55.8,a:'B'},
+  {r:33,c:'🇸🇬',n:'Woon Ethan',p:[20,6,20,7.5,1.5],t:55,a:'B'},
+  {r:33,c:'🇲🇾',n:'Janson Ho',p:[14,16,18.5,4,2.5],t:55,a:'B'},
+  {r:33,c:'🇹🇭',n:'ศุวิล',p:[12,10,12,8.5,12.5],t:55,a:'B'},
+  {r:36,c:'🇰🇿',n:'Butantayev',p:[15.5,14,3,2.3,20],t:54.8,a:'B'},
+  {r:37,c:'🇨🇳',n:'宋冠霖',p:[15.5,19,20,0,0],t:54.5,a:'B'},
+  {r:37,c:'🇰🇷',n:'송준성',p:[14.5,15,0,10,15],t:54.5,a:'B'},
+  {r:39,c:'🇭🇰',n:'楊鍵鏘',p:[18.5,15,15.5,4.5,0.5],t:54,a:'B'},
+  {r:40,c:'🇹🇼',n:'周佑宣',p:[9,17,15.5,6.5,5.5],t:53.5,a:'B'},
+  {r:41,c:'🇨🇳',n:'祁嘉',p:[8.5,19,18.5,5,2],t:53,a:'B'},
+  {r:41,c:'🇹🇼',n:'施秉辰',p:[7.5,13,16,5,11.5],t:53,a:'B'},
+  {r:41,c:'🇰🇷',n:'김윤아',p:[12.5,11,13,2.5,14],t:53,a:'B'},
+  {r:44,c:'🇭🇰',n:'岑沛宜',p:[15.5,13,5,10.5,8.5],t:52.5,a:'B'},
+  {r:44,c:'🇰🇷',n:'박여준',p:[16,16,0,6.5,14],t:52.5,a:'B'},
+  {r:46,c:'🇰🇷',n:'이태민',p:[13,12,15.5,6,5.5],t:52,a:'B'},
+  {r:47,c:'🇭🇰',n:'朱俊熹',p:[17.5,12,3,4.8,14.5],t:51.8,a:'B'},
+  {r:48,c:'🇰🇷',n:'반예안',p:[7.5,11.5,13,5.5,14],t:51.5,a:'B'},
+  {r:49,c:'🇨🇳',n:'徐浩嘉',p:[13,11,15.5,2.5,9],t:51,a:'B'},
+  {r:50,c:'🇸🇬',n:'Kyan Leong',p:[7.5,5,20,8.5,9.5],t:50.5,a:'B'},
+  {r:50,c:'🇹🇭',n:'เขมทัศน์',p:[8.5,13,10.5,4.5,14],t:50.5,a:'B'},
+  {r:52,c:'🇹🇭',n:'ภัทรกร',p:[1,11,20,4.5,13.5],t:50,a:'B'},
+  {r:53,c:'🇰🇿',n:'Turgumbayev',p:[16.5,15,15.5,2.5,0],t:49.5,a:'B'},
+  {r:53,c:'🇹🇭',n:'ฤทัยกานต์',p:[13.5,15,8.5,8,4.5],t:49.5,a:'B'},
+  {r:55,c:'🇹🇭',n:'ชวัลวิทย์',p:[10.5,11,20,4,3.5],t:49,a:'B'},
+  {r:56,c:'🇨🇳',n:'段星伊',p:[7.5,16,4.5,8,12.5],t:48.5,a:'B'},
+  {r:57,c:'🇭🇰',n:'王沛澤',p:[7,10,15.5,8.3,7.5],t:48.3,a:'B'},
+  {r:58,c:'🇹🇼',n:'徐紹崵',p:[4.5,14,3.5,12.5,13.5],t:48,a:'B'},
+  {r:58,c:'🇸🇬',n:'Darren Yap',p:[14.5,11,17.5,2.5,2.5],t:48,a:'B'},
+  {r:60,c:'🇹🇼',n:'張佑安',p:[12.5,9,20,4,1],t:46.5,a:'B'},
+  {r:60,c:'🇹🇭',n:'ธัญชนก',p:[9,7,12,4,14.5],t:46.5,a:'B'},
+  {r:62,c:'🇲🇴',n:'吳奕軒',p:[2,12,17.5,8,5.5],t:45,a:'B'},
+  {r:63,c:'🇸🇬',n:'Rui Ming Chan',p:[0,16,15.5,3,9.5],t:44,a:'HM'},
+  {r:64,c:'🇲🇾',n:'Jadon Lim',p:[6,11,14.5,2.3,8.5],t:42.3,a:'HM'},
+  {r:65,c:'🇲🇾',n:'Kienan P.A.',p:[4,9,20,3,5.5],t:41.5,a:'HM'},
+  {r:66,c:'🇰🇿',n:'Sayassat',p:[6.5,8,18.5,1.5,0.5],t:35,a:'HM'},
+  {r:66,c:'🇲🇾',n:'Chew S.Z.',p:[3.5,4,17,3,7.5],t:35,a:'HM'},
+  {r:68,c:'🇰🇿',n:'Azhibayev',p:[14,13,0,1.5,3.5],t:32,a:'HM'},
+  {r:69,c:'🇲🇴',n:'陳芷澄',p:[11.5,12,0,8,0],t:31.5,a:'HM'},
+  {r:69,c:'🇲🇾',n:'Gan L.Y.',p:[8,3,16,0,4.5],t:31.5,a:'HM'},
+  {r:71,c:'🇰🇿',n:'Zakir',p:[4.5,9,0,4.5,11.5],t:29.5,a:'HM'},
+  {r:72,c:'🇰🇿',n:'Kairbayev',p:[8.5,0,16,3.5,0.5],t:28.5,a:'HM'},
+  {r:73,c:'🇲🇾',n:'Harivardhan',p:[6.5,6,2,5.8,8],t:28.3,a:'HM'},
+  {r:74,c:'🇲🇴',n:'郭芷璿',p:[3,10,2,12.5,0],t:27.5,a:'HM'},
+  {r:75,c:'🇲🇾',n:'Andi Nafisah',p:[8,8,2,3.8,3.5],t:25.3,a:'HM'},
+  {r:76,c:'🇲🇴',n:'施佳宜',p:[4.5,11,2.5,4,3],t:25,a:'HM'},
+  {r:77,c:'🇲🇴',n:'Kin Nam Lao',p:[4,4,14.5,0,0],t:22.5,a:'HM'},
+  {r:78,c:'🇲🇴',n:'毛灼恒',p:[8.5,6,0,3,0],t:17.5,a:'HM'},
+  {r:79,c:'🇲🇴',n:'黃梓軒',p:[0,9,0,2.5,4],t:15.5,a:'HM'},
+  {r:80,c:'🇲🇴',n:'施懿罡',p:[7.5,2,0,3.8,2],t:15.3,a:'HM'},
+];
+
+// Fill full table
+const ftb=document.querySelector('#fullTbl tbody');
+ALL.forEach(d=>{
+  const tr=document.createElement('tr');
+  if(d.c==='🇹🇼')tr.classList.add('tw-row');
+  const ac={G:'badge-g',S:'badge-s',B:'badge-b',HM:'badge-h'}[d.a];
+  const al={G:'Gold',S:'Silver',B:'Bronze',HM:'HM'}[d.a];
+  tr.innerHTML=`<td>${d.r}</td><td>${d.c}</td><td class="name">${d.n}</td>${d.p.map(v=>`<td>${v.toFixed(1)}</td>`).join('')}<td><strong>${d.t.toFixed(1)}</strong></td><td><span class="badge ${ac}">${al}</span></td>`;
+  ftb.appendChild(tr);
+});
+
+// ---- COUNTRY TABLE (T1) ----
+const cData=[
+  {n:'🇯🇵 日本',avg:66.5,hi:85,lo:56,s:10.4,g:1,sv:3,b:4,h:0,col:'#ef4444'},
+  {n:'🇭🇰 香港',avg:61.6,hi:75,lo:48.3,s:9.8,g:1,sv:3,b:4,h:0,col:'#f97316'},
+  {n:'🇹🇼 臺灣',avg:58.1,hi:74,lo:46.5,s:9.7,g:1,sv:3,b:4,h:0,col:'#f43f5e'},
+  {n:'🇸🇬 新加坡',avg:57.6,hi:80.5,lo:44,s:11.5,g:1,sv:3,b:3,h:1,col:'#34d399'},
+  {n:'🇨🇳 中國',avg:57.4,hi:72.8,lo:48.5,s:8.7,g:1,sv:2,b:5,h:0,col:'#f87171'},
+  {n:'🇰🇷 韓國',avg:56.3,hi:64,lo:51.5,s:4.8,g:0,sv:3,b:5,h:0,col:'#60a5fa'},
+  {n:'🇹🇭 泰國',avg:54.7,hi:73.8,lo:46.5,s:8.8,g:1,sv:1,b:6,h:0,col:'#a78bfa'},
+  {n:'🇰🇿 哈薩克',avg:44.7,hi:72,lo:28.5,s:15.7,g:1,sv:1,b:2,h:4,col:'#22d3ee'},
+  {n:'🇲🇾 馬來西亞',avg:39.4,hi:56.3,lo:25.3,s:11.8,g:0,sv:1,b:1,h:6,col:'#fbbf24'},
+  {n:'🇲🇴 澳門',avg:25.0,hi:45,lo:15.3,s:9.7,g:0,sv:0,b:1,h:7,col:'#a5b4fc'},
+];
+const ctb=document.getElementById('countryTbl');
+cData.forEach((d,i)=>{
+  const medal=d.g+d.sv+d.b;
+  const rate=medal===8?'<span style="color:#34d399">100%</span>':`${Math.round(medal/8*100)}%`;
+  const cls=d.n.includes('臺灣')?'tw-row':'';
+  ctb.innerHTML+=`<tr class="${cls}"><td>${i+1}</td><td>${d.n}</td><td><strong>${d.avg}</strong></td><td>${d.hi}</td><td>${d.lo}</td><td>${d.s}</td><td class="mg">${d.g||''}</td><td class="ms">${d.sv||''}</td><td class="mb">${d.b||''}</td><td class="mh">${d.h||''}</td><td>${rate}</td></tr>`;
+});
+
+// Country avg bar
+new Chart(document.getElementById('c_avg'),{
+  type:'bar',
+  data:{labels:cData.map(d=>d.n.replace(/🇯🇵|🇭🇰|🇹🇼|🇸🇬|🇨🇳|🇰🇷|🇹🇭|🇰🇿|🇲🇾|🇲🇴/g,'').trim()),
+    datasets:[{data:cData.map(d=>d.avg),backgroundColor:cData.map(d=>d.col+'88'),borderColor:cData.map(d=>d.col),borderWidth:1.5,borderRadius:5}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:90,grid:grid1},y:{grid:{display:false}}}}
+});
+
+// Sigma bar
+new Chart(document.getElementById('c_sigma'),{
+  type:'bar',
+  data:{labels:cData.map(d=>d.n.replace(/🇯🇵|🇭🇰|🇹🇼|🇸🇬|🇨🇳|🇰🇷|🇹🇭|🇰🇿|🇲🇾|🇲🇴/g,'').trim()),
+    datasets:[{data:cData.map(d=>d.s),backgroundColor:cData.map(d=>d.col+'66'),borderColor:cData.map(d=>d.col),borderWidth:1,borderRadius:5}]},
+  options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:20,title:{display:true,text:'標準差（σ）'},grid:grid1},y:{grid:{display:false}}}}
+});
+
+// Box-like chart (floating bars, no stacking — overlap via barPercentage)
+new Chart(document.getElementById('c_box'),{
+  type:'bar',
+  data:{
+    labels:cData.map(d=>d.n.replace(/🇯🇵|🇭🇰|🇹🇼|🇸🇬|🇨🇳|🇰🇷|🇹🇭|🇰🇿|🇲🇾|🇲🇴/g,'').trim()),
+    datasets:[
+      {label:'全距（最低–最高）',
+       data:cData.map(d=>[d.lo, d.hi]),
+       backgroundColor:cData.map(d=>d.col+'20'),
+       borderColor:cData.map(d=>d.col+'55'),
+       borderWidth:1, borderSkipped:false, borderRadius:4,
+       barPercentage:0.35, categoryPercentage:1},
+      {label:'核心區間（μ±σ/2）',
+       data:cData.map(d=>[Math.max(d.lo, d.avg-d.s*0.6), Math.min(d.hi, d.avg+d.s*0.6)]),
+       backgroundColor:cData.map(d=>d.col+'66'),
+       borderColor:cData.map(d=>d.col),
+       borderWidth:1.5, borderSkipped:false, borderRadius:4,
+       barPercentage:0.7, categoryPercentage:1},
+    ]
+  },
+  options:{
+    indexAxis:'y',
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{display:true,position:'top',labels:{boxWidth:12,font:{size:10}}},
+      tooltip:{callbacks:{label:ctx=>{
+        const v=ctx.raw;
+        const nm=['全距','核心'][ctx.datasetIndex];
+        return `${nm}: ${v[0].toFixed(1)} – ${v[1].toFixed(1)}`;
+      }}}
+    },
+    scales:{
+      x:{min:10,max:90,grid:grid1,title:{display:true,text:'分數'}},
+      y:{grid:{display:false}}
+    }
+  }
+});
+
+// ===== T2: PROBLEM × COUNTRY =====
+const pAvg={
+  '日本':[14.4,14.1,13.3,9.6,15.1],
+  '香港':[15.8,13.8,12.5,8.6,10.9],
+  '臺灣':[12.5,13.5,15.4,7.5,9.2],
+  '新加坡':[11.1,9.9,18.0,8.0,10.8],
+  '中國':[11.9,16.0,12.8,6.6,10.1],
+  '韓國':[11.9,13.2,12.0,5.9,13.3],
+  '泰國':[9.6,11.8,15.3,6.0,12.1],
+  '哈薩克':[12.8,11.5,10.7,2.7,7.1],
+  '馬來西亞':[8.3,8.6,13.8,2.8,5.9],
+  '澳門':[5.1,8.3,4.6,5.2,1.8],
+};
+const pColors=['#0284c7','#6366f1','#7c3aed','#db2777','#059669'];
+const pNames=['P1 Ja\'a Kumiai','P2 Hiaki','P3 Ngiti','P4 Lulamogi','P5 Bangime'];
+
+// Grouped bar
+new Chart(document.getElementById('c_heat'),{
+  type:'bar',
+  data:{
+    labels:Object.keys(pAvg),
+    datasets:pNames.map((p,i)=>({
+      label:p,data:Object.values(pAvg).map(v=>v[i]),
+      backgroundColor:pColors[i]+'88',borderColor:pColors[i],borderWidth:1,
+    }))
+  },
+  options:{plugins:{legend:{position:'top',labels:{boxWidth:10}}},scales:{y:{max:20,title:{display:true,text:'平均分'},grid:grid1},x:{grid:{display:false}}}}
+});
+
+// Violin-like (stacked area approximation via bar)
+const allScores=ALL.map(d=>d.p);
+const bins=[0,4,8,12,16,20];
+function binCount(arr,lo,hi){return arr.filter(v=>v>=lo&&v<hi).length;}
+const violinData=pNames.map((_,pi)=>{
+  const vals=allScores.map(s=>s[pi]);
+  return bins.slice(0,-1).map((b,bi)=>binCount(vals,b,bins[bi+1]));
+});
+new Chart(document.getElementById('c_violin'),{
+  type:'bar',
+  data:{
+    labels:['0–3','4–7','8–11','12–15','16–20'],
+    datasets:pNames.map((p,i)=>({
+      label:p,data:violinData[i],
+      backgroundColor:pColors[i]+'66',borderColor:pColors[i],borderWidth:1,
+    }))
+  },
+  options:{plugins:{legend:{position:'top',labels:{boxWidth:8,font:{size:10}}}},scales:{y:{title:{display:true,text:'人數'},grid:grid1},x:{title:{display:true,text:'分數區間'},grid:{display:false}}}}
+});
+
+// 4-country radar
+new Chart(document.getElementById('c_radar4'),{
+  type:'radar',
+  data:{
+    labels:['P1\nJa\'a Kumiai','P2\nHiaki','P3\nNgiti','P4\nLulamogi','P5\nBangime'],
+    datasets:[
+      {label:'🇹🇼 臺灣 (58.1)',data:pAvg['臺灣'],
+       borderColor:'#e11d48',backgroundColor:'#e11d4812',
+       borderWidth:3,pointRadius:6,pointBackgroundColor:'#e11d48',
+       pointBorderColor:'#fff',pointBorderWidth:2,pointStyle:'circle'},
+      {label:'🇯🇵 日本 (66.5)',data:pAvg['日本'],
+       borderColor:'#ea580c',backgroundColor:'#ea580c08',
+       borderWidth:2.5,pointRadius:6,pointBackgroundColor:'#ea580c',
+       pointBorderColor:'#fff',pointBorderWidth:2,pointStyle:'rectRot'},
+      {label:'🇸🇬 新加坡 (57.6)',data:pAvg['新加坡'],
+       borderColor:'#059669',backgroundColor:'#05966908',
+       borderWidth:2.5,pointRadius:6,pointBackgroundColor:'#059669',
+       pointBorderColor:'#fff',pointBorderWidth:2,pointStyle:'triangle'},
+      {label:'🇰🇷 韓國 (56.3)',data:pAvg['韓國'],
+       borderColor:'#2563eb',backgroundColor:'#2563eb08',
+       borderWidth:2.5,pointRadius:6,pointBackgroundColor:'#2563eb',
+       pointBorderColor:'#fff',pointBorderWidth:2,pointStyle:'rect'},
+    ]
+  },
+  options:{
+    maintainAspectRatio:false,
+    scales:{r:{
+      min:0, max:20,
+      ticks:{stepSize:5,color:'#7b8a9e',backdropColor:'transparent',font:{size:10}},
+      grid:{color:'#e2e8f0'},
+      angleLines:{color:'#e2e8f0'},
+      pointLabels:{color:'#334155',font:{size:12,weight:'500'},padding:16}
+    }},
+    plugins:{
+      legend:{
+        position:'bottom',
+        labels:{
+          boxWidth:14,boxHeight:14,
+          font:{size:12,weight:'500'},
+          padding:16,
+          usePointStyle:true,pointStyleWidth:14,
+        }
+      },
+      tooltip:{
+        backgroundColor:'#1e293bee',
+        titleFont:{size:13},
+        bodyFont:{family:'JetBrains Mono',size:12},
+        padding:12,
+        callbacks:{label:ctx=>`${ctx.dataset.label.split('(')[0].trim()}: ${ctx.raw.toFixed(1)}`}
+      }
+    }
+  }
+});
+
+// ===== T3: TW 8 =====
+const tw8=[
+  {n:'鄧子洋',p:[19.5,13,17.5,9.5,14.5],col:'#be123c'},
+  {n:'吳柏霆',p:[17.5,16,18.5,10,9.5],col:'#e11d48'},
+  {n:'蔡尚恩',p:[15,12,18,5.5,10.5],col:'#f43f5e'},
+  {n:'于昂軒',p:[14.5,14,14.5,7,7.5],col:'#d946ef'},
+  {n:'周佑宣',p:[9,17,15.5,6.5,5.5],col:'#0284c7'},
+  {n:'施秉辰',p:[7.5,13,16,5,11.5],col:'#2563eb'},
+  {n:'徐紹崵',p:[4.5,14,3.5,12.5,13.5],col:'#7c3aed'},
+  {n:'張佑安',p:[12.5,9,20,4,1],col:'#0891b2'},
+];
+
+// Radar all 8
+new Chart(document.getElementById('c_tw8radar'),{
+  type:'radar',
+  data:{
+    labels:['P1','P2','P3','P4','P5'],
+    datasets:tw8.map(d=>({
+      label:d.n,data:d.p,borderColor:d.col,backgroundColor:d.col+'11',
+      pointBackgroundColor:d.col,borderWidth:1.8,pointRadius:3,
+    }))
+  },
+  options:{scales:{r:{min:0,max:20,ticks:{stepSize:5}}},plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10}}}}}
+});
+
+// Stacked bar per player
+new Chart(document.getElementById('c_tw8stack'),{
+  type:'bar',
+  data:{
+    labels:tw8.map(d=>d.n),
+    datasets:pNames.map((p,i)=>({
+      label:p.split(' ')[0],data:tw8.map(d=>d.p[i]),
+      backgroundColor:pColors[i]+'99',borderColor:pColors[i],borderWidth:1,
+    }))
+  },
+  options:{
+    plugins:{legend:{position:'top',labels:{boxWidth:8}}},
+    scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,max:90,title:{display:true,text:'總分'},grid:grid1}}
+  }
+});
+
+// CV per problem (TW team)
+const twP=[[],[],[],[],[]];
+tw8.forEach(d=>d.p.forEach((v,i)=>twP[i].push(v)));
+function mean(a){return a.reduce((s,v)=>s+v,0)/a.length;}
+function std(a){const m=mean(a);return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length);}
+const twMeans=twP.map(mean);
+const twStds=twP.map(std);
+const twCVs=twMeans.map((m,i)=>m>0?(twStds[i]/m):0);
+
+new Chart(document.getElementById('c_twcv'),{
+  type:'bar',
+  data:{
+    labels:['P1','P2','P3','P4','P5'],
+    datasets:[{
+      data:twCVs.map(v=>+(v.toFixed(2))),
+      backgroundColor:twCVs.map(v=>v>0.4?'#e11d4833':v>0.3?'#d9770633':'#05966933'),
+      borderColor:twCVs.map(v=>v>0.4?'#e11d48':v>0.3?'#d97706':'#059669'),
+      borderWidth:1.5,borderRadius:5,
+    }]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:0.7,title:{display:true,text:'CV (σ/μ)'},grid:grid1},x:{grid:{display:false}}}}
+});
+
+// Balance per player (personal σ across 5 problems)
+const personalSigma=tw8.map(d=>std(d.p));
+new Chart(document.getElementById('c_twbal'),{
+  type:'bar',
+  data:{
+    labels:tw8.map(d=>d.n),
+    datasets:[{
+      data:personalSigma.map(v=>+v.toFixed(1)),
+      backgroundColor:tw8.map(d=>d.col+'88'),
+      borderColor:tw8.map(d=>d.col),
+      borderWidth:1.5,borderRadius:5,
+    }]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:9,title:{display:true,text:'五題 σ（越低越均衡）'},grid:grid1},x:{grid:{display:false}}}}
+});
+
+// ===== T5: RETURNEES =====
+const ret=[
+  {n:'鄧子洋🇹🇼',s25:68,s26:74,tw:1},
+  {n:'于昂軒🇹🇼',s25:60,s26:57.5,tw:1},
+  {n:'東優樹🇯🇵',s25:79,s26:85,tw:0},
+  {n:'安井寛人🇯🇵',s25:64,s26:70.8,tw:0},
+  {n:'乔奕铭🇨🇳',s25:65.5,s26:67,tw:0},
+  {n:'전지강🇰🇷',s25:57.5,s26:62,tw:0},
+  {n:'이시온🇰🇷',s25:62.5,s26:61,tw:0},
+  {n:'박여준🇰🇷',s25:53.5,s26:52.5,tw:0},
+  {n:'Dylan🇸🇬',s25:63.5,s26:80.5,tw:0},
+  {n:'Ariel Lau🇸🇬',s25:60.5,s26:62.8,tw:0},
+  {n:'Ethan Woon🇸🇬',s25:80.5,s26:55,tw:0},
+  {n:'ณรงค์ฤทธิ์🇹🇭',s25:57,s26:73.8,tw:0},
+  {n:'ชวัลวิทย์🇹🇭',s25:54.5,s26:49,tw:0},
+  {n:'ระพีร์พัชญ์🇹🇭',s25:46.5,s26:63,tw:0},
+  {n:'Karassayev🇰🇿',s25:28.5,s26:72,tw:0},
+  {n:'Butantayev🇰🇿',s25:63,s26:54.8,tw:0},
+  {n:'Tan HZ🇲🇾',s25:42.5,s26:56.3,tw:0},
+  {n:'Janson Ho🇲🇾',s25:61.5,s26:55,tw:0},
+  {n:'江曜宏🇭🇰',s25:61.5,s26:73,tw:0},
+  {n:'楊鍵鏘🇭🇰',s25:70,s26:54,tw:0},
+  {n:'勞柏錤🇭🇰',s25:46,s26:70,tw:0},
+  {n:'紀樹青🇭🇰',s25:86,s26:68,tw:0},
+  {n:'吳奕軒🇲🇴',s25:16.5,s26:45,tw:0},
+];
+new Chart(document.getElementById('c_ret'),{
+  type:'scatter',
+  data:{
+    datasets:[
+      {label:'其他選手',data:ret.filter(r=>!r.tw).map(r=>({x:r.s25,y:r.s26})),
+        backgroundColor:'#0284c744',pointRadius:ret.filter(r=>!r.tw).map(r=>Math.max(4,Math.abs(r.s26-r.s25)/3)),borderColor:'#0284c7',borderWidth:1},
+      {label:'臺灣選手',data:ret.filter(r=>r.tw).map(r=>({x:r.s25,y:r.s26})),
+        backgroundColor:'#e11d48cc',pointRadius:8,borderColor:'#fff',borderWidth:2},
+      {label:'y=x 基準線',data:[{x:15,y:15},{x:90,y:90}],type:'line',
+        borderColor:'#94a3b844',borderDash:[5,5],pointRadius:0,borderWidth:1},
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top',labels:{boxWidth:10}},
+      tooltip:{callbacks:{label:ctx=>{
+        if(ctx.datasetIndex<2){
+          const pool=ctx.datasetIndex===1?ret.filter(r=>r.tw):ret.filter(r=>!r.tw);
+          const r=pool[ctx.dataIndex];
+          const d=r.s26-r.s25;
+          return `${r.n}: ${r.s25}→${r.s26} (${d>0?'+':''}${d.toFixed(1)})`;
+        }return '';
+      }}}
+    },
+    scales:{
+      x:{title:{display:true,text:'APLO 2025'},min:15,max:90,grid:grid1},
+      y:{title:{display:true,text:'APLO 2026'},min:15,max:90,grid:grid1},
+    }
+  }
+});
+</script>
+</body>
+</html>
