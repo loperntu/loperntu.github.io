@@ -401,6 +401,12 @@
   }
   .bench-card .card-label { font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
   .bench-card .card-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700; }
+  /* Slide 6: only the two corner thesis titles */
+  #s3 .bench-card .card-title--lead {
+    font-size: clamp(22px, 2.35vw, 30px);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
   .bench-card p { font-size:17px; }
   .bench-card.hi-a { border-color:rgba(26,86,232,.3); background:rgba(26,86,232,.04); }
   .bench-card.hi-b { border-color:rgba(232,76,26,.3); background:rgba(232,76,26,.04); }
@@ -645,7 +651,7 @@
         <div class="bench-grid">
           <div class="bench-card">
             <span class="card-label">The Problem</span>
-            <span class="card-title">Facts aren't enough</span>
+            <span class="card-title card-title--lead">Facts aren't enough</span>
             <p>Culture isn't "What is the capital of Taiwan?" — it's <strong>social coherence</strong>: pragmatics, indirectness, code-switching, face-saving.</p>
           </div>
           <div class="bench-card hi-a">
@@ -666,7 +672,7 @@
           </div>
           <div class="bench-card">
             <span class="card-label">Key Finding</span>
-            <span class="card-title">Alignment ≠ translation</span>
+            <span class="card-title card-title--lead">Alignment ≠ translation</span>
             <p>Gemini-2.5-Pro scores <strong>0.44</strong> on LOBSTER baseline. Low-resource languages (Class 0) see near-zero E→T generation. <span class="hl2">Language family predicts failure, not script. Linguistic diversity is not just about diverse text; it is about diverse cognitive and structural frameworks that current alignment methods often fail to bridge.</span></p>
           </div>
         </div>

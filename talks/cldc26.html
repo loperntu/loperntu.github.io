@@ -401,6 +401,12 @@
   }
   .bench-card .card-label { font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
   .bench-card .card-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700; }
+  /* Slide 6: only the two corner thesis titles */
+  #s3 .bench-card .card-title--lead {
+    font-size: clamp(22px, 2.35vw, 30px);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
   .bench-card p { font-size:17px; }
   .bench-card.hi-a { border-color:rgba(26,86,232,.3); background:rgba(26,86,232,.04); }
   .bench-card.hi-b { border-color:rgba(232,76,26,.3); background:rgba(232,76,26,.04); }
@@ -510,7 +516,7 @@
         <div class="bg-dots"></div>
         <div class="eyebrow">CLDC 12 &nbsp;·&nbsp; Panel: Language and Culture in the Context of LLMs</div>
         <h1><span class="hl">Language, Culture,<br>and the Geometry of Meaning</span></h1>
-        <p class="sub">From statistical memory to unalignable islands —<br>three lenses on what LLMs really learn.</p>
+        <p class="sub">From statistical memory to unalignable islands —<br>three lenses on what LLMs possibly  learn.</p>
         <div class="meta">
           <div class="meta-item">
             <span class="meta-label">Presenter</span>
@@ -600,7 +606,7 @@
             </div>
           </div>
         </div>
-        <div class="slide-footer">Signal: distinctive AI-flavored phrasing reveals the statistical residue of the training distribution, check [Wikipedia: Signs of AI writing] </div>
+        <div class="slide-footer">Signal: distinctive AI-flavored phrasing reveals the statistical residue of the training distribution, check <a href="https://en.wikipedia.org/wiki/Wikipedia:Signs%20of%20AI%20writing?oldformat=true#Language_and_grammar">Wikipedia: Signs of AI writing]</a></div>
       </div>
 
       <!-- ── SLIDE 2.1: AGENT–AGENT LANGUAGE (SoMolt) ── -->
@@ -612,7 +618,7 @@
             <img src="somolt.png" alt="SoMolt dashboard: word cloud and high-frequency bigrams or trigrams in a large social text sample">
           </div>
         </div>
-        <div class="slide-footer">SoMolt · 詞頻分析: dominant n-grams read as machine-shaped residue, not ordinary conversational language.</div>
+        <div class="slide-footer">SoMolt · 詞頻分析: dominant n-grams read as machine-shaped residue, not ordinary conversational language. <a href="https://lopen.linguistics.ntu.edu.tw/somo/">A Monitoring Corpus for Agent Communication</a> </div>
       </div>
 
       <!-- ── SLIDE 2: STATISTICAL MEMORY ── -->
@@ -645,7 +651,7 @@
         <div class="bench-grid">
           <div class="bench-card">
             <span class="card-label">The Problem</span>
-            <span class="card-title">Facts aren't enough</span>
+            <span class="card-title card-title--lead">Facts aren't enough</span>
             <p>Culture isn't "What is the capital of Taiwan?" — it's <strong>social coherence</strong>: pragmatics, indirectness, code-switching, face-saving.</p>
           </div>
           <div class="bench-card hi-a">
@@ -666,7 +672,7 @@
           </div>
           <div class="bench-card">
             <span class="card-label">Key Finding</span>
-            <span class="card-title">Alignment ≠ translation</span>
+            <span class="card-title card-title--lead">Alignment ≠ translation</span>
             <p>Gemini-2.5-Pro scores <strong>0.44</strong> on LOBSTER baseline. Low-resource languages (Class 0) see near-zero E→T generation. <span class="hl2">Language family predicts failure, not script. Linguistic diversity is not just about diverse text; it is about diverse cognitive and structural frameworks that current alignment methods often fail to bridge.</span></p>
           </div>
         </div>
@@ -687,7 +693,7 @@
 
       <!-- ── SLIDE 5: UNALIGNABLE ── -->
       <div class="slide red" id="s5">
-        <div class="tag red"><span class="dot"></span>Act 4 · The Unalignable Issue</div>
+        <div class="tag red"><span class="dot"></span>Thought · The Unalignable Issue</div>
         <h2>Some Concepts <span class="hl2">Refuse</span> to Align</h2>
         <div class="un-grid">
           <div class="un-card blue-hi">
@@ -711,7 +717,7 @@
         <div class="bg-dots" style="opacity:.2"></div>
         <div class="tag" style="position:relative;z-index:1;"><span class="dot" style="background:var(--accent4)"></span>Closing Provocation</div>
         <div class="big-q" style="position:relative;z-index:1;">
-          We are not just training models<br>to speak our language —<br>we are defending the right<br>of our language to have its <span style="color:var(--accent4)">own geometry.</span>
+          We are not just training models<br>to speak our language —<br>we are defending the right<br>of our languag/culture to have its <span style="color:var(--accent4)">own geometry.</span>
         </div>
         <div class="thesis-row" style="position:relative;z-index:1;">
           <div class="thesis-pill">
