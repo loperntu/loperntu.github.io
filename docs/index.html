@@ -63,7 +63,28 @@
       stroke-linejoin: round;
     }
 
-    .bio-col { padding-top: 4px; }
+    .bio-col {
+      padding-top: 4px;
+      display: grid;
+      grid-template-columns: 1fr min(40%, 420px);
+      gap: 28px 40px;
+      align-items: start;
+    }
+
+    .bio-main { min-width: 0; }
+
+    .home-panel {
+      margin: 0;
+    }
+
+    .home-panel img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 32px rgba(15, 118, 110, 0.1);
+    }
 
     .bio-col h1 {
       font-size: clamp(1.8rem, 4vw, 2.4rem);
@@ -129,6 +150,11 @@
       min-width: 68px;
     }
 
+    @media (max-width: 980px) {
+      .bio-col { grid-template-columns: 1fr; gap: 24px; }
+      .home-panel { max-width: 520px; }
+    }
+
     @media (max-width: 720px) {
       .home-wrap { grid-template-columns: 1fr; gap: 28px; padding-top: 28px; }
       .profile-col { position: static; display: flex; align-items: center; gap: 24px; }
@@ -181,6 +207,7 @@
     </aside>
 
     <section class="bio-col">
+      <div class="bio-main">
       <h1>謝舒凱 <span style="font-family:'Noto Sans TC';font-weight:400;font-size:0.55em;color:var(--muted)">Shu-Kai Hsieh (IPA: /ɕi̯ɛ⁵¹/)  </span></h1>
       <p class="subtitle">Professor &nbsp;·&nbsp; 國立台灣大學 語言學研究所 / 腦與心智科學研究所</p>
 
@@ -243,6 +270,15 @@
           <span>Paper: <em>Self-supervised learning for Formosan speech representation and linguistic phylogeny</em>, <em>Frontiers in Language Sciences</em> 3</span>
         </li>
       </ul>
+      </div>
+
+      <aside class="home-panel" aria-label="Panel session banner">
+        <img
+          src="talks/panelist.png"
+          alt="Panel Session: Annie En-Shiun Lee (Ontario Tech University), Shu-Kai Hsieh (National Taiwan University), Richard Tzong-Han Tsai (National Central University), with supporting organizations."
+          loading="lazy"
+        />
+      </aside>
     </section>
 
   </div>
