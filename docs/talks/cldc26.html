@@ -130,7 +130,39 @@
   /* ════════════════════════════════
      SLIDE 0 — TITLE
   ════════════════════════════════ */
-  #s0 { justify-content:center; gap:0; }
+  #s0 { justify-content:center; align-items:stretch; gap:0; }
+  #s0 .s0-layout {
+    display:grid;
+    grid-template-columns:1fr min(36%, 300px);
+    gap:4%;
+    align-items:center;
+    width:100%;
+    max-height:100%;
+    position:relative;
+    z-index:1;
+  }
+  #s0 .s0-main { min-width:0; }
+  #s0 .s0-panel {
+    margin:0;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #s0 .s0-panel img {
+    width:100%;
+    height:auto;
+    max-height:min(72vh, 100%);
+    object-fit:contain;
+    border-radius:10px;
+    border:1px solid var(--border);
+    box-shadow:0 10px 36px rgba(0,0,0,.1);
+  }
+  @media (max-width: 720px) {
+    #s0 .s0-layout { grid-template-columns:1fr; gap:3%; }
+    #s0 .s0-panel { order:-1; max-height:28vh; }
+    #s0 .s0-panel img { max-height:26vh; }
+  }
   #s0 .eyebrow {
     font-family:'DM Mono',monospace;
     font-size:13px;
@@ -153,7 +185,7 @@
     background-size: 28px 28px;
     opacity:.35;
   }
-  #s0 > *:not(.bg-dots) { position:relative; z-index:1; }
+  #s0 > .s0-layout { position:relative; z-index:1; }
 
   /* ════════════════════════════════
      SLIDE 1 — ROADMAP
@@ -514,22 +546,29 @@
       <!-- ── SLIDE 0: TITLE ── -->
       <div class="slide title-slide active" id="s0">
         <div class="bg-dots"></div>
-        <div class="eyebrow">CLDC 12 &nbsp;·&nbsp; Panel: Language and Culture in the Context of LLMs</div>
-        <h1><span class="hl">Language, Culture,<br>and the Geometry of Meaning</span></h1>
-        <p class="sub">From statistical memory to unalignable islands —<br>three lenses on what LLMs really learn.</p>
-        <div class="meta">
-          <div class="meta-item">
-            <span class="meta-label">Presenter</span>
-            <span class="meta-value">Shu-Kai Hsieh</span>
+        <div class="s0-layout">
+          <div class="s0-main">
+            <div class="eyebrow">CLDC 12 &nbsp;·&nbsp; Panel: Language and Culture in the Context of LLMs</div>
+            <h1><span class="hl">Language, Culture,<br>and the Geometry of Meaning</span></h1>
+            <p class="sub">From statistical memory to unalignable islands —<br>three lenses on what LLMs possibly  learn.</p>
+            <div class="meta">
+              <div class="meta-item">
+                <span class="meta-label">Presenter</span>
+                <span class="meta-value">Shu-Kai Hsieh</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Affiliation</span>
+                <span class="meta-value">GIL, National Taiwan University</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Date</span>
+                <span class="meta-value">May 1, 2026</span>
+              </div>
+            </div>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Affiliation</span>
-            <span class="meta-value">GIL, National Taiwan University</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Date</span>
-            <span class="meta-value">May 1, 2026</span>
-          </div>
+          <figure class="s0-panel">
+            <img src="panelist.png" alt="Panel session: Annie En-Shiun Lee, Shu-Kai Hsieh, Richard Tzong-Han Tsai and supporting organizations.">
+          </figure>
         </div>
       </div>
 
@@ -606,7 +645,7 @@
             </div>
           </div>
         </div>
-        <div class="slide-footer">Signal: distinctive AI-flavored phrasing reveals the statistical residue of the training distribution, check [Wikipedia: Signs of AI writing] </div>
+        <div class="slide-footer">Signal: distinctive AI-flavored phrasing reveals the statistical residue of the training distribution, check <a href="https://en.wikipedia.org/wiki/Wikipedia:Signs%20of%20AI%20writing?oldformat=true#Language_and_grammar">Wikipedia: Signs of AI writing]</a></div>
       </div>
 
       <!-- ── SLIDE 2.1: AGENT–AGENT LANGUAGE (SoMolt) ── -->
@@ -618,7 +657,7 @@
             <img src="somolt.png" alt="SoMolt dashboard: word cloud and high-frequency bigrams or trigrams in a large social text sample">
           </div>
         </div>
-        <div class="slide-footer">SoMolt · 詞頻分析: dominant n-grams read as machine-shaped residue, not ordinary conversational language.</div>
+        <div class="slide-footer">SoMolt · 詞頻分析: dominant n-grams read as machine-shaped residue, not ordinary conversational language. <a href="https://lopen.linguistics.ntu.edu.tw/somo/">A Monitoring Corpus for Agent Communication</a> </div>
       </div>
 
       <!-- ── SLIDE 2: STATISTICAL MEMORY ── -->
@@ -693,7 +732,7 @@
 
       <!-- ── SLIDE 5: UNALIGNABLE ── -->
       <div class="slide red" id="s5">
-        <div class="tag red"><span class="dot"></span>Act 4 · The Unalignable Issue</div>
+        <div class="tag red"><span class="dot"></span>Thought · The Unalignable Issue</div>
         <h2>Some Concepts <span class="hl2">Refuse</span> to Align</h2>
         <div class="un-grid">
           <div class="un-card blue-hi">
@@ -717,7 +756,7 @@
         <div class="bg-dots" style="opacity:.2"></div>
         <div class="tag" style="position:relative;z-index:1;"><span class="dot" style="background:var(--accent4)"></span>Closing Provocation</div>
         <div class="big-q" style="position:relative;z-index:1;">
-          We are not just training models<br>to speak our language —<br>we are defending the right<br>of our language to have its <span style="color:var(--accent4)">own geometry.</span>
+          We are not just training models<br>to speak our language —<br>we are defending the right<br>of our languag/culture to have its <span style="color:var(--accent4)">own geometry.</span>
         </div>
         <div class="thesis-row" style="position:relative;z-index:1;">
           <div class="thesis-pill">
