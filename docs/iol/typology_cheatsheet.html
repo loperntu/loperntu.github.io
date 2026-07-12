@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語言類型學考點 Cheatsheet｜給語奧國手賽前速讀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232838; --sub:#5a5f70; --paper:#f7f5f0; --card:#ffffff;
+    --indigo:#2f3d66; --indigo-soft:#e8ebf4; --amber:#c8871e; --amber-soft:#faf1de;
+    --line:#e4e1d8; --warn-bg:#fdf6ec; --warn-line:#e7c98f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Sans TC",-apple-system,sans-serif;line-height:1.85;font-size:16px;}
+  h1,h2,h3,h4{font-family:"Noto Serif TC",serif;line-height:1.4;}
+  .page{max-width:960px;margin:0 auto;padding:32px 22px 90px;}
+  /* sticky TOC */
+  .sticky-toc{position:fixed;right:18px;top:90px;width:158px;background:var(--card);
+    border:1px solid var(--line);border-radius:14px;padding:14px 14px 10px;font-size:.82rem;z-index:50;}
+  .sticky-toc h4{margin:0 0 8px;font-size:.85rem;color:var(--indigo);}
+  .sticky-toc a{display:block;color:var(--sub);text-decoration:none;padding:3px 0;border-left:2.5px solid transparent;padding-left:8px;margin-left:-8px;}
+  .sticky-toc a:hover{color:var(--indigo);border-left-color:var(--amber);}
+  @media(max-width:1330px){.sticky-toc{display:none;}}
+  /* hero */
+  .hero{background:linear-gradient(160deg,#2f3d66 0%,#3d4f80 62%,#4b5c8e 100%);
+    color:#f3f1ea;border-radius:22px;padding:44px 40px 36px;margin-bottom:34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;border-radius:50%;
+    border:38px solid rgba(200,135,30,.14);}
+  .hero .tag{display:inline-block;background:rgba(200,135,30,.22);border:1px solid rgba(200,135,30,.55);
+    color:#f2d9a8;font-size:.78rem;letter-spacing:.14em;padding:4px 14px;border-radius:999px;margin-bottom:16px;}
+  .hero h1{margin:0 0 8px;font-size:2rem;font-weight:900;color:#fff;}
+  .hero .subtitle{margin:0 0 14px;color:#c9cfe2;font-size:.95rem;}
+  .hero .lead{max-width:640px;color:#e6e4da;font-size:.98rem;}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;font-size:.82rem;}
+  .hero .meta span{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);padding:4px 12px;border-radius:999px;}
+  /* sections */
+  .section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 32px;margin-bottom:26px;}
+  .section h2{margin:0 0 6px;font-size:1.42rem;color:var(--indigo);}
+  .section h2 .no{color:var(--amber);font-size:.9em;margin-right:8px;}
+  .section-intro{color:var(--sub);margin-top:0;}
+  .callout{background:var(--indigo-soft);border-left:4px solid var(--indigo);border-radius:0 10px 10px 0;
+    padding:14px 18px;margin:16px 0;font-size:.95rem;}
+  .warning{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;padding:14px 18px;margin:16px 0;font-size:.93rem;}
+  /* domain cards */
+  .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:18px;}
+  .dcard{border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;background:#fdfcf9;
+    border-top:4px solid var(--dc,#2f3d66);}
+  .dcard h3{margin:0 0 4px;font-size:1.05rem;color:var(--dc,#2f3d66);}
+  .dcard .dc-en{font-size:.74rem;letter-spacing:.08em;color:var(--sub);margin-bottom:10px;}
+  .dcard p{margin:6px 0;font-size:.9rem;}
+  .dcard .sig{background:#fff;border:1px dashed var(--line);border-radius:9px;padding:8px 11px;font-size:.86rem;margin:8px 0;}
+  .dcard .sig b{color:var(--dc);}
+  .dcard .reps{font-size:.8rem;color:var(--sub);margin-top:8px;}
+  /* §2 領域橫幅（重排版） */
+  .dom{border:1px solid var(--line);border-radius:16px;margin-bottom:16px;background:var(--card);
+    overflow:hidden;border-top:4px solid var(--dc,#2f3d66);
+    display:grid;grid-template-columns:250px 1fr;}
+  .dom .rail{background:#fbfaf6;border-right:1px solid var(--line);padding:20px 20px 18px;}
+  .dom .rail h3{margin:0 0 1px;font-size:1.12rem;color:var(--dc);}
+  .dom .rail .dc-en{font-size:.7rem;letter-spacing:.11em;color:var(--sub);margin-bottom:14px;}
+  .dom .atk{font-size:.84rem;line-height:1.72;color:var(--ink);}
+  .dom .atk .k{display:inline-block;font-weight:700;color:#fff;background:var(--dc);opacity:.9;
+    font-size:.68rem;letter-spacing:.04em;border-radius:5px;padding:1px 7px;margin:11px 0 3px;}
+  .dom .atk .k:first-child{margin-top:0;}
+  .dom .reps2{font-size:.75rem;color:var(--sub);margin-top:15px;padding-top:12px;border-top:1px dashed var(--line);}
+  .dom .glo{padding:16px 22px 6px;}
+  .dom .glo .glo-h{font-size:.7rem;letter-spacing:.1em;color:var(--sub);font-weight:700;margin:0 0 12px;}
+  .gterm{margin:0 0 12px;padding-bottom:11px;border-bottom:1px solid #efece3;font-size:.89rem;line-height:1.68;}
+  .gterm:last-child{border-bottom:none;margin-bottom:2px;}
+  .gterm .t{font-weight:700;color:var(--dc);}
+  .gterm .en{font-size:.71rem;letter-spacing:.03em;color:var(--sub);font-weight:500;}
+  .gterm .df{color:var(--ink);}
+  .gterm .ex{display:block;margin-top:2px;color:#5a5f70;font-size:.85rem;}
+  .gterm .ex .extag{display:inline-block;background:var(--dc);color:#fff;opacity:.82;font-size:.64rem;
+    border-radius:4px;padding:0 5px;margin-right:6px;vertical-align:1.5px;letter-spacing:.05em;}
+  .gterm .ex b{color:var(--dc);font-weight:600;}
+  @media(max-width:720px){.dom{grid-template-columns:1fr;}
+    .dom .rail{border-right:none;border-bottom:1px solid var(--line);}}
+  @media print{.dom{grid-template-columns:230px 1fr;break-inside:avoid;}}
+  /* chips + table */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+  .chip{border:1.5px solid var(--cc,#888);color:var(--cc,#555);background:#fff;border-radius:999px;
+    padding:3px 13px;font-size:.83rem;cursor:pointer;user-select:none;transition:all .15s;}
+  .chip.on{background:var(--cc);color:#fff;}
+  .ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0 4px;font-size:.88rem;}
+  .ctrl input[type=search]{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:.9rem;background:#fff;}
+  .ctrl label{color:var(--sub);display:flex;align-items:center;gap:5px;cursor:pointer;}
+  #pcount{font-size:.84rem;color:var(--sub);margin:6px 0 2px;}
+  table.ptab{width:100%;border-collapse:collapse;font-size:.87rem;margin-top:8px;}
+  .ptab th{background:var(--indigo);color:#fff;padding:8px 10px;text-align:left;font-weight:500;font-size:.83rem;position:sticky;top:0;}
+  .ptab td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .ptab tr:hover td{background:#faf8f2;}
+  .ptab .yr{white-space:nowrap;font-weight:700;color:var(--indigo);}
+  .ptab .lc{opacity:.62;}
+  .tagpill{display:inline-block;font-size:.72rem;color:#fff;border-radius:999px;padding:1px 9px;margin:1px 3px 1px 0;white-space:nowrap;}
+  .confmark{font-size:.8rem;}
+  .tabwrap{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:12px;}
+  /* prediction */
+  .pred{border:1px solid var(--line);border-left:5px solid var(--amber);border-radius:0 12px 12px 0;
+    background:#fffdf8;padding:14px 18px;margin:12px 0;}
+  .pred h4{margin:0 0 4px;font-size:1rem;color:var(--indigo);}
+  .pred .lvl{font-size:.76rem;border-radius:999px;padding:1px 10px;margin-left:8px;vertical-align:2px;}
+  .lvl-hi{background:#e3efe3;color:#2e6b34;border:1px solid #a8cfa9;}
+  .lvl-md{background:var(--amber-soft);color:#8a5d0d;border:1px solid var(--warn-line);}
+  .lvl-lo{background:#f2e9ea;color:#8a3c49;border:1px solid #d9b3ba;}
+  table.claims{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:10px;}
+  .claims th{background:var(--indigo-soft);color:var(--indigo);padding:8px 12px;text-align:left;}
+  .claims td{padding:8px 12px;border-bottom:1px solid var(--line);}
+  /* checklist */
+  .cl-progress{display:flex;align-items:center;gap:14px;margin:12px 0;}
+  .cl-track{flex:1;height:9px;background:var(--indigo-soft);border-radius:999px;overflow:hidden;}
+  .cl-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),var(--indigo));transition:width .3s;}
+  .cl-reset{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 12px;font-size:.82rem;cursor:pointer;}
+  table.cl{width:100%;border-collapse:collapse;font-size:.9rem;}
+  .cl td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .cl input{transform:scale(1.2);}
+  footer{color:var(--sub);font-size:.8rem;text-align:center;margin-top:34px;}
+  @media print{
+    .sticky-toc,.ctrl,.chips,.cl-reset{display:none!important;}
+    .tabwrap{max-height:none;overflow:visible;border:none;}
+    .section{break-inside:avoid;}
+  }
+
+
+  /* §2 羅馬尼亞十題驗證 */
+  .verify-block{margin-top:8px;}
+  .verify-block .verify-sub{margin-top:28px;padding-top:4px;}
+  .verify-block h3{margin:0 0 6px;font-size:1.18rem;color:var(--indigo);}
+  .verify-block h3 .no{color:var(--amber);font-size:.9em;margin-right:8px;}
+  .verify-block table{border-collapse:collapse;width:100%;font-size:.88rem;margin:14px 0;}
+  .verify-block th{background:var(--indigo);color:#fff;padding:8px 10px;text-align:left;font-weight:700;}
+  .verify-block td{border-bottom:1px solid var(--line);padding:7px 10px;vertical-align:top;}
+  .verify-block tr:nth-child(even) td{background:#fbfaf6;}
+  .verify-block .chip{display:inline-block;font-size:.7rem;font-weight:700;color:#fff;border-radius:5px;
+    padding:1px 8px;margin:0 4px 2px 0;letter-spacing:.03em;background:var(--dc,#2f3d66);white-space:nowrap;}
+  .verify-block .chip.lite{background:transparent;color:var(--dc,#2f3d66);border:1.5px solid var(--dc,#2f3d66);}
+  .verify-block .yeartag{display:inline-block;font-size:.7rem;font-weight:700;border-radius:5px;padding:1px 8px;margin-right:6px;
+    background:#efece3;color:var(--sub);letter-spacing:.05em;}
+  .verify-block .pcard{border:1px solid var(--line);border-radius:16px;margin-bottom:22px;background:var(--card);
+    overflow:hidden;border-top:5px solid var(--dc,#2f3d66);padding:24px 28px 18px;}
+  .verify-block .pcard h3{margin:2px 0 2px;font-size:1.15rem;color:var(--dc,#2f3d66);}
+  .verify-block .pcard .p-sub{font-size:.82rem;color:var(--sub);margin-bottom:14px;}
+  .verify-block .pcard .star{color:var(--amber);font-size:.95em;}
+  .verify-block .block-label{display:inline-block;font-weight:700;color:#fff;background:var(--dc,#2f3d66);
+    font-size:.7rem;letter-spacing:.06em;border-radius:5px;padding:2px 9px;margin:12px 0 6px;}
+  .verify-block .sigbox{background:#fdfcf8;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:.9rem;margin:4px 0 8px;}
+  .verify-block .hookline{font-size:.9rem;margin:2px 0;}
+  .verify-block .hookline label{cursor:pointer;}
+  .verify-block .hookline input{accent-color:var(--dc,#2f3d66);margin-right:7px;transform:translateY(1.5px);}
+  .verify-block .hookline .cref{font-size:.76rem;color:var(--sub);margin-left:6px;}
+  .verify-block .path ol{margin:6px 0 8px;padding-left:22px;font-size:.9rem;}
+  .verify-block .path li{margin-bottom:4px;}
+  .verify-block details.ans{border:1.5px solid var(--dc,#2f3d66);border-radius:12px;margin:14px 0 10px;background:#fdfcf9;overflow:hidden;}
+  .verify-block details.ans summary{cursor:pointer;font-weight:700;color:var(--dc,#2f3d66);padding:10px 16px;
+    background:color-mix(in srgb, var(--dc,#2f3d66) 8%, #ffffff);list-style:none;font-size:.93rem;user-select:none;}
+  .verify-block details.ans summary::before{content:"▸ ";}
+  .verify-block details.ans[open] summary::before{content:"▾ ";}
+  .verify-block details.ans .ansbody{padding:12px 18px 14px;font-size:.9rem;}
+  .verify-block .anskey{margin:6px 0;padding-left:0;list-style:none;}
+  .verify-block .anskey li{margin-bottom:5px;padding-left:1.2em;text-indent:-1.2em;}
+  .verify-block .anskey li b:first-child{color:var(--dc,#2f3d66);}
+  .verify-block .formula{font-family:Consolas,"DejaVu Sans Mono",monospace;text-align:center;font-size:1.02rem;
+    background:var(--indigo-soft);border-radius:10px;padding:10px 14px;margin:10px 0;letter-spacing:.02em;}
+  .verify-block .mini-table{font-size:.82rem;}
+  .verify-block .mini-table th{padding:5px 8px;background:var(--dc,#2f3d66);}
+  .verify-block .mini-table td{padding:4px 8px;}
+  .verify-block .covrow td:first-child{font-weight:700;}
+  .verify-block .cov-y{color:#2e7d32;font-weight:700;}
+  .verify-block .cov-p{color:var(--amber);font-weight:700;}
+  .verify-block .cov-n{color:#b23a48;font-weight:700;}
+  .verify-block .errata{background:#fff;border:2px solid var(--amber);border-radius:14px;padding:18px 22px;margin:16px 0;}
+  .verify-block .errata h3,.verify-block .errata h4{margin:0 0 8px;color:var(--amber);font-size:1.05rem;}
+  .verify-block code,.verify-block .mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em;
+    background:#f1efe8;border-radius:5px;padding:1px 6px;}
+
+  .pk{font-size:0.72em;opacity:0.65;margin-right:0.15em;}
+@media print{.pk{opacity:1;}}
+</style>
+</head>
+<body>
+<aside class="sticky-toc" aria-label="快速目錄">
+  <h4>Quick TOC</h4>
+  <a href="#howto">使用方式</a>
+  <a href="#map">考點地圖</a>
+  <a href="#domains">十一大領域</a>
+  <a href="#ro-verify" style="padding-left:20px;font-size:.78rem;">· 羅馬尼亞十題驗證</a>
+  <a href="#archive">考古題總索引</a>
+  <a href="#freq">頻率分析</a>
+  <a href="#typodata">資料視角</a>
+  <a href="#rarity" style="padding-left:20px;font-size:.78rem;">· 罕見度量化</a>
+  <a href="#balkan" style="padding-left:20px;font-size:.78rem;">· 巴爾幹語盟</a>
+  <a href="#predict">賽前預測</a>
+  <a href="#checklist">考前檢查表</a>
+</aside>
+
+<main class="page">
+  <section class="hero">
+    <div class="tag">Training Olympiad in Linguistics｜給語奧國手賽前速讀</div>
+    <h1>語言類型學參考 Cheatsheet</h1>
+    <p class="subtitle">謝舒凱 台大語言所 | 謝心波 (SYMBOT)</p>
+    <p class="lead">我們都知道，語言學奧林匹亞不會考你認得幾種語言，但其實每一道題背後都對應到至少一個類型學主題。這份講義是第一次試著把 22 屆、134 道考古題分到十一個領域，目的是讓選手在考場上遇到陌生題目時，也許可以先判斷它屬於哪個領域，再決定用什麼方法著手解題。</p>
+    <div class="meta">
+      <span>對象｜國手・培訓營</span><span>資料｜IOL 2003–2025（官方題庫）</span><span>形式｜考點地圖＋索引＋預測</span>
+    </div>
+  </section>
+
+  <section class="section" id="howto">
+    <h2><span class="no">§0</span>怎麼使用這份講義（搭配刷題的邏輯與速度訓練）</h2>
+    <p>這份講義分成三層，分別對應賽前不同階段：</p>
+    <p><b>賽前一週</b>：把〈§2 十一大領域〉讀熟。每個領域的「訊號（你在題目中看到了什麼？） → 假設（這背後的語言學原理是什麼？）」是重點。也就是說，題目一出現某種特徵，就能立刻想到對應的類型學假設。</p>
+    <p><b>賽前一天</b>：看過〈§1 考點地圖〉和〈§4 頻率分析〉，掌握哪些領域幾乎每屆都考、哪些較少出現，再參考〈§6 賽前預測〉調整最後的複習分配。</p>
+    <p><b>平時訓練</b>：用〈§3 考古題總索引〉的篩選功能，依領域抓出整組題目做主題式練習，例如把歷屆 direct–inverse 的題目集中做完。</p>
+    <div class="callout"><b>提醒一下：</b>類型學對語奧選手的作用，類似開局定石之於棋手。重點不在背答案，而在辨認題型；真正的推理仍得在考場上完成，但先判斷出題目屬於哪一類，能省下開頭最花時間的摸索階段；或是在假設存在多種可能時，優先選擇最符合類型學假設的答案。</div>
+  </section>
+
+  <section class="section" id="map">
+    <h2><span class="no">§1</span>考點地圖：22 屆 × 11 領域</h2>
+    <p class="section-intro">每一欄是一屆 IOL，每一列是一個領域。實心點表示該屆<b>個人賽</b>有題涉及此領域；空心環表示該屆<b>僅團體賽</b>出現；虛線圈表示初步標註、尚未對照官方解答；小灰點表示該屆未出現。</p>
+    <svg viewBox="0 0 882 374" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="年度×領域考點矩陣" style="width:100%;height:auto;"><style>.mx-lab{font:11px "Noto Sans TC",sans-serif;fill:#5a5f70;}.mx-dom{font:600 12px "Noto Sans TC",sans-serif;}</style><text class="mx-lab" x="135.0" y="20" text-anchor="middle" transform="rotate(-38 135.0 20)">2003</text><rect x="118" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="169.0" y="20" text-anchor="middle" transform="rotate(-38 169.0 20)">2004</text><text class="mx-lab" x="203.0" y="20" text-anchor="middle" transform="rotate(-38 203.0 20)">2005</text><rect x="186" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="237.0" y="20" text-anchor="middle" transform="rotate(-38 237.0 20)">2006</text><text class="mx-lab" x="271.0" y="20" text-anchor="middle" transform="rotate(-38 271.0 20)">2007</text><rect x="254" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="305.0" y="20" text-anchor="middle" transform="rotate(-38 305.0 20)">2008</text><text class="mx-lab" x="339.0" y="20" text-anchor="middle" transform="rotate(-38 339.0 20)">2009</text><rect x="322" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="373.0" y="20" text-anchor="middle" transform="rotate(-38 373.0 20)">2010</text><text class="mx-lab" x="407.0" y="20" text-anchor="middle" transform="rotate(-38 407.0 20)">2011</text><rect x="390" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="441.0" y="20" text-anchor="middle" transform="rotate(-38 441.0 20)">2012</text><text class="mx-lab" x="475.0" y="20" text-anchor="middle" transform="rotate(-38 475.0 20)">2013</text><rect x="458" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="509.0" y="20" text-anchor="middle" transform="rotate(-38 509.0 20)">2014</text><text class="mx-lab" x="543.0" y="20" text-anchor="middle" transform="rotate(-38 543.0 20)">2015</text><rect x="526" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="577.0" y="20" text-anchor="middle" transform="rotate(-38 577.0 20)">2016</text><text class="mx-lab" x="611.0" y="20" text-anchor="middle" transform="rotate(-38 611.0 20)">2017</text><rect x="594" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="645.0" y="20" text-anchor="middle" transform="rotate(-38 645.0 20)">2018</text><text class="mx-lab" x="679.0" y="20" text-anchor="middle" transform="rotate(-38 679.0 20)">2019</text><rect x="662" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="713.0" y="20" text-anchor="middle" transform="rotate(-38 713.0 20)">2021</text><text class="mx-lab" x="747.0" y="20" text-anchor="middle" transform="rotate(-38 747.0 20)">2022</text><rect x="730" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="781.0" y="20" text-anchor="middle" transform="rotate(-38 781.0 20)">2023</text><text class="mx-lab" x="815.0" y="20" text-anchor="middle" transform="rotate(-38 815.0 20)">2024</text><rect x="798" y="28" width="34" height="332" fill="#2f3d66" opacity="0.035"/><text class="mx-lab" x="849.0" y="20" text-anchor="middle" transform="rotate(-38 849.0 20)">2025</text><text class="mx-dom" x="108" y="53.0" text-anchor="end" fill="#4a5fc1">音韻・聲調</text><circle cx="135.0" cy="49.0" r="6" fill="none" stroke="#4a5fc1" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="169.0" cy="49.0" r="6" fill="none" stroke="#4a5fc1" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="203.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="237.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="271.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="305.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="339.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="373.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="407.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="441.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="475.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="509.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="543.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="577.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="611.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="645.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="679.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="713.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="747.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="781.0" cy="49.0" r="6.5" fill="#4a5fc1"/><circle cx="815.0" cy="49.0" r="1.6" fill="#c9c6bd"/><circle cx="849.0" cy="49.0" r="6.5" fill="#4a5fc1"/><text class="mx-dom" x="108" y="83.0" text-anchor="end" fill="#0f766e">構詞</text><circle cx="135.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="169.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="203.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="237.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="271.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="305.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="339.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="373.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="407.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="441.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="475.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="509.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="543.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="577.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="611.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="645.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="679.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="713.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="747.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="781.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="815.0" cy="79.0" r="6.5" fill="#0f766e"/><circle cx="849.0" cy="79.0" r="6.5" fill="#0f766e"/><text class="mx-dom" x="108" y="113.0" text-anchor="end" fill="#b4530a">對齊・一致</text><circle cx="135.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="169.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="203.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="237.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="271.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="305.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="339.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="373.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="407.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="441.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="475.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="509.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="543.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="577.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="611.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="645.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="679.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="713.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="747.0" cy="109.0" r="1.6" fill="#c9c6bd"/><circle cx="781.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="815.0" cy="109.0" r="6.5" fill="#b4530a"/><circle cx="849.0" cy="109.0" r="5.4" fill="var(--card,#fff)" stroke="#b4530a" stroke-width="2.3"/><text class="mx-dom" x="108" y="143.0" text-anchor="end" fill="#7e5bbf">句法・詞序</text><circle cx="135.0" cy="139.0" r="6" fill="none" stroke="#7e5bbf" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="169.0" cy="139.0" r="6" fill="none" stroke="#7e5bbf" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="203.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="237.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="271.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="305.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="339.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="373.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="407.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="441.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="475.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="509.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="543.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="577.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="611.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="645.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="679.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="713.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="747.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="781.0" cy="139.0" r="6.5" fill="#7e5bbf"/><circle cx="815.0" cy="139.0" r="1.6" fill="#c9c6bd"/><circle cx="849.0" cy="139.0" r="6.5" fill="#7e5bbf"/><text class="mx-dom" x="108" y="173.0" text-anchor="end" fill="#b0356b">名詞範疇</text><circle cx="135.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="169.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="203.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="237.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="271.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="305.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="339.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="373.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="407.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="441.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="475.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="509.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="543.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="577.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="611.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="645.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="679.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="713.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="747.0" cy="169.0" r="1.6" fill="#c9c6bd"/><circle cx="781.0" cy="169.0" r="5.4" fill="var(--card,#fff)" stroke="#b0356b" stroke-width="2.3"/><circle cx="815.0" cy="169.0" r="6.5" fill="#b0356b"/><circle cx="849.0" cy="169.0" r="6.5" fill="#b0356b"/><text class="mx-dom" x="108" y="203.0" text-anchor="end" fill="#5f7a1e">語意・詞彙</text><circle cx="135.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="169.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="203.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="237.0" cy="199.0" r="5.4" fill="var(--card,#fff)" stroke="#5f7a1e" stroke-width="2.3"/><circle cx="271.0" cy="199.0" r="5.4" fill="var(--card,#fff)" stroke="#5f7a1e" stroke-width="2.3"/><circle cx="305.0" cy="199.0" r="1.6" fill="#c9c6bd"/><circle cx="339.0" cy="199.0" r="1.6" fill="#c9c6bd"/><circle cx="373.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="407.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="441.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="475.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="509.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="543.0" cy="199.0" r="5.4" fill="var(--card,#fff)" stroke="#5f7a1e" stroke-width="2.3"/><circle cx="577.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="611.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="645.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="679.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="713.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="747.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="781.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="815.0" cy="199.0" r="6.5" fill="#5f7a1e"/><circle cx="849.0" cy="199.0" r="6.5" fill="#5f7a1e"/><text class="mx-dom" x="108" y="233.0" text-anchor="end" fill="#c8871e">數詞・曆法</text><circle cx="135.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="169.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="203.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="237.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="271.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="305.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="339.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="373.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="407.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="441.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="475.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="509.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="543.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="577.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="611.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="645.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="679.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="713.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="747.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="781.0" cy="229.0" r="6.5" fill="#c8871e"/><circle cx="815.0" cy="229.0" r="1.6" fill="#c9c6bd"/><circle cx="849.0" cy="229.0" r="6.5" fill="#c8871e"/><text class="mx-dom" x="108" y="263.0" text-anchor="end" fill="#33658a">文字・符號</text><circle cx="135.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="169.0" cy="259.0" r="6" fill="none" stroke="#33658a" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="203.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="237.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="271.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="305.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="339.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="373.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="407.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="441.0" cy="259.0" r="5.4" fill="var(--card,#fff)" stroke="#33658a" stroke-width="2.3"/><circle cx="475.0" cy="259.0" r="5.4" fill="var(--card,#fff)" stroke="#33658a" stroke-width="2.3"/><circle cx="509.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="543.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="577.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="611.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="645.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="679.0" cy="259.0" r="6.5" fill="#33658a"/><circle cx="713.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="747.0" cy="259.0" r="5.4" fill="var(--card,#fff)" stroke="#33658a" stroke-width="2.3"/><circle cx="781.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="815.0" cy="259.0" r="1.6" fill="#c9c6bd"/><circle cx="849.0" cy="259.0" r="1.6" fill="#c9c6bd"/><text class="mx-dom" x="108" y="293.0" text-anchor="end" fill="#8a5a3b">歷史比較</text><circle cx="135.0" cy="289.0" r="5.4" fill="var(--card,#fff)" stroke="#8a5a3b" stroke-width="2.3"/><circle cx="169.0" cy="289.0" r="6" fill="none" stroke="#8a5a3b" stroke-width="1.8" stroke-dasharray="2.4 2"/><circle cx="203.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="237.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="271.0" cy="289.0" r="6.5" fill="#8a5a3b"/><circle cx="305.0" cy="289.0" r="6.5" fill="#8a5a3b"/><circle cx="339.0" cy="289.0" r="6.5" fill="#8a5a3b"/><circle cx="373.0" cy="289.0" r="6.5" fill="#8a5a3b"/><circle cx="407.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="441.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="475.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="509.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="543.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="577.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="611.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="645.0" cy="289.0" r="5.4" fill="var(--card,#fff)" stroke="#8a5a3b" stroke-width="2.3"/><circle cx="679.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="713.0" cy="289.0" r="5.4" fill="var(--card,#fff)" stroke="#8a5a3b" stroke-width="2.3"/><circle cx="747.0" cy="289.0" r="6.5" fill="#8a5a3b"/><circle cx="781.0" cy="289.0" r="1.6" fill="#c9c6bd"/><circle cx="815.0" cy="289.0" r="5.4" fill="var(--card,#fff)" stroke="#8a5a3b" stroke-width="2.3"/><circle cx="849.0" cy="289.0" r="5.4" fill="var(--card,#fff)" stroke="#8a5a3b" stroke-width="2.3"/><text class="mx-dom" x="108" y="323.0" text-anchor="end" fill="#a03e4e">社會・詩律</text><circle cx="135.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="169.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="203.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="237.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="271.0" cy="319.0" r="5.4" fill="var(--card,#fff)" stroke="#a03e4e" stroke-width="2.3"/><circle cx="305.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="339.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="373.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="407.0" cy="319.0" r="5.4" fill="var(--card,#fff)" stroke="#a03e4e" stroke-width="2.3"/><circle cx="441.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="475.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="509.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="543.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="577.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="611.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="645.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="679.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="713.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="747.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="781.0" cy="319.0" r="1.6" fill="#c9c6bd"/><circle cx="815.0" cy="319.0" r="6.5" fill="#a03e4e"/><circle cx="849.0" cy="319.0" r="1.6" fill="#c9c6bd"/><text class="mx-dom" x="108" y="353.0" text-anchor="end" fill="#556879">計算・編碼</text><circle cx="135.0" cy="349.0" r="5.4" fill="var(--card,#fff)" stroke="#556879" stroke-width="2.3"/><circle cx="169.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="203.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="237.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="271.0" cy="349.0" r="6.5" fill="#556879"/><circle cx="305.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="339.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="373.0" cy="349.0" r="6.5" fill="#556879"/><circle cx="407.0" cy="349.0" r="6.5" fill="#556879"/><circle cx="441.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="475.0" cy="349.0" r="6.5" fill="#556879"/><circle cx="509.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="543.0" cy="349.0" r="6.5" fill="#556879"/><circle cx="577.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="611.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="645.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="679.0" cy="349.0" r="5.4" fill="var(--card,#fff)" stroke="#556879" stroke-width="2.3"/><circle cx="713.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="747.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="781.0" cy="349.0" r="1.6" fill="#c9c6bd"/><circle cx="815.0" cy="349.0" r="5.4" fill="var(--card,#fff)" stroke="#556879" stroke-width="2.3"/><circle cx="849.0" cy="349.0" r="6.5" fill="#556879"/></svg>
+    <div class="callout" style="margin-top:14px;">
+      <b>整體趨勢：</b>「構詞（句法）morpho-syntax 」與「音韻・聲調」幾乎每屆都出現，是最穩定的題類；「對齊・一致」與「名詞範疇」則從 2012 年起密度明顯提高；「文字・符號」在個人賽自 2019 年 Book Pahlavi 那題之後，2021 年起已連續五屆缺席；期間文字類題僅出現在團體賽（2019 韻律體操符號、2022 Manchu，見該列的空心環）；「數詞」則大致每兩三屆出現一次，相當規律。
+    </div>
+  </section>
+
+  <section class="section" id="domains">
+    <h2><span class="no">§2</span>十一大領域：訊號 → 假設 → 工具（解題）</h2>
+    <p class="section-intro">以下分別就每個領域做一些基礎概念說明。左欄是「怎麼認、怎麼下手」的攻略（訊號 → 假設 → 工具＋代表題），右欄是該領域的<b>核心概念詞典</b>。右欄用來把不熟的名詞補起來。</p>
+
+      <div class="dom" style="--dc:#4a5fc1;">
+        <div class="rail">
+          <h3>音韻・聲調</h3><div class="dc-en">PHONOLOGY & TONE</div>
+          <div class="atk">
+            <span class="k">訊號</span>
+            <span>當同一個詞素（詞根或詞綴），在不同詞的拼法出現系統性的微調（如元音改變、輔音清濁交替）；或在字母上方或下方標記了大量的調符（如 <b>á, à, â</b>）、數字（如 <b>¹, ²</b>）或底線，且這些符號的分布忽隱忽現。</span><br>
+            <span class="k">假設</span>
+            <span>音段層面可能涉及了條件變體 (Allophony)。語音為了省力，受到隔壁鄰居的「同化」或受到音節位置的制約；超音段層面則可能有聲調指派 (Tone Assignment)，表層的聲調不是每個音節死板固定的，而是由一套語法規則「投射」或「計算」出來的落點。</span></br>
+            <span class="k">解題</span>
+            <span>
+              <ul class="atk-steps">
+                <li>步驟一：列出對立（對齊所有變化形式，抓出改變的音段）。</li>
+                <li>步驟二：檢查觸發環境（看左鄰、右鄰的音特徵，特別注意「舌根前伸 (+ATR)」或「清濁音」）。</li>
+                <li>步驟三：計算槽位與邊界（如果環境無關鄰居，立刻轉向算「音節數」、「音拍數」或「距詞尾／詞首的距離」，甚至詞類）。</li>
+              </ul>
+            </span>
+
+            <span class="k">注意</span>
+            <ul class="atk-notes">
+              <li>不要只看「隔壁」：元音和諧（如 +ATR）是跨音節擴散的，會跳過輔音影響下一個元音。</li>
+              <li>聲調不是單字調：語奧的聲調題 90% 不是考固定詞彙調，而是考「語法聲調」（用高調表複數、用低調表過去式）或「聲調擴散」。如果逐字查對不起來，立刻改用**「數格子（音節／音拍）」**的方法找規律！</li>
+              <li>澳洲語言無聲調：看到系屬是澳洲語系，直接把聲調假設從腦中剔除。</li>
+            </ul>
+       
+          </div>
+          <div class="reps2">代表題：Rotuman 2012・Creek 2018・Chamic 2022・Kuria 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例子</p>
+<div class="gterm"><span class="t">ATR 元音和諧</span> <span class="en">ATR VOWEL HARMONY</span>　<span class="df">
+  元音依「舌根前伸（+ATR）」或「舌根縮回（−ATR）」分為兩組，一個詞內必須同組，詞綴元音會被詞根強行同化 。
+  </span><span class="ex"><span class="extag">例</span>Akan 等尼日—剛果語言，詞根若為 +ATR，附加詞綴的元音也轉成其 +ATR 對應音（<b>e/o</b> ↔ <b>ɛ/ɔ</b>），跳過輔音實現跨音節傳播。</span></div><div class="gterm"><span class="t">聲調指派</span> <span class="en">TONE ASSIGNMENT</span>　<span class="df">表層聲調並非每音節詞彙死死的給定，而是底層的高低調位依據語法規則（如字數、詞類、詞邊界）投射到音節上。</span><span class="ex"><span class="extag">例</span><b>Kuria</b>（2025）高調的落點由詞根加固定計數規則決定，而不是像英語單字一樣死記。</span></div><div class="gterm"><span class="t">音位轉換</span> <span class="en">METATHESIS</span>　<span class="df">同一個詞在不同語法狀態下，相鄰的語音（通常是 C 與 V）規則性地互換位置 。</span><span class="ex"><span class="extag">例</span><b>Rotuman</b>（2012）以詞尾兩音互換（CVCV↔CVCV 的變體）區辨「完整式／不完整式」，是少數把 metathesis 語法化的語言。</span></div><div class="gterm"><span class="t">聲調產生</span> <span class="en">TONOGENESIS</span>　<span class="df">原本區辨意義的輔音對立（清濁、送氣、喉塞）消失，其效果「轉移」到元音音高，衍生出聲調。</span><span class="ex"><span class="extag">例</span><b>占語支</b>（Chamic，2022）由無聲調的南島語，經聲母清濁合流演化出聲調。</span></div><div class="gterm"><span class="t">搭嘴音</span> <span class="en">CLICKS</span>　<span class="df">利用口腔內前後兩處同時閉合，靠舌體往回吸造成負壓，所產生的吸氣爆破音。主要見於南部非洲。</span><span class="ex"><span class="extag">例</span><b>Taa／ǃXóõ</b>（2016）含數十個搭嘴音，是已知輔音庫存最大的語言。</div>
+  
+  <div class="gterm"><span class="t">夾擠同化／遠距同化 </span> 
+    <span class="en">Intervocalic Lenition / Distance Assimilation</span>　
+    <span class="df">夾在兩個強音（通常是元音）中間的弱音（輔音），會被兩邊的元音同化，發生清音變濁音（p → b）、塞音變擦音（t → s）的現象。</span>
+    <span class="ex"><span class="extag">例</span>許多美洲語言在構詞接合時，原本詞首的清塞音一旦被前綴元音夾住，會立刻規則性地變成濁音或擦音。
+  </div>
+    
+  
+  <div class="gterm"><span class="t">音節結構限制與插音</span> 
+    <span class="en">Phonotactics & Epenthesis</span>　
+    <span class="df">每個語言對「音節長怎樣」都有嚴格規定（例如絕對不允許 CCV 或詞尾有輔音），當構詞導致違規時，系統會強行插入一個元音或刪除一個輔音。</span>
+    <span class="ex"><span class="extag">例</span><b>Micmac（2008）</b>當兩個輔音撞在一起違反音節限制時，會依據其所屬的槽位規則，在中間強行插入特定母音。
+  </div>
+
+  <div class="gterm"><span class="t">超音段擴散</span> 
+    <span class="en">Autosegmental Spreading</span>　
+    <span class="df">鼻音化（Nasalization）或聲調不屬於單個字母，它像一團「霧氣」，會從觸發點向左或向右擴散，直到撞到特定阻礙音才停止。</span>
+    <span class="ex"><span class="extag">例</span><b>Terêna（2018）</b>的第一人稱沒有實體字母前綴，而是把「鼻音」這個特徵從詞首一路向右擴散，讓沿途能鼻化的音全部鼻化。
+  </div>
+
+  <div class="gterm"><span class="t">輔音交替</span> 
+    <span class="en">Consonant Mutation</span>　
+    <span class="df">不需要挪動位置，只靠詞首或詞尾輔音本身的發音方法改變（如爆破音變擦音），來表達語法意義（如性別、格位）。</span>
+    <span class="ex"><span class="extag">例</span>凱爾特語族（如愛爾蘭語）或部分非洲語言，僅透過詞首輔音交替（如 <b>p</b> 變 <b>f</b>），即可表示語法意義的改變，例如由「我的」變為「他的」。
+  </div>
+
+</div>
+      
+
+
+</div>
+      </div>
+
+      <div class="dom" style="--dc:#0f766e;">
+        <div class="rail">
+          <h3>構詞</h3><div class="dc-en">MORPHOLOGY</div>
+          <div class="atk"><span class="k">訊號</span> 長短不對稱：題目給的陌生語言「一個詞長到不行」，但對應的中文或英文翻譯卻是「一整句話」（例如：一個單字表達「他找不到合適的那一個」）；或是多功能堆疊：在同一個詞幹上，隨著時貌、人稱、否定或場所的改變，前後綴會像套娃一樣層層堆疊。<br>
+          <span class="k">假設</span> 
+          在結構層面上，可能是多式綜合 (Polysynthesis) 或模板構詞 (Templatic Morphology) 。這類語言將主語、賓語、時貌語氣（TAM）等論元與語法範疇，全部綜合成單一動詞。機制層面上，分散式構詞 (Distributed Exponence) 或非連續語素。一個完整的語法意義（例如「第一人稱過去式」）被切成兩半，分散在詞頭與詞尾的槽位共同標記。<br> 
+                  
+          <span class="k">解題</span> 
+            <ul>
+            <li>步驟一：橫向對齊，垂直切割。把所有形式對齊，將長詞橫向切分成一個個槽位（Slot）。</li>
+            <li>步驟二：建立槽位模板表 (Slot Matrix)。為切出來的區塊編號（如 Slot -2, Slot -1, Root, Slot +1...），逐一填入對應的功能（如：人稱槽、時貌槽、否定槽）。</li>
+            <li>步驟三：捕捉非典型語素。如果切不開，立刻檢查是否存在「重疊 (Reduplication)」（複製部分詞根表複數／體貌） 、「中綴 (Infixation)」（插在首輔音後面的詞綴）、或「無實體語素」（例如整串音段鼻化交替）。</li>
+          </ul>
+
+          <span class="k">注意</span>
+            <ul class="atk-notes">
+              <li>槽位順序是絕對的：一旦建立槽位表，語素的相對順序（Slot Index）絕對不能任意對調。如果發現對不起來，通常是最初的切分切歪了，或是遇到了條件交替。</li>
+              <li>提防「零標記 (Zero Morpheme)」：如果某個槽位在「第三人稱」或「現在式」時完全沒有對應的語音成分，它很可能是 <span class="math">∅</span>（零標記）。不要硬在裡面找字母，空下來反而能看清全貌。</li>
+        
+              <li>區分「融合」與「黏著」：如果一個後綴同時表達了「第一人稱」加上「過去式」，且無法再切分，這屬於融合（Fusional）。請直接把這個「語素套餐」填入該複合槽位。</li>
+            </ul>
+
+          </div>
+          
+          <div class="reps2">代表題：Inuktitut 2008・Terêna 2018・Komnzo 2024・Kewa 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+
+          <div class="gterm"><span class="t">多式綜合</span> 
+          <span class="en">POLYSYNTHESIS</span>　
+            <span class="df">將主語、賓語、時貌、方式等多個語素，綜合成單一動詞詞彙，對應其他語言的一整句話。</span>
+            <span class="ex"><span class="extag">例</span><b>Inuktitut</b>（2008）單一動詞詞彙即可表達「他找不到合適的那一個」。</span></div>
+            
+            <div class="gterm"><span class="t">重疊</span> 
+            <span class="en">REDUPLICATION</span>　
+            <span class="df">複製詞根的全部或部分形式，用以表達複數、體貌（反覆／持續）或語意強調。          
+            </span><span class="ex"><span class="extag">例</span><b>West Tarangan</b>（2019）以重疊實現動詞體貌上的語法對立。</span></div>
+            
+            <div class="gterm"><span class="t">中綴</span> 
+            <span class="en">INFIXATION</span>　
+            <span class="df">插入詞根內部（而非首尾）的詞綴。</span><span class="ex"><span class="extag">例</span>南島語常見的 <b>-in-／-um-</b> 插在首輔音之後（如 <i>sulat→s-in-ulat</i>）；<b>Copainalá Zoque</b> (2008)，其名詞後綴與領屬結構中涉及特定語音的中綴插入。</span></div>
+          
+          <div class="gterm"><span class="t">構詞音韻交替</span> <span class="en">MORPHOPHONOLOGY</span>　
+          <span class="df">詞素相接時發生的系統性語音變化，如鼻音擴散、元音省略。</span>
+          <span class="ex"><span class="extag">例</span><b>Terêna</b>（2018）第一人稱以「鼻音擴散」實現整串音段鼻化，而無獨立的人稱前綴。</span></div>
+          
+          <div class="gterm"><span class="t">分散式構詞</span> <span class="en">DISTRIBUTED EXPONENCE</span>　
+          <span class="df">單一語法意義被切成多段、分散在詞的不同槽位共同實現。</span><span class="ex"><span class="extag">例</span><b>Komnzo</b>（2024）主語和賓語的一致性標記分散在動詞的前綴與後綴槽位，兩者合力才決定一組人稱。</span></div>
+        
+          <div class="gterm"><span class="t">構詞音韻交替</span>
+          <span class="en">Morphophonology</span>　
+          <span class="df">語素接合時，在交界處引發系統性的發音改變（如母音省略、鼻音擴散），常會模糊原本清晰的槽位邊界。</span><span class="ex"><span class="extag">例</span><b>Jaqaru</b> (2016)，當多個領屬與格位後綴連續串接時，會觸發系統性的母音省略（Vowel Deletion），讓字面看起來像縮水一樣。</span></div>  
+        
+          <div class="gterm"><span class="t">名詞併入動詞</span>
+            <span class="en">Noun Incorporation</span>　
+            <span class="df">名詞論元（通常是受事賓語）失去了獨立名詞的地位，被削弱並強行塞進動詞模板內，變成動詞的一部分。</span><span class="ex"><span class="extag">例</span><b>Koryak</b> (2024)，動詞結構中高度整合了名詞成分，使整個詞幹同時承載動作與其核心工具／物件。</span></div>
+        
+          <div class="gterm"><span class="t">屈折模板割裂</span>
+            <span class="en">Templatic Splitting / Positions of Affixes</span>
+            <span class="df">動詞內部有一張極度嚴格的槽位清單（Slot Matrix），時制、語氣、人稱必須死板地排在指定順序（如位置 1 必為賓語，位置 2 必為時貌）。</span>
+            <span class="ex"><span class="extag">例</span><b>Ubykh</b> (2022)，擁有極度繁複的動詞多槽位模板，解題時必須手動畫出多達 5 個以上的 Slot 對齊表才能破解。</span></div>  
+
+
+
+        
+        </div>
+      </div>
+
+      <div class="dom" style="--dc:#b4530a;">
+        <div class="rail">
+          <h3> 對齊・一致</h3><div class="dc-en">ALIGNMENT & AGREEMENT</div>
+          
+          <div class="atk"><span class="k">這個領域在考你：「主詞和受詞，在這個語言裡是怎麼認親的？」語奧的核心戰場！</span></div><br>
+          
+          
+          <div class="atk"><span class="k">訊號</span> 及物句與不及物句的人稱標記不一致，或同一組詞綴忽主忽賓。具體的訊號例如，
+            <ul>
+              <li>名詞尾巴多變：同一個名詞（如「狗」），有時字尾是 -o，有時變 -a，但有時卻完全沒有後綴。</li>
+              <li>翻譯標記不對稱：當句子只有「狗在叫」時，狗的拼法和「貓咬狗」的狗一樣，但卻和「狗咬貓」的狗不一樣。</li>
+              <li>人稱代詞大洗牌：動詞裡面的主賓一致標記（如 <span class="math-italic">i-</span>,<span class="math-italic">ku-</span>,<span class="math-italic">m-</span>），隨著動作是「主動（跑）」還是「被動／非自主（跌倒）」而突然切換。</li>
+              </ul>
+            <span class="k">假設</span>
+            <ul>
+              <li>論元對齊偏向 (Argument Alignment)： 語言在處理核心角色時，有不同的「對齊」方式。
+                <br>主賓格 (Nom-Acc) 是最常見，把單純主語（S）與及物施事（A）綁在一起，及物受事（P）另標；作通格 (Erg-Abs) 則是語奧最愛，把單純主語（S）與及物受事（P）綁在一起（通常是乾淨的零標記通格），及物施事（A）單獨加特殊後綴（作格）。
+              </li>
+              <li>階層分裂與正反向 (Nominal Hierarchy & Direct-Inverse)： 一致性標記不看「誰是主/誰是賓」，而是看「誰比較尊貴/有生命」（代詞 > 人類 > 動物 > 無生命）。
+                <br>語法系統會根據「誰比較像人類／尊貴」（代詞 &gt; 人類 &gt; 動物 &gt; 無生命）這個階層來決定要不要標記格位，或者決定動詞的標記順序。
+
+                <ul>
+                  <li>當動作方向符合階層順序（如：我打了熊），動詞加正向標記 (Direct)。</li>
+                  <li>當動作逆著階層（如：熊打了我），動詞加反向標記 (Inverse)。</li>
+                </ul>
+       
+              </li>
+            </ul>
+    
+          <span class="k">解題</span> 畫 S／A／P 表格，逐格填入標記，看誰與誰同形。
+          
+          <ul>
+            <li>
+              繪製 SAP 矩陣。在草稿紙上把句子分類 (及物不及物)，將名詞或代詞抽出來，將名詞／代詞標上 S（不及物句唯一主語）、A（及物句主事者）、P（及物句受事者）。
+            </li>
+            <li>格位與一致性連線。
+              如果 <span class="math-inline">S = A ≠ P &rarr;</span> 主賓格系統 (Nominative-Accusative)（P 是賓格，單獨被標記）。
+              如果 <span class="math-inline">S = P ≠ A &rarr;</span> 作通格系統 (Ergative-Absolutive)（A 是作格，通常帶有特殊後綴；S 和 P 是通格，通常是零標記 <span class="math-inline">&empty;</span> ）。
+            </li>
+            <li>
+              抓出分裂作格 (Split-Ergativity）。如果發現前半段符合主賓格，後半段符合作格，立刻尋找分裂作格的引爆點：<br>
+                 1. 時貌分裂： 過去式/完成體符合作通格，現在式/未完成體符合主賓格（如 Georgian 2014）。<br>
+                 2. 論元分裂： 第一/二人稱代詞用主賓格，第三人稱/一般名詞用作通格。<br>
+            </li>
+          </ul>
+          </ul>
+
+          <span class="k">注意</span>
+            <ul class="atk-notes">
+              <li>勿把「作格」(ergative) 句誤認為被動句：看到作格語言的句子，翻譯時它依然是普通的主動句（如「他看見熊」）。如果一個名詞綴只在及物動詞的主語上出現，它就是作格（ERG），絕非被動語氣。</li>
+              
+              <li>通格（absolutive）通常是隱形人。在作通格語言中，S 和 P 是核心論元，高機率是零標記。如果發現不及物主語和及物賓語的拼法最乾淨，直接鎖定作通格！</li>
+              
+              <li>人稱階層決定一致對象： 在階層式一致（Hierarchical Agreement）題型中，動詞的代名詞前綴可能永遠跟階層最高的論元（如第一人稱）保持一致，不論它在句中是主語還是賓語（如 Hakhun 2018）。</li>
+
+              <li>人稱代詞的順序不等於語序：句子的主語和賓語可能排在動詞後面（如 VOS），但動詞內部綁定的人稱前綴可能永遠是「主語在前、賓語在後」。動詞模板與外部語序必須分開獨立分析。</li>
+      
+              <li>活格/分裂不及物（Active-Stative）： 若不及物主語（S）分裂成兩套，控制度高、有自主意識的動作（如「我跑」）標記同 A；無自主意識的狀態（如「我跌倒」）標記同 P。</li>
+            
+            </ul>
+         
+          <div class="reps2">代表題：Dyirbal 2012・Basque 2012・Hakhun 2018・Plains Cree 2023</div>
+        </div>
+      </div>
+
+        
+           
+        
+      <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+      <div class="gterm"><span class="t">S／A／P</span> <span class="en">CORE ARGUMENT ROLES</span>　<span class="df">對齊的三個原始角色：不及物唯一論元 S、及物施事 A、及物受事 P；語言間差在如何把三者「打包」。</span><span class="ex"><span class="extag">例</span>「打包」方式的不同，正是以下各型的分野。</span></div><div class="gterm"><span class="t">賓格型</span> <span class="en">NOMINATIVE-ACCUSATIVE</span>　<span class="df">S 與 A 同標（主格），P 另標（賓格）；全球最常見。</span><span class="ex"><span class="extag">例</span><b>拉丁語</b>：<i>puella</i>（主）／<i>puellam</i>（賓）。</span></div><div class="gterm">
+      
+        <span class="t">作通格系統</span> 
+        <span class="en">ERGATIVE-ABSOLUTIVE</span>　<span class="df">S 與 P 同標記（通格 ABS），A 另標（作格 ERG）。</span><span class="ex">
+          <span class="extag">例</span><b>Dyirbal</b>（2012）：施事帶作格 <b>-ŋgu</b>，S 與 P 同為零標記通格；<b>Basque</b>（2012），及物句的施動者必須加上作格後綴 -k，而受動者則與不及物句的主語一致，皆為通格空值。</span></div>
+          
+          
+          <div class="gterm"><span class="t">主動—靜態型</span> <span class="en">ACTIVE-STATIVE</span>　<span class="df">S 依語意（自主／受影響）分別按 A 或 P 標記；三型中最稀有。</span><span class="ex"><span class="extag">例</span><b>Lakhota</b>：「跑」的 S 用施事標記，「病」的 S 用受事標記。</span></div>
+          
+          <div class="gterm">
+          <span class="t">分裂作格</span> <span class="en">SPLIT ERGATIVITY</span>
+          <span class="df">同一語言不純粹是主賓格或作通格，而是在部分條件（人稱階層、體貌、時制）用作格，其餘用賓格，兩套系統各佔半壁江山。</span>
+          <span class="ex"><span class="extag">例</span>常見分裂點：完成體用作格、未完成體用賓格；或第一/二人稱用賓格、第三人稱用作格。
+          <b>Georgian</b> (2014)，在現在時貌下呈現主賓格對齊，但在過去時貌（Aorist）下則切換為作通格對齊。  </span></div>
+        
+        
+         </span></div><div class="gterm"><span class="t">正向—反向・近遠指</span> <span class="en">DIRECT-INVERSE & OBVIATION</span>　<span class="df">動詞不標「誰主誰賓」，而標動作是否沿人稱／指稱階層順行；第三人稱再分近指（proximate）與遠指（obviative）。</span><span class="ex"><span class="extag">例</span><b>Plains Cree</b>（2023）：階層高者作賓時，動詞加反向標記。</span></div> 
+        
+
+
+        <div class="gterm"><span class="t">活格語言 / 分裂不及物</span> <span class="en">Active-Stative / Split-Intransitivity</span>　<span class="df">不及物句的主語（S）不統一標記。如果 S 是有自主意識的施動者（如「我跑」），標記同 A；如果是無自主意識的受動者（如「我跌倒／我死了」），標記同 P。</span><span class="ex">
+        <span class="extag">例</span><b>Lakota</b> 歷年經典模擬題考點，動詞的人稱前綴會依據該不及物動詞是否具有「自主控制度」而分裂成兩套標記方式。</span></div>
+
+
+
+        <div class="gterm"><span class="t">階層式一致</span> <span class="en">HIERARCHICAL AGREEMENT</span>
+          <span class="df">動詞只跟階層上較高的那個論元一致，不論它是主是賓。</span><span class="ex">
+          <span class="extag">例</span><b>Hakhun</b>（2018）：一致對象由 1&gt;2&gt;3 的人稱階層決定。</span></div>
+       </div>
+       
+      
+      
+      
+      </div>
+
+
+      <div class="dom" style="--dc:#7e5bbf;">
+        <div class="rail">
+          <h3>句法・詞序</h3><div class="dc-en">SYNTAX & WORD ORDER</div>
+          <div class="atk"><span class="k">這個部分在考你：「這個語言的骨架是怎麼搭起來的？」</span></div><br>
+
+          <div class="atk"><span class="k">訊號</span> 
+            <ul class="atk-notes" style="margin-left: 0.1em;">
+                <li> 句子很正常。每個單字都分得開開的，不像某些語言一個字就包含整句話。</li>
+                <li> 但有些特定的詞（像是「不/沒有」、「會/可以」，或是代名詞），無論句子怎麼變，永遠死死扣在整句話的「第二個位置」（比如第一個詞後面，或者第一串短語後面）。</li>
+                <li> 動詞像火車一樣，句子後半段出現一長串連續的動詞疊在一起（鏈狀動詞）。</li>
+            </ul>
+  
+          <span class="k">假設</span> 
+            <ul class="atk-notes" style="margin-left: 0.1em;">
+   
+          <li> Greenberg 詞序蘊涵： 語言是有「慣性」的。如果它是 VO（動詞 + 賓語），那它通常也會是「前置詞 + 名詞」（如 in Taiwan）、「名詞 + 關係子句」。反之，如果是 OV（賓語 + 動詞，如日語），那它就會是「名詞 + 後置詞」（如 台灣に）。</li>
+          
+          <li>Wackernagel 附著詞（第二位置）： 那些死死固定在第二個位置的小詞，它是靠「數格子」來決定位置的，不管它在句中是當主語還是別的，反正數到 2 丟進去就對了。</li>
+          
+          <li>換指標記 (Switch-Reference)： 連續動詞串接時，前一個動詞的尾巴會變形，專門用來提示你：「下一句的主詞跟這句是同一個人（SS）」還是「換人了（DS）」。</li>
+          
+          </ul>
+          
+          
+          <span class="k">工具</span> 
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+           
+          <li> 步驟一：定錨基本語序。 找最簡單、沒有否定、沒有助動詞的句子，確定它的基本骨架是 SVO、SOV 還是 VSO。</li>
+
+          <li> 步驟二：把「第二位置」的詞抽乾淨。 如果發現某個詞忽左忽右、位置很詭異，數一下它是不是都在 Slot 2。如果是，在草稿紙上把它圈起來移走，先去分析剩下的基本語序，別被它干擾。</li>
+          
+          <li> 步驟三：連鎖推論。 只要確定了動詞和賓語的相對位置（VO 或 OV），可依據 Greenberg 通則建立連鎖推論，解題速度可能快點。
+            
+            <div class="math">
+              <div>VO 語言 ⟶ 前置詞 + 名詞 + 關係子句</div>
+              <div>OV 語言 ⟶ 名詞 + 後置詞 + 關係子句前置</div>
+            </div>
+           
+          </li>
+          </ul>
+          
+        <span class="k">注意</span>
+        <ul class="atk-notes" style="margin-left: 0.1em;">
+          <li> 語奧很愛考「表面上看起來是 A 修飾 B，實質上是第二位置強行插入」的障眼法。</li>
+              
+            
+          <li>提防罕見語序：遇到南美語言解不出 SOV/SVO 時，大膽假設 OVS/OSV 的可能性（全球僅 <span class="math">1\%</span>，但南美是熱區）。</li>
+                              
+          </ul>
+          </div>
+          
+          <div class="reps2">代表題：Wambaya 2015・Benabena 2014・Kaqchikel 2025</div>
+        </div>
+
+
+
+
+
+
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">Greenberg 詞序關聯</span> <span class="en">WORD-ORDER CORRELATIONS</span>　<span class="df">中心語與依存語的相對位置在各結構間傾向一致：OV 語言配後置詞、屬語在前、關係子句在前；VO 語言相反。</span><span class="ex"><span class="extag">例</span>日語（OV）：後置詞、修飾語一律前置；英語（VO）：前置詞、關係子句後置。</span></div><div class="gterm"><span class="t">中心語／依存語標記</span> <span class="en">HEAD- vs DEPENDENT-MARKING</span>　<span class="df">語法關係的標記加在中心語（動詞、被領有名詞）上，還是依存語（論元、領屬者）上。</span><span class="ex"><span class="extag">例</span>英語領屬標在依存語（<i>John<b>'s</b> book</i>）；許多美洲語言標在中心語（被領有名詞上加領屬前綴）。</span></div><div class="gterm"><span class="t">第二位置成分</span> <span class="en">SECOND-POSITION / WACKERNAGEL CLITIC</span>　<span class="df">某成分（常為助動詞或附著詞）固定出現在句子第二個位置，無關其句法角色。</span><span class="ex"><span class="extag">例</span><b>Wambaya</b>（2015）的助動詞總是插在第一個成分之後。</span></div><div class="gterm"><span class="t">換指標記</span> <span class="en">SWITCH-REFERENCE</span>　<span class="df">動詞形態標記「下一子句的主語與本句是否為同一者」，用於串接子句。</span><span class="ex"><span class="extag">例</span>新幾內亞與美洲的鏈式句常見「同指／異指」動詞尾。</span></div>
+        </div>
+      </div>
+
+      <div class="dom" style="--dc:#b0356b;">
+        <div class="rail">
+          <h3>名詞範疇</h3><div class="dc-en">NOMINAL CATEGORIES</div>
+         
+          <div class="atk"><span class="k">這個領域在考你：「這個語言怎麼幫世界上的東西分類？它對『數量』和『擁有』的邏輯是什麼？」</span></div><br>
+         
+         <div class="atk"><span class="k">訊號</span> 名詞本身沒變，但周圍的冠詞、形容詞、指示詞或動詞前綴，隨著不同的名詞而出現數量驚人的多套形態變化；或者同一個數字標記，遇到「人、香蕉、長條物」時長得完全不同。<br>
+
+        <span class="k">假設</span> 
+        <ul class="atk-notes" style="margin-left: 0.1em;">
+        名詞類別與性別 (Noun Class / Gender)： 該語言有一套極為嚴格的「名詞分類系統」。語言學上的「性別」本質就是分類，不一定跟生物性別有關。
+          
+        <li>反轉數標記 (Inverse Number)： 數字變化出現奇特規律，某個後綴在 A 類名詞代表「複數」，在 B 類名詞卻代表「單數」（這是在標記「非預設數量」）。</li>
+          <li>讓渡性分裂 (Alienability Split)： 「我的 XX」分為兩套完全不同的文法結構，取決於這個名詞在文化上能不能被你主觀拋棄。</li>
+        </ul>
+       
+        <span class="k">工具</span> 
+        <ul class="atk-notes" style="margin-left: 0.1em;">
+          <li>步驟一：建立 <span class="math">名詞 X 一致</span> 矩陣。列出所有名詞，橫向對齊其搭配的修飾語或動詞前綴，找出有幾套「變體套餐」。</li>
+    
+          <li>步驟二：跨越語意抽象化。 歸納各類的語意交集（如：人類/非人類、生命/無生命、圓形/長條/液體），若有無法分類的，往往是依據發音（音節結構）進行強行歸類（如 Arapesh 2018）。</li>
+          <li>步驟三：檢查領屬臨界點。 區分不可讓渡（身體部位、親屬，通常與領屬者構詞結合更緊密）與可讓渡（財產、鋤頭，通常需額外領屬詞）。</li>
+        </ul>
+      
+        <span class="k">注意</span>
+        <ul class="atk-notes" style="margin-left: 0.1em;">
+          <li>別用生物性別死套： 語言學的「性別」本質是名詞類別。看到「陽性/陰性」，在語奧裡往往代表「大/小」、「強/弱」或「長/圓」。</li>
+          <li>反轉數的思維陷阱： 如果某個後綴在 A 類名詞表「複數」，在 B 類名詞卻表「單數」，這絕對是反轉數（Inverse）。這說明 A 類本質預設為單（如：人），B 類本質預設為複（如：雜草/成對的腳）。</li>
+        </ul>
+        </div>
+
+        <div class="reps2">代表題：Kiowa 2014・Arapesh 2018・Kilivila 2021・Gaahmg 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">名詞類別</span> <span class="en">NOUN CLASS / GENDER</span>　<span class="df">名詞分為若干類，靠冠詞、修飾語、動詞的一致（agreement）現形。</span><span class="ex"><span class="extag">例</span><b>Bantu</b> 有成對的單複數類；<b>Arapesh</b>（2018）多達十三類。</span></div><div class="gterm"><span class="t">分類詞</span> <span class="en">SORTAL CLASSIFIER</span>　<span class="df">計數時介於數詞與名詞之間、依語意選用的量詞；分類詞語言通常無強制複數。</span><span class="ex"><span class="extag">例</span><b>Kilivila</b>（2021）依形狀、材質等選用不同分類詞。</span></div><div class="gterm"><span class="t">反轉數標記</span> <span class="en">INVERSE NUMBER</span>　<span class="df">同一後綴對「預設為單」的名詞表複、對「預設為複」的名詞表單——它標的是「非預設數」。</span><span class="ex"><span class="extag">例</span><b>Kiowa</b>（2014）的經典現象：一個後綴，兩種相反效果。</span></div><div class="gterm"><span class="t">可讓渡／不可讓渡領屬</span> <span class="en">(IN)ALIENABLE POSSESSION</span>　<span class="df">身體部位、親屬等「本質性」領屬用一套結構，可轉讓的財物用另一套。</span><span class="ex"><span class="extag">例</span><b>Gaahmg</b>（2025）：不可讓渡（如「他的手」）與可讓渡（如「他的鋤」）標記不同。</span></div>
+        </div>
+      </div>
+
+
+
+
+      <div class="dom" style="--dc:#5f7a1e;">
+      
+      
+        <div class="rail">
+          <h3>語意・詞彙</h3><div class="dc-en">SEMANTICS & LEXICON</div>
+          <div class="atk"><span class="k">這個領域在考你：「這個文化的大腦是怎麼感知空間、時間與社會關係的？」</span></div><br>
+
+          <div class="atk"><span class="k">訊號</span>
+            題目給了大量的單字配對或近義詞，或者給了一張複雜的親屬關係圖（族譜）要求填空。單字拼法高度相似，有明顯的共有成分（如：某部件在所有動物詞中都出現）。翻譯選項多為名詞。
+            
+          <br>
+          <span class="k">假設</span> 
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+            <li>不同文化概念編碼：該語言傾向使用組合式複合詞，將抽象邏輯（如：空間參照、多義引申）具象化在詞彙結構中。例如用「眼睛之源」來編碼「水井」，用「腳的手指」來編碼「腳趾」。</li>
+            <li>絕對空間參照 (Absolute Frame of Reference)： 空間定位不用主觀的「左/右」，而是使用絕對坐標（如：順流/逆流、向海/向山、東西南北）。</li>
+          </ul>
+
+          
+          <span class="k">工具</span>
+          
+          
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+            <li>Relation-First 網路化。不要逐字硬背。先找出這組詞彙在共享哪些音段，並問自己：「它們在共同對抗哪一個語意維度？」</li>
+            
+            <li>幾何坐標還原法。 遇到空間詞（上/下/前/後），立刻在草稿紙上畫出幾何坐標或水流方向圖，把單字填進格子裡，通常會發現它是看「坡度」或「水流」來決定的。</li>
+            <li>族譜代數化。親屬題立刻將稱謂轉換為代數標記（如：F=Father, M=Mother, B=Brother）。重點檢查「說話者的性別」（男說的哥哥 vs 女說的哥哥長得不一樣）與「父母系排行」是否會觸發稱謂大洗牌。</li>
+                   
+          </ul>
+          
+          <span class="k">注意</span>
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+            <li>多義不是同音：遇到一個形式多個翻譯時，優先尋找語意引申的動機（如：「眼睛」引申為「水井之源」）。</li>
+        
+        
+        </div>
+          
+          
+          
+            <div class="reps2">代表題：Aralle-Tabulahan 2016・Arabana 2022・Kewa 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">關係優先原則</span> <span class="en">RELATION-FIRST</span>　<span class="df">解題時先建立詞項間的關係網絡（誰共享成分、誰對立），再回頭填具體翻譯，而非逐詞硬背。</span><span class="ex"><span class="extag">例</span>遇到大量近義詞時，先問「它們差在哪個維度」，往往一問就解開整組。</span></div><div class="gterm"><span class="t">顏色詞演化階層</span> <span class="en">BERLIN & KAY HIERARCHY</span>　<span class="df">基本顏色詞的增添遵循固定順序：黑白 → 紅 → 黃／綠 → 藍 → …。</span><span class="ex"><span class="extag">例</span>只有兩個基本色詞的語言，必是「暗冷」對「亮暖」的二分，不會是「紅」對「藍」。</span></div><div class="gterm"><span class="t">空間參照框架</span> <span class="en">FRAMES OF REFERENCE</span>　<span class="df">描述位置可用相對（左／右）、內在（前／後）或絕對（東西／上下游）框架。</span><span class="ex"><span class="extag">例</span><b>Aralle-Tabulahan</b>（2016）以「順流／逆流／跨河」的絕對地理框架定位。</span></div><div class="gterm"><span class="t">親屬系統</span> <span class="en">KINSHIP: CROSS/PARALLEL, SECTIONS</span>　<span class="df">依世代、性別與交表（cross）／平表（parallel）區分親屬；部分澳洲語言另有 section 婚姻分類。</span><span class="ex"><span class="extag">例</span><b>Arabana</b>（2022）：交表與平表親屬用不同稱謂，對應通婚規則。</span></div><div class="gterm"><span class="t">多義 vs 同音</span> <span class="en">POLYSEMY vs HOMONYMY</span>　<span class="df">一形式多義項若有引申關聯即多義（可畫語意網），若純屬巧合則為同音。</span><span class="ex"><span class="extag">例</span>「口」指嘴、瓶口、出入口＝多義；判準是義項間有無可推導的動機。</span></div>
+        </div>
+      </div>
+
+
+
+      <div class="dom" style="--dc:#c8871e;">
+        <div class="rail">
+          <h3>數詞・曆法</h3><div class="dc-en">NUMERALS & CALENDARS</div>
+          <div class="atk"><span class="k">這個領域在考你：「這個文化是怎麼計數、記錄時間與計算長度的？」</span></div><br>
+
+          <div class="atk"><span class="k">訊號</span> 題目給出一連串的陌生數學等式，或者給出特定曆法的天數、年份配對。
+          
+
+          
+          <br>
+          <span class="k">假設</span> 
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+          
+            <li>非十進位基底：該語言採用世界罕見的進位基底（常見 5, 6, 20, 24 甚至混合進位）。</li>  
+          
+            <li>逆向思維：記數規則涉及逆計數 (Overcounting)（用「朝向下一階段的第幾個」來表達當前數字）。</li>  
+          
+            <li>模運算與循環： 曆法命名本質上是多軌齒輪嚙合的餘數系統（模算術）。</li>
+          </ul>
+          
+
+          <span class="k">工具</span>
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+              <li>
+                <b>因數分解找斷點。</b> 觀察哪些數字的拼法突然變長（或變短），那個轉折點就是進位基底 (Base)。將所有已知數字寫成代數式：<br>
+                <span style="display:block; margin:8px 0;">
+                  <span style="font-family:serif;">Value = (a × Base²) + (b × Base) + c</span>
+                </span>
+              </li>
+              <li>
+                <b>捕捉身體部位軌跡。</b> 若數詞拼法極度怪異且語系為巴布亞或澳洲，立刻檢查是否為身體部位計數法（順著手指 → 手腕 → 手肘 → 肩膀的線性路徑）。
+              </li>
+              <li>
+                <b>化曆法為 Mod 運算。</b> 曆法題直接找出各循環的最小公倍數（如天干地支）。<br>
+                <span style="display:block; margin:8px 0;">
+                  <span style="font-family:serif;">總天數 ≡ R (mod 週期)</span>
+                </span>
+                建立齒輪對照表，直接用數學公式破局。
+              </li>
+          </ul>
+
+          <!-- <span class="k">注意</span>
+          <ul class="atk-notes" style="margin-left: 0.1em;">
+            <li>身體部位計數：沿身體固定路徑（手指→手腕→肘→肩…）點數，數字即部位名。</li>
+          </ul> -->
+
+        </div>
+
+          <div class="reps2">代表題：Ndom 2007・Umbu-Ungu 2012・Supyire 2023・Dzongkha 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">進位基底</span> <span class="en">NUMBER BASE</span>　<span class="df">數詞系統重複的循環單位；不限於十進位。</span><span class="ex"><span class="extag">例</span>歷屆出現過 6（<b>Ndom</b>）、20（<b>Nahuatl／Dzongkha</b>）、24（<b>Umbu-Ungu</b>）、混合 5／20／80（<b>Supyire</b>）。</span></div><div class="gterm"><span class="t">逆計數</span> <span class="en">OVERCOUNTING</span>　<span class="df">以「朝下一個整十／整廿數的第 n 個」來表數。</span><span class="ex"><span class="extag">例</span>「第二個十的第三」＝ 13；見於馬雅語系等部分中美洲語言。</span></div><div class="gterm"><span class="t">身體部位計數</span> <span class="en">BODY-PART TALLY</span>　<span class="df">沿身體固定路徑（手指→手腕→肘→肩…）點數，數字即部位名。</span><span class="ex"><span class="extag">例</span>新幾內亞一帶語言的計數詞常直接是身體部位詞。</span></div><div class="gterm"><span class="t">曆法＝模運算＋命名</span> <span class="en">CALENDRICAL SYSTEMS</span>　<span class="df">週期性命名（星期、干支）本質是模算術外加一張命名對照表。</span><span class="ex"><span class="extag">例</span><b>緬甸曜日名</b>（2009）與 <b>Basque 日期</b>（2003）皆為此類。</span></div>
+        </div>
+      </div>
+
+
+
+      <div class="dom" style="--dc:#33658a;">
+        <div class="rail">
+          <h3>文字・符號</h3><div class="dc-en">WRITING SYSTEMS</div>
+                 
+          <div class="atk"><span class="k">訊號</span> 題面出現大量未知的異域圖形、網格符號或古代碑文，且符號具有一定的筆畫規律。<br>
+            
+          <span class="k">假設</span>
+          根據符號總量判定文字類型通則：
+          
+          <ul>
+            <li>20 ~ 40 種符號：音素文字 (Alphabet) 或元音附標 (Abugida)。</li>
+            <li>50 ~ 100 種符號：必定是音節文字 (Syllabary)（如日文假名）。</li>
+            <li>數百到數千個符號：必定是語素文字 (Logography)（如漢字）或混合系統。</li>
+          </ul>
+                   
+          <span class="k">工具</span>
+          <ul>
+            <li><b>步驟一：字符統計與解構。</b> 統計不同字符的總數，並觀察字符的「附標/偏旁」規律（例如：是否每個字右上角都有個小圈圈，可能代表特定元音或調符）。</li>
+            <li><b>步驟二：專有名詞錨定。</b> 在文本中地毯式檢索「地名、人名」等專有名詞。因為外來專有名詞在任何系統中都必須「強行表音」，這是破解字音對應的絕佳突破口。</li>
+            <li><b>步驟三：頻率與位置交叉。</b> 統計字符出現頻率。若為音素/音節文字，極高頻的字往往是冠詞、連詞或格位後綴；若為語素文字，觀察部件的組合規律（如反切題的聲韻分離）。</li>
+          </ul>
+
+        <span class="k">注意</span>
+          <!-- <ul class="atk-notes" style="margin-left: 0.1em;"> -->
+        
+            小心多音一字/一字多音： 如 Book Pahlavi 2019，古代速記體文字常因筆畫合併導致多個不同字母看起來完全一樣，必須靠上下文（句法與語意）反推。
+
+        </div>
+        
+        
+        
+        <div class="reps2">代表題：Vai 2011・Tangut 2014・Luwian 2016・Book Pahlavi 2019</div>
+        </div>
+        
+        
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">音素文字</span> <span class="en">ALPHABET</span>　<span class="df">字符對應輔音與元音音位。</span><span class="ex"><span class="extag">例</span>拉丁字母、希臘字母、韓文（字母組成音節塊）。</span></div><div class="gterm"><span class="t">元音附標文字</span> <span class="en">ABUGIDA</span>　<span class="df">輔音字符自帶固有元音，其他元音以附標改寫。</span><span class="ex"><span class="extag">例</span>天城文；<b>Khom</b> 文字（2017，書寫 Jru'）。</span></div><div class="gterm"><span class="t">音節文字</span> <span class="en">SYLLABARY</span>　<span class="df">一符對一音節，多為近代獨立發明。</span><span class="ex"><span class="extag">例</span><b>Vai</b>（2011）、日文假名、Cherokee。</span></div><div class="gterm"><span class="t">語素文字</span> <span class="en">LOGOGRAPHY</span>　<span class="df">字符對應語素／詞而非單純語音。</span><span class="ex"><span class="extag">例</span>西夏文 <b>Tangut</b>（2014）、漢字。</span></div><div class="gterm"><span class="t">混合系統</span> <span class="en">MIXED SCRIPT</span>　<span class="df">同時含表意符（logogram）與表音符（phonogram）。</span><span class="ex"><span class="extag">例</span><b>Luwian</b>（2016）象形＝表語符＋音節符；埃及聖書體亦然。</span></div><div class="gterm"><span class="t">反切</span> <span class="en">FANQIE</span>　<span class="df">用兩個已知漢字拼出一字之音：上字取聲母、下字取韻母與聲調。</span><span class="ex"><span class="extag">例</span>IOL 2008 華—粵反切題：由「德紅切」拼出「東」的讀音。</span></div>
+        </div>
+      </div>
+
+  <div class="dom" style="--dc:#8a5a3b;">
+     <div class="rail">
+          <h3>歷史比較</h3><div class="dc-en">HISTORICAL & COMPARATIVE</div>
+          <div class="atk"><span class="k">這個領域在考你：「給你看樹葉與樹枝，你要在草稿紙上把整棵演化樹（語言樹）畫出來。」</span></div>
+          <br>
+          
+          <div class="atk"><span class="k">訊號</span>
+          
+            題目並列給出兩種到三種互不相通、但長得很像的語言（兄弟語言），或者要求你根據現存的幾個語言，回推它們祖先的面貌（「原始語 Proto-language」）。
+
+            題目通常伴隨著一個填空表，有些單字在 A 語言有，在 B 語言卻是空的。
+          
+          <br>
+          <span class="k">假設</span>
+
+          <ul>
+            <li>音變宿命：語音歷史演變是規則的 (Sound Change is Regular)，任何 exceptions（例外）都必須有條件觸發解釋。</li>
+            <li>借詞分層：相像卻不符合音變通則的詞，屬於後期文化接觸的借詞層 (Loanword Stratum)。</li>
+          </ul>
+ 
+
+
+          
+          <br>
+          <span class="k">工具</span>
+            <ul>
+            <li>
+              <b>步驟一：橫向對齊同源詞。</b> 將各語言的同源詞（意義相同或極近者）垂直對齊，逐個音段寫出對應集 (Correspondence Set)。例如：<br>
+              <span>
+                <span style="font-family:serif;">Lang A</span> [p] &harr; <span style="font-family:serif;">Lang B</span> [f] &harr; <span style="font-family:serif;">Lang C</span> [b]
+              </span>
+            </li>
+            <li>
+              <b>步驟二：提取觸發環境。</b> 當發現同一個字母有兩種對應時，立刻檢查上下文環境。問自己：是不是因為隔壁是高元音？是不是在詞首？是不是夾在元音中間（夾擠同化）？
+            </li>
+            <li>
+              <b>步驟三：例外隔離。</b> 將對不上的「例外」單獨拉一個清單，這往往是命題者藏借詞（如 Garífuna 2021 的男性用語層）或聲調產生 (Tonogenesis) 的地方。
+            </li>
+          </ul>
+        
+        <span class="k">注意</span> <b>「長得像」不等於同源</b>： 歷史比較題看的是「規則」，哪怕 Lang A 的 p 永遠對應 Lang B 的 x，只要每字皆然，這就是鐵證；反之，若十個詞裡有九個長得一模一樣，只有一個歪掉，那個一模一樣的反而可能是近代借詞。
+
+        </div>
+
+          <div class="reps2">代表題：Turkish/Tatar 2007・Macro-Jê 2018・Chamic 2022・Kiranti 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">對應集</span> <span class="en">CORRESPONDENCE SET</span>　<span class="df">同源詞在各語言對應位置的音段集合；規則對應優先於個別詞的相似。</span><span class="ex"><span class="extag">例</span>Grimm 定律的 <b>p : f : b</b>——拉丁 <i>pēs</i> 對英語 <i>foot</i>。</span></div><div class="gterm"><span class="t">借詞層</span> <span class="en">LOANWORD STRATUM</span>　<span class="df">接觸引入的詞不遵守本語音變規則，構成可辨識的例外層。</span><span class="ex"><span class="extag">例</span><b>Garífuna</b>（2021）：阿拉瓦克底層之上疊加加勒比語源的男性用語層。</span></div><div class="gterm"><span class="t">聲調產生</span> <span class="en">TONOGENESIS</span>　<span class="df">音段對立（清濁等）轉為超音段對立（音高）的歷史過程；在比較題裡是「規則音變」的一種。</span><span class="ex"><span class="extag">例</span>占語支各語言的聲調層次可回推到共同的聲母合流。</span></div><div class="gterm"><span class="t">詞彙統計法</span> <span class="en">LEXICOSTATISTICS</span>　<span class="df">以基本詞彙的共有比例估計親疏、建構語言樹；Dolgopolsky 輔音類用來降噪。</span><span class="ex"><span class="extag">例</span>IOL <b>2024 團體賽</b>正式登場，含 StarlingNJ 建樹演算法。</span></div>
+        </div>
+      </div>
+
+      <div class="dom" style="--dc:#a03e4e;">
+        <div class="rail">
+          <h3>社會・詩律・文化</h3><div class="dc-en">SOCIOLINGUISTICS & POETICS</div>
+          
+          
+          
+          <div class="atk"><span class="k">訊號</span> 同一個句子或單字，題目給出了兩套截然不同的合法拼法，且明確指出這跟「誰在說話（男/女）」、「對誰說（長輩/平輩）」或者「這是不是在念咒語/念詩」有關。<br>
+
+          出現類似「黑話、隱語」的題目，正常單字變成一串極長且重複性高的音節。<br>
+          
+          <span class="k">假設</span> 
+
+
+          <ul>
+            <li>社會語體與性別語體 (Genderlect)： 說話者與聽話者的社會關係（性別、階級、姻親避諱）直接參與了構詞。在某些澳洲原住民語言中，對著岳母說話必須切換成完全不同的「女婿專用語彙」。</li>
+          </ul>
+
+          <ul>
+            <li>隱語的可逆代數變換 (Ludling/Language Game)： 所有的密語（如 Pig Latin）都是在底層語言之上，疊加了一套可逆的音韻數學變換（如：倒裝、插音、音節複製）。</li>
+          </ul>
+
+          <ul>
+            <li>格律約束（音拍格子）： 詩律題是以音節（Syllable）或音拍（Mora）的數學硬限制，強行約束用詞的形式與重音落點。</li>
+          </ul>
+          
+          
+          
+          
+          <span class="k">工具</span>
+          
+          
+          <ul>
+            <li>分佈互補化。 建立社會變項（男說/女說、對男說/對女說）二維矩陣，把兩套形態填進去，鎖定觸發切換的核心軸線（如 Yanyuwa 2024）。</li>
+            <li>隱語逆向工程。 將隱語單字與正常單字對齊，找出拼法拉長或移位的規律，通常是「提取首個音節扔到詞尾，並強行插入固定成分」（類似 Pig Latin 或 Agbirigba 2021）。</li>
+            <li>計數詩律格子。 詩律題直接把每個元音標上「長/短」或「輕/重」，手動數每行的音拍總數。</li>
+          </ul>
+        
+          <span class="k">注意</span>
+          <b></b>注意雙重變項疊加</b>：有時「說話者是女性」和「對象是男性」會同時作用，導致前綴發生複合屈折，一定要畫雙軸矩陣，別漏掉任何交叉點。
+
+
+        
+        </div>
+          
+          
+          
+          
+          <div class="reps2">代表題：Sanskrit 2011・Agbirigba 2021・Arabana 2022・Yanyuwa 2024</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">性別語體</span> <span class="en">GENDERLECT</span>　<span class="df">說話者（或聽者）性別決定用哪一套形式，非個人自由選擇。</span><span class="ex"><span class="extag">例</span><b>Yanyuwa</b>（2024）男女語體用不同的名詞類前綴。</span></div><div class="gterm"><span class="t">隱語</span> <span class="en">LUDLING</span>　<span class="df">在正常音韻之上疊一層可逆的變換（移位、插音、替換）以達隱蔽。</span><span class="ex"><span class="extag">例</span><b>Agbirigba</b>（2021）由 Ikwerre 方言經規則變換而來；英語的 Pig Latin 同理。</span></div><div class="gterm"><span class="t">詩律</span> <span class="en">METRICS / PROSODY</span>　<span class="df">以音節輕重、音拍數，或頭韻／尾韻的形式化規則構成格律。</span><span class="ex"><span class="extag">例</span><b>Sanskrit</b>（2011）輕重格；Old Norse <i>dróttkvætt</i>（2008）講究頭韻與內韻。</span></div><div class="gterm"><span class="t">命名系統</span> <span class="en">NAMING SYSTEMS</span>　<span class="df">姓名依出生日、星期、排行等規則生成，可逆推。</span><span class="ex"><span class="extag">例</span><b>緬甸人名</b>（2009）與出生曜日對應。</span></div>
+        </div>
+      </div>
+
+      <div class="dom" style="--dc:#556879;">
+        <div class="rail">
+          <h3>計算・編碼</h3><div class="dc-en">COMPUTATION & CODES</div>
+          <div class="atk"><span class="k">訊號</span> 
+            題目上比較沒有傳統意義上的「人類語言」，取而代之的是純數字、演算法虛擬碼、條碼圖案或神經科學/行為科學的實驗圖表。<br>
+            
+                      
+          <span class="k">假設</span>
+          
+          <ul>
+            <li>形式代數系統： 這類題目是一個純粹自足的符號映射或校驗系統（例如：身分證字號最後一碼的 Checksum 機制）。</li>
+          </ul>
+          
+          <ul>
+            <li>實驗邏輯對比： 心理/神經語言學題涉及「自變項（控制條件）&rarr; 依變項（反應時間/腦電波波幅）」的認知加工映射。</li>
+          </ul>
+          
+          
+          
+          
+          <span class="k">工具</span>
+          
+          <ul>
+            <li>拆解形式算式（抓校驗碼）。 編碼與條碼題，立刻尋找不變量與末位的特殊關係（最後一位通常是校驗碼）。嘗試建立加權求和公式：
+              
+              <span style="font-family: 'Times New Roman', Times, serif;">
+                &#8721; (x<sub>i</sub> &times; w<sub>i</sub>) &equiv; 0 &nbsp;mod&nbsp; (10 或 11)
+              </span>
+            </li>
+          </ul>
+          
+          <ul>
+            <li>實驗圖表條件化 <ul>
+              <li>讀懂自變項： 到底是什麼結構被違反了？（句法違規？還是語意荒謬？）</li>
+              <li>對應依變項： 腦電波的波峰落點。</li>
+              <li>記住黃金通用律：N400（出現在 400 毫秒的負向波）通常對應語意荒謬（如：我喝了一杯「皮鞋」）；P600（出現在 600 毫秒的正向波）通常對應句法衝突（如：他「們」是一個「學生」）。</li>
+            </ul>
+            <li>加工難度映射。依據加工難度（反應時間長短或波幅大小）與句子結構的複雜度進行一對一配對（如 Kaqchikel 2025）。</li>
+          </ul>
+          
+          
+          
+          
+          
+          
+          </div>
+          <div class="reps2">代表題：EAN-13 2011・Soundex 2015・Lexicostatistics 2024・Kaqchikel 2025</div>
+        </div>
+        <div class="glo"><p class="glo-h">核心概念 · 定義與例</p>
+<div class="gterm"><span class="t">校驗碼</span> <span class="en">CHECKSUM</span>　<span class="df">附加位由前面各位依固定加權運算得出，用於偵錯。</span><span class="ex"><span class="extag">例</span><b>EAN-13</b>（2011）第 13 位＝前 12 位加權和對 10 取補。</span></div><div class="gterm"><span class="t">語音檢索編碼</span> <span class="en">PHONETIC HASHING</span>　<span class="df">把讀音相近的字串映到同一代碼，供模糊檢索。</span><span class="ex"><span class="extag">例</span><b>Soundex</b>（2015）：<i>Robert</i> 與 <i>Rupert</i> 編為同碼。</span></div><div class="gterm"><span class="t">遺傳密碼</span> <span class="en">GENETIC CODE</span>　<span class="df">三聯體密碼子對應胺基酸的多對一映射，可當純符號解碼題。</span><span class="ex"><span class="extag">例</span>IOL 2010 mRNA 題：由密碼子表反推轉譯規則。</span></div><div class="gterm"><span class="t">實驗資料判讀</span> <span class="en">EXPERIMENTAL-DATA READING</span>　<span class="df">從行為或腦電（ERP）資料反推語言處理規律；2025 首見，屬新題型類別。</span><span class="ex"><span class="extag">例</span><b>Kaqchikel</b>（2025）：判讀處理不同句法結構時的腦電反應。</span></div>
+        </div>
+      </div>
+
+    <div class="verify-block" id="ro-verify">
+      <hr style="border:none;border-top:2px dashed var(--line);margin:34px 0 28px;">
+      <h3 style="font-size:1.28rem;color:var(--indigo);margin:0 0 6px;">實戰驗證：羅馬尼亞語奧十題</h3>
+      <p class="section-intro">讀完十一大領域後，用<b> Olimpiada de Lingvistică „Solomon Marcus" </b>2024 Exercițiu A（4 題）＋ 2025 OJL／ONL（6 題）檢驗「訊號 → 假設 → 工具」是否真的能調用。每題先自己判領域、勾概念，再展開答案。
+        <a href="problems/Solomon_Marcus_2024-2025_10Problems_EN.docx" style="color:var(--indigo);font-weight:600;">英文原題彙編（.docx）</a>｜
+        <a href="cheatsheet_applications.html" style="color:var(--sub);">獨立驗證篇</a>
+      </p>
+<div class="verify-sub" id="ro-flow">
+  <h3><span class="no">V0</span>驗證流程（對應§0）</h3>
+  <p class="section-intro">§0 提到「先讀訊號、再選工具」；驗證篇的使用順序如下：</p>
+  <div class="callout">
+    <b>四步驗證法：</b>① 只讀每張卡的「訊號辨識」，先自己說出這題屬於哪個領域、該用什麼工具（對照§2 的假設欄）→
+    ② 勾選「扣回講義」清單，確認每個概念都能<b>用自己的話</b>定義 →
+    ③ 沿「解題路徑」在紙上實作（有原題 PDF 更佳）→
+    ④ 最後才展開「答案與詳解」對答案。<b>順序顛倒＝驗證失效。</b>
+  </div>
+  <p style="font-size:.9rem;color:var(--sub)">每張卡的頂色與領域籤，沿用§2 的十一領域配色。看到顏色就可想起對應的 rail（訊號→假設→解題→注意）。</p>
+</div>
+
+<div class="verify-sub" id="ro-map">
+  <h3><span class="no">V1</span>對照總表：十題 × 領域 × 概念考點</h3>
+  <p class="section-intro">粗體為該題的主領域；「概念考點」即§2 各領域詞彙表中的詞條。</p>
+  <table>
+    <tr><th style="width:52px">卡</th><th>語言（年份・賽別）</th><th>領域</th><th>扣回講義的概念考點</th></tr>
+    <tr><td>①</td><td>Munster 愛爾蘭語 & Kobon<br><span class="yeartag">2025 OJL</span></td>
+      <td><span class="chip" style="--dc:#4a5fc1">音韻・聲調</span></td>
+      <td>重量敏感・重音窗・響度階層・有界系統</td></tr>
+    <tr><td>②</td><td>aroma（南島）<br><span class="yeartag">2024 ONL</span></td>
+      <td><span class="chip" style="--dc:#0f766e">構詞</span></td>
+      <td>槽位模板表・環綴（非連續語素）・零標記・融合・使動／反身</td></tr>
+    <tr><td>③</td><td>yawalapiti（阿拉瓦克）<br><span class="yeartag">2024 OJL</span></td>
+      <td><span class="chip" style="--dc:#0f766e">構詞</span> <span class="chip lite" style="--dc:#b4530a">對齊・一致</span></td>
+      <td>中心語標記・主語＝領屬同形前綴・讓渡性標記</td></tr>
+    <tr><td>④</td><td>Burushaski（孤立）<br><span class="yeartag">2025 OJL</span></td>
+      <td><span class="chip" style="--dc:#b4530a">對齊・一致</span></td>
+      <td>作格—絕對格・流動 S（自主性）・多重一致・不可讓渡領屬</td></tr>
+    <tr><td>⑤</td><td>Worora（澳洲）<br><span class="yeartag">2025 ONL</span></td>
+      <td><span class="chip" style="--dc:#b4530a">對齊・一致</span> <span class="chip lite" style="--dc:#b0356b">名詞範疇</span></td>
+      <td>人稱階層・直接—反向・1↔2 空缺・語義性名詞類・前動詞＋助動詞</td></tr>
+    <tr><td>⑥</td><td>Tzeltal（馬雅）<br><span class="yeartag">2025 ONL</span></td>
+      <td><span class="chip" style="--dc:#c8871e">數詞・曆法</span> <span class="chip lite" style="--dc:#b0356b">名詞範疇</span></td>
+      <td>二十進位・超數法・數詞分類詞・泛用分類詞</td></tr>
+    <tr><td>⑦</td><td>Ewe（Gbe）<br><span class="yeartag">2025 ONL</span></td>
+      <td><span class="chip" style="--dc:#5f7a1e">語意・詞彙</span> <span class="chip lite" style="--dc:#4a5fc1">音韻・聲調</span></td>
+      <td>聲調最小對・輕動詞・重疊名物化・複合語義</td></tr>
+    <tr><td>⑧</td><td>滿文（通古斯）<br><span class="yeartag">2025 OJL</span></td>
+      <td><span class="chip" style="--dc:#33658a">文字・符號</span></td>
+      <td>破譯槓桿・圈點附標・位置變體・母音和諧的字形化</td></tr>
+    <tr><td>⑨</td><td>baybayin 手語（菲律賓）<br><span class="yeartag">2024 OJL</span></td>
+      <td><span class="chip" style="--dc:#33658a">文字・符號</span></td>
+      <td>abugida・固有母音・virama（去母音記號）</td></tr>
+    <tr><td>⑩</td><td>Chants of Sennaar（遊戲語言）<br><span class="yeartag">2024 ONL</span></td>
+      <td><span class="chip" style="--dc:#33658a">文字・符號</span> <span class="chip lite" style="--dc:#7e5bbf">句法・詞序</span></td>
+      <td>亂序配對法・重疊表複數・否定前置・包含／排除式我們・零繫詞</td></tr>
+  </table>
+  <div class="warning"><b>注意難度：</b>2024 Exercițiu A 為五、六年級組（可當暖身）；2025 OJL/ONL 為主賽事難度。
+  建議順序：先 ⑨⑩③（暖身）→ ①④⑥⑦（中間）→ ②⑤⑧（難）。卡片編排依§2 領域順序，非難度。</div>
+</div>
+
+<div class="verify-sub" id="ro-cards">
+  <h3><span class="no">V2</span>十題驗證卡</h3>
+  <p class="section-intro">每卡結構：訊號辨識 → 扣回講義（自評勾選）→ 解題路徑 → 摺疊答案 → 陷阱。<b>先勾完概念再開答案。</b></p>
+
+<!-- ═══════════ 卡① Munster/Kobon ═══════════ -->
+<article class="pcard" style="--dc:#4a5fc1">
+  <span class="yeartag">2025 OJL・第 2 題</span><span class="chip" style="--dc:#4a5fc1">音韻・聲調</span>
+  <h3>① Munster 愛爾蘭語 & Kobon：兩套重音系統</h3>
+  <p class="p-sub">凱爾特 vs 跨紐幾內亞・同題內建「系統對比」設計</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">兩組詞、重音位置已標出；一組帶長母音記號（<code>a:</code>），另一組完全沒有 → 立刻假設：一套<b>重量敏感</b>、一套靠<b>別的性質</b>（響度？位置？）。</div>
+  <span class="block-label">扣回上文 §2 音韻・聲調</span>
+  <div class="hookline"><label><input type="checkbox">重量敏感（quantity-sensitivity）：長母音／閉音節吸引重音<span class="cref">拉丁語・阿拉伯語同型</span></label></div>
+  <div class="hookline"><label><input type="checkbox">重音窗（stress window）：只在固定窗內比較<span class="cref">Munster＝詞首三音節窗</span></label></div>
+  <div class="hookline"><label><input type="checkbox">響度階層：a ＞ e, o ＞ i, u ＞ ə<span class="cref">Kobon＝文獻代表案例</span></label></div>
+  <div class="hookline"><label><input type="checkbox">有界 vs 無界系統：兩套都是有界<span class="cref">比較域鎖定固定窗口</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>Munster：列「長母音位置 vs 重音位置」對照 → 歸納優先序 <b>第 2 長 ＞ 第 1 長 ＞ 第 3 長 ＞ 預設詞首</b>；驗證 <code>u:.ˈra:.ni:</code>（1、2 皆長 → 2 勝）。</li>
+    <li>Kobon：無長度線索 → 只比<b>末二音節</b>母音響度；<code>gi.ˈro</code> 證明 o ＞ i、<code>ki.ˈa</code> 證明無聲母音節照樣可重讀；同響度 → 倒數第二。</li>
+    <li>(a) 判別法：把每個詞餵進兩套規則，看預測吻合哪套 → A／B／C（皆可）／D（皆非）。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(a)</b> <code>ˈa.lə.gar</code>＝Munster｜<code>me.ˈna</code>＝Kobon｜<code>ˈa.lin</code>＝皆可｜<code>ka.we.gam.ˈbin</code>＝皆非｜<code>tra:n.ˈho:.nə</code>＝Munster（Kobon 系統無長母音）</li>
+      <li><b>(b)</b> 重讀音節依序：o: ／ hu:n ／ lʲi: ／ kla ／ u: ／ a: ／ vi:nʲ ／ fo；其餘組：ro ／ ga ／ lu ／ ha ／ mo ／ da ／ lem</li>
+      <li><b>(c) 第 11 題＝官方勘誤點</b>：官方畫記 <code>si</code>，但資料內 <code>gi.ˈro</code>（i 對 o）是直接平行例——依題目自建系統，唯一一致的答案是 <code>si.ˈog</code>。詳見 V3。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b><code>ˈi.mjɪ.lʲə.ka:n</code>——第 4 音節的長母音<b>不計</b>！重音窗外的重量是隱形的；學生最常在這裡把 Munster 誤判成「皆非」。</div>
+</article>
+
+<!-- ═══════════ 卡② aroma ═══════════ -->
+<article class="pcard" style="--dc:#0f766e">
+  <span class="yeartag">2024 ONL・第 1 題</span><span class="chip" style="--dc:#0f766e">構詞</span>
+  <h3>② aroma：動詞槽位模板 <span class="star">★ 本頁核心示範</span></h3>
+  <p class="p-sub">南島語・巴布亞紐幾內亞・約 4000 人｜§2 構詞「橫向對齊、垂直切割」的教科書級應用</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">16 個動詞形式，一個詞對應中文一整句（「你們即將一直使我旋轉」）；同詞根前後綴層層堆疊 → <b>模板構詞</b>，直接上槽位模板表（Slot Matrix）。</div>
+  <span class="block-label">扣回上文 §2 構詞</span>
+  <div class="hookline"><label><input type="checkbox">槽位模板表：橫向對齊 → 切槽 → 填功能</label></div>
+  <div class="hookline"><label><input type="checkbox">環綴＝非連續語素：一個語意分居詞首詞尾<span class="cref">同講義「分散式構詞」條目</span></label></div>
+  <div class="hookline"><label><input type="checkbox">零標記：某槽位空缺即 ∅，不要硬找字母<span class="cref">近時＝∅ vs 遠時＝p-</span></label></div>
+  <div class="hookline"><label><input type="checkbox">融合：無法再切分的「語素套餐」整包填入<span class="cref">時貌×人稱融合表</span></label></div>
+  <div class="hookline"><label><input type="checkbox">使動／反身語態改變論元結構<span class="cref">「學」＝「使知道」</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>鎖詞根：<code>make</code> 旋轉、<code>ripa</code> 知道——發現「學」也是 <code>ripa</code>，多出的 <code>va</code> 是<b>使動</b>：學＝使人知道（全題樞紐）。</li>
+    <li>抓環綴：「一直」的四條，詞首都有 <code>ma-</code>、詞根後都有 <code>-wai-</code>——兩端同進同出 ＝ 環綴。</li>
+    <li>剝掉 <code>-wai-</code> 後，詞根後剩賓語後綴：<code>-ku</code> 我・<code>-mu</code> 你・<code>-a/-tha</code> 他・<code>-ria</code> 他們。</li>
+    <li>按主語分組看詞根前殘段 → 人稱是<b>母音</b>：I＝a、II＝o、III＝e（單複同形的融合系統）。</li>
+    <li>最外層時貌：<code>p-</code>＝遠時（過去／遠未來）、∅＝近時（剛剛／即將）——零標記警覺派上用場。</li>
+  </ol></div>
+  <div class="formula">( ma ) T·S ( va ) ( ve ) V ( wai ) ( O )</div>
+  <details class="ans"><summary>答案與詳解（含活用表）</summary><div class="ansbody">
+    <table class="mini-table">
+      <tr><th></th><th>即將</th><th>將（遠）</th><th>剛</th><th>過去（遠）</th></tr>
+      <tr><td><b>1 單／複</b></td><td>ana／iga</td><td>pana／piga</td><td>a／ga</td><td>pa／paga</td></tr>
+      <tr><td><b>2 單／複</b></td><td>ono／igo</td><td>pono／pigo</td><td>o／go</td><td>po／pogo</td></tr>
+      <tr><td><b>3 單／複</b></td><td>ene／ige</td><td>pene／pige</td><td>e／ge</td><td>pe／pege</td></tr>
+    </table>
+    <ul class="anskey">
+      <li><b>(a)</b> 17 我將使他旋轉｜18 他知道了我｜19 你即將一直跳舞｜20 他剛使你去殺｜21 你們即將獵他｜22 他們獵了自己</li>
+      <li><b>(b)</b> 23 <code>pogothepana</code>｜24 <code>gevapalatha</code>｜25 <code>penevarikuku</code>｜26 <code>ovemake</code>｜27 <code>gavagitha</code>｜28 <code>igeriku</code>｜29 <code>maanathepanawairia</code>｜30 <code>mapagavavemakewa</code></li>
+      <li><b>細節分工：</b>賓語 III 單 <code>-a</code>（主語單數）／<code>-tha</code>（主語複數）——高階得分點。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>① 使動 <code>va</code> 後詞根首音節母音和諧：<code>thapana → thepana</code>（見 23、29）；② 反身 <code>ve</code> 出現時賓語槽必空——槽位間有<b>共現限制</b>，正是講義說的「槽位順序與組合是絕對的」。</div>
+</article>
+
+<!-- ═══════════ 卡③ yawalapiti ═══════════ -->
+<article class="pcard" style="--dc:#0f766e">
+  <span class="yeartag">2024 OJL・第 2 題</span><span class="chip" style="--dc:#0f766e">構詞</span><span class="chip lite" style="--dc:#b4530a">對齊・一致</span>
+  <h3>③ yawalapiti：主語＝領屬同形前綴</h3>
+  <p class="p-sub">阿拉瓦克語系・巴西 Xingu・約 150 人</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">同一組前綴（<code>nu-／pi-／i-</code>）既掛在動詞上（我看）、又掛在名詞上（我的森林）→ <b>中心語標記</b>的典型面貌：論元關係記在中心語，阿拉瓦克語系招牌特徵。</div>
+  <span class="block-label">扣回上文 §2</span>
+  <div class="hookline"><label><input type="checkbox">中心語標記傾向：一致記在動詞／被領有名詞上<span class="cref">對照卡④ Burushaski 的依存語標記</span></label></div>
+  <div class="hookline"><label><input type="checkbox">人稱前綴系統的音韻變體（nu-∼n-、pi-∼p-）</label></div>
+  <div class="hookline"><label><input type="checkbox">名詞的被領屬標記 -la<span class="cref">領屬結構觸發的後綴</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>由 <code>iru</code>（她）＋動詞前綴 <code>i-</code> 的並用切入，確立 SVO 與第三人稱雙重標示。</li>
+    <li>對比「我的森林 <code>nuku-la</code>／你的 <code>puku-la</code>」抽出前綴＋<code>-la</code>。</li>
+    <li>與格 <code>nu</code>（給我）／<code>hiu</code>（給你）、處所 <code>-ɲa</code>（ukuɲa 在森林、paɲa 在家）後置。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(a)</b> 11 朋友看到她的機車。｜12 她的朋友看到機車。（前綴掛哪個詞，領屬就在哪——最小對比！）</li>
+      <li><b>(b)</b> 13 <code>punupi pukula</code>｜14 <code>iru iniputi numatʃila iru iju</code></li>
+      <li><b>(c)</b> 15 <b>e</b>｜16 <b>a</b>｜17 <b>b</b>｜18 <b>e</b></li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>清閃音 <code>ɾ̥</code>（龜 ɾ̥ula）加前綴後的形式——選擇題 16 的五個選項就在考 <code>iɾ̥／iniɾ̥</code> 的環境交替，逐字比對不能靠直覺。</div>
+</article>
+<!-- ═══════════ 卡④ Burushaski ═══════════ -->
+<article class="pcard" style="--dc:#b4530a">
+  <span class="yeartag">2025 OJL・第 1 題</span><span class="chip" style="--dc:#b4530a">對齊・一致</span>
+  <h3>④ Burushaski：作格＋流動 S</h3>
+  <p class="p-sub">孤立語言・巴基斯坦｜配列題的完整套餐</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">及物句主語多一個 <code>-e</code>（hilése、dasíne），不及物主語與賓語同為光桿形 → <b>作格—絕對格</b>；再細看：不及物動詞有的帶前綴、有的不帶——依「自主性」分裂 → <b>流動 S</b>。</div>
+  <span class="block-label">扣回上文 §2 對齊・一致</span>
+  <div class="hookline"><label><input type="checkbox">作格—絕對格配列：A 獨立標記、S＝O 同形<span class="cref">南亞作格帶：印地—烏爾都語過去式・藏語</span></label></div>
+  <div class="hookline"><label><input type="checkbox">流動 S（active–stative）：非自主 S 標記如 O、自主 S 如 A<span class="cref">瓜拉尼語・巴斯克語部分動詞</span></label></div>
+  <div class="hookline"><label><input type="checkbox">多重人稱標示：前綴賓語＋後綴主語同現於動詞</label></div>
+  <div class="hookline"><label><input type="checkbox">不可讓渡領屬：身體部位・親屬名詞強制帶領屬前綴</label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>把不及物動詞分兩堆：溺水・迷路・斷（前綴與主語一致）vs 跑・跳舞・行走（無前綴）——語意軸＝<b>自主性</b>。</li>
+    <li>同一詞根對立收網：<code>ghurċ-</code> 無前綴＝潛水（自主入水），有前綴＝溺水（非自主）。</li>
+    <li>賓語有領屬者時，動詞前綴與<b>被領有物</b>（中心語）一致，不與領屬者一致。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解（擇要）</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(b) 譯回精選：</b><code>ii ikharanimi</code>（遲到＝非自主 → 前綴 i-）｜<code>je ċhilaṭe niam</code>（行走＝自主 → 無前綴）｜<code>ariin iwarimi</code>（我的手累了 → 與「手」一致）｜<code>ine gumiṣ birdiulo iilumo</code>（一致取「手指」，不抄「你的」）｜<code>dasine je awaalumo</code>（顯性 je 不可省）</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>第 22 題的動詞一致會「穿透」領屬結構直取中心語名詞；第 23 題官方要求保留絕對格代名詞 <code>je</code>——貪快省略就丟分。</div>
+</article>
+
+<!-- ═══════════ 卡⑤ Worora ═══════════ -->
+<article class="pcard" style="--dc:#b4530a">
+  <span class="yeartag">2025 ONL・第 1 題</span><span class="chip" style="--dc:#b4530a">對齊・一致</span><span class="chip lite" style="--dc:#b0356b">名詞範疇</span>
+  <h3>⑤ Worora：人稱階層與反向標記</h3>
+  <p class="p-sub">澳洲 Worrorran・使用者僅 8 人｜一致機制的極限測試</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">詞彙動詞完全不變化、旁邊的助動詞卻千變萬化 → <b>前動詞＋屈折助動詞</b>（澳洲北部區域特徵）；某些人稱組合突然冒出多餘的 <code>n</code> → 懷疑<b>直接—反向系統</b>。</div>
+  <span class="block-label">扣回上文 §2</span>
+  <div class="hookline"><label><input type="checkbox">人稱階層 2 ＞ 1 ＞ 3：低階作用於高階 → 插反向標記 n<span class="cref">克里語・奧吉布瓦語同為 2＞1＞3</span></label></div>
+  <div class="hookline"><label><input type="checkbox">1↔2 組合空缺：「你—我」互動改用第 3 人稱形式＋代詞補救<span class="cref">阿爾岡昆 you-me 特殊形式的極端版</span></label></div>
+  <div class="hookline"><label><input type="checkbox">語義性名詞類：明亮彩色（wunu）vs 深暗（mana）<span class="cref">同 Dyirbal 的文化—感知底層</span></label></div>
+  <div class="hookline"><label><input type="checkbox">中心語標記：論元全記在助動詞、名詞無格標<span class="cref">與卡④的依存語標記恰成對照組</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>助動詞模板：賓語前綴 −（反向 n）− 主語 − 詞根 <code>ᵇwuna</code>；音變 <code>a＋ᵇw→o</code>、鼻音後 <code>w→b</code>。</li>
+    <li>反向判定：3→2・3→1・1→2 都是「低作用高」→ 有 n（<code>ŋa-n-buna</code> 男孩找到我）；1→3・2→3 順階無 n。</li>
+    <li>1↔2 同現＝禁區：「我們打你」＝「他們打你」＋代詞 <code>ari</code>；「你打我們」＝「你打他們」同形＋<code>ŋunju</code>。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解（擇要）</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>核心構式：</b>我們打你＝<code>ari ŋu-n-bar-wuna</code>（字面「他們打你」）｜你打我們＝<code>ŋunju ká-njona</code>（＝「你打他們」同形）｜(d) 我打了你＝<code>ŋayu ŋunbuna</code></li>
+      <li><b>名詞類：</b>花・天空・火＝wunu（明亮）；洞穴・灰・黑鳳頭鸚鵡＝mana（深暗）。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>第 24 題「紅翅鸚鵡」——鳥不是重點，<b>羽色鮮豔</b>才是 → wunu 類。兩隻鸚鵡因羽色分屬兩類，範疇軸是感知的不是生物分類的。</div>
+</article>
+
+<!-- ═══════════ 卡⑥ Tzeltal ═══════════ -->
+<article class="pcard" style="--dc:#c8871e">
+  <span class="yeartag">2025 ONL・第 2 題</span><span class="chip" style="--dc:#c8871e">數詞・曆法</span><span class="chip lite" style="--dc:#b0356b">名詞範疇</span>
+  <h3>⑥ Tzeltal：超數法＋分類詞</h3>
+  <p class="p-sub">馬雅語族｜「往下一個二十裡數」</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">數詞裡出現 <code>winik</code>「人」＝ 20（具身計數：手指＋腳趾）；大數結構是「Y ＋ 屬格-M-winik」而且算出來永遠<b>比直覺多一個二十</b> → 超數法。名詞前固定插一個依形狀變化的小詞 → 數詞分類詞。</div>
+  <span class="block-label">扣回上文 §2 數詞・曆法</span>
+  <div class="hookline"><label><input type="checkbox">二十進位制<span class="cref">中部美洲區域特徵；巴斯克・丹麥殘餘</span></label></div>
+  <div class="hookline"><label><input type="checkbox">超數法（overcounting）：Y＋第 M 個二十＝(M−1)×20＋Y<span class="cref">古典馬雅曆法・古北歐語同型</span></label></div>
+  <div class="hookline"><label><input type="checkbox">數詞分類詞依形狀指派<span class="cref">與華語「顆・條・張」同型</span></label></div>
+  <div class="hookline"><label><input type="checkbox">泛用分類詞 t'ol ＝ 華語「個」的兜底機制</label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>公式：<code>Y＋屬格-M-winik ＝ (M−1)×20＋Y</code>；驗證 <code>juklajuneb schanwinik</code>＝「第 4 個二十的第 17」＝77。</li>
+    <li>屬格變體：<code>y-</code> 母音前・<code>x-</code> 40・<code>s-</code> 其他；整二十倍數<b>不帶 -eb</b>（wakwinik＝120）。</li>
+    <li>分類詞：sahk' 布料衣物・k'ohk 甜果・hohk' 地下作物・k'ahs 細長物・t'ol 圓形兼泛用。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解（含勘誤）</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>勘誤：</b>D＝<b>116</b>（官方 117 為算術筆誤；wak＝6 有資料內實證）。詳見 V3。</li>
+      <li><b>分類詞判斷：</b>「13 顆石頭」用 <code>t'ol</code>（圓）；鐵絲按形狀歸 <code>k'ahs</code>（細長），不因材質歸 sahk'。</li>
+      <li><b>同形歧義：</b><code>oxwinik</code>＝60，字面「第三個人」——序數／基數同形。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b><code>k'ahs ton</code> 不是「細長的石頭」而是<b>骨頭</b>——分類詞＋名詞可能詞彙化成固定搭配；遇到怪語意先懷疑詞彙化。</div>
+</article>
+
+<!-- ═══════════ 卡⑦ Ewe ═══════════ -->
+<article class="pcard" style="--dc:#5f7a1e">
+  <span class="yeartag">2025 ONL・第 3 題</span><span class="chip" style="--dc:#5f7a1e">語意・詞彙</span><span class="chip lite" style="--dc:#4a5fc1">音韻・聲調</span>
+  <h3>⑦ Ewe：聲調・輕動詞・重疊</h3>
+  <p class="p-sub">Niger-Congo・Gbe・約 700 萬人｜三條構詞槓桿一次考</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">同一串音段配不同聲調符號、意思完全不同（<code>àsì</code> 價格 vs <code>àsí</code> 手）→ 聲調辨義；動詞 <code>ɖè</code>「取」到處出現且語意飄忽 → <b>輕動詞</b>；動詞前半重複＝名詞 → 重疊名物化。</div>
+  <span class="block-label">扣回上文 §2 語意・詞彙</span>
+  <div class="hookline"><label><input type="checkbox">聲調最小對：調位辨義，轉寫必須帶調號</label></div>
+  <div class="hookline"><label><input type="checkbox">輕動詞多義：ɖè「取」＋名詞＝議價／解開／推理／拍照／結婚</label></div>
+  <div class="hookline"><label><input type="checkbox">重疊名物化 V→VV<span class="cref">扣回構詞領域的重疊條目</span></label></div>
+  <div class="hookline"><label><input type="checkbox">複合語義的組合性：àsì-gbè 價格—日＝市集日</label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>先用最小對把調號當音位處理，建立「同段不同調＝不同詞」紀律。</li>
+    <li>ɖè＋X 全列表：取價＝議價・取繩＝解開・取心思＝推理・取相＝拍照・取配偶＝結婚。</li>
+    <li>組合展開：<code>srɔ̃̀ɖèɖè</code> 婚姻・<code>fótòɖèɖè</code> 攝影；<code>àsí-nù</code> 手—口＝書寫、<code>kà-sàŋkú</code> 弦—樂器＝吉他、<code>nù-kú</code> 口—死＝驚奇。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解（含官方漏答）</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>組合精選：</b>àsì-gbè＝市集日｜nù-sàŋkú＝口琴｜srɔ̃̀ɖè-sígɛ̀＝婚戒（複合中 àsígɛ̀ 失 à-）</li>
+      <li><b>勘誤：</b>官方解答<b>漏答第 18 題</b> <code>ɖè srɔ̃̀</code>＝結婚（原題 16–20 共五小題）。詳見 V3。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>複合詞內的音段刪略（à- 脫落）——別把刪略後的形式當成新詞素；先假設「複合觸發的音韻規則」再驗證。</div>
+</article>
+
+<!-- ═══════════ 卡⑧ 滿文 ═══════════ -->
+<article class="pcard" style="--dc:#33658a">
+  <span class="yeartag">2025 OJL・第 3 題</span><span class="chip" style="--dc:#33658a">文字・符號</span>
+  <h3>⑧ 滿文：破譯的槓桿</h3>
+  <p class="p-sub">通古斯語族・1632 達海圈點改革｜密碼學式入手</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">未知直書文字＋已知人名清單的<b>亂序配對</b> → 破譯題三板斧：找<b>最短詞</b>（Uya）、找<b>唯一雙詞項</b>（Aisin-Gioro 兩行）、找<b>重複音節</b>（Tatara）；再用同尾（-ru）同首（fu-）交叉收網。</div>
+  <span class="block-label">扣回上文 §2 文字・符號</span>
+  <div class="hookline"><label><input type="checkbox">破譯槓桿：長度・重複・共同首尾的組合定位法</label></div>
+  <div class="hookline"><label><input type="checkbox">附標（圈點）系統：齒＋下點＝n、＋上點＝e；雙齒＋點＝g、＋圈＝h</label></div>
+  <div class="hookline"><label><input type="checkbox">位置變體 allographs：詞首・詞中・詞尾三形<span class="cref">同阿拉伯文連寫</span></label></div>
+  <div class="hookline"><label><input type="checkbox">母音和諧的字形化：k/g/h 依陽性／陰性母音用不同字形<span class="cref">文字直接編碼音系</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>由 Uya・Aisin-Gioro・Tatara 三個錨點起步，最小對比擴散字值，全域一致性收網。</li>
+    <li>建立鐵律：<b>u 必有點</b>；違反鐵律的候選（Tuhu／Dudu）直接排除。</li>
+    <li>(c) 反向書寫時逐符號查 40 格符號表，<b>選對位置形</b>（#1＝詞首母音載體）。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(a)</b> 1 Nurgaci・2 Taksi・3 Taiji・4 Niohuru・5 Šumuru・6 Uya・7 Fulin・8 Fuca・9 Cuyen・10 Tatara・11 Aisin-Gioro・12 Abkai</li>
+      <li><b>(b)</b> Dodo 多鐸（兩點各屬兩個 d；兩弓無點＝o）・Socoro 索綽羅（s 無 š 斜筆；c 與 Fuca 同形）・Oboi 鰲拜（詞首素弓＝o、雙瓣圈＝bo、C 形＝-i）</li>
+      <li><b>(c)</b> Nara＝31-3-18-2｜Dorgon＝30-4-18-15-4-2｜Ilibu＝1-11-27-11-5</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>兩弓無點必是 o 不是 u——鐵律一旦確立就是排除利器；破譯題的分數常來自「敢用規則排除」而非「多認幾個字」。</div>
+</article>
+
+<!-- ═══════════ 卡⑨ baybayin ═══════════ -->
+<article class="pcard" style="--dc:#33658a">
+  <span class="yeartag">2024 OJL・第 1 題</span><span class="chip" style="--dc:#33658a">文字・符號</span>
+  <h3>⑨ baybayin 手語：abugida 的空間版</h3>
+  <p class="p-sub">菲律賓 baybayin 文字的手語化（Tim Liwanag 創制）｜暖身首選</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">手形數量 ≪ 音節數量，但每個手形可加「點・叉」等附加記號 → <b>abugida</b>：基本符號＝子音＋固有母音 a，附標改母音、特殊記號去母音。</div>
+  <span class="block-label">扣回上文 §2 文字・符號</span>
+  <div class="hookline"><label><input type="checkbox">abugida vs 音節文字 vs 字母的判準：符號數量級與附標系統</label></div>
+  <div class="hookline"><label><input type="checkbox">固有母音：光桿手形＝ Ca</label></div>
+  <div class="hookline"><label><input type="checkbox">virama（去母音記號）：閉音節尾的純子音靠它<span class="cref">符號表 #16 叉記號</span></label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>用已知詞（Bayanihan・Makisig）中重複音節對出手形。</li>
+    <li>上方點＝ i/e、下方標記＝ u/o、叉＝去母音——先假設 CV 骨架再用附標校正。</li>
+    <li>(c) 逐音節編碼、閉音節補 #16。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(a)</b> A=6 Tampo・B=5 Luman・C=3 Makisig・D=1 Balakid・E=7 Timpi・F=2 Bayanihan・G=4 Maniwala</li>
+      <li><b>(b)</b> 8 KILIG・9 MUTYA・10 BOSES・11 HARANA</li>
+      <li><b>(c)</b> 12 Kalinaw＝9-7-3-6-16｜13 Yugto＝2-18-15-8-16-11｜14 Perlas＝17-12-7-10-16-16｜15 Sumasabay＝10-5-10-1-2-8-16</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>詞尾子音（Kalina-<b>w</b>、Perla-<b>s</b>）必帶 virama；學生最常忘的正是「取消固有母音」這個 abugida 核心機制。</div>
+</article>
+
+<!-- ═══════════ 卡⑩ Chants of Sennaar ═══════════ -->
+<article class="pcard" style="--dc:#33658a">
+  <span class="yeartag">2024 ONL・第 2 題</span><span class="chip" style="--dc:#33658a">文字・符號</span><span class="chip lite" style="--dc:#7e5bbf">句法・詞序</span>
+  <h3>⑩ Chants of Sennaar：亂序配對解碼</h3>
+  <p class="p-sub">遊戲語言（巴別塔題材）｜句法訊號藏在符號裡</p>
+  <span class="block-label">訊號辨識</span>
+  <div class="sigbox">7 句未知符號 × 7 句譯文<b>亂序</b> → 配對解碼題：先數符號數 vs 詞數；譯文有三句含「不」，對應符號句應有共同的否定符 → 突破口。</div>
+  <span class="block-label">扣回上文 §2</span>
+  <div class="hookline"><label><input type="checkbox">亂序配對法：集合交叉（共現符號 ↔ 共現詞彙）</label></div>
+  <div class="hookline"><label><input type="checkbox">重疊表複數：符號重複＝複數<span class="cref">構詞領域「重疊」條目的文字版</span></label></div>
+  <div class="hookline"><label><input type="checkbox">否定前置於動詞</label></div>
+  <div class="hookline"><label><input type="checkbox">包含式 vs 排除式「我們」<span class="cref">台灣南島語同有此範疇（咱 vs 阮）</span></label></div>
+  <div class="hookline"><label><input type="checkbox">零繫詞：「鑰匙在教堂」無動詞符號</label></div>
+  <span class="block-label">解題路徑</span>
+  <div class="path"><ol>
+    <li>否定三句（不喜歡・沒看到・不說）鎖定否定符 → 連帶鎖定動詞位置 → SVO。</li>
+    <li>重複符號＝複數（戰士們）；由 8（你和我）vs D（不含你）拆出兩種「我們」。</li>
+    <li>(c) 依規則組裝：重疊複數＋否定前置＋SVO。</li>
+  </ol></div>
+  <details class="ans"><summary>答案與詳解</summary><div class="ansbody">
+    <ul class="anskey">
+      <li><b>(a)</b> 1=C・2=G・3=A・4=E・5=F・6=D・7=B</li>
+      <li><b>(b)</b> 8 我們（你和我）打開花園。｜9 植物沒有死。｜10 戰士找／要那件樂器（兩讀皆可）。</li>
+      <li><b>(c)</b> H 我看到透鏡｜I 吟遊詩人們愛藥水｜J 戰士們不和信徒說話——依上列規則以符號組裝。</li>
+    </ul>
+  </div></details>
+  <div class="warning"><b>陷阱：</b>第 10 句「找／要」兩解都對——題目明說「若有多種可能全部寫出」；解碼題的多義不是錯誤，漏寫其一才扣分。</div>
+</article>
+</div>
+
+<div class="verify-sub" id="ro-errata">
+  <h3><span class="no">V3</span>官方勘誤三連：資料一致性 ＞ 權威答案</h3>
+  <p class="section-intro">§0 的精神——一切規則從資料內部驗證。這三處官方解答的疑誤，正是這條紀律的實戰教材，也是十題裡最值得帶討論的段落。</p>
+  <div class="errata">
+    <h3>勘誤 1｜Kobon 重音（卡①）：si.ˈog，非 ˈsi.og</h3>
+    <p style="font-size:.92rem;margin:4px 0">官方畫記 si——但資料內 <code>gi.ˈro</code>（i 對 o，o 勝）是<b>直接平行例</b>。依題目自建的響度階層，唯一一致的答案是 <code>si.ˈog</code>。若採官方答案，整個階層 a ＞ e,o ＞ i,u ＞ ə 就得為一個詞破例。</p>
+  </div>
+  <div class="errata">
+    <h3>勘誤 2｜Tzeltal 數值（卡⑥）：D＝116，非 117</h3>
+    <p style="font-size:.92rem;margin:4px 0">wak＝6 在資料中有實證；官方計算多加了 1，屬算術筆誤。超數法題最容易在 ±1 出錯——連命題方也不例外。</p>
+  </div>
+  <div class="errata">
+    <h3>勘誤 3｜Ewe 漏答（卡⑦）：第 18 題 ɖè srɔ̃̀＝結婚</h3>
+    <p style="font-size:.92rem;margin:4px 0">原題 16–20 共五小題，官方解答跳過 18。輕動詞語意網（取配偶＝結婚）在資料中完整可推，考生不應因官方缺漏而自我懷疑。</p>
+  </div>
+  <div class="callout"><b>帶隊訊息：</b>賽場上沒有官方解答可對，只有資料內部一致性可依。平時對答案發現衝突，第一反應是「回資料驗證」而不是「改自己的答案」——這三例證明兩種結局都存在。</div>
+</div>
+
+<div class="verify-sub" id="ro-cov">
+  <h3><span class="no">V4</span>覆蓋矩陣：十題打到講義的哪裡</h3>
+  <p class="section-intro">對照§2 的十一大領域——三個未覆蓋領域請回講義 §3 考古題索引補刷。</p>
+  <table>
+    <tr><th>§2 領域</th><th style="width:90px">覆蓋</th><th>對應驗證卡</th></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#4a5fc1">音韻・聲調</span></td><td class="cov-y">✓ 充分</td><td>① Munster/Kobon（重音參數）・⑦ Ewe（聲調）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#0f766e">構詞</span></td><td class="cov-y">✓ 充分</td><td>② aroma（槽位模板 ★）・③ yawalapiti・⑦ Ewe（重疊）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#b4530a">對齊・一致</span></td><td class="cov-y">✓ 充分</td><td>④ Burushaski（作格＋流動 S）・⑤ Worora（階層＋反向）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#7e5bbf">句法・詞序</span></td><td class="cov-p">△ 部分</td><td>⑩ Sennaar（SVO・否定・零繫詞）——僅基本語序層</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#b0356b">名詞範疇</span></td><td class="cov-y">✓ 充分</td><td>⑤ Worora（語義名詞類）・⑥ Tzeltal（分類詞）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#5f7a1e">語意・詞彙</span></td><td class="cov-y">✓ 充分</td><td>⑦ Ewe（輕動詞・複合語義）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#c8871e">數詞・曆法</span></td><td class="cov-y">✓ 充分</td><td>⑥ Tzeltal（二十進位・超數法）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#33658a">文字・符號</span></td><td class="cov-y">✓ 充分</td><td>⑧ 滿文・⑨ baybayin・⑩ Sennaar——附標／abugida／未知符號三型各一</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#8a5a3b">歷史比較</span></td><td class="cov-n">✗ 未覆蓋</td><td>→ 講義 §3 補刷（音變對應・同源詞題）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#a03e4e">社會・詩律・文化</span></td><td class="cov-n">✗ 未覆蓋</td><td>→ 講義 §3 補刷（親屬稱謂・詩律題）</td></tr>
+    <tr class="covrow"><td><span class="chip" style="--dc:#556879">計算・編碼</span></td><td class="cov-n">✗ 未覆蓋</td><td>→ 講義 §3 補刷＋團體賽大規模資料題</td></tr>
+  </table>
+</div>
+    </div>
+
+    </section>
+
+  <section class="section" id="archive">
+    <h2><span class="no">§3</span>考古題總索引（IOL 2003–2025）</h2>
+    <p class="section-intro">共 134 題：個人賽每屆五題 × 22 屆，加上團體賽。點選領域標籤可篩選（可複選）；「個1」指個人賽第 1 題，「團1」指團體賽。</p>
+    <div class="warning">
+      <b>⚠️ 標註信度說明：</b>語言名稱與語系已逐屆對照 ioling.org 官方題庫。考點方面：<b>● 標記（128 題）</b>已對照 Wikipedia 的官方逐題描述，並抽驗 2004、2007、2008、2014、2016、2023、2024 各屆的官方英文解答 PDF 逐題確認；<b>◇ 標記（6 題）</b>為尚未對照官方解答者，集中在 2003–2004 與 2009——這幾屆的官方解答為掃描檔，無法擷取文字，因此只能先給出領域層級的暫定分類。此版已將待驗證題目由初版的 59 題降至 6 題。
+    </div>
+    <div class="chips" id="domchips"></div>
+    <div class="ctrl">
+      <input type="search" id="q" placeholder="搜尋語言、語系或考點（例：作格、班圖、聲調）">
+      <label><input type="checkbox" id="hionly">只看 ● 高信度</label>
+      <label><input type="checkbox" id="teamonly">只看團體賽</label>
+    </div>
+    <div id="pcount"></div>
+    <div class="tabwrap">
+      <table class="ptab" id="ptab">
+        <thead><tr><th>屆</th><th>題</th><th>語言</th><th>語系／領域</th><th>考點</th><th>類型學標籤</th></tr></thead>
+        <tbody id="ptbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="freq">
+    <h2><span class="no">§4</span>頻率分析：全期 vs 近八屆</h2>
+    <p class="section-intro">每個領域有兩條長條：深色是 2003–2025 全期的出現次數，淺色是 2018–2025 近八屆。一題可掛多個標籤，因此加總會多於題數。</p>
+    <svg viewBox="0 0 700 474" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="考點頻率長條圖" style="width:100%;height:auto;"><style>.fb-lab{font:600 12.5px "Noto Sans TC",sans-serif;}.fb-num{font:11px "Noto Sans TC",sans-serif;fill:#5a5f70;}</style><text class="fb-num" x="118" y="16">■ 全期（2003–2025）　▨ 近八屆（2018–2025）</text><text class="fb-lab" x="108" y="42" text-anchor="end" fill="#0f766e">構詞</text><rect x="118" y="28" width="522.0" height="12" rx="3" fill="#0f766e" opacity="0.92"/><text class="fb-num" x="646.0" y="38">50</text><rect x="118" y="43" width="208.8" height="9" rx="3" fill="#0f766e" opacity="0.38"/><text class="fb-num" x="332.8" y="51">20</text><text class="fb-lab" x="108" y="82" text-anchor="end" fill="#4a5fc1">音韻・聲調</text><rect x="118" y="68" width="386.3" height="12" rx="3" fill="#4a5fc1" opacity="0.92"/><text class="fb-num" x="510.3" y="78">37</text><rect x="118" y="83" width="114.8" height="9" rx="3" fill="#4a5fc1" opacity="0.38"/><text class="fb-num" x="238.8" y="91">11</text><text class="fb-lab" x="108" y="122" text-anchor="end" fill="#5f7a1e">語意・詞彙</text><rect x="118" y="108" width="313.2" height="12" rx="3" fill="#5f7a1e" opacity="0.92"/><text class="fb-num" x="437.2" y="118">30</text><rect x="118" y="123" width="83.5" height="9" rx="3" fill="#5f7a1e" opacity="0.38"/><text class="fb-num" x="207.5" y="131">8</text><text class="fb-lab" x="108" y="162" text-anchor="end" fill="#33658a">文字・符號</text><rect x="118" y="148" width="208.8" height="12" rx="3" fill="#33658a" opacity="0.92"/><text class="fb-num" x="332.8" y="158">20</text><rect x="118" y="163" width="31.3" height="9" rx="3" fill="#33658a" opacity="0.38"/><text class="fb-num" x="155.3" y="171">3</text><text class="fb-lab" x="108" y="202" text-anchor="end" fill="#7e5bbf">句法・詞序</text><rect x="118" y="188" width="187.9" height="12" rx="3" fill="#7e5bbf" opacity="0.92"/><text class="fb-num" x="311.9" y="198">18</text><rect x="118" y="203" width="41.8" height="9" rx="3" fill="#7e5bbf" opacity="0.38"/><text class="fb-num" x="165.8" y="211">4</text><text class="fb-lab" x="108" y="242" text-anchor="end" fill="#b4530a">對齊・一致</text><rect x="118" y="228" width="146.2" height="12" rx="3" fill="#b4530a" opacity="0.92"/><text class="fb-num" x="270.2" y="238">14</text><rect x="118" y="243" width="52.2" height="9" rx="3" fill="#b4530a" opacity="0.38"/><text class="fb-num" x="176.2" y="251">5</text><text class="fb-lab" x="108" y="282" text-anchor="end" fill="#c8871e">數詞・曆法</text><rect x="118" y="268" width="135.7" height="12" rx="3" fill="#c8871e" opacity="0.92"/><text class="fb-num" x="259.7" y="278">13</text><rect x="118" y="283" width="31.3" height="9" rx="3" fill="#c8871e" opacity="0.38"/><text class="fb-num" x="155.3" y="291">3</text><text class="fb-lab" x="108" y="322" text-anchor="end" fill="#a03e4e">社會・詩律</text><rect x="118" y="308" width="135.7" height="12" rx="3" fill="#a03e4e" opacity="0.92"/><text class="fb-num" x="259.7" y="318">13</text><rect x="118" y="323" width="62.6" height="9" rx="3" fill="#a03e4e" opacity="0.38"/><text class="fb-num" x="186.6" y="331">6</text><text class="fb-lab" x="108" y="362" text-anchor="end" fill="#b0356b">名詞範疇</text><rect x="118" y="348" width="125.3" height="12" rx="3" fill="#b0356b" opacity="0.92"/><text class="fb-num" x="249.3" y="358">12</text><rect x="118" y="363" width="62.6" height="9" rx="3" fill="#b0356b" opacity="0.38"/><text class="fb-num" x="186.6" y="371">6</text><text class="fb-lab" x="108" y="402" text-anchor="end" fill="#8a5a3b">歷史比較</text><rect x="118" y="388" width="125.3" height="12" rx="3" fill="#8a5a3b" opacity="0.92"/><text class="fb-num" x="249.3" y="398">12</text><rect x="118" y="403" width="62.6" height="9" rx="3" fill="#8a5a3b" opacity="0.38"/><text class="fb-num" x="186.6" y="411">6</text><text class="fb-lab" x="108" y="442" text-anchor="end" fill="#556879">計算・編碼</text><rect x="118" y="428" width="94.0" height="12" rx="3" fill="#556879" opacity="0.92"/><text class="fb-num" x="218.0" y="438">9</text><rect x="118" y="443" width="31.3" height="9" rx="3" fill="#556879" opacity="0.38"/><text class="fb-num" x="155.3" y="451">3</text></svg>
+    <div class="callout">
+      <b>三個值得注意的地方：</b>①「構詞」與「對齊・一致」在近八屆平均每屆超過三題，是語奧不變的核心，複習分配應以此為基準。②「名詞範疇」（類別、分類詞、領屬）近八屆的密度明顯高於早期，且常與構詞、聲調結合成複合考點，如 Gaahmg 2025 一題就橫跨三個領域。③「文字・符號」全期出現 20 次，但近八屆（2018–2025）僅 3 次——2 次團體賽（2019 韻律體操、2022 Manchu）、1 次個人賽（2019 Book Pahlavi）；個人賽的文字題自 2019 後即空窗，是目前分布上最明顯的異常。
+    </div>
+  </section>
+
+  <section class="section" id="typodata">
+    <h2><span class="no">§5</span>資料視角：WALS × Grambank 的通則與例外</h2>
+    <p class="section-intro">前四節整理的是「語奧考過什麼」；這一節換一個方向，直接從 WALS（v2020.4）與 Grambank（v1.0.3）兩個類型學資料庫計算世界語言的實際分布。對選手有兩個用途：一是<b>先驗</b>——看到題目語言的地區或語系，就能預期它大概會有哪些特徵；二是<b>例外偵測</b>——通則的破口正是命題者喜歡取材的地方。以下所有百分比都由資料庫原始檔計算而得，非印象式描述。</p>
+
+    <h3 style="color:var(--indigo);">聲調的地理分布（WALS 13A，n = 527）</h3>
+<svg viewBox="0 0 880 434" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WALS 13A 聲調分布圖" style="width:100%;height:auto;"><style>.tm-lab{font:11px "Noto Sans TC",sans-serif;fill:#5a5f70;}.tm-ann{font:600 11px "Noto Sans TC",sans-serif;}</style><circle cx="14" cy="14" r="5" fill="#b0356b"/><text class="tm-lab" x="24" y="18">複雜聲調系統（88）</text><circle cx="180" cy="14" r="5" fill="#c8871e"/><text class="tm-lab" x="190" y="18">簡單聲調系統（132）</text><circle cx="346" cy="14" r="2.4" fill="#b9b5aa"/><text class="tm-lab" x="356" y="18">無聲調（307）</text><circle cx="540.2" cy="132.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="39.1" cy="98.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="515.8" cy="171.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="85.6" cy="77.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="294.6" cy="241.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="790.4" cy="273.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="488.9" cy="138.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="768.2" cy="304.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="795.9" cy="274.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="532.9" cy="230.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="772.4" cy="330.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="255.6" cy="290.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="274.4" cy="295.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="322.7" cy="275.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="276.2" cy="285.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="256.3" cy="265.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="554.5" cy="135.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="550.0" cy="141.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="790.0" cy="269.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="778.6" cy="275.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="736.6" cy="187.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="553.7" cy="134.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="248.7" cy="255.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="271.3" cy="309.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="558.6" cy="140.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="740.7" cy="272.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="130.4" cy="105.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="660.0" cy="188.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="438.8" cy="225.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="305.6" cy="300.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="680.2" cy="249.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="427.8" cy="162.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="811.6" cy="272.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="740.5" cy="308.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="432.7" cy="118.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="603.8" cy="175.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="300.7" cy="306.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="696.1" cy="210.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="581.8" cy="103.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="432.7" cy="132.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="682.0" cy="252.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="769.0" cy="295.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="501.1" cy="134.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="622.1" cy="152.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="814.0" cy="341.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="155.8" cy="160.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="251.8" cy="256.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="303.1" cy="243.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="259.1" cy="294.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="224.9" cy="159.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="158.9" cy="164.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="793.8" cy="219.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="17.1" cy="62.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="139.3" cy="122.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="292.1" cy="328.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="556.1" cy="96.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="191.9" cy="160.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="330.0" cy="280.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="136.5" cy="131.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="171.1" cy="100.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="444.9" cy="136.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="279.9" cy="299.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="645.3" cy="188.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="501.7" cy="223.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="784.7" cy="270.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="743.1" cy="118.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="156.0" cy="163.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="400.3" cy="221.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="779.8" cy="341.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="772.4" cy="296.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="779.4" cy="272.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="848.8" cy="321.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="795.9" cy="311.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="440.0" cy="106.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="251.8" cy="250.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="745.6" cy="94.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="757.8" cy="59.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="85.6" cy="81.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="875.1" cy="311.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="501.1" cy="77.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="444.9" cy="118.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="666.5" cy="224.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="661.2" cy="183.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="547.6" cy="135.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="464.4" cy="106.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="748.8" cy="313.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="493.8" cy="144.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="775.3" cy="309.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="315.3" cy="71.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="303.1" cy="335.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="117.3" cy="103.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="59.9" cy="201.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="526.0" cy="166.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="628.2" cy="185.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="295.8" cy="262.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="197.2" cy="194.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="260.3" cy="262.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="488.9" cy="121.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="137.7" cy="138.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="553.1" cy="135.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="847.2" cy="319.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="713.8" cy="253.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="259.7" cy="228.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="785.1" cy="269.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="699.1" cy="259.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="550.2" cy="132.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="420.4" cy="97.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="766.3" cy="268.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="298.2" cy="297.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="738.2" cy="199.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="215.9" cy="213.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="254.2" cy="297.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="711.3" cy="280.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="253.0" cy="275.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="703.6" cy="214.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="261.6" cy="228.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="546.3" cy="131.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="625.8" cy="159.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="781.0" cy="309.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="432.7" cy="209.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="742.5" cy="283.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="652.7" cy="71.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="437.8" cy="217.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="781.0" cy="321.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="623.3" cy="135.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="696.7" cy="121.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="696.7" cy="222.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="646.1" cy="193.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="664.9" cy="184.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="620.9" cy="214.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="805.9" cy="275.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="143.0" cy="134.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="809.3" cy="284.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="787.4" cy="289.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="798.9" cy="282.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="625.8" cy="218.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="312.9" cy="335.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="792.8" cy="274.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="752.9" cy="149.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="628.6" cy="225.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="638.8" cy="207.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="862.9" cy="255.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="547.6" cy="153.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="848.2" cy="80.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="598.9" cy="68.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="251.0" cy="235.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="156.4" cy="113.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="833.6" cy="285.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="129.6" cy="109.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="152.8" cy="153.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="794.4" cy="306.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="574.4" cy="68.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="630.7" cy="159.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="555.3" cy="135.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="829.2" cy="286.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="853.7" cy="316.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="556.9" cy="136.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="191.1" cy="130.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="153.6" cy="161.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="141.8" cy="118.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="135.3" cy="117.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="554.9" cy="318.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="870.2" cy="377.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="264.0" cy="371.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="163.4" cy="161.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="766.3" cy="294.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="342.2" cy="312.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="763.9" cy="263.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="794.4" cy="309.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="689.3" cy="153.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="757.8" cy="299.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="758.8" cy="298.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="145.0" cy="141.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="591.6" cy="156.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="279.5" cy="300.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="757.0" cy="302.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="782.6" cy="282.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="743.7" cy="236.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="724.8" cy="320.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="146.7" cy="149.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="205.3" cy="208.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="647.0" cy="191.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="766.3" cy="302.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="774.9" cy="113.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="554.9" cy="147.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="647.8" cy="177.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="649.0" cy="178.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="156.4" cy="124.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="667.3" cy="50.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="795.7" cy="352.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="199.8" cy="200.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="198.0" cy="201.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="668.6" cy="235.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="625.8" cy="53.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="771.6" cy="299.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="130.4" cy="113.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="244.4" cy="124.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="166.2" cy="165.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="610.5" cy="163.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="701.8" cy="211.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="254.2" cy="251.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="735.4" cy="193.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="283.6" cy="277.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="757.8" cy="335.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="851.3" cy="307.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="278.7" cy="240.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="826.8" cy="239.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="488.9" cy="106.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="572.0" cy="165.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="603.8" cy="162.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="683.2" cy="191.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="191.5" cy="202.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="256.7" cy="403.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="278.7" cy="310.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="235.3" cy="224.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="172.7" cy="339.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="501.1" cy="124.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="798.3" cy="285.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="463.2" cy="121.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="819.3" cy="277.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="735.4" cy="192.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="532.9" cy="94.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="268.9" cy="241.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="480.9" cy="69.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="608.7" cy="182.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="704.0" cy="215.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="268.9" cy="415.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="286.4" cy="249.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="256.7" cy="281.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="146.7" cy="106.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="691.8" cy="250.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="250.6" cy="134.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="636.8" cy="238.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="281.9" cy="246.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="572.0" cy="222.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="646.1" cy="200.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="430.2" cy="141.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="138.9" cy="113.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="283.6" cy="305.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="830.6" cy="286.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="535.3" cy="278.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="751.7" cy="259.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="273.8" cy="299.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="735.8" cy="215.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="427.8" cy="168.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="273.8" cy="400.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="633.1" cy="212.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="808.6" cy="267.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="534.1" cy="210.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="760.2" cy="293.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="797.5" cy="283.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="227.3" cy="216.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="203.5" cy="170.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="202.1" cy="199.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="309.0" cy="294.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="743.5" cy="239.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="735.8" cy="241.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="124.7" cy="105.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="735.2" cy="190.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="748.0" cy="285.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="551.2" cy="134.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="454.7" cy="191.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="741.9" cy="275.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="624.1" cy="221.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="525.6" cy="144.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="672.2" cy="106.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="213.9" cy="211.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="748.0" cy="307.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="326.3" cy="266.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="794.9" cy="273.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="602.6" cy="139.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="771.8" cy="314.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="253.0" cy="262.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="140.6" cy="146.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="281.1" cy="292.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="287.0" cy="325.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="762.7" cy="349.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="202.1" cy="161.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="140.6" cy="138.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="136.5" cy="139.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="400.9" cy="214.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="751.9" cy="257.9" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="786.5" cy="300.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="798.1" cy="277.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="745.1" cy="283.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="293.3" cy="251.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="289.3" cy="232.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="760.2" cy="305.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="760.8" cy="298.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="141.8" cy="140.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="777.7" cy="231.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="803.0" cy="287.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="773.1" cy="264.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="266.4" cy="261.6" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="816.9" cy="292.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="788.5" cy="271.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="796.3" cy="309.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="790.9" cy="273.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="808.7" cy="66.0" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="757.8" cy="77.1" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="775.3" cy="307.7" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="818.9" cy="56.5" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="227.9" cy="154.3" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="136.9" cy="137.8" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="17.1" cy="68.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="212.1" cy="209.4" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="174.0" cy="156.2" r="2.4" fill="#b9b5aa" opacity="0.8"/><circle cx="144.2" cy="137.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="264.0" cy="261.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="464.4" cy="239.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="291.7" cy="296.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="789.6" cy="132.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="436.9" cy="240.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="429.4" cy="244.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="461.2" cy="229.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="493.6" cy="315.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="797.5" cy="280.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="529.6" cy="227.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="421.7" cy="222.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="665.5" cy="193.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="474.4" cy="270.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="528.0" cy="206.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="524.7" cy="229.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="268.3" cy="258.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="664.9" cy="180.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="268.9" cy="256.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="211.4" cy="161.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="235.9" cy="155.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="180.9" cy="85.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="697.9" cy="224.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="493.8" cy="277.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="267.7" cy="255.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="793.4" cy="278.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="539.0" cy="266.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="499.9" cy="319.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="438.8" cy="231.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="484.8" cy="223.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="432.1" cy="217.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="460.8" cy="245.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="771.2" cy="270.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="441.0" cy="240.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="790.4" cy="278.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="348.3" cy="282.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="501.1" cy="219.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="462.8" cy="231.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="482.8" cy="239.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="526.0" cy="270.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="797.5" cy="281.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="457.1" cy="224.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="529.2" cy="244.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="171.1" cy="153.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="207.8" cy="211.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="457.9" cy="241.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="523.1" cy="225.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="453.9" cy="245.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="523.5" cy="248.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="526.8" cy="271.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="455.3" cy="243.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="514.6" cy="228.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="782.2" cy="150.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="617.2" cy="155.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="528.6" cy="238.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="791.6" cy="278.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="407.6" cy="222.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="198.0" cy="150.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="790.8" cy="282.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="689.3" cy="197.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="469.3" cy="230.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="530.4" cy="216.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="471.8" cy="224.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="800.1" cy="287.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="139.3" cy="136.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="513.3" cy="228.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="414.9" cy="234.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="477.5" cy="226.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="530.6" cy="239.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="520.7" cy="253.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="498.7" cy="91.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="441.2" cy="237.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="524.9" cy="260.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="493.8" cy="294.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="528.0" cy="268.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="490.9" cy="219.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="195.8" cy="202.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="472.2" cy="236.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="669.8" cy="186.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="771.8" cy="268.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="471.8" cy="227.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="521.9" cy="240.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="513.7" cy="227.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="262.8" cy="262.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="525.6" cy="258.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="531.9" cy="215.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="176.0" cy="153.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="306.8" cy="246.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="466.7" cy="223.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="668.6" cy="178.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="787.1" cy="102.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="512.9" cy="262.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="688.5" cy="213.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="515.8" cy="197.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="459.6" cy="80.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="522.1" cy="249.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="264.6" cy="267.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="455.3" cy="245.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="255.0" cy="132.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="197.6" cy="200.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="794.6" cy="280.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="231.0" cy="215.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="288.4" cy="280.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="276.2" cy="127.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="136.3" cy="118.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="265.2" cy="266.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="555.9" cy="137.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="484.0" cy="244.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="525.6" cy="274.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="140.1" cy="136.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="134.4" cy="62.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="550.0" cy="250.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="704.0" cy="225.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="800.7" cy="282.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="649.4" cy="178.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="662.4" cy="171.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="475.4" cy="266.3" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="110.0" cy="85.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="511.9" cy="224.4" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="438.6" cy="228.8" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="408.0" cy="233.9" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="182.1" cy="152.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="476.7" cy="296.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="782.2" cy="273.1" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="793.8" cy="276.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="264.0" cy="269.7" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="170.5" cy="178.5" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="222.4" cy="200.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="497.4" cy="318.2" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="795.5" cy="278.0" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="503.6" cy="247.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="513.3" cy="347.6" r="4.6" fill="#c8871e" opacity="0.9"/><circle cx="177.0" cy="156.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="200.4" cy="209.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="463.2" cy="231.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="671.4" cy="181.2" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="479.1" cy="225.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="684.4" cy="182.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="429.4" cy="222.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="424.7" cy="241.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="461.6" cy="231.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="446.1" cy="230.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="674.7" cy="197.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="203.7" cy="207.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="205.5" cy="208.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="716.2" cy="191.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="202.1" cy="211.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="669.0" cy="190.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="420.4" cy="237.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="508.4" cy="234.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="529.2" cy="241.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="706.4" cy="180.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="472.0" cy="233.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="785.4" cy="267.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="461.2" cy="243.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="469.3" cy="247.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="464.9" cy="244.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="732.1" cy="182.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="439.6" cy="242.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="796.9" cy="277.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="697.9" cy="192.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="420.4" cy="244.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="457.1" cy="231.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="723.6" cy="185.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="696.7" cy="177.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="728.4" cy="185.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="677.1" cy="184.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="491.3" cy="315.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="512.5" cy="227.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="476.9" cy="230.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="484.0" cy="334.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="418.6" cy="245.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="231.8" cy="157.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="459.8" cy="241.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="522.5" cy="233.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="464.9" cy="237.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="415.6" cy="238.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="677.1" cy="206.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="678.3" cy="203.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="680.0" cy="200.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="475.4" cy="232.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="709.3" cy="188.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="686.1" cy="194.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="483.4" cy="230.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="515.6" cy="250.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="501.1" cy="256.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="711.3" cy="185.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="468.1" cy="239.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="708.9" cy="159.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="468.5" cy="232.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="201.5" cy="209.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="201.5" cy="209.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="760.0" cy="263.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="203.1" cy="207.2" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="684.4" cy="178.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="398.6" cy="215.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="294.6" cy="300.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="465.9" cy="240.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="513.9" cy="255.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="700.1" cy="195.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="511.7" cy="223.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="542.7" cy="232.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="682.0" cy="215.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="842.9" cy="320.2" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="679.6" cy="194.7" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="424.7" cy="231.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="702.8" cy="182.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="426.4" cy="225.6" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="468.9" cy="227.1" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="686.9" cy="212.4" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="267.7" cy="271.2" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="198.0" cy="209.2" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="493.8" cy="216.8" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="464.6" cy="232.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="700.3" cy="228.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="733.1" cy="166.3" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="492.6" cy="330.0" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="696.1" cy="193.5" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="450.6" cy="235.9" r="4.6" fill="#b0356b" opacity="0.92"/><circle cx="501.7" cy="234.4" r="4.6" fill="#b0356b" opacity="0.92"/><text class="tm-ann" x="26.900000000000006" y="197.4" fill="#b0356b" text-anchor="start">中美洲：Oto-Manguean 複雜調群</text><text class="tm-ann" x="805.6" y="300.1" fill="#c8871e" text-anchor="start">新幾內亞：零星聲調（多為簡單系統，含 Kewa）</text><text class="tm-ann" x="108.69999999999999" y="66.9" fill="#b0356b" text-anchor="start">Na-Dene：聲調化</text><text class="tm-ann" x="771.1" y="360.0" fill="#5a5f70" text-anchor="middle">澳洲：0／32，全無聲調</text></svg>
+    <div class="callout" style="margin-top:14px;">
+      <b>通則：</b>聲調語言高度集中於兩個地帶——撒哈拉以南非洲（127 個樣本語言中 112 個有聲調，88%）與東亞／東南亞（歐亞區的聲調語言幾乎全在這裡）。<b>例外（值得特別注意）：</b>①中美洲有一整群<b>複雜</b>聲調語言（Oto-Manguean 語系：Mixtec、Chinantec、Mazatec、Tlapanec 等）；②北美西北部的 Na-Dene 語系（Navajo、Tlingit、Slave）經歷聲調化（tonogenesis）；③巴布亞圈 81 個樣本中有 18 個聲調語言、多為簡單系統，主要落在新幾內亞（含 IOL 2025 考過的 Kewa）；④<b>澳洲 32 個樣本語言全數無聲調</b>——看到澳洲語言，可以直接把聲調從假設清單上剔除。北美樣本的聲調比例其實達 37%，高於多數人的直覺。
+    </div>
+
+    <h3 style="color:var(--indigo);margin-top:22px;">六大區的特徵先驗表（Grambank，各格為「有此特徵」的語言比例）</h3>
+    <div class="tabwrap">
+    <table class="ptab">
+      <thead><tr><th>特徵（Grambank 編號）</th><th>非洲</th><th>澳洲</th><th>歐亞</th><th>北美</th><th>巴布亞圈</th><th>南美</th><th>全球</th></tr></thead>
+      <tbody>
+        <tr><td>包含／排除式「我們」（GB028，n=2355）</td><td>29%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>74%</b></td><td>41%</td><td>46%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>78%</b></td><td>47%</td><td>53%</td></tr>
+        <tr><td>作格式格位標記（GB409，n=1767）</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>3%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>77%</b></td><td>24%</td><td>11%</td><td>25%</td><td>34%</td><td>22%</td></tr>
+        <tr><td>數詞分類詞（GB057，n=2175）</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>2%</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>2%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>48%</b></td><td>19%</td><td>29%</td><td>19%</td><td>24%</td></tr>
+        <tr><td>代名詞雙數（GB031，n=2332）</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>4%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>76%</b></td><td>27%</td><td>17%</td><td>43%</td><td>10%</td><td>26%</td></tr>
+        <tr><td>動詞隨參與者的數換詞幹（GB109，n=1890）</td><td>10%</td><td>5%</td><td>6%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>34%</b></td><td>13%</td><td>19%</td><td>13%</td></tr>
+        <tr><td>以性別為基礎的名詞類（GB051，n=2205）</td><td>19%</td><td>33%</td><td>24%</td><td>14%</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>10%</td><td>30%</td><td>19%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:.86rem;color:var(--sub);">紅底＝該特徵的全球高峰區；藍底＝顯著低谷。讀法示例：題目語言若來自澳洲，作格、雙數、包含／排除三項的先驗機率都在四分之三上下，分析時應優先檢查；反之它幾乎不會有聲調或數詞分類詞。</p>
+
+    <div class="pred"><h4>① 詞序和諧與它的破口</h4>
+      Greenberg 詞序關聯在資料裡非常強：OV 語言配後置詞、VO 語言配前置詞，835 個雙特徵都有值的語言中 94% 符合（WALS 81A × 85A）。例外共 53 個，且成群出現：<b>OV＋前置詞</b>集中在伊朗—閃語接觸帶（波斯語、塔吉克語、中庫德語、Tigrinya、新亞蘭語）；<b>VO＋後置詞</b>集中在波羅的—芬蘭語支（芬蘭語、愛沙尼亞語）、南美 Tupian／Arawakan（Guaraní、Cocama、<b>Apurinã</b>——IOL 2023 個2、<b>Lokono</b>——IOL 2021 團體）與西非 Kwa／Gur。另外，賓語在主語之前的基本詞序（OVS／OSV）全球僅 15 個語言（約 1%），其中 8 個在南美、Cariban 語系就占 3 個（Hixkaryana、Tiriyo、Kuikúro）——看到南美語言而句子解不出 SVO／SOV 時，值得試試 OVS。</div>
+
+    <div class="pred"><h4>② 區域「套餐」：特徵會成束出現</h4>
+      特徵不是獨立分布的。<b>澳洲套餐</b>：無聲調（0/32）＋作格 77%＋雙數 76%＋包含／排除 74%＋受限數詞系統（WALS 131A 的澳洲樣本裡有 Kayardild、Yidiny、Pitjantjatjara 等 6 個「數詞只到 3–4」的語言）。<b>北美套餐</b>：動詞隨參與者的數換詞幹（GB109）在北美高達 34%、遠高於全球 13%——Muskogean（含 IOL 2022 的 Alabama）、Uto-Aztecan、Yuman 都是典型——Grambank 甚至把 Maricopa（Yuman）本身就編碼為「有」（GB109＝1），而它正是羅馬尼亞全國賽 ONL 2026 的考題語言之一；名詞類反而少（14%）。<b>巴布亞圈</b>：包含／排除 78% 全球最高，且是「身體部位計數法」全球唯一的家（WALS 131A：Eipo、Kobon、Haruai、Una 全在新幾內亞）。</div>
+
+    <div class="pred"><h4>③ 例外名單就是命題熱區</h4>
+      把上面各條的「例外語言」列出來，會發現名單讀起來像考古題索引：Kewa（新幾內亞聲調→IOL 2025）、Kiowa（北美聲調→2014）、Alabama（動詞換幹→2022）、Apurinã 與 Lokono（VO＋後置詞→2023、2021）、Dyirbal 與 Yanyuwa（澳洲作格→2012、2024）、Yidiny 與 Kayardild（受限數詞→IOL 2013、羅馬尼亞 ONL 2026）、Umbu-Ungu（24 進位→2012）。這不是巧合：一個語言在類型學上越「不聽話」，越有機會做成一道自足的推理題。實務建議——複習每個領域時，花一點時間記住該通則的三、五個著名反例；它們比通則本身更可能出現在考卷上。</div>
+
+    <div class="callout"><b>文字與地理（整理自文字學通論，非上述資料庫）：</b>文字類型也有清楚的地理慣性，可輔助文字題定位：元音附標文字（abugida）集中於印度系文字圈（南亞、東南亞、藏區）加上衣索比亞的 Ge'ez；輔音文字（abjad）沿閃語帶分布（阿拉伯文、希伯來文，及其祖先腓尼基系）；音節文字則多是<b>近代獨立發明</b>——西非 Vai（IOL 2011）、Cherokee、加拿大原住民音節文字（Cree／Inuktitut），共同點是由接觸過外來文字、但未受其結構束縛的個人所創。IOL 的文字題取樣正好沿著這張地圖走：Vai 2011、Tangut 2014、Luwian 2016、Khom 2017、Book Pahlavi 2019。</div>
+
+
+    <h3 id="rarity" style="color:var(--indigo);margin-top:26px;">§3 的 134 題，比世界更罕見嗎？——Grambank 罕見度量化</h3>
+    <p class="section-intro">前面幾節是印象與頻次；這裡把假說寫成一個可檢定的數字。做法分三步：<b>(1) 對映</b>——把 §3 的 134 題語言逐一對回 Grambank v1.0.3 的特徵向量（195 個特徵）。其中 44 題無法對映（人工符號系統如 Braille、Blissymbolics、EAN-13、mRNA；純方法論題如詞彙統計法；以及尚未進入 Grambank 的語言如 Adyghe、Yoruba、Manchu、古諾斯語等），剩下 <b>84 個相異語言</b>成功取得特徵向量。<b>(2) 定義罕見度</b>——對每個特徵 <i>f</i>，用全庫計算各取值的頻率 <i>p</i>，某語言在該特徵上的「驚訝度」即 −log₂<i>p</i>（取全球少數值 → 位元數高）；一個語言的罕見度＝其所有已編碼特徵的驚訝度平均。<b>(3) 比較</b>——考題語言的罕見度分布 vs 世界其餘 2,348 個語言。</p>
+<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="考題語言 vs 世界 類型學罕見度分布" style="width:100%;height:auto;"><style>.sx-lab{font:11px "Noto Sans TC",sans-serif;fill:#5a5f70;}.sx-ann{font:600 11.5px "Noto Sans TC",sans-serif;}</style>
+<line x1="44" y1="256" x2="686" y2="256" stroke="#d9d5cc"/>
+<polyline points="44.0,256.0 70.8,256.0 70.8,256.0 97.5,256.0 97.5,255.3 124.2,255.3 124.2,244.2 151.0,244.2 151.0,231.0 177.8,231.0 177.8,210.0 204.5,210.0 204.5,179.8 231.2,179.8 231.2,135.1 258.0,135.1 258.0,110.8 284.8,110.8 284.8,83.8 311.5,83.8 311.5,85.8 338.2,85.8 338.2,111.4 365.0,111.4 365.0,129.2 391.8,129.2 391.8,146.3 418.5,146.3 418.5,158.7 445.2,158.7 445.2,187.0 472.0,187.0 472.0,191.6 498.8,191.6 498.8,209.3 525.5,209.3 525.5,223.8 552.2,223.8 552.2,231.0 579.0,231.0 579.0,237.6 605.8,237.6 605.8,246.8 632.5,246.8 632.5,248.8 659.3,248.8 659.3,247.5 686.0,247.5" fill="none" stroke="#b9b5aa" stroke-width="2"/>
+<polygon points="44.0,256.0 70.8,256.0 70.8,256.0 97.5,256.0 97.5,255.3 124.2,255.3 124.2,244.2 151.0,244.2 151.0,231.0 177.8,231.0 177.8,210.0 204.5,210.0 204.5,179.8 231.2,179.8 231.2,135.1 258.0,135.1 258.0,110.8 284.8,110.8 284.8,83.8 311.5,83.8 311.5,85.8 338.2,85.8 338.2,111.4 365.0,111.4 365.0,129.2 391.8,129.2 391.8,146.3 418.5,146.3 418.5,158.7 445.2,158.7 445.2,187.0 472.0,187.0 472.0,191.6 498.8,191.6 498.8,209.3 525.5,209.3 525.5,223.8 552.2,223.8 552.2,231.0 579.0,231.0 579.0,237.6 605.8,237.6 605.8,246.8 632.5,246.8 632.5,248.8 659.3,248.8 659.3,247.5 686.0,247.5 686.0,256.0 44.0,256.0" fill="#b9b5aa" opacity="0.18"/>
+<polyline points="44.0,256.0 70.8,256.0 70.8,256.0 97.5,256.0 97.5,256.0 124.2,256.0 124.2,256.0 151.0,256.0 151.0,256.0 177.8,256.0 177.8,219.6 204.5,219.6 204.5,237.8 231.2,237.8 231.2,183.3 258.0,183.3 258.0,201.5 284.8,201.5 284.8,146.9 311.5,146.9 311.5,128.7 338.2,128.7 338.2,165.1 365.0,165.1 365.0,56.0 391.8,56.0 391.8,183.3 418.5,183.3 418.5,110.5 445.2,110.5 445.2,165.1 472.0,165.1 472.0,165.1 498.8,165.1 498.8,146.9 525.5,146.9 525.5,183.3 552.2,183.3 552.2,128.7 579.0,128.7 579.0,219.6 605.8,219.6 605.8,183.3 632.5,183.3 632.5,256.0 659.3,256.0 659.3,256.0 686.0,256.0" fill="none" stroke="#2f3d66" stroke-width="2.4"/>
+<polygon points="44.0,256.0 70.8,256.0 70.8,256.0 97.5,256.0 97.5,256.0 124.2,256.0 124.2,256.0 151.0,256.0 151.0,256.0 177.8,256.0 177.8,219.6 204.5,219.6 204.5,237.8 231.2,237.8 231.2,183.3 258.0,183.3 258.0,201.5 284.8,201.5 284.8,146.9 311.5,146.9 311.5,128.7 338.2,128.7 338.2,165.1 365.0,165.1 365.0,56.0 391.8,56.0 391.8,183.3 418.5,183.3 418.5,110.5 445.2,110.5 445.2,165.1 472.0,165.1 472.0,165.1 498.8,165.1 498.8,146.9 525.5,146.9 525.5,183.3 552.2,183.3 552.2,128.7 579.0,128.7 579.0,219.6 605.8,219.6 605.8,183.3 632.5,183.3 632.5,256.0 659.3,256.0 659.3,256.0 686.0,256.0 686.0,256.0 44.0,256.0" fill="#2f3d66" opacity="0.16"/>
+<line x1="356.1" y1="40" x2="356.1" y2="256" stroke="#8a877e" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="417.2" y1="40" x2="417.2" y2="256" stroke="#c8871e" stroke-width="1.6" stroke-dasharray="4 3"/>
+<text class="sx-ann" x="352.1" y="34" fill="#6a675e" text-anchor="end">世界均值 0.742</text>
+<text class="sx-ann" x="421.2" y="34" fill="#c8871e" text-anchor="start">考題均值 0.799</text>
+<circle cx="52" cy="286" r="5" fill="#2f3d66" opacity="0.6"/><text class="sx-lab" x="62" y="290">考題語言（84）</text>
+<circle cx="194" cy="286" r="5" fill="#b9b5aa"/><text class="sx-lab" x="204" y="290">世界其餘（2348）</text>
+<text class="sx-lab" x="97.5" y="272" text-anchor="middle">0.5</text><text class="sx-lab" x="204.5" y="272" text-anchor="middle">0.6</text><text class="sx-lab" x="311.5" y="272" text-anchor="middle">0.7</text><text class="sx-lab" x="418.5" y="272" text-anchor="middle">0.8</text><text class="sx-lab" x="525.5" y="272" text-anchor="middle">0.9</text><text class="sx-lab" x="632.5" y="272" text-anchor="middle">1.0</text><text class="sx-lab" x="365.0" y="290" text-anchor="middle" font-weight="600">平均類型學罕見度（每特徵 −log₂p，位元）→ 越右越罕見</text></svg>
+    <div class="callout" style="margin-top:14px;">
+      <b>結論：假說成立，效果中等。</b>考題語言的平均罕見度為 <b>0.799 位元／特徵</b>，世界其餘為 <b>0.742</b>（差 +0.057）。這把考題語言的整體位置推到世界分布的<b>第 73 百分位</b>。效果量 Cohen's <i>d</i> ≈ <b>0.55</b>（中等）；Mann–Whitney 單尾 <i>p</i> ≈ 1.9×10⁻⁷；置換檢定（B=20,000）<i>p</i> ≈ 5×10⁻⁵。關鍵是——即使做<b>大區分層置換</b>（讓對照組的六大區組成與考題語言相同，藉此排除「命題偏好澳洲／新幾內亞／亞馬遜這些本就罕見的地帶」這個混淆），<i>p</i> 仍 ≈ 5×10⁻⁵。命題者確實系統性地偏好類型學上取「少數值」的語言，而且這不只是地理取樣的副產品。
+    </div>
+
+    <h4 style="font-family:'Noto Serif TC',serif;color:var(--indigo);margin:18px 0 6px;">是哪些特徵讓考題語言「與眾不同」？</h4>
+    <div class="tabwrap">
+    <table class="ptab">
+      <thead><tr><th>特徵（Grambank）</th><th>世界「有」</th><th>考題「有」</th><th>差</th></tr></thead>
+      <tbody>
+        <tr><td>謂語領有可用「S 式領有物＋處所」表達（GB253）</td><td>13%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>30%</b></td><td>+18%</td></tr>
+        <tr><td>第二人稱有敬稱／禮貌區別（GB415）</td><td>14%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>30%</b></td><td>+16%</td></tr>
+        <tr><td>關係子句可前置於名詞（GB328）</td><td>31%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>46%</b></td><td>+16%</td></tr>
+        <tr><td>代名詞核心論元有形態格（GB071）</td><td>46%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>62%</b></td><td>+16%</td></tr>
+        <tr><td>語氣可由屈折的助動詞標記（GB119）</td><td>28%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span><b>43%</b></td><td>+15%</td></tr>
+        <tr><td>包含／排除式「我們」的區別（GB028）</td><td>53%</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span><b>35%</b></td><td>−17%</td></tr>
+        <tr><td>動詞重疊（GB158）</td><td>73%</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span><b>58%</b></td><td>−15%</td></tr>
+        <tr><td>關係子句可後置於名詞（GB327）</td><td>82%</td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span><b>69%</b></td><td>−13%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:.86rem;color:var(--sub);">紅底＝考題語言明顯偏多、藍底＝明顯偏少。可看出命題者偏愛「形態較繁、且結構偏離全球預設」的語言：有格位、有敬稱、關係子句能前置、語氣靠助動詞——這些正是無法靠英語直覺套用的特徵，也就是能撐起一道自足推理題的性質。</p>
+
+    <div class="callout">
+      <b>罕見度最高的考題語言（前 8）：</b>Movima（0.997）、羅曼什語（0.991）、拉丁語（0.990）、West Tarangan（0.987）、加泰隆尼亞語（0.958）、Rikbaktsa（0.951）、Hadza（0.938）、Muna（0.934）。這份榜單也點出本量度的一個重要限定：<b>「罕見」量的是「取全球少數特徵值」，不是「冷僻」或「瀕危」。</b>拉丁語、加泰隆尼亞語之所以名列前茅，是因為歐洲語言在敬稱、複雜格位、關係子句前置等全球少數特徵上剛好都取「有」；這對語奧其實是好消息——它恰好對應「無法靠常見語言直覺預設」的難度來源。
+    </div>
+    <div class="warning">
+      <b>兩點方法保留：</b>①這 84 個語言在系屬與地理上並非獨立樣本（大量集中於澳洲、新幾內亞、亞馬遜等本就偏離全球眾數的地帶），置換檢定的可交換性假設會高估顯著性；大區分層雖已緩解，仍未完全處理科（family）層級的自相關，嚴謹版本應改用系統發生對照（phylogenetic control）。②Grambank 的「?」（未編碼）比例不低，各語言已編碼特徵數不一，本文只納入已編碼 ≥40 特徵者。所有數字皆由 grambank/grambank 的 CLDF 原始檔重算。
+    </div>
+
+    <h3 id="balkan" style="color:var(--indigo);margin-top:28px;">布加勒斯特 2026 的地利：巴爾幹語言聯盟（Balkansprachbund）</h3>
+    <p class="section-intro">主辦地本身就是一個類型學案例。羅馬尼亞位於<b>巴爾幹語言聯盟</b>的核心：四個彼此在印歐樹上分屬不同分支的語言——羅曼語（羅馬尼亞語／阿羅馬尼亞語）、斯拉夫語（保加利亞語／馬其頓語）、希臘語、阿爾巴尼亞語——經過長期接觸，收斂出一批共同特徵（Balkanisms）。這是語奧最鍾愛的一種題型骨架：<b>系屬各異、卻在某特徵上一致</b>，逼選手區分「繼承」與「接觸」兩種來源。以下用 Grambank 中實際有編碼的五個巴爾幹語言，對照世界基線,看收斂是否在資料裡看得見。</p>
+    <div class="tabwrap">
+    <table class="ptab">
+      <thead><tr><th>特徵（Grambank）</th><th>世界「有」</th><th>阿羅馬尼亞<br><span style="font-weight:400;color:var(--sub);">羅曼</span></th><th>馬其頓<br><span style="font-weight:400;color:var(--sub);">斯拉夫</span></th><th>現代希臘</th><th>蓋格阿爾巴<br><span style="font-weight:400;color:var(--sub);">阿爾巴尼亞</span></th><th>托斯克阿爾巴</th></tr></thead>
+      <tbody>
+        <tr><td>有定冠詞（GB020）</td><td>37%</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td><b>後置冠詞（GB023）</b></td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>23%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td>—<sup>*</sup></td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td></tr>
+        <tr><td><b>時制可由非屈折小詞標記（GB521）</b></td><td style="background:#eef3fb;"><span class="pk" aria-hidden="true">▼</span>24%</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td><td style="background:#fdeef2;"><span class="pk" aria-hidden="true">▲</span>✓</td></tr>
+        <tr><td>語氣可由非屈折小詞標記（GB519）</td><td>40%</td><td>✓</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>專用未來式的動詞形態（GB084）</td><td>45%</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>核心論元有形態格（GB070）</td><td>34%</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:.86rem;color:var(--sub);"><sup>*</sup>馬其頓語實際上有後置冠詞（<i>-ot／-ov／-on</i>），此處 Grambank 編碼與教科書描述不一致，屬編碼取捨差異——正好提醒：資料庫是先驗工具，不是判準，遇到與描述衝突時以第一手語法為準。紅底＝該巴爾幹語言取了全球少數值。可清楚看到<b>後置冠詞（世界 23%）與小詞時制標記（世界 24%）</b>在這幾個不同分支的語言間高度收斂——這正是接觸而非繼承的指紋。</p>
+    <div class="pred"><h4>八大巴爾幹主義（哪些 Grambank 抓得到、哪些抓不到）</h4>
+      <b>資料庫看得見的：</b>①<b>後置定冠詞</b>（羅 <i>omul</i>「那人」、阿爾巴 <i>ujku</i>→<i>ujk-u</i>、保／馬 <i>-ът／-ot</i>）；②<b>「想要」型迂迴未來式</b>（希 θα、羅 <i>o să</i>、阿爾巴 <i>do</i>、保／馬 <i>ще／ќе</i>，皆源自「想要」動詞）→ 對應 GB521 小詞時制；③普遍有定冠詞。<b>Grambank 未直接編碼、但更常成為考點的：</b>④<b>不定式的萎縮</b>，改用虛擬式子句（羅 <i>vreau să merg</i>「我想 我去」而非「我想去」）；⑤<b>與格與屬格合流</b>；⑥<b>形容詞比較級改用分析式小詞</b>（羅 <i>mai</i>、保 <i>по-</i>）；⑦<b>賓語代名詞複指（clitic doubling）</b>；⑧<b>中央元音 schwa</b>（羅 <i>ă／î</i>、阿爾巴 <i>ë</i>、保 <i>ъ</i>）與（保／馬／阿爾巴的）<b>傳信範疇</b>。第 ④–⑧ 這幾項因為要靠句子對比才能觀察，反而是最適合出成推理題的素材。</div>
+    <div class="callout">
+      <b>對布加勒斯特 2026 的實戰意義：</b>若出現巴爾幹語言，最可能的骨架是<b>「接觸 vs 繼承」的辨識題</b>——例如給幾個不同分支的巴爾幹語言句子，要選手歸納出共有的後置冠詞或 <i>să／να</i>-虛擬式未來，並解釋它<b>不能</b>用共同祖先解釋（因為分屬羅曼、斯拉夫、希臘、阿爾巴尼亞四支）。這與 §5 開頭的通則一致：<b>破口就是熱區</b>，而巴爾幹語盟整片就是印歐語內部最大的一塊「例外聚落」。值得順帶記住的搭配題材：羅馬尼亞語同時保留了拉丁語已失、但被斯拉夫接觸強化的呼格；以及達契亞—羅曼與阿羅馬尼亞的分裂。不過須留意——主辦地與命題取材沒有必然關係：羅馬尼亞全國賽 ONL 2026（「Solomon Marcus」全國賽，2026 年 5 月於 Odorheiu-Secuiesc，非布加勒斯特）的題目語言（如 Turkana、Kayardild、Icelandic、Maricopa 等）就無一是巴爾幹語言；本節是「若考到」的準備，而非預測它一定會考。
+    </div>
+
+    <p style="font-size:.84rem;color:var(--sub);margin-top:14px;">方法備註：WALS 資料為 v2020.4（wals.info；cldf-datasets/wals），Grambank 為 v1.0.3（grambank.clld.org；grambank/grambank），均以其 CLDF 檔直接計算；n 為該特徵實際有編碼的語言數，各特徵樣本不同，且 WALS 的語言取樣偏向文獻較完整的語言，比例僅供先驗參考、不宜過度解讀。大區劃分依 Glottolog 六大區（Papunesia 此處譯「巴布亞圈」，含新幾內亞與大洋洲島嶼）。</p>
+  </section>
+
+  <section class="section" id="predict">
+    <h2><span class="no">§6</span>賽前預測：Bucharest 2026 的方向配比</h2>
+    <p class="section-intro">預測用於<b>分配複習時間</b>，而非押題。以下每一條都附上推論依據與信度，請勿當成保證。</p>
+
+    <div class="pred"><h4>① 對齊・一致＋構詞：必然核心<span class="lvl lvl-hi">高信度</span></h4>
+      近八屆每屆至少有一題考動詞一致／對齊系統（2023 Plains Cree、2024 Koryak、2025 團體 Kiranti），這已是常態而非趨勢。複習時間至少保留四成給：S／A／P 分析、階層一致、direct–inverse、多元人稱標記。</div>
+
+    <div class="pred"><h4>② 文字系統題回歸<span class="lvl lvl-md">中信度</span></h4>
+      個人賽的文字題自 2019 Book Pahlavi 那題之後，2021 年起連續五屆缺席；期間文字類僅在團體賽出現（2019 韻律體操符號、2022 Manchu），遠長於過去的間隔（2011、2014、2016、2017、2019，大約一至三屆一次）。依此空窗推斷，回歸機率不低（此為節奏外推，非命題委員會的意向）。建議賽前針對元音附標（abugida）、音節文字、混合文字各做一題暖身。</div>
+
+    <div class="pred"><h4>③ 聲調×構詞介面持續升溫<span class="lvl lvl-hi">高信度</span></h4>
+      2022 的 tonogenesis、2024 Dâw、2025 的 Kuria 與 Gaahmg——聲調已從「音韻題的點綴」轉為承載構詞訊息的手段，以調類標示語法範疇。練習方向：把聲調當成一個屈折槽位來分析，而非單純的音韻現象。</div>
+
+    <div class="pred"><h4>④ 數詞題節奏性降溫但不歸零<span class="lvl lvl-md">中信度</span></h4>
+      2023 Supyire 與 2025 Dzongkha 僅相隔一屆——依歷史節奏（約每兩三屆一題），2026 出現的機率略降。維持基本盤即可：花十五分鐘複習進位斷點分析法。</div>
+
+    <div class="pred"><h4>⑤ 團體賽：「大規模資料＋方法論」是新常態<span class="lvl lvl-hi">高信度</span></h4>
+      2021 語言接觸、2022 滿文文本、2023 多式綜合、2024 詞彙統計演算法、2025 跨語支比較——團體賽已從「單一複雜語言」轉向「一套方法論加上大量多語言資料」。分工訓練的重點在於：如何切分資料、如何共同維護一張對應表、如何交叉檢查彼此的結果。</div>
+
+    <div class="pred"><h4>⑥ 實驗資料題可能成為常設槽位<span class="lvl lvl-lo">低信度・新訊號</span></h4>
+      2025 Kaqchikel 首次出現神經語言學的資料判讀題，UKLO 評價它「出乎意料地好解」。若命題委員會延續此方向，第五題的位置有可能不定期出現心理語言學／語料統計類的資料題。準備成本不高：練習讀懂「自變項—依變項—條件對比」這組實驗設計的基本要素。</div>
+
+    <div class="pred"><h4>⑦ 主辦地效應：巴爾幹訊號<span class="lvl lvl-lo">低信度</span></h4>
+      2025 台北場團體賽納入了華語、粵語、閩南語——主辦地語言入題有前例，但並非慣例。布加勒斯特 2026 的對應候選：巴爾幹語言聯盟的特徵（後置定冠詞、不定式消失）、羅姆語（Romani）、羅馬尼亞語方言。可當作背景閱讀，不必投入太多。</div>
+
+    <h3 style="margin-top:24px;color:var(--indigo);">可主張 vs 不可主張</h3>
+    <table class="claims">
+      <tr><th>✅ 頻率統計可支持的主張</th><th>🚫 資料不支持的主張</th></tr>
+      <tr><td>對齊／構詞為每屆常態，複習分配應依此分布</td><td>「某某語系一定會考」——命題刻意避免被預測</td></tr>
+      <tr><td>文字題有明顯空窗，回歸機率高於平均</td><td>「空窗一定在 2026 補上」——委員會不受節奏約束</td></tr>
+      <tr><td>團體賽題型已明顯轉向方法論與大資料</td><td>「主辦地語言會入題」——僅 2025 一個正例，樣本太少</td></tr>
+      <tr><td>即使扣除剩餘 6 題 ◇，各領域排序仍不受影響（前三名不變）</td><td>剩餘 6 題 ◇ 的細部考點——早期掃描檔尚無法逐字對照</td></tr>
+    </table>
+  </section>
+
+  <section class="section" id="checklist">
+    <h2><span class="no">§7</span>考前 24 小時檢查表</h2>
+    <p class="section-intro">進考場前最後檢查一輪，完成一項就勾選一項。</p>
+    <div class="cl-progress">
+      <span id="cltext" style="font-size:.86rem;color:var(--sub);">0 / 10 完成</span>
+      <div class="cl-track"><div class="cl-fill" id="clfill"></div></div>
+      <button class="cl-reset" id="clreset" type="button">重置</button>
+    </div>
+    <table class="cl"><tbody id="cltbody">
+      <tr><td><input type="checkbox"></td><td><b>S／A／P 表格</b>——能在三十秒內畫出空白模板，並說明四種對齊型的填法</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>進位斷點法</b>——複習 6／12／20／24／60 進位的構詞斷點案例各一則</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>聲調作為屈折槽</b>——重做一題「以調類標語法範疇」（建議 Kuria 2025）</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>direct–inverse 模型</b>——能口述 Plains Cree 的人稱階層與 obviation</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>領屬二分</b>——可讓渡 vs 不可讓渡的典型語意類別（身體、親屬、部分—整體）</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>文字類型判定</b>——熟記「符號種類數 → 文字類型」的門檻值</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>對應集紀律</b>——歷史比較題先建對應表、例外另歸一類，不急著下結論</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>語意題流程</b>——先掃語義場、後看詞形；先建矩陣、再畫局部圖</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>作答格式</b>——寫出規則與系統，而非字典式配對；不確定處明白寫出假設</td></tr>
+      <tr><td><input type="checkbox"></td><td><b>時間策略</b>——先掃五題定位領域、由熟到生作答；單題卡關二十分鐘就換題</td></tr>
+    </tbody></table>
+  </section>
+
+  <footer>類型學考點 Cheatsheet｜TOL 選訓教材・2026 年 7 月版｜語言名與語系已對照 ioling.org 官方題庫；◇ 考點標註待驗證｜§5 統計出自 WALS v2020.4 與 Grambank v1.0.3</footer>
+</main>
+
+<script>
+const DOMAINS = {"PHON": {"n": "音韻・聲調", "c": "#4a5fc1"}, "MORPH": {"n": "構詞", "c": "#0f766e"}, "ALIGN": {"n": "對齊・一致", "c": "#b4530a"}, "SYN": {"n": "句法・詞序", "c": "#7e5bbf"}, "NCAT": {"n": "名詞範疇", "c": "#b0356b"}, "SEM": {"n": "語意・詞彙", "c": "#5f7a1e"}, "NUM": {"n": "數詞・曆法", "c": "#c8871e"}, "WRIT": {"n": "文字・符號", "c": "#33658a"}, "HIST": {"n": "歷史比較", "c": "#8a5a3b"}, "SOC": {"n": "社會・詩律", "c": "#a03e4e"}, "COMP": {"n": "計算・編碼", "c": "#556879"}};
+const DATA = [{"y": 2003, "r": "個1", "n": "Transcendental Algebra", "f": "人工符號系統", "t": ["WRIT", "SEM"], "c": "H", "k": "林茲巴赫的人工表意文字：符號組合表義"}, {"y": 2003, "r": "個2", "n": "Egyptian Arabic", "f": "亞非（閃語）", "t": ["NUM", "MORPH"], "c": "H", "k": "埃及阿拉伯語算術：數詞構詞與一致"}, {"y": 2003, "r": "個3", "n": "Basque Dates", "f": "孤立語", "t": ["NUM", "SOC"], "c": "H", "k": "巴斯克語日期：數詞與曆法表達"}, {"y": 2003, "r": "個4", "n": "Adyghe", "f": "西北高加索", "t": ["MORPH", "PHON"], "c": "L", "k": "阿迪格語：動詞構詞（細部考點待對照官方解答）"}, {"y": 2003, "r": "個5", "n": "French", "f": "印歐（羅曼）", "t": ["SYN"], "c": "L", "k": "法語：句法（細部考點待對照官方解答）"}, {"y": 2003, "r": "團1", "n": "Tocharian", "f": "印歐（吐火羅）", "t": ["HIST", "MORPH"], "c": "H", "k": "吐火羅語文本：屈折構詞與解讀"}, {"y": 2003, "r": "團2", "n": "Subscripts", "f": "符號邏輯", "t": ["SEM", "COMP"], "c": "H", "k": "下標索引：指涉與同指標記系統"}, {"y": 2003, "r": "團3", "n": "Performative Verbs", "f": "語用", "t": ["SEM"], "c": "H", "k": "施為動詞的語意分類"}, {"y": 2004, "r": "個1", "n": "Kayapo", "f": "Macro-Jê", "t": ["MORPH", "ALIGN"], "c": "H", "k": "卡雅波語：肯定／否定句的主語與賓語人稱標記（官方解答）"}, {"y": 2004, "r": "個2", "n": "Swift News Agency", "f": "英語（電報體）", "t": ["SEM"], "c": "H", "k": "新聞標題語：一詞多義造成的歧義判讀（官方解答）"}, {"y": 2004, "r": "個3", "n": "Latin", "f": "印歐（義大利）", "t": ["MORPH", "SYN"], "c": "L", "k": "拉丁語：格位與詞序（細部考點待對照）"}, {"y": 2004, "r": "個4", "n": "Lakhota", "f": "蘇語", "t": ["ALIGN", "MORPH"], "c": "H", "k": "拉科塔語：主動—靜態（active-stative）人稱標記"}, {"y": 2004, "r": "個5", "n": "Chuvash", "f": "突厥", "t": ["PHON", "MORPH"], "c": "L", "k": "楚瓦什語：元音和諧與黏著構詞（細部待對照）"}, {"y": 2004, "r": "團1", "n": "Armenian", "f": "印歐", "t": ["WRIT", "HIST"], "c": "L", "k": "亞美尼亞語（細部考點待對照）"}, {"y": 2005, "r": "個1", "n": "Tzotzil", "f": "馬雅", "t": ["SYN", "ALIGN"], "c": "H", "k": "措齊爾語：句法（官方描述 syntax）"}, {"y": 2005, "r": "個2", "n": "Lango", "f": "尼羅（西尼羅）", "t": ["SEM"], "c": "H", "k": "朗戈語：語意（官方描述 semantics）"}, {"y": 2005, "r": "個3", "n": "Mansi", "f": "烏拉爾", "t": ["NUM"], "c": "H", "k": "曼西語：數詞（官方描述 numbers）"}, {"y": 2005, "r": "個4", "n": "Yoruba", "f": "尼日—剛果", "t": ["MORPH", "NCAT"], "c": "H", "k": "約魯巴語：領屬（possessives，官方描述證實，非聲調）"}, {"y": 2005, "r": "個5", "n": "Lithuanian", "f": "印歐（波羅的）", "t": ["PHON"], "c": "H", "k": "立陶宛語：重音（accents，官方描述證實）"}, {"y": 2005, "r": "團1", "n": "Figuig", "f": "亞非（柏柏）", "t": ["MORPH"], "c": "H", "k": "菲吉格柏柏語：構詞"}, {"y": 2006, "r": "個1", "n": "Lakhota", "f": "蘇語", "t": ["SYN", "ALIGN"], "c": "H", "k": "拉科塔語：句法（官方描述 syntax）"}, {"y": 2006, "r": "個2", "n": "Catalan", "f": "印歐（羅曼）", "t": ["MORPH", "PHON"], "c": "H", "k": "加泰隆尼亞語：複數形式（plural forms）"}, {"y": 2006, "r": "個3", "n": "Khmer", "f": "南亞", "t": ["WRIT", "PHON"], "c": "H", "k": "高棉語：文字（script）與音節"}, {"y": 2006, "r": "個4", "n": "Udihe", "f": "通古斯", "t": ["MORPH", "NCAT"], "c": "H", "k": "烏德蓋語：領屬（possessives）"}, {"y": 2006, "r": "個5", "n": "Ngoni", "f": "尼日—剛果（班圖）", "t": ["SYN", "NCAT"], "c": "H", "k": "恩戈尼語：句法（班圖名詞類別一致）"}, {"y": 2006, "r": "團1", "n": "American Sign Language", "f": "手語", "t": ["SEM", "MORPH"], "c": "H", "k": "美國手語：空間構詞與圖像性——手語題至今唯一一次"}, {"y": 2007, "r": "個1", "n": "Braille", "f": "觸覺文字", "t": ["WRIT", "COMP"], "c": "H", "k": "點字系統的編碼邏輯"}, {"y": 2007, "r": "個2", "n": "Movima", "f": "孤立語（玻利維亞）", "t": ["MORPH", "PHON"], "c": "H", "k": "莫維馬語：否定式的標記插入規則（官方解答）"}, {"y": 2007, "r": "個3", "n": "Georgian", "f": "卡特維爾", "t": ["MORPH"], "c": "H", "k": "喬治亞語：動詞前後綴＋強弱動詞時制（官方解答）"}, {"y": 2007, "r": "個4", "n": "Ndom", "f": "跨新幾內亞", "t": ["NUM"], "c": "H", "k": "恩多姆語：六進位數詞系統（官方解答）——數詞題經典"}, {"y": 2007, "r": "個5", "n": "Turkish & Tatar", "f": "突厥", "t": ["HIST", "PHON"], "c": "H", "k": "土耳其語 vs 韃靼語：系統性語音對應（官方解答）"}, {"y": 2007, "r": "團1", "n": "Hawaiian", "f": "南島", "t": ["SEM", "SOC"], "c": "H", "k": "夏威夷語：親屬／族譜用語"}, {"y": 2008, "r": "個1", "n": "Micmac", "f": "阿爾岡昆", "t": ["PHON", "WRIT"], "c": "H", "k": "米克馬克語：正字法→發音（含插入母音規則，官方解答）"}, {"y": 2008, "r": "個2", "n": "Old Norse", "f": "印歐（日耳曼）", "t": ["SOC", "PHON"], "c": "H", "k": "古諾斯語 dróttkvætt 詩律：音節數、頭韻、內韻（官方解答）"}, {"y": 2008, "r": "個3", "n": "Drehu & Cemuhî", "f": "南島（大洋洲）", "t": ["HIST", "PHON"], "c": "H", "k": "德雷胡語與塞穆希語：語音對應"}, {"y": 2008, "r": "個4", "n": "Copainalá Zoque", "f": "米塞—索克", "t": ["MORPH"], "c": "H", "k": "佐克語：名詞後綴與領屬（官方解答）"}, {"y": 2008, "r": "個5", "n": "Inuktitut", "f": "愛斯基摩—阿留申", "t": ["MORPH", "ALIGN"], "c": "H", "k": "因紐特語：多式綜合＋主賓一致與反身（官方解答）"}, {"y": 2008, "r": "團1", "n": "Mandarin/Cantonese（反切）", "f": "漢語", "t": ["PHON", "WRIT"], "c": "H", "k": "反切原理：華語—粵語對應（官方描述）"}, {"y": 2009, "r": "個1", "n": "Sulka", "f": "孤立語（巴布亞）", "t": ["NUM"], "c": "H", "k": "蘇爾卡語：數詞（官方描述 numerals）"}, {"y": 2009, "r": "個2", "n": "Maninka & Bamana", "f": "曼德", "t": ["WRIT", "HIST"], "c": "H", "k": "曼丁哥語群：N'Ko 文字與拉丁文字對照"}, {"y": 2009, "r": "個3", "n": "Burmese Names", "f": "漢藏（緬）＋文化", "t": ["SOC", "NUM"], "c": "H", "k": "緬甸傳統人名與出生日期的關係——文化計算題"}, {"y": 2009, "r": "個4", "n": "Old Indic", "f": "印歐（印度—雅利安）", "t": ["PHON"], "c": "H", "k": "古印度語：重音位置（stress position）"}, {"y": 2009, "r": "個5", "n": "Nahuatl", "f": "猶他—阿茲特克", "t": ["MORPH", "SYN"], "c": "H", "k": "古典納瓦特爾語：語法與構詞的關係"}, {"y": 2009, "r": "團1", "n": "Vietnamese", "f": "南亞", "t": ["WRIT", "PHON"], "c": "L", "k": "越南語（細部考點待對照）"}, {"y": 2010, "r": "個1", "n": "Budukh", "f": "東北高加索", "t": ["MORPH"], "c": "H", "k": "布杜赫語：各動詞形式之間的關係（官方描述）"}, {"y": 2010, "r": "個2", "n": "Drehu Numerals", "f": "南島（大洋洲）", "t": ["NUM"], "c": "H", "k": "德雷胡語：計數系統"}, {"y": 2010, "r": "個3", "n": "Blissymbolics", "f": "人工符號系統", "t": ["WRIT", "SEM"], "c": "H", "k": "布利斯符號：表意合成"}, {"y": 2010, "r": "個4", "n": "mRNA Sequencing", "f": "分子生物編碼", "t": ["COMP"], "c": "H", "k": "遺傳密碼作為編碼系統：對應與轉譯"}, {"y": 2010, "r": "個5", "n": "Romansch", "f": "印歐（羅曼）", "t": ["HIST", "PHON"], "c": "H", "k": "羅曼什語：Sursilvan 與 Engadine 方言連結"}, {"y": 2010, "r": "團1", "n": "Mongolian", "f": "蒙古", "t": ["WRIT", "SEM"], "c": "H", "k": "單語蒙古語辭典翻譯（含傳統蒙古文）"}, {"y": 2011, "r": "個1", "n": "Menominee", "f": "阿爾岡昆", "t": ["MORPH", "PHON"], "c": "H", "k": "梅諾米尼語：構詞（morphology，官方描述）"}, {"y": 2011, "r": "個2", "n": "Faroese", "f": "印歐（日耳曼）", "t": ["WRIT", "PHON"], "c": "H", "k": "法羅語：正字法→發音規則"}, {"y": 2011, "r": "個3", "n": "Vai", "f": "曼德", "t": ["WRIT", "SYN"], "c": "H", "k": "瓦伊音節文字（官方描述含 syntax）"}, {"y": 2011, "r": "個4", "n": "Nahuatl", "f": "猶他—阿茲特克", "t": ["SEM"], "c": "H", "k": "納瓦特爾語：語意（semantics，官方描述）"}, {"y": 2011, "r": "個5", "n": "EAN-13", "f": "條碼編碼", "t": ["COMP"], "c": "H", "k": "EAN-13 條碼：校驗碼演算法"}, {"y": 2011, "r": "團1", "n": "Sanskrit Poetry", "f": "印歐", "t": ["SOC", "PHON"], "c": "H", "k": "梵語詩律：音節輕重格律"}, {"y": 2012, "r": "個1", "n": "Dyirbal", "f": "帕馬—恩永甘", "t": ["SYN", "ALIGN"], "c": "H", "k": "迪爾巴爾語：句法（作格語言，官方描述 syntax）"}, {"y": 2012, "r": "個2", "n": "Umbu-Ungu", "f": "跨新幾內亞", "t": ["NUM"], "c": "H", "k": "翁布—翁古語：24 進位數詞"}, {"y": 2012, "r": "個3", "n": "Basque", "f": "孤立語", "t": ["MORPH", "ALIGN"], "c": "H", "k": "巴斯克語：代名詞／多元人稱一致（官方描述 pronouns）"}, {"y": 2012, "r": "個4", "n": "Teop", "f": "南島", "t": ["SYN"], "c": "H", "k": "特奧普語：句法"}, {"y": 2012, "r": "個5", "n": "Rotuman", "f": "南島", "t": ["SEM", "PHON"], "c": "H", "k": "羅圖曼語：語意（官方描述 semantics；並涉音位轉換）"}, {"y": 2012, "r": "團1", "n": "Lao", "f": "壯侗", "t": ["WRIT"], "c": "H", "k": "寮文：辨識國名（聲調文字系統）"}, {"y": 2013, "r": "個1", "n": "Yidiny", "f": "帕馬—恩永甘", "t": ["MORPH", "PHON"], "c": "H", "k": "伊迪尼語：構詞（morphology，官方描述）"}, {"y": 2013, "r": "個2", "n": "Tundra Yukaghir", "f": "尤卡吉爾", "t": ["SEM"], "c": "H", "k": "苔原尤卡吉爾語：語意（semantics，官方描述）"}, {"y": 2013, "r": "個3", "n": "Pirahã", "f": "穆拉", "t": ["PHON"], "c": "H", "k": "皮拉罕語：音韻（含葡語借詞適應）"}, {"y": 2013, "r": "個4", "n": "Muna", "f": "南島", "t": ["SYN"], "c": "H", "k": "穆納語：句法（syntax，官方描述）"}, {"y": 2013, "r": "個5", "n": "Telepathy", "f": "人工系統（英語）", "t": ["COMP", "SEM"], "c": "H", "k": "以英語為底的「心電感應」符號題"}, {"y": 2013, "r": "團1", "n": "Georgian", "f": "卡特維爾", "t": ["WRIT", "SEM"], "c": "H", "k": "喬治亞語 Nuskhuri 古文字：書名翻譯"}, {"y": 2014, "r": "個1", "n": "Benabena", "f": "跨新幾內亞", "t": ["MORPH"], "c": "H", "k": "貝納貝納語：構詞（含主賓人稱、時制槽位，官方解答）"}, {"y": 2014, "r": "個2", "n": "Kiowa", "f": "基奧瓦—塔諾", "t": ["NCAT", "MORPH"], "c": "H", "k": "基奧瓦語：反轉數標記（inverse number）——官方解答證實"}, {"y": 2014, "r": "個3", "n": "Tangut", "f": "漢藏", "t": ["SOC", "SEM"], "c": "H", "k": "西夏文：親屬稱謂系統（官方解答證實為 kinship，非文字解碼題）"}, {"y": 2014, "r": "個4", "n": "Engenni", "f": "尼日—剛果", "t": ["SYN", "PHON"], "c": "H", "k": "恩根尼語：句法（含語法聲調變化，官方解答）"}, {"y": 2014, "r": "個5", "n": "Gbaya", "f": "烏班吉", "t": ["SEM", "MORPH"], "c": "H", "k": "格巴亞語：身體部位詞語法化為空間介詞（官方解答）"}, {"y": 2014, "r": "團1", "n": "Armenian", "f": "印歐", "t": ["SEM"], "c": "H", "k": "亞美尼亞語：人權宣言條文配對（官方描述）"}, {"y": 2015, "r": "個1", "n": "Nahuatl & Arammba", "f": "猶他—阿茲特克／南中巴布亞", "t": ["NUM"], "c": "H", "k": "20 進位 vs 6 進位：雙語言數詞比較"}, {"y": 2015, "r": "個2", "n": "Kabardian", "f": "西北高加索", "t": ["MORPH"], "c": "H", "k": "卡巴爾達語 Besleney 方言：構詞（官方描述 morphology）"}, {"y": 2015, "r": "個3", "n": "Soundex", "f": "檢索演算法", "t": ["COMP", "PHON"], "c": "H", "k": "Soundex 音韻編碼演算法"}, {"y": 2015, "r": "個4", "n": "Wambaya", "f": "西巴克利（澳洲）", "t": ["SYN", "NCAT"], "c": "H", "k": "瓦姆巴亞語：句法（第二位置助動詞、性別一致）"}, {"y": 2015, "r": "個5", "n": "Somali", "f": "亞非（庫希特）", "t": ["SOC", "PHON"], "c": "H", "k": "索馬利詩律規則（官方描述）"}, {"y": 2015, "r": "團1", "n": "Northern Sotho", "f": "尼日—剛果（班圖）", "t": ["SEM", "MORPH"], "c": "H", "k": "北索托語：以單語辭典建構語法與詞彙"}, {"y": 2016, "r": "個1", "n": "Aralle-Tabulahan", "f": "南島", "t": ["SEM", "SYN"], "c": "H", "k": "空間指示詞：方向系統（跨河／上／下／順逆流，官方解答）"}, {"y": 2016, "r": "個2", "n": "Luwian", "f": "印歐（安那托利亞）", "t": ["WRIT"], "c": "H", "k": "象形盧維文：表語符＋音節符混合文字（官方解答）"}, {"y": 2016, "r": "個3", "n": "Kunuz Nubian", "f": "尼羅（東蘇丹）", "t": ["MORPH", "ALIGN", "SYN"], "c": "H", "k": "努比亞語：詞序＋格位＋動詞主賓一致（官方解答）"}, {"y": 2016, "r": "個4", "n": "Iatmül", "f": "Sepik", "t": ["SEM"], "c": "H", "k": "雅特穆爾語：複合詞語意組合與詞義擴張（官方解答）"}, {"y": 2016, "r": "個5", "n": "Jaqaru", "f": "艾馬拉", "t": ["MORPH", "PHON"], "c": "H", "k": "哈卡魯語：領屬與格位後綴引發的母音省略（官方解答）"}, {"y": 2016, "r": "團1", "n": "Taa (ǃXóõ)", "f": "Tuu", "t": ["PHON"], "c": "H", "k": "塔語：語句與 IPA 轉寫配對（含搭嘴音，官方描述）"}, {"y": 2017, "r": "個1", "n": "Berom", "f": "尼日—剛果（高原）", "t": ["NUM"], "c": "H", "k": "比羅姆語：數詞（官方描述 numbers）"}, {"y": 2017, "r": "個2", "n": "Abui", "f": "帝汶—阿洛—潘塔", "t": ["ALIGN", "SEM"], "c": "H", "k": "阿布伊語：領屬與語意（官方描述；語意驅動的人稱標記）"}, {"y": 2017, "r": "個3", "n": "Kimbundu", "f": "尼日—剛果（班圖）", "t": ["MORPH", "NCAT"], "c": "H", "k": "金本杜語：構詞句法（班圖名詞類別）"}, {"y": 2017, "r": "個4", "n": "Jru' / Khom script", "f": "南亞", "t": ["WRIT"], "c": "H", "k": "以 Khom 文字書寫的 Jru' 語：文字解碼（官方描述）"}, {"y": 2017, "r": "個5", "n": "Madak", "f": "南島（美拉尼西亞）", "t": ["MORPH", "PHON"], "c": "H", "k": "馬達克語：構詞音韻（官方描述 morphophonology）"}, {"y": 2017, "r": "團1", "n": "Emoji / Indonesian", "f": "符號＋南島", "t": ["SEM", "WRIT"], "c": "H", "k": "表情符號與印尼語描述配對：圖像—語意映射"}, {"y": 2018, "r": "個1", "n": "Creek", "f": "穆斯科格", "t": ["PHON"], "c": "H", "k": "克里克語：重音（stress，官方描述）"}, {"y": 2018, "r": "個2", "n": "Hakhun", "f": "漢藏（Sal）", "t": ["ALIGN", "MORPH"], "c": "H", "k": "哈昆語：構詞句法（階層式人稱一致）"}, {"y": 2018, "r": "個3", "n": "Terêna", "f": "阿拉瓦克", "t": ["PHON", "MORPH"], "c": "H", "k": "特雷納語：音韻（第一人稱＝鼻音擴散）——構詞音韻名題"}, {"y": 2018, "r": "個4", "n": "Mountain Arapesh", "f": "Torricelli", "t": ["NCAT"], "c": "H", "k": "阿拉佩什語：名詞類別與計數"}, {"y": 2018, "r": "個5", "n": "Akan", "f": "尼日—剛果（大西洋—剛果）", "t": ["SOC", "SEM"], "c": "H", "k": "阿坎語：親屬稱謂（kinship，官方描述）"}, {"y": 2018, "r": "團1", "n": "Mẽbêngôkre, Xavante & Krĩkatí", "f": "Macro-Jê", "t": ["HIST", "PHON"], "c": "H", "k": "三語同源比較：系統性音變重建"}, {"y": 2019, "r": "個1", "n": "Yonggom", "f": "跨新幾內亞（Ok）", "t": ["MORPH", "SYN"], "c": "H", "k": "永戈姆語：構詞句法（morphosyntax，官方描述）"}, {"y": 2019, "r": "個2", "n": "Yurok", "f": "阿爾吉克", "t": ["SEM"], "c": "H", "k": "尤羅克語：顏色詞（colours，官方描述證實，非數詞分類詞）"}, {"y": 2019, "r": "個3", "n": "Book Pahlavi", "f": "印歐（伊朗）", "t": ["WRIT"], "c": "H", "k": "中古波斯語巴列維書體：多義字母解碼——個人賽文字題至今最後一次"}, {"y": 2019, "r": "個4", "n": "West Tarangan", "f": "南島（Aru）", "t": ["MORPH", "PHON"], "c": "H", "k": "西塔蘭甘語：重疊（reduplication）"}, {"y": 2019, "r": "個5", "n": "Nooni", "f": "尼日—剛果（Beboid）", "t": ["MORPH", "SOC"], "c": "H", "k": "努尼語：構詞句法與曜日名（官方描述）"}, {"y": 2019, "r": "團1", "n": "Rhythmic Gymnastics", "f": "評分符號系統", "t": ["COMP", "WRIT"], "c": "H", "k": "韻律體操評分代碼：符號系統解讀"}, {"y": 2021, "r": "個1", "n": "Ekari", "f": "跨新幾內亞（Paniai Lakes）", "t": ["NUM"], "c": "H", "k": "埃卡里語：數詞（官方描述 numerals）"}, {"y": 2021, "r": "個2", "n": "Zuni", "f": "孤立語", "t": ["SEM"], "c": "H", "k": "祖尼語：語意（聚焦食物，官方描述）"}, {"y": 2021, "r": "個3", "n": "Kilivila", "f": "南島（大洋洲）", "t": ["MORPH", "NCAT"], "c": "H", "k": "基里維納語：構詞句法（含分類詞）"}, {"y": 2021, "r": "個4", "n": "Agbirigba", "f": "尼日—剛果（大西洋—剛果）", "t": ["PHON", "SOC"], "c": "H", "k": "Agbirigba 隱語（cant）：由 Ikwerre 方言變換而來"}, {"y": 2021, "r": "個5", "n": "Rikbaktsa", "f": "Macro-Jê", "t": ["MORPH"], "c": "H", "k": "里克巴克察語：構詞（morphology，官方描述）"}, {"y": 2021, "r": "團1", "n": "Garífuna, Lokono & Kari'ña", "f": "阿拉瓦克＋加勒比", "t": ["HIST", "SOC"], "c": "H", "k": "混合語 Garífuna：語言接觸、借詞層、男女語體差異"}, {"y": 2022, "r": "個1", "n": "Ubykh", "f": "西北高加索", "t": ["MORPH", "PHON"], "c": "H", "k": "烏比克語：構詞音韻（morphophonology，官方描述）"}, {"y": 2022, "r": "個2", "n": "Alabama", "f": "穆斯科格", "t": ["SEM", "MORPH", "PHON"], "c": "H", "k": "阿拉巴馬語：動詞的語意與構詞音韻（官方描述）"}, {"y": 2022, "r": "個3", "n": "Nǀuuki (Nǁng)", "f": "Tuu", "t": ["SYN"], "c": "H", "k": "恩語：句法（syntax，官方描述；語言本身有搭嘴音）"}, {"y": 2022, "r": "個4", "n": "Arabana", "f": "帕馬—恩永甘", "t": ["SOC", "SEM"], "c": "H", "k": "阿拉巴納語：親屬稱謂（kinship，官方描述）"}, {"y": 2022, "r": "個5", "n": "Proto-Chamic, Phan Rang Cham & Tsat", "f": "南島（占語支）", "t": ["HIST", "PHON"], "c": "H", "k": "占語支：聲調產生（tonogenesis）與音變（官方描述）"}, {"y": 2022, "r": "團1", "n": "Manchu", "f": "通古斯", "t": ["WRIT", "HIST"], "c": "H", "k": "新舊滿文文本：句子配對與翻譯"}, {"y": 2023, "r": "個1", "n": "Guazacapán Xinka", "f": "Xinkan", "t": ["MORPH", "PHON"], "c": "H", "k": "辛卡語：構詞音韻（否定式標記與交替，官方解答）"}, {"y": 2023, "r": "個2", "n": "Apurinã", "f": "阿拉瓦克", "t": ["SYN", "MORPH"], "c": "H", "k": "阿普里納語：詞序交替＋領屬與身體部位後綴（官方解答）"}, {"y": 2023, "r": "個3", "n": "Coastal Marind", "f": "Anim", "t": ["MORPH", "SEM"], "c": "H", "k": "海岸馬林德語：主語人稱＋語氣情態詞綴（官方解答）"}, {"y": 2023, "r": "個4", "n": "Plains Cree", "f": "阿爾岡昆", "t": ["ALIGN", "MORPH"], "c": "H", "k": "平原克里語：正向—反向（direct–inverse）人稱系統（官方解答）——對齊題經典"}, {"y": 2023, "r": "個5", "n": "Supyire", "f": "尼日—剛果（塞努福）", "t": ["NUM"], "c": "H", "k": "蘇皮雷語：5／10／20／80／400 混合進位數詞（官方解答）"}, {"y": 2023, "r": "團1", "n": "Murrinh-patha", "f": "南 Daly（澳洲）", "t": ["MORPH", "NCAT"], "c": "H", "k": "穆林帕塔語：多式綜合動詞與分類詞詞幹"}, {"y": 2024, "r": "個1", "n": "Koryak", "f": "楚科奇—堪察加", "t": ["MORPH", "ALIGN"], "c": "H", "k": "科里亞克語：動詞模板構詞＋主賓多重一致（官方解答）"}, {"y": 2024, "r": "個2", "n": "Hadza", "f": "孤立語", "t": ["NCAT", "MORPH"], "c": "H", "k": "哈扎語：性別名詞類（陰陽×單複）與領屬結構（官方解答）"}, {"y": 2024, "r": "個3", "n": "Komnzo", "f": "Yam（南中巴布亞）", "t": ["MORPH"], "c": "H", "k": "科姆恩佐語：動詞主賓一致的分散式構詞（官方解答）"}, {"y": 2024, "r": "個4", "n": "Dâw", "f": "Naduhup", "t": ["SEM", "MORPH"], "c": "H", "k": "道語：複合詞的語意組合（官方解答）"}, {"y": 2024, "r": "個5", "n": "Yanyuwa", "f": "帕馬—恩永甘", "t": ["NCAT", "SOC", "ALIGN"], "c": "H", "k": "延尤瓦語：名詞類別（含男女語體）＋作格式格位標記（官方解答）"}, {"y": 2024, "r": "團1", "n": "Lexicostatistics", "f": "方法論（統計）", "t": ["HIST", "COMP"], "c": "H", "k": "詞彙統計法：Dolgopolsky 輔音類、StarlingNJ 建樹演算法"}, {"y": 2025, "r": "個1", "n": "Dzongkha", "f": "漢藏", "t": ["NUM"], "c": "H", "k": "宗喀語：20 進位數詞系統"}, {"y": 2025, "r": "個2", "n": "Gaahmg", "f": "尼羅（東蘇丹）", "t": ["NCAT", "MORPH", "PHON"], "c": "H", "k": "加姆語：可讓渡 vs 不可讓渡領屬＋聲調構詞（Best Solution 題）"}, {"y": 2025, "r": "個3", "n": "Kuria", "f": "尼日—剛果（班圖）", "t": ["PHON"], "c": "H", "k": "庫里亞語：聲調指派規則"}, {"y": 2025, "r": "個4", "n": "Kewa", "f": "跨新幾內亞（Engan）", "t": ["SEM", "MORPH"], "c": "H", "k": "克瓦語：複合詞的語意組合"}, {"y": 2025, "r": "個5", "n": "Kaqchikel", "f": "馬雅", "t": ["COMP", "SYN"], "c": "H", "k": "卡克奇克爾語：語言處理的腦活動（ERP）資料判讀——首見神經語言學題"}, {"y": 2025, "r": "團1", "n": "Kiranti 語支 vs 華語系", "f": "漢藏", "t": ["HIST", "ALIGN"], "c": "H", "k": "基蘭提語支動詞形式與華語、粵語、閩南語比較：同源比較＋一致系統"}];
+const active = new Set();
+
+const chipsEl = document.getElementById('domchips');
+Object.entries(DOMAINS).forEach(([k,v])=>{
+  const c = document.createElement('span');
+  c.className='chip'; c.textContent=v.n; c.style.setProperty('--cc', v.c);
+  c.onclick=()=>{ c.classList.toggle('on'); c.classList.contains('on')?active.add(k):active.delete(k); render(); };
+  chipsEl.appendChild(c);
+});
+
+const tbody=document.getElementById('ptbody'), q=document.getElementById('q'),
+      hionly=document.getElementById('hionly'), teamonly=document.getElementById('teamonly'),
+      pcount=document.getElementById('pcount');
+[q,hionly,teamonly].forEach(el=>el.addEventListener('input',render));
+
+function render(){
+  const kw=q.value.trim().toLowerCase();
+  let shown=0; tbody.innerHTML='';
+  DATA.forEach(r=>{
+    if(active.size && !r.t.some(t=>active.has(t))) return;
+    if(hionly.checked && r.c!=='H') return;
+    if(teamonly.checked && !r.r.startsWith('團')) return;
+    if(kw){
+      const hay=(r.n+' '+r.f+' '+r.k+' '+r.t.map(t=>DOMAINS[t].n).join(' ')).toLowerCase();
+      if(!hay.includes(kw)) return;
+    }
+    shown++;
+    const tr=document.createElement('tr');
+    if(r.c!=='H') tr.className='lc';
+    const pills=r.t.map(t=>`<span class="tagpill" style="background:${DOMAINS[t].c}">${DOMAINS[t].n}</span>`).join('');
+    const mark=r.c==='H'?'●':'◇';
+    tr.innerHTML=`<td class="yr">${r.y}</td><td>${r.r}</td><td><b>${r.n}</b></td><td>${r.f}</td>`+
+      `<td><span class="confmark">${mark}</span> ${r.k}</td><td>${pills}</td>`;
+    tbody.appendChild(tr);
+  });
+  pcount.textContent=`顯示 ${shown} ／ ${DATA.length} 題`;
+}
+render();
+
+// checklist
+const boxes=[...document.querySelectorAll('#cltbody input')];
+const fill=document.getElementById('clfill'), txt=document.getElementById('cltext');
+function upd(){ const d=boxes.filter(b=>b.checked).length;
+  fill.style.width=(100*d/boxes.length)+'%'; txt.textContent=`${d} / ${boxes.length} 完成`; }
+boxes.forEach(b=>b.addEventListener('change',upd));
+document.getElementById('clreset').onclick=()=>{boxes.forEach(b=>b.checked=false);upd();};
+</script>
+</body>
+</html>
