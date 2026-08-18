@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe4">
+  <title>寫見夏爾達｜Sharada Script 互動入門</title>
+  <meta name="description" content="從字形、發音到組字，循序學會 Sharada（Śāradā）文字。">
+  <link rel="icon" type="image/png" href="../me.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sharada&family=Noto+Sans+TC:wght@400;700&family=Spectral:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sharada_files/styles.css">
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span id="progressBar" style="width: 0%;"></span></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="返回首頁"><span class="brand-glyph">𑇛</span><span>寫見夏爾達</span></a>
+    <nav aria-label="主要導覽">
+      <a href="index.html">語奧資源</a><a href="#story">認識</a><a href="#letters">字母</a><a href="#compose">組字</a><a href="#practice">練習</a>
+    </nav>
+    <a class="mini-cta" href="#quiz">開始小考 <span>↘</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">ŚĀRADĀ · 互動入門課</p>
+        <h1 id="hero-title">讀懂一條<br>千年的線。</h1>
+        <p class="lede">夏爾達文曾是喀什米爾重要的銘文與書寫文字。從第一個母音開始，認識它如何把聲音收進字形裡。</p>
+        <div class="hero-actions"><a class="primary" href="#letters">打開字母匣</a><button class="text-button" id="heroDemo">看「śāradā」拆解 <span>＋</span></button></div>
+      </div>
+      <div class="hero-stage" aria-label="Sharada 文字展示">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <button class="hero-glyph" id="heroGlyph" aria-label="點擊切換 Sharada 字母">𑆯</button>
+        <p class="glyph-name" id="heroGlyphName">śa · श</p>
+        <span class="stage-note note-a">從左到右書寫</span><span class="stage-note note-b">婆羅米系文字</span>
+      </div>
+      <div class="scroll-cue"><span></span>向下探索</div>
+    </section>
+
+    <section class="story section" id="story">
+      <div class="section-label">先認識它</div>
+      <div class="story-grid">
+        <h2>不是逐字母拼音，<br>而是讓子音<em>自帶母音。</em></h2>
+        <div class="story-copy"><p>Sharada 是一種 <strong>abugida（元音附標文字）</strong>。子音字母通常預設帶有 /a/；若要改變母音，就在字母周圍加上母音符號。</p><p>它源自婆羅米文字傳統，主要用於梵語、喀什米爾語及北印度其他語言。現代使用有限，但仍可在宗教與儀式脈絡中見到。</p></div>
+      </div>
+      <div class="timeline" aria-label="Sharada 文字歷史時間線">
+        <div><b>8 世紀</b><span>開始出現在銘文紀錄</span></div><div><b>8–20 世紀</b><span>喀什米爾重要的銘文與文學文字</span></div><div><b>今日</b><span>文化保存、研究與有限儀式使用</span></div>
+      </div>
+    </section>
+
+    <section class="letters section" id="letters">
+      <div class="section-head"><div><div class="section-label">字母匣</div><h2>先看形，再找聲音</h2></div><p>點一個字，右側會告訴你它的音值與發音位置。</p></div>
+      <div class="letter-tabs" role="tablist" aria-label="字母分類">
+        <button class="tab" data-tab="vowels" role="tab" aria-selected="false">獨立母音 <span>14</span></button>
+        <button class="tab active" data-tab="consonants" role="tab" aria-selected="true">子音 <span>34</span></button>
+        <button class="tab" data-tab="digits" role="tab" aria-selected="false">數字 <span>10</span></button>
+      </div>
+      <div class="letter-workbench">
+        <div class="letter-grid fade-in" id="letterGrid" aria-live="polite"></div>
+        <aside class="letter-card" id="letterCard">
+          <span class="card-index">選中的字</span><div class="card-glyph" id="cardGlyph">𑆡</div><div class="card-roman" id="cardRoman">tha</div>
+          <dl><div><dt>類型</dt><dd id="cardType">子音</dd></div><div><dt>提示</dt><dd id="cardHint">送氣齒音；字母本身通常帶 /a/。</dd></div><div><dt>Unicode</dt><dd id="cardCode">U+111A1</dd></div></dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="compose section" id="compose">
+      <div class="section-label">組字實驗</div>
+      <div class="compose-grid">
+        <div><h2>一個子音，<br>穿上不同的母音。</h2><p>選擇母音符號，觀察 <span class="sharada-inline">𑆑</span> ka 的形狀與讀音如何改變。</p></div>
+        <div class="composer">
+          <div class="equation"><div><span>𑆑</span><small>ka</small></div><b>＋</b><div><span id="markDisplay">∅</span><small id="markLabel">內建 a</small></div><b>＝</b><div class="result"><span id="composeResult">𑆑</span><small id="composeRoman">ka</small></div></div>
+          <div class="vowel-pills" id="vowelPills"></div>
+          <p class="composer-note" id="composerNote">沒有附加符號時，子音預設帶 /a/。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="practice section" id="practice">
+      <div class="practice-copy"><div class="section-label">描寫練習</div><h2>讓手記住<br>轉折的方向。</h2><p>沿著淡色字形描寫，或直接自由臨摹。滑鼠、觸控筆與手指都可以使用。</p><div class="trace-choices" id="traceChoices"></div></div>
+      <div class="canvas-wrap"><div class="canvas-guide" id="canvasGuide">𑆯</div><canvas id="traceCanvas" aria-label="Sharada 字形描寫區"></canvas><div class="canvas-tools"><span id="traceName">śa</span><button id="clearCanvas">清除重寫</button></div></div>
+    </section>
+
+    <section class="quiz section" id="quiz">
+      <div class="quiz-shell"><div class="quiz-meta"><span>5 題小考</span><span id="quizCount">01 / 05</span></div><div id="quizContent"><p class="quiz-kicker">看字辨音</p><div class="quiz-glyph" id="quizGlyph">𑆤</div><h2>這個字的音值是？</h2><div class="quiz-options" id="quizOptions"></div></div><div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div></div>
+    </section>
+  </main>
+
+  <footer>
+    <div><span class="footer-glyph">𑇛</span><p>從辨形開始，慢慢讀進一種書寫傳統。</p></div>
+    <div class="sources">
+      <span>資料依據</span>
+      <a href="index.html">台灣語言學奧林匹亞 · 解題培訓資源</a>
+      <a href="https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-15/" target="_blank" rel="noreferrer">Unicode 17.0 · Sharada</a>
+      <a href="https://www.unicode.org/charts/PDF/U11180.pdf" target="_blank" rel="noreferrer">字碼表 U+11180–U+111DF</a>
+    </div>
+    <p class="footnote">字形呈現依瀏覽器與字型支援而異。</p>
+  </footer>
+  <script src="sharada_files/app.js"></script>
+</body>
+</html>
