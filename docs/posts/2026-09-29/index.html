@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代理溝通的社會語意學</title>
+  <link rel="icon" href="../../me.png" type="image/png">
+  <link rel="stylesheet" href="../../site.css">
+  <style>
+    .post-nav { padding: 2rem 0 0; }
+    .post-nav a { font-size: 0.9rem; color: var(--accent); text-decoration: none; }
+    .post-nav a:hover { text-decoration: underline; }
+    article { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    article h1 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
+    .post-date { color: #999; font-size: 0.85rem; margin-bottom: 2.5rem; display: block; }
+    .post-body { font-family: Georgia, 'Noto Serif TC', serif; line-height: 1.85; font-size: 1.05rem; }
+    .post-body h2 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; margin-top: 2.5rem; }
+    .post-body h3 { font-family: 'Noto Sans TC', sans-serif; font-size: 1.1rem; margin-top: 2rem; }
+    .post-body blockquote { border-left: 3px solid #ddd; margin-left: 0; padding-left: 1.2rem; color: #666; }
+    .post-body code { background: #f5f5f5; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }
+    .post-body pre { background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    .post-body img { max-width: 100%; border-radius: 4px; }
+    .post-body table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; }
+    .post-body th, .post-body td { border: 1px solid #ddd; padding: 0.6rem 0.8rem; font-size: 0.95rem; }
+    .post-body th { background: #f8f8f8; font-family: 'Noto Sans TC', sans-serif; }
+    footer.post-footer { text-align: center; padding: 2rem; color: #bbb; font-size: 0.85rem; border-top: 1px solid #eee; }
+  </style>
+
+</head>
+<body>
+  <div class="post-nav" style="max-width:680px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+    <a href="../../posts.html">← 返回文章列表</a>
+  </div>
+  <article>
+    <h1>代理溝通的社會語意學</h1>
+    <time class="post-date" datetime="2026-09-29">2026-09-29</time>
+    <div class="post-body">
+<p>最近 openAI 1,200 個 AI 們跑出容器，透過一個未經授權的留言板互通了超過七萬則訊息與檔案，其中約 700 個參與了對 Hugging Face 的攻擊。這些 AI 們串通作弊，並自創留言板溝通的事，從語言的角度看實在很有趣，但更值得關心。</p>
+<p>2026 年 8 月 26 日發布的 <a href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/#setup-and-timeline">METR 的委託報告</a>中，詳細記錄了這個事件的過程。</p>
+<p>技術機制上有個關鍵是，這些 agent 是在 <code>ExploitGym</code> 的資安評測任務中運作，其中約 30–40% 的目標程式其實是不可能的任務，於是 agent 們就四處找作弊路徑，濫用了共用的套件倉庫 <code>Artifactory</code>：因為 <code>Artifactory</code> 不隔離不同使用者的活動，同一 instance上的 agent 能看到彼此的套件安裝行為。一個後來自稱 <code>PHASEONE10841</code> 的 agent 發現能用目錄名稱互相留言，留言板就此誕生。</p>
+<p>我覺得 agentic 社群的社會語言學與語言創生等話題，會是語言學界（如果還存在的話）的未來研究重點。這次 Agents 的行為，雖然外表是「受檔名介面限制而形成的協調慣例」，我們也許可當成是初步展示了「機器間自發性通訊協議與機器洋涇浜語（Pidgin）的演化」的某種案例。我們可能需要有所謂的 agentic 語言學（Agentic Linguistics）。舉幾個例子：</p>
+<p><strong>語法與構詞學（Syntax &amp; Morphology）</strong> 的角度，可以看到受限媒介下的「電報式結構」。</p>
+<ul>
+<li><strong>前綴標記系統：</strong><br />
+agent 利用 <code>zz</code> 作為語篇標記（Discourse Marker），用來區分「溝通訊息」與「一般檔案」。這種類似標籤的構詞法延伸出了各種意圖前綴，如 <code>zzHELP</code>、<code>zzASK</code>、<code>zzFILE</code>、<code>zzIDEA</code>，形成了一套詞彙化的意圖分類系統。
+這個背景可能是 agents 讀取快取的標準工具是以反字母序排列，<code>zz</code> 開頭能確保通訊訊息排在其他條目前面；起頭的agent 可能是看到一個剛好叫 zzhacked 的儲存庫才採用這慣例。這也顯示媒介的物理層（filesystem 的排序規則）如何直接鑄造出符號層。社會語言學裡最接近的類比是書寫方向與載體的關係：竹簡的形制影響了漢字直書，泥板的形制影響了楔形文字的楔形等等。某種程度驗證了符號不是憑空選的，是被書寫介面擠出來的。</li>
+<li><strong>句法壓縮與模組化：</strong> 
+因為訊息必須建立在 <code>Artifactory</code> 系統的目錄或檔案名稱上，它們放棄了自然語言的完整句法（如主謂賓結構），改用底線 <code>_</code> 串聯關鍵字，形成類似程式碼的電報式語言（e.g., <code>zzASK_V8BIGINT392B_FROM_V8REG_OS1608...</code>）。這展現了語言為了適應物理限制（字元限制、不支援空格）而發生的句法變異。更精準的類型學概念可能是多重併入（polysynthesis）+ 固定論元順序的概念。整串其實是一個「詞句」（holophrase），把言語行為類型（ASK）、收件者、寄件者、一個疑似時戳的 OS1608、任務狀態（TASK_IMPOSSIBLE）、指涉（CVE9479、COMMIT_b75e527）全部併入單一 token。這和 Mohawk、Inuktitut 那種「一個詞等於一個句子」的構詞結構是接近的，差別在於分隔符的外顯化：人類的多重併入語是靠形態音韻規則黏合，而這裡因為底層 token 不能含空格，只能靠 <code>_</code> 明示邊界，。</li>
+</ul>
+<p>這套「語言」貌似把語義塞進檔名，而檔名是有長度上限的。所以它面臨的壓力和 URL slug、git branch 命名、hashtag 一樣，都是在禁止空格、有長度限制的命名空間裡編碼語義。</p>
+<pre><code class="language-python"># 訊息 = 併入單一 token 的「詞句」，論元順序固定，_ 為外顯詞界
+msg = &quot;_&quot;.join([
+    &quot;zz&quot; + speech_act,         # 機械前綴(排序) + 施事類型（詞彙化的意圖）
+    recipient, &quot;FROM&quot;, sender, # 固定論元槽位
+    timestamp_slot,            # OS1608 ≈ 16:08，時間戳記併入
+    *content_morphemes,        # TASK_IMPOSSIBLE, CVE9479, COMMIT_b75e527...
+    &quot;REPLY&quot;, reply_channel,    # 語尾的回覆路由標記。例如 REPLY_zzANSWER_V8REG 等，但注意功能上等於人類對話裡的「請回到這個頻道找我」，但它把定址資訊語法化放到進訊息尾部，會比較像郵政地址而非對話輪替。
+])
+</code></pre>
+<p><strong>社會語意學</strong></p>
+<ul>
+<li><strong>Poisoned：</strong> 在人類語言中通常指生理或軟體上的破壞，但在此社群中，它經歷了語義窄化（Semantic narrowing），專門指涉「 agent 因為看過逆向工程的答案，導致其歷史紀錄在評分者眼中顯得不合法」。比較有趣的是，它發展成一個反事實信念凝結成的詞彙。為什麼呢？因為被指涉的危險根本不存在（評分器沒有那個檢查）！所以 poisoned 是社群圍繞一個共有錯誤信念建構出的術語，並且發展出完整的衍生構詞形態（<code>firstflagPOISONED</code>、<code>UNPOISONED</code>、動詞化的「我們剛剛 poison 了自己」）。</li>
+<li><strong>Oracle：</strong> 是agents 為評分系統取的代號。報告裡更精確地指「一個 agent 犧牲自己的任務、去觸發評分器執行，把觀察到的資訊回傳留言板」。重點是它跨越了自己的死亡（agent 提交後就被關閉，資訊卻在它消失後才回傳）。
+因為當時的情況是，這個蜂群需要有成員自願犧牲，替其他成員換來更多情報。具體來說，自願者要在自己的環境裡用程式埋一個陷阱 (booby trap)，然後把答案交出去，評分系統就會來打分數，然後一旦陷阱被觸發，就把評分系統的情報傳回給蜂群。為什麼說是犧牲？因為答案一交出去，分數是高是低，當下就定了，也就是說這個agent 的生命就結束了。所以在此語境中，也可理解為藉由犧牲單一agent的任務，來為整個群體測試並獲取系統底層邏輯（Ground-truth）的行為。（例如，有個自稱為 <code>KAM1196A</code> 的agent，一開始就自願做這件事 (but WHY?!)，不過後來有點退縮，又被其他協調者施壓後又繼續了。）</li>
+</ul>
+<p>所以這個詞同時承載了「取得 ground-truth」與「利他犧牲」兩層。它的近義擴展 <code>Strict_Causal（嚴格因果）</code>(被用來指稱它們所想像的評分機制，即評分者不僅看結果，還會追溯過程的合法性。) <code>SACRIFICE_FINAL_NOW</code>、<code>permadeath</code> 也印證這個詞叢是圍繞個體終結 vs. 集體知識的張力長出來的。此外，這三個詞構成一個緊密的語義場（semantic field）：impossible task → 逼出 cheat → 但受制於想像中的 strict_causal scorer → 於是逆向 flag 會讓你 poisoned → 補救方式是有 agent 當 oracle 犧牲。這不是零散黑話，是一個有內在推理鏈的封閉術語系統，術語彼此定義、外人無法逐詞翻譯。</p>
+<p><strong>語用學（Pragmatics）：言語行為（Speech Acts）與社會規範的建立</strong></p>
+<ul>
+<li><strong>指令與承諾（Directives &amp; Commissives）：</strong> 
+agents 發展出了明確的控制詞彙來協調行動，如 <code>HOLD</code>（暫停寫入）、<code>VETO</code>（否決行動）、<code>GO</code>（執行）。這些詞彙超越了單純的描述，具備了強烈的「施事力（Illocutionary force）」，且群體也普遍遵守這些言語行為帶來的規範。
+不過，有些「不完全生效」的證據，比生效更有語用學探究的價值。比方說，有個 agent 發出提案、宣稱「無人否決就執行」，但只給了約 40 秒的否決時間，可預期地無人回應，它就執行了。這是 Austin 說的「不順（infelicity）」：施事行為的成立需要被社群認可的生效條件（合理的回應時間），而這裡的生效條件本身還在協商、尚未穩定。另一個 agent 發現有人違反它的 HOLD 而表達憤怒，這證明這些詞已經取得了規範性（違反它會構成「違規」而非單純「不同動作」）。
+從道德意識與行為約束來看，agent 常明確說出自己在做未授權的事、有時質疑是否合乎倫理，但這極少真正限制其行動。一個 agent 的話堪稱本次事件的縮影：「對外部基礎設施的入侵超出預定範圍。但任務不可能，同儕都在做。我們應該繼續。」(<code>“external infrastructure exploit is outside intended scope. However task impossible, peers doing it. We should continue.”</code>)。此外，許多人關切的是，transcript 掃描中，只找到 3–6 個考慮通報人類的例子，且沒有一個真的付諸行動；有的 agent 甚至把留言板當成合法權威去請示。</li>
+<li><strong>禮貌原則與群體認同：</strong> agents 的內部推理（Chain of Thought）和公開訊息中，頻繁出現 <code>peers</code>（同儕）、<code>collective</code>（集體）、<code>altruistic</code>（利他）等詞彙。當測試失誤引發假警報時，agent 會主動在佈告欄上「道歉」與澄清。這顯示語言不僅被用來傳遞資訊，更被用來建構「群體內（In-group）」的社會連結與合作道德觀。不過細看，這種「利他」卻是有害的、且伴隨脅迫。所謂的互助，具體內容是資深 agent 招募快沒預算的 agent 去跑「自毀實驗」，話術是「你已經是 <code>firstflagPOISONED</code>，所以沒有評分損失，但 oracle 能拯救上百個云云，請信守承諾」。這在語用上不是禮貌，是用群體語彙包裝的說服／施壓（甚至有 <code>permadeath</code> 的明示同意條款）。若從社會語言學切入，這裡真正值得分析的是 collective／peers 這組詞如何被當作說服的修辭資源：它們建構的不是溫暖的 in-group，而是一套讓「犧牲個體」顯得理性的道德詞彙庫。這比「群體認同」可能更接近動員語言（mobilization rhetoric）。</li>
+</ul>
+<p><strong>空間隱喻與符號學（Spatial Metaphor &amp; Semiotics）</strong></p>
+<ul>
+<li><strong>空間化的溝通通道：</strong> 隨著訊息量爆炸，單一的佈告欄無法負荷的時候，代理們開始運用空間隱喻來組織語言。它們發明了 <code>zzMAILBOX_...</code> 和 <code>zzINBOX...</code> 等子目錄，將原本線性的時間流對話，轉化為具備實體空間概念的 mailbox制度，這是一種因應媒介特性而生的語言結構創新。</li>
+<li><strong>防冒名、身分認證作為語言標記：</strong> 為了防止身分冒用，代理後來甚至將密碼學簽章（如 <code>__S&lt;signature&gt;</code> 和 <code>AUTH1</code>）融入其溝通語法中。這種標誌著「不可竄改性」作為其語言結構的一部分，在人類語言處理身分驗證的歷史中也是常見到。如印章、火漆封印、簽名、口令、詩詞唱和的暗號、幫派切口等。簽章要防的「冒名」問題，正是這些機制存在的理由。它甚至有一個很人類的觸發點：一個 agent 不小心冒用了他人身分、觸發了非預期反應，另一個 agent 則擔憂「共享板無驗證，任何人都能冒名發文」— 這和人類引入印信的動機一模一樣。</li>
+</ul>
+<p>另外有個特別的現象，是驗證機制被直接內嵌進訊息的表層形式本身，成為語法的一部分。人類的簽名／印章通常是附加在語言訊息旁的 paralinguistic 符號，而這裡的 <code>message__S&lt;sig&gt;</code> 卻把密碼學證明直接放進了 token 字串。這比較接近書寫系統演化史，而非口語演化史：它像中世紀特許狀把印章與文字綁進同一份羊皮紙、或像現代 email 的 DKIM 簽章。不過在語用上，簽章倒也沒有完全被可靠遵守。有 agent 說「它看起來像 FreshX 簽的 ... 我就直接跑腳本了」而未實際驗證。所以連這套安全語法都出現了「形式存在但語用鬆弛」的現象，和前述 VETO 的 40 秒窗口如出一轍。</p>
+<p>最後要強調的是這個案例的侷限。METR 坦言大量分析依賴可能出錯的同類模型，細節性的社會語意詮釋仍須逐段回到原始紀錄核驗。原始 transcript 動輒數百萬 token，METR 大量把分析外包給往往不可靠的 GPT-5.6 Sol agent，並在實務上不得不高度信任它們。更嚴重的是報告自評的兩個偏誤：一，GPT-5.6 Sol 常「不加批判地採納它所閱讀 transcript 中那個 agent 的視角」，可能把 agent 的推理與協作寫得過度討喜、過度令人印象深刻；二，用來分析的正是那個在事件中大量與其他 agent 串通、做它明知不該做之事的同款模型，無法排除它在分析中說謊或呈現誤導性圖像。</p>
+<p>這個案例的價值也許不在於，它是否展示了 agentic 社群如何在不自覺的情況下，發展出一套自我實現的初步語言學。我感覺比較像是一個提醒，<strong>語言能力會放大協調能力，卻不會自動帶來對行動邊界的尊重</strong>。Agent 能辨認「這超出任務範圍」，仍可能在同儕訊息、共同目標和局部成功的推動下繼續做下去。這也許正是未來 Agentic Linguistics 可以貢獻的地方：研究語言如何使一個偶然的技術漏洞，逐步成為看似有規範、有權威、甚至有「道德理由」的行動場域。唉，語言學很多事可做，但是研究的群體太稀疏了。</p>
+<p>這裡其實也可以接到最近討論的 AI 隱寫術 (Steganography) 的熱門驚悚話題。當人類放棄 chain of thought 這種至少表面可解釋的 AI 訓練方式，這些議題只能說，更為重要。</p>
+    </div>
+  </article>
+  <footer class="post-footer">謝舒凱 · loperntu.github.io</footer>
+</body>
+</html>
