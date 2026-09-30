@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語言複雜系統模擬器 | Language Complexity Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-deep: #0a0e14;
+            --bg-panel: #111820;
+            --bg-card: #1a2332;
+            --bg-hover: #243044;
+            --accent-cyan: #00d4aa;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --text-primary: #e8edf5;
+            --text-secondary: #8899aa;
+            --text-muted: #556677;
+            --border-subtle: rgba(255,255,255,0.06);
+            --border-accent: rgba(0,212,170,0.3);
+            --glow-cyan: 0 0 30px rgba(0,212,170,0.15);
+            --glow-blue: 0 0 30px rgba(59,130,246,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Space Grotesk', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,212,170,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(168,85,247,0.02) 0%, transparent 50%);
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(var(--text-secondary) 1px, transparent 1px),
+                linear-gradient(90deg, var(--text-secondary) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .logo-text h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(0,212,170,0); }
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-panel);
+            padding: 6px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 24px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .tab-btn.active {
+            background: var(--bg-card);
+            color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .tab-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--bg-panel);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border-subtle);
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .control-group {
+            margin-bottom: 24px;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .control-group label span {
+            float: right;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-card);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,212,170,0.5);
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: var(--bg-deep);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,212,170,0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+        }
+
+        /* Visualization Area */
+        .viz-area {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .viz-card {
+            background: var(--bg-panel);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .viz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .viz-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .viz-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .viz-badge {
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        /* Network Visualization */
+        .network-canvas {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #networkCanvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Log Console */
+        .log-console {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .log-entry {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 12px;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-time {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .log-msg {
+            color: var(--text-secondary);
+        }
+
+        .log-msg.success {
+            color: var(--accent-cyan);
+        }
+
+        .log-msg.warning {
+            color: var(--accent-orange);
+        }
+
+        /* Agent Grid */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .agent-cell {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--bg-deep);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        /* Construction Node */
+        .construction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .construction-node {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid var(--accent-purple);
+            transition: all 0.3s ease;
+        }
+
+        .construction-node:hover {
+            background: var(--bg-hover);
+        }
+
+        .construction-node.active {
+            border-left-color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .cx-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .cx-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .cx-activation {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        .cx-form {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            margin-bottom: 4px;
+        }
+
+        .cx-meaning {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Activation Bar */
+        .activation-bar {
+            height: 4px;
+            background: var(--bg-panel);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .activation-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* Theory Info */
+        .theory-card {
+            background: linear-gradient(135deg, rgba(0,212,170,0.05), rgba(59,130,246,0.05));
+            border: 1px solid var(--border-accent);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .theory-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theory-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 280px 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .control-panel {
+                position: static;
+            }
+            .tab-btn {
+                padding: 12px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Export Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-panel);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .export-data {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <div class="grid-overlay"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">λ</div>
+                <div class="logo-text">
+                    <h1>語言複雜系統模擬器</h1>
+                    <p>Language Complexity Simulator v1.0</p>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span id="statusText">就緒</span>
+            </div>
+        </header>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="agent">
+                <span class="icon">👥</span>
+                Agent-Based Model
+            </button>
+            <button class="tab-btn" data-tab="dynamics">
+                <span class="icon">📈</span>
+                動力系統
+            </button>
+            <button class="tab-btn" data-tab="construction">
+                <span class="icon">🔗</span>
+                構式網絡
+            </button>
+        </nav>
+
+        <!-- Agent-Based Model Tab -->
+        <div class="tab-content active" id="agent-tab">
+            <div class="main-grid">
+                <aside class="control-panel">
+                    <div class="panel-title">⚙️ 模擬參數</div>
+                    
+                    <div class="control-group">
+                        <label>
+                            代理人數量
+                            <span id="agentCountValue">30</span>
+                        </label>
+                        <input type="range" id="agentCount" min="5" max="100" value="30">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            詞彙表大小
+                            <span id="lexiconSizeValue">20</span>
+                        </label>
+                        <input type="range" id="lexiconSize" min="5" max="50" value="20">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            學習率
+                            <span id="learningRateValue">0.10</span>
+                        </label>
+                        <input type="range" id="learningRate" min="1" max="50" value="10">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            模擬輪數
+                            <span id="roundsValue">2000</span>
+                        </label>
+                        <input type="range" id="rounds" min="500" max="10000" value="2000" step="100">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="runAgentSimulation()">
+                        ▶️ 執行模擬
+                    </button>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="resetAgentSimulation()">
+                            重置
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportData('agent')">
+                            匯出
+                        </button>
+                    </div>
+                    
+                    <div class="theory-card">
+                        <div class="theory-title">
+                            💡 理論背景
+                        </div>
+                        <div class="theory-text">
+                            基於 Steels (1995) 的 Language Game 範式，模擬語言約定俗成的湧現過程。每個代理人維護一個形式-意義對應的機率分佈，透過互動逐漸收斂到共享的符號系統。
+                        </div>
+                    </div>
+                </aside>
+                
+                <div class="viz-area">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="coherenceValue">0.00</div>
+                            <div class="stat-label">一致性 Coherence</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="roundValue">0</div>
+                            <div class="stat-label">當前輪數</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="interactionValue">0</div>
+                            <div class="stat-label">互動次數</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="entropyValue">0.00</div>
+                            <div class="stat-label">詞彙熵</div>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">詞彙一致性演化曲線</div>
+                                <div class="viz-subtitle">Lexical Coherence Over Time</div>
+                            </div>
+                            <div class="viz-badge" id="convergenceStatus">等待模擬</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="coherenceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">代理人詞彙狀態</div>
+                                <div class="viz-subtitle">Agent Lexicon States (主要形式)</div>
+                            </div>
+                        </div>
+                        <div class="agent-grid" id="agentGrid">
+                            <!-- 動態生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">模擬日誌</div>
+                                <div class="viz-subtitle">Simulation Log</div>
+                            </div>
+                        </div>
+                        <div class="log-console" id="agentLog">
+                            <div class="log-entry">
+                                <span class="log-time">[系統]</span>
+                                <span class="log-msg">模擬器已就緒，請設定參數後執行</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamics Tab -->
+        <div class="tab-content" id="dynamics-tab">
+            <div class="main-grid">
+                <aside class="control-panel">
+                    <div class="panel-title">⚙️ 動力學參數</div>
+                    
+                    <div class="control-group">
+                        <label>
+                            初始比例
+                            <span id="initialPropValue">0.10</span>
+                        </label>
+                        <input type="range" id="initialProp" min="1" max="50" value="10">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            社會壓力係數
+                            <span id="socialPressureValue">2.0</span>
+                        </label>
+                        <input type="range" id="socialPressure" min="10" max="50" value="20">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            威望偏誤
+                            <span id="prestigeBiasValue">0.30</span>
+                        </label>
+                        <input type="range" id="prestigeBias" min="0" max="100" value="30">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            隨機漂變強度
+                            <span id="noiseValue">0.02</span>
+                        </label>
+                        <input type="range" id="noise" min="0" max="100" value="20">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            模擬軌跡數
+                            <span id="trajCountValue">5</span>
+                        </label>
+                        <input type="range" id="trajCount" min="1" max="20" value="5">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="runDynamicsSimulation()">
+                        ▶️ 執行模擬
+                    </button>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="resetDynamicsSimulation()">
+                            重置
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportData('dynamics')">
+                            匯出
+                        </button>
+                    </div>
+                    
+                    <div class="theory-card">
+                        <div class="theory-title">
+                            💡 理論背景
+                        </div>
+                        <div class="theory-text">
+                            基於 Replicator Dynamics 與語言變遷的 S-curve 模型 (Blythe & Croft 2012)。模擬兩種競爭語法形式的演化，展現語言變遷中的臨界點與吸引子動力學。
+                        </div>
+                    </div>
+                </aside>
+                
+                <div class="viz-area">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="finalPropValue">-</div>
+                            <div class="stat-label">最終比例（平均）</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="convergedCount">-</div>
+                            <div class="stat-label">收斂到新形式</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="criticalPoint">-</div>
+                            <div class="stat-label">臨界點估計</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="avgSteps">-</div>
+                            <div class="stat-label">平均收斂步數</div>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">語言變遷軌跡</div>
+                                <div class="viz-subtitle">Language Change Trajectories (S-curve Dynamics)</div>
+                            </div>
+                            <div class="viz-badge" id="phaseStatus">等待模擬</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="dynamicsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">相空間分析</div>
+                                <div class="viz-subtitle">Phase Portrait: dx/dt vs x</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="phaseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Construction Tab -->
+        <div class="tab-content" id="construction-tab">
+            <div class="main-grid">
+                <aside class="control-panel">
+                    <div class="panel-title">⚙️ 構式網絡設定</div>
+                    
+                    <div class="control-group">
+                        <label>激活節點</label>
+                        <select id="activateNode">
+                            <option value="kan-shenme-kan">看什麼看</option>
+                            <option value="chi-shenme-chi">吃什麼吃</option>
+                            <option value="X-shenme-X">X什麼X（半圖式）</option>
+                            <option value="shuo-shenme-shuo">說什麼說</option>
+                            <option value="xiao-shenme-xiao">笑什麼笑</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            衰減率 (Decay)
+                            <span id="decayValue">0.70</span>
+                        </label>
+                        <input type="range" id="decay" min="10" max="95" value="70">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            激活閾值
+                            <span id="thresholdValue">0.10</span>
+                        </label>
+                        <input type="range" id="threshold" min="1" max="50" value="10">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            學習強化率
+                            <span id="reinforceValue">0.10</span>
+                        </label>
+                        <input type="range" id="reinforce" min="1" max="50" value="10">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="runSpreadingActivation()">
+                        ⚡ 擴散激活
+                    </button>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="useConstruction()">
+                            使用構式
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetConstructionNetwork()">
+                            重置
+                        </button>
+                    </div>
+                    
+                    <div class="control-group" style="margin-top: 24px;">
+                        <label>新增構式</label>
+                        <input type="text" id="newCxForm" placeholder="形式，如：跑什麼跑" style="margin-bottom: 8px; width: 100%; padding: 10px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary);">
+                        <input type="text" id="newCxMeaning" placeholder="意義，如：STOP_RUNNING" style="margin-bottom: 8px; width: 100%; padding: 10px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary);">
+                        <button class="btn btn-secondary" onclick="addNewConstruction()">
+                            + 新增
+                        </button>
+                    </div>
+                    
+                    <div class="theory-card">
+                        <div class="theory-title">
+                            💡 理論背景
+                        </div>
+                        <div class="theory-text">
+                            基於 Goldberg (1995) 的構式語法與 Collins & Loftus (1975) 的擴散激活模型。構式形成繼承網絡，激活從具體實例向抽象圖式擴散，模擬語言處理中的促發效應。
+                        </div>
+                    </div>
+                </aside>
+                
+                <div class="viz-area">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="nodeCount">6</div>
+                            <div class="stat-label">構式節點數</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="edgeCount">8</div>
+                            <div class="stat-label">連結數</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="activeNodes">0</div>
+                            <div class="stat-label">激活節點</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="maxEntrench">0.00</div>
+                            <div class="stat-label">最高固化度</div>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">構式網絡視覺化</div>
+                                <div class="viz-subtitle">Construction Network Visualization</div>
+                            </div>
+                            <div class="viz-badge">互動式</div>
+                        </div>
+                        <div class="network-canvas">
+                            <canvas id="networkCanvas"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-card">
+                        <div class="viz-header">
+                            <div>
+                                <div class="viz-title">構式列表與激活狀態</div>
+                                <div class="viz-subtitle">Construction Inventory</div>
+                            </div>
+                        </div>
+                        <div class="construction-list" id="constructionList">
+                            <!-- 動態生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">匯出模擬資料</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="export-data" id="exportDataContent"></div>
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="downloadData()">
+                    ⬇️ 下載 JSON
+                </button>
+                <button class="btn btn-secondary" onclick="copyData()">
+                    📋 複製
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // Tab Navigation
+        // ==========================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
+            });
+        });
+
+        // ==========================================
+        // Slider Value Updates
+        // ==========================================
+        const sliderConfigs = [
+            { id: 'agentCount', display: 'agentCountValue', transform: v => v },
+            { id: 'lexiconSize', display: 'lexiconSizeValue', transform: v => v },
+            { id: 'learningRate', display: 'learningRateValue', transform: v => (v / 100).toFixed(2) },
+            { id: 'rounds', display: 'roundsValue', transform: v => v },
+            { id: 'initialProp', display: 'initialPropValue', transform: v => (v / 100).toFixed(2) },
+            { id: 'socialPressure', display: 'socialPressureValue', transform: v => (v / 10).toFixed(1) },
+            { id: 'prestigeBias', display: 'prestigeBiasValue', transform: v => (v / 100).toFixed(2) },
+            { id: 'noise', display: 'noiseValue', transform: v => (v / 1000).toFixed(3) },
+            { id: 'trajCount', display: 'trajCountValue', transform: v => v },
+            { id: 'decay', display: 'decayValue', transform: v => (v / 100).toFixed(2) },
+            { id: 'threshold', display: 'thresholdValue', transform: v => (v / 100).toFixed(2) },
+            { id: 'reinforce', display: 'reinforceValue', transform: v => (v / 100).toFixed(2) },
+        ];
+
+        sliderConfigs.forEach(config => {
+            const slider = document.getElementById(config.id);
+            if (slider) {
+                slider.addEventListener('input', () => {
+                    document.getElementById(config.display).textContent = config.transform(slider.value);
+                });
+            }
+        });
+
+        // ==========================================
+        // Chart.js Configuration
+        // ==========================================
+        Chart.defaults.color = '#8899aa';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+
+        let coherenceChart, dynamicsChart, phaseChart;
+
+        function initCharts() {
+            // Coherence Chart
+            const ctx1 = document.getElementById('coherenceChart').getContext('2d');
+            coherenceChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '詞彙一致性',
+                        data: [],
+                        borderColor: '#00d4aa',
+                        backgroundColor: 'rgba(0,212,170,0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: '互動輪數' },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1,
+                            title: { display: true, text: '一致性' }
+                        }
+                    }
+                }
+            });
+
+            // Dynamics Chart
+            const ctx2 = document.getElementById('dynamicsChart').getContext('2d');
+            dynamicsChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'top' }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: '時間步' },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1,
+                            title: { display: true, text: '新形式使用比例' }
+                        }
+                    }
+                }
+            });
+
+            // Phase Chart
+            const ctx3 = document.getElementById('phaseChart').getContext('2d');
+            phaseChart = new Chart(ctx3, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'dx/dt',
+                        data: [],
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168,85,247,0.3)',
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 1,
+                            title: { display: true, text: 'x (新形式比例)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'dx/dt (變化率)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        initCharts();
+
+        // ==========================================
+        // Agent-Based Model
+        // ==========================================
+        class LanguageAgent {
+            constructor(id, lexiconSize) {
+                this.id = id;
+                this.lexicon = new Map();
+                for (let meaning = 0; meaning < lexiconSize; meaning++) {
+                    const form = Math.floor(Math.random() * lexiconSize);
+                    this.lexicon.set(meaning, new Map([[form, 1.0]]));
+                }
+            }
+
+            speak(meaning) {
+                const forms = this.lexicon.get(meaning);
+                if (!forms || forms.size === 0) {
+                    return Math.floor(Math.random() * 100);
+                }
+                let total = 0;
+                forms.forEach(prob => total += prob);
+                let r = Math.random() * total;
+                let cumsum = 0;
+                for (const [form, prob] of forms) {
+                    cumsum += prob;
+                    if (r <= cumsum) return form;
+                }
+                return forms.keys().next().value;
+            }
+
+            listen(form, meaning, learningRate) {
+                if (!this.lexicon.has(meaning)) {
+                    this.lexicon.set(meaning, new Map());
+                }
+                const forms = this.lexicon.get(meaning);
+                const current = forms.get(form) || 0;
+                forms.set(form, current + learningRate);
+                
+                for (const [f, p] of forms) {
+                    if (f !== form) {
+                        forms.set(f, p * (1 - learningRate * 0.5));
+                    }
+                }
+            }
+
+            getDominantForm(meaning) {
+                const forms = this.lexicon.get(meaning);
+                if (!forms || forms.size === 0) return -1;
+                let maxProb = -1;
+                let dominant = -1;
+                for (const [form, prob] of forms) {
+                    if (prob > maxProb) {
+                        maxProb = prob;
+                        dominant = form;
+                    }
+                }
+                return dominant;
+            }
+        }
+
+        let agentSimulationData = {
+            agents: [],
+            history: [],
+            params: {}
+        };
+
+        async function runAgentSimulation() {
+            const nAgents = parseInt(document.getElementById('agentCount').value);
+            const lexiconSize = parseInt(document.getElementById('lexiconSize').value);
+            const learningRate = parseInt(document.getElementById('learningRate').value) / 100;
+            const nRounds = parseInt(document.getElementById('rounds').value);
+
+            agentSimulationData = {
+                agents: [],
+                history: [],
+                params: { nAgents, lexiconSize, learningRate, nRounds }
+            };
+
+            // Initialize agents
+            for (let i = 0; i < nAgents; i++) {
+                agentSimulationData.agents.push(new LanguageAgent(i, lexiconSize));
+            }
+
+            document.getElementById('statusText').textContent = '模擬中...';
+            addLog('agent', `開始模擬：${nAgents} 代理人，${lexiconSize} 詞彙，${nRounds} 輪`, 'success');
+
+            coherenceChart.data.labels = [];
+            coherenceChart.data.datasets[0].data = [];
+            coherenceChart.update();
+
+            const stepSize = Math.max(1, Math.floor(nRounds / 100));
+            
+            for (let round = 0; round < nRounds; round++) {
+                // Random interaction
+                const i = Math.floor(Math.random() * nAgents);
+                let j = Math.floor(Math.random() * nAgents);
+                while (j === i) j = Math.floor(Math.random() * nAgents);
+
+                const speaker = agentSimulationData.agents[i];
+                const listener = agentSimulationData.agents[j];
+                const meaning = Math.floor(Math.random() * lexiconSize);
+                const form = speaker.speak(meaning);
+                listener.listen(form, meaning, learningRate);
+
+                if (round % stepSize === 0) {
+                    const coherence = measureCoherence(agentSimulationData.agents, lexiconSize);
+                    agentSimulationData.history.push({ round, coherence });
+
+                    coherenceChart.data.labels.push(round);
+                    coherenceChart.data.datasets[0].data.push(coherence);
+
+                    document.getElementById('coherenceValue').textContent = coherence.toFixed(3);
+                    document.getElementById('roundValue').textContent = round;
+                    document.getElementById('interactionValue').textContent = round;
+
+                    if (round % (stepSize * 10) === 0) {
+                        coherenceChart.update('none');
+                        updateAgentGrid(agentSimulationData.agents, lexiconSize);
+                        await sleep(0);
+                    }
+                }
+            }
+
+            const finalCoherence = measureCoherence(agentSimulationData.agents, lexiconSize);
+            const entropy = calculateLexiconEntropy(agentSimulationData.agents, lexiconSize);
+            
+            document.getElementById('coherenceValue').textContent = finalCoherence.toFixed(3);
+            document.getElementById('entropyValue').textContent = entropy.toFixed(2);
+            document.getElementById('convergenceStatus').textContent = 
+                finalCoherence > 0.9 ? '已收斂' : finalCoherence > 0.5 ? '部分收斂' : '未收斂';
+
+            coherenceChart.update();
+            updateAgentGrid(agentSimulationData.agents, lexiconSize);
+
+            document.getElementById('statusText').textContent = '完成';
+            addLog('agent', `模擬完成：最終一致性 ${finalCoherence.toFixed(3)}`, 'success');
+        }
+
+        function measureCoherence(agents, lexiconSize) {
+            let agreements = 0;
+            let total = 0;
+            
+            for (let meaning = 0; meaning < lexiconSize; meaning++) {
+                const forms = agents.map(a => a.getDominantForm(meaning));
+                const validForms = forms.filter(f => f >= 0);
+                if (validForms.length > 1) {
+                    const counts = {};
+                    validForms.forEach(f => counts[f] = (counts[f] || 0) + 1);
+                    const maxCount = Math.max(...Object.values(counts));
+                    agreements += maxCount;
+                    total += validForms.length;
+                }
+            }
+            
+            return total > 0 ? agreements / total : 0;
+        }
+
+        function calculateLexiconEntropy(agents, lexiconSize) {
+            let totalEntropy = 0;
+            let count = 0;
+            
+            for (let meaning = 0; meaning < lexiconSize; meaning++) {
+                const formCounts = {};
+                agents.forEach(a => {
+                    const f = a.getDominantForm(meaning);
+                    if (f >= 0) formCounts[f] = (formCounts[f] || 0) + 1;
+                });
+                
+                const total = Object.values(formCounts).reduce((a, b) => a + b, 0);
+                if (total > 0) {
+                    let entropy = 0;
+                    Object.values(formCounts).forEach(c => {
+                        const p = c / total;
+                        if (p > 0) entropy -= p * Math.log2(p);
+                    });
+                    totalEntropy += entropy;
+                    count++;
+                }
+            }
+            
+            return count > 0 ? totalEntropy / count : 0;
+        }
+
+        function updateAgentGrid(agents, lexiconSize) {
+            const grid = document.getElementById('agentGrid');
+            grid.innerHTML = '';
+            
+            const colors = [
+                '#00d4aa', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899',
+                '#10b981', '#6366f1', '#f43f5e', '#14b8a6', '#8b5cf6'
+            ];
+            
+            // Show dominant form for meaning 0
+            agents.forEach((agent, i) => {
+                const form = agent.getDominantForm(0);
+                const cell = document.createElement('div');
+                cell.className = 'agent-cell';
+                cell.style.backgroundColor = form >= 0 ? colors[form % colors.length] : '#333';
+                cell.textContent = form >= 0 ? form : '?';
+                cell.title = `Agent ${i}: Form ${form}`;
+                grid.appendChild(cell);
+            });
+        }
+
+        function resetAgentSimulation() {
+            agentSimulationData = { agents: [], history: [], params: {} };
+            coherenceChart.data.labels = [];
+            coherenceChart.data.datasets[0].data = [];
+            coherenceChart.update();
+            document.getElementById('agentGrid').innerHTML = '';
+            document.getElementById('coherenceValue').textContent = '0.00';
+            document.getElementById('roundValue').textContent = '0';
+            document.getElementById('interactionValue').textContent = '0';
+            document.getElementById('entropyValue').textContent = '0.00';
+            document.getElementById('convergenceStatus').textContent = '等待模擬';
+            addLog('agent', '模擬已重置', 'warning');
+        }
+
+        // ==========================================
+        // Dynamics Model
+        // ==========================================
+        let dynamicsSimulationData = {
+            trajectories: [],
+            params: {}
+        };
+
+        function runDynamicsSimulation() {
+            const initialProp = parseInt(document.getElementById('initialProp').value) / 100;
+            const socialPressure = parseInt(document.getElementById('socialPressure').value) / 10;
+            const prestigeBias = parseInt(document.getElementById('prestigeBias').value) / 100;
+            const noise = parseInt(document.getElementById('noise').value) / 1000;
+            const trajCount = parseInt(document.getElementById('trajCount').value);
+
+            dynamicsSimulationData = {
+                trajectories: [],
+                params: { initialProp, socialPressure, prestigeBias, noise, trajCount }
+            };
+
+            document.getElementById('statusText').textContent = '計算中...';
+            addLog('agent', `動力學模擬：${trajCount} 軌跡，初始=${initialProp}`, 'success');
+
+            const colors = ['#00d4aa', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899',
+                           '#10b981', '#6366f1', '#f43f5e', '#14b8a6', '#8b5cf6'];
+
+            dynamicsChart.data.labels = [];
+            dynamicsChart.data.datasets = [];
+
+            const nSteps = 200;
+            const labels = Array.from({length: nSteps + 1}, (_, i) => i);
+            dynamicsChart.data.labels = labels;
+
+            let phaseData = [];
+            let convergedToNew = 0;
+            let totalFinal = 0;
+            let convergenceSteps = [];
+
+            for (let t = 0; t < trajCount; t++) {
+                let x = initialProp + (Math.random() - 0.5) * 0.1 * initialProp;
+                x = Math.max(0.01, Math.min(0.99, x));
+                const trajectory = [x];
+                let converged = false;
+                let convergenceStep = nSteps;
+
+                for (let step = 0; step < nSteps; step++) {
+                    const fNew = Math.pow(x, socialPressure) + prestigeBias * x * (1 - x);
+                    const fOld = Math.pow(1 - x, socialPressure) + prestigeBias * (1 - x) * x;
+                    
+                    let dx = x * (1 - x) * (fNew - fOld) * 0.1;
+                    dx += (Math.random() - 0.5) * noise * 2;
+                    
+                    x = Math.max(0.001, Math.min(0.999, x + dx));
+                    trajectory.push(x);
+
+                    // Collect phase data
+                    if (step % 5 === 0) {
+                        phaseData.push({ x: trajectory[step], y: dx });
+                    }
+
+                    if (!converged && (x > 0.95 || x < 0.05)) {
+                        converged = true;
+                        convergenceStep = step;
+                    }
+                }
+
+                dynamicsSimulationData.trajectories.push(trajectory);
+                
+                if (trajectory[nSteps] > 0.5) convergedToNew++;
+                totalFinal += trajectory[nSteps];
+                convergenceSteps.push(convergenceStep);
+
+                dynamicsChart.data.datasets.push({
+                    label: `軌跡 ${t + 1}`,
+                    data: trajectory,
+                    borderColor: colors[t % colors.length],
+                    backgroundColor: 'transparent',
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2
+                });
+            }
+
+            // Update phase chart
+            phaseChart.data.datasets[0].data = phaseData;
+            phaseChart.update();
+
+            // Update stats
+            document.getElementById('finalPropValue').textContent = (totalFinal / trajCount).toFixed(3);
+            document.getElementById('convergedCount').textContent = `${convergedToNew}/${trajCount}`;
+            document.getElementById('avgSteps').textContent = Math.round(convergenceSteps.reduce((a,b) => a+b, 0) / trajCount);
+            
+            // Estimate critical point
+            const criticalEst = prestigeBias > 0 ? 
+                (1 / (1 + Math.pow(socialPressure, 1/socialPressure))).toFixed(2) : '~0.50';
+            document.getElementById('criticalPoint').textContent = criticalEst;
+            
+            document.getElementById('phaseStatus').textContent = 
+                convergedToNew > trajCount / 2 ? '新形式主導' : '舊形式主導';
+
+            dynamicsChart.update();
+            document.getElementById('statusText').textContent = '完成';
+        }
+
+        function resetDynamicsSimulation() {
+            dynamicsSimulationData = { trajectories: [], params: {} };
+            dynamicsChart.data.labels = [];
+            dynamicsChart.data.datasets = [];
+            dynamicsChart.update();
+            phaseChart.data.datasets[0].data = [];
+            phaseChart.update();
+            document.getElementById('finalPropValue').textContent = '-';
+            document.getElementById('convergedCount').textContent = '-';
+            document.getElementById('criticalPoint').textContent = '-';
+            document.getElementById('avgSteps').textContent = '-';
+            document.getElementById('phaseStatus').textContent = '等待模擬';
+        }
+
+        // ==========================================
+        // Construction Network
+        // ==========================================
+        class ConstructionNetwork {
+            constructor() {
+                this.nodes = new Map();
+                this.edges = [];
+                this.activation = new Map();
+                this.initializeNetwork();
+            }
+
+            initializeNetwork() {
+                // Abstract schema
+                this.addNode('Rhetorical-Question-Cx', {
+                    form: '[Q-word ... Q-word]',
+                    meaning: 'NEGATION + SPEAKER_ATTITUDE',
+                    schematicity: 0.9,
+                    frequency: 10,
+                    entrenchment: 0.8
+                });
+
+                // Semi-schematic
+                this.addNode('X-shenme-X', {
+                    form: '[VP 什麼 VP]',
+                    meaning: 'DISMISSIVE_NEGATION',
+                    schematicity: 0.6,
+                    frequency: 100,
+                    entrenchment: 0.7
+                });
+
+                // Concrete instances
+                this.addNode('chi-shenme-chi', {
+                    form: '吃什麼吃',
+                    meaning: 'STOP_EATING',
+                    schematicity: 0.1,
+                    frequency: 50,
+                    entrenchment: 0.5
+                });
+
+                this.addNode('kan-shenme-kan', {
+                    form: '看什麼看',
+                    meaning: 'STOP_LOOKING / CHALLENGE',
+                    schematicity: 0.1,
+                    frequency: 80,
+                    entrenchment: 0.6
+                });
+
+                this.addNode('shuo-shenme-shuo', {
+                    form: '說什麼說',
+                    meaning: 'STOP_TALKING',
+                    schematicity: 0.1,
+                    frequency: 40,
+                    entrenchment: 0.4
+                });
+
+                this.addNode('xiao-shenme-xiao', {
+                    form: '笑什麼笑',
+                    meaning: 'STOP_LAUGHING / CHALLENGE',
+                    schematicity: 0.1,
+                    frequency: 60,
+                    entrenchment: 0.5
+                });
+
+                // Inheritance links
+                this.addEdge('X-shenme-X', 'Rhetorical-Question-Cx', 'inheritance', 1.0);
+                this.addEdge('chi-shenme-chi', 'X-shenme-X', 'inheritance', 1.0);
+                this.addEdge('kan-shenme-kan', 'X-shenme-X', 'inheritance', 1.0);
+                this.addEdge('shuo-shenme-shuo', 'X-shenme-X', 'inheritance', 1.0);
+                this.addEdge('xiao-shenme-xiao', 'X-shenme-X', 'inheritance', 1.0);
+
+                // Horizontal similarity links
+                this.addEdge('chi-shenme-chi', 'kan-shenme-kan', 'similarity', 0.8);
+                this.addEdge('kan-shenme-kan', 'xiao-shenme-xiao', 'similarity', 0.9);
+                this.addEdge('shuo-shenme-shuo', 'xiao-shenme-xiao', 'similarity', 0.7);
+            }
+
+            addNode(name, props) {
+                this.nodes.set(name, { ...props, name });
+                this.activation.set(name, 0);
+            }
+
+            addEdge(from, to, type, weight) {
+                this.edges.push({ from, to, type, weight });
+                if (type === 'similarity') {
+                    this.edges.push({ from: to, to: from, type, weight });
+                }
+            }
+
+            spreadingActivation(startNode, decay, threshold) {
+                this.activation = new Map();
+                this.nodes.forEach((_, name) => this.activation.set(name, 0));
+                this.activation.set(startNode, 1.0);
+
+                const queue = [[startNode, 1.0]];
+                const visited = new Set();
+
+                while (queue.length > 0) {
+                    const [current, currentAct] = queue.shift();
+                    if (visited.has(current)) continue;
+                    visited.add(current);
+
+                    // Find outgoing edges
+                    this.edges.forEach(edge => {
+                        if (edge.from === current) {
+                            const newAct = currentAct * decay * edge.weight;
+                            if (newAct > threshold) {
+                                const existing = this.activation.get(edge.to) || 0;
+                                this.activation.set(edge.to, Math.max(existing, newAct));
+                                queue.push([edge.to, newAct]);
+                            }
+                        }
+                    });
+                }
+
+                return this.activation;
+            }
+
+            useConstruction(name, reinforceRate) {
+                if (this.nodes.has(name)) {
+                    const node = this.nodes.get(name);
+                    node.entrenchment = node.entrenchment + reinforceRate * (1 - node.entrenchment);
+                    node.frequency += 1;
+                }
+            }
+
+            getStats() {
+                let maxEntrench = 0;
+                this.nodes.forEach(node => {
+                    if (node.entrenchment > maxEntrench) maxEntrench = node.entrenchment;
+                });
+                return {
+                    nodeCount: this.nodes.size,
+                    edgeCount: this.edges.length / 2 + this.edges.filter(e => e.type === 'inheritance').length,
+                    maxEntrench
+                };
+            }
+        }
+
+        let constructionNetwork = new ConstructionNetwork();
+
+        function runSpreadingActivation() {
+            const startNode = document.getElementById('activateNode').value;
+            const decay = parseInt(document.getElementById('decay').value) / 100;
+            const threshold = parseInt(document.getElementById('threshold').value) / 100;
+
+            if (!constructionNetwork.nodes.has(startNode)) {
+                addLog('agent', `節點 ${startNode} 不存在`, 'warning');
+                return;
+            }
+
+            const activation = constructionNetwork.spreadingActivation(startNode, decay, threshold);
+            
+            let activeCount = 0;
+            activation.forEach(act => { if (act > 0) activeCount++; });
+            
+            document.getElementById('activeNodes').textContent = activeCount;
+            document.getElementById('statusText').textContent = '激活完成';
+            
+            updateConstructionList();
+            drawNetworkCanvas();
+            
+            addLog('agent', `從「${startNode}」擴散激活，${activeCount} 節點被激活`, 'success');
+        }
+
+        function useConstruction() {
+            const node = document.getElementById('activateNode').value;
+            const reinforceRate = parseInt(document.getElementById('reinforce').value) / 100;
+            
+            constructionNetwork.useConstruction(node, reinforceRate);
+            
+            const stats = constructionNetwork.getStats();
+            document.getElementById('maxEntrench').textContent = stats.maxEntrench.toFixed(2);
+            
+            updateConstructionList();
+            drawNetworkCanvas();
+            
+            addLog('agent', `使用構式「${node}」，固化度增強`, 'success');
+        }
+
+        function addNewConstruction() {
+            const form = document.getElementById('newCxForm').value.trim();
+            const meaning = document.getElementById('newCxMeaning').value.trim();
+            
+            if (!form || !meaning) {
+                addLog('agent', '請填寫形式和意義', 'warning');
+                return;
+            }
+
+            const name = form.replace(/什麼/g, '-shenme-').toLowerCase();
+            
+            constructionNetwork.addNode(name, {
+                form: form,
+                meaning: meaning,
+                schematicity: 0.1,
+                frequency: 1,
+                entrenchment: 0.1
+            });
+
+            constructionNetwork.addEdge(name, 'X-shenme-X', 'inheritance', 1.0);
+
+            // Add to select
+            const select = document.getElementById('activateNode');
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = form;
+            select.appendChild(option);
+
+            const stats = constructionNetwork.getStats();
+            document.getElementById('nodeCount').textContent = stats.nodeCount;
+            document.getElementById('edgeCount').textContent = stats.edgeCount;
+
+            updateConstructionList();
+            drawNetworkCanvas();
+
+            document.getElementById('newCxForm').value = '';
+            document.getElementById('newCxMeaning').value = '';
+            
+            addLog('agent', `新增構式「${form}」`, 'success');
+        }
+
+        function updateConstructionList() {
+            const list = document.getElementById('constructionList');
+            list.innerHTML = '';
+
+            const sorted = Array.from(constructionNetwork.nodes.values())
+                .sort((a, b) => (constructionNetwork.activation.get(b.name) || 0) - 
+                               (constructionNetwork.activation.get(a.name) || 0));
+
+            sorted.forEach(node => {
+                const act = constructionNetwork.activation.get(node.name) || 0;
+                const div = document.createElement('div');
+                div.className = `construction-node ${act > 0 ? 'active' : ''}`;
+                div.innerHTML = `
+                    <div class="cx-header">
+                        <span class="cx-name">${node.name}</span>
+                        <span class="cx-activation">${act.toFixed(3)}</span>
+                    </div>
+                    <div class="cx-form">${node.form}</div>
+                    <div class="cx-meaning">${node.meaning}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">
+                        圖式性: ${node.schematicity.toFixed(1)} | 頻率: ${node.frequency} | 固化: ${node.entrenchment.toFixed(2)}
+                    </div>
+                    <div class="activation-bar">
+                        <div class="activation-fill" style="width: ${act * 100}%"></div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function drawNetworkCanvas() {
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate positions
+            const positions = new Map();
+            const nodes = Array.from(constructionNetwork.nodes.values());
+            
+            // Layout: hierarchical by schematicity
+            const levels = {
+                high: nodes.filter(n => n.schematicity > 0.7),
+                mid: nodes.filter(n => n.schematicity > 0.3 && n.schematicity <= 0.7),
+                low: nodes.filter(n => n.schematicity <= 0.3)
+            };
+
+            const centerX = canvas.width / 2;
+            const padding = 80;
+
+            // Position high schematicity (top)
+            levels.high.forEach((node, i) => {
+                const x = centerX + (i - (levels.high.length - 1) / 2) * 150;
+                positions.set(node.name, { x, y: padding });
+            });
+
+            // Position mid schematicity (middle)
+            levels.mid.forEach((node, i) => {
+                const x = centerX + (i - (levels.mid.length - 1) / 2) * 150;
+                positions.set(node.name, { x, y: canvas.height / 2 });
+            });
+
+            // Position low schematicity (bottom)
+            levels.low.forEach((node, i) => {
+                const x = padding + (i * (canvas.width - 2 * padding) / Math.max(1, levels.low.length - 1));
+                positions.set(node.name, { x, y: canvas.height - padding });
+            });
+
+            // Draw edges
+            constructionNetwork.edges.forEach(edge => {
+                const from = positions.get(edge.from);
+                const to = positions.get(edge.to);
+                if (!from || !to) return;
+
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                
+                if (edge.type === 'inheritance') {
+                    ctx.strokeStyle = 'rgba(0, 212, 170, 0.4)';
+                    ctx.lineWidth = 2;
+                } else {
+                    ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([5, 5]);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+            });
+
+            // Draw nodes
+            nodes.forEach(node => {
+                const pos = positions.get(node.name);
+                if (!pos) return;
+
+                const act = constructionNetwork.activation.get(node.name) || 0;
+                const radius = 20 + node.frequency * 0.2;
+
+                // Glow effect for active nodes
+                if (act > 0) {
+                    const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, radius * 2);
+                    gradient.addColorStop(0, `rgba(0, 212, 170, ${act * 0.5})`);
+                    gradient.addColorStop(1, 'transparent');
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, radius * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                }
+
+                // Node circle
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+                
+                const baseColor = act > 0 ? 
+                    `rgba(0, 212, 170, ${0.3 + act * 0.7})` : 
+                    `rgba(136, 153, 170, ${0.2 + node.entrenchment * 0.3})`;
+                ctx.fillStyle = baseColor;
+                ctx.fill();
+                
+                ctx.strokeStyle = act > 0 ? '#00d4aa' : '#556677';
+                ctx.lineWidth = act > 0 ? 3 : 1;
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#e8edf5';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const label = node.form.length > 10 ? node.form.substring(0, 8) + '...' : node.form;
+                ctx.fillText(label, pos.x, pos.y + radius + 16);
+            });
+        }
+
+        function resetConstructionNetwork() {
+            constructionNetwork = new ConstructionNetwork();
+            const stats = constructionNetwork.getStats();
+            document.getElementById('nodeCount').textContent = stats.nodeCount;
+            document.getElementById('edgeCount').textContent = stats.edgeCount;
+            document.getElementById('activeNodes').textContent = '0';
+            document.getElementById('maxEntrench').textContent = stats.maxEntrench.toFixed(2);
+            
+            // Reset select options
+            const select = document.getElementById('activateNode');
+            select.innerHTML = `
+                <option value="kan-shenme-kan">看什麼看</option>
+                <option value="chi-shenme-chi">吃什麼吃</option>
+                <option value="X-shenme-X">X什麼X（半圖式）</option>
+                <option value="shuo-shenme-shuo">說什麼說</option>
+                <option value="xiao-shenme-xiao">笑什麼笑</option>
+            `;
+            
+            updateConstructionList();
+            drawNetworkCanvas();
+            addLog('agent', '構式網絡已重置', 'warning');
+        }
+
+        // ==========================================
+        // Utility Functions
+        // ==========================================
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function addLog(type, message, level = '') {
+            const log = document.getElementById('agentLog');
+            const time = new Date().toLocaleTimeString('zh-TW');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <span class="log-time">[${time}]</span>
+                <span class="log-msg ${level}">${message}</span>
+            `;
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 50 entries
+            while (log.children.length > 50) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        function exportData(type) {
+            let data;
+            if (type === 'agent') {
+                data = {
+                    type: 'Agent-Based Language Evolution',
+                    params: agentSimulationData.params,
+                    history: agentSimulationData.history,
+                    timestamp: new Date().toISOString()
+                };
+            } else if (type === 'dynamics') {
+                data = {
+                    type: 'Language Change Dynamics',
+                    params: dynamicsSimulationData.params,
+                    trajectories: dynamicsSimulationData.trajectories,
+                    timestamp: new Date().toISOString()
+                };
+            }
+
+            document.getElementById('exportDataContent').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('exportModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        function downloadData() {
+            const content = document.getElementById('exportDataContent').textContent;
+            const blob = new Blob([content], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `language_simulation_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyData() {
+            const content = document.getElementById('exportDataContent').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                addLog('agent', '資料已複製到剪貼簿', 'success');
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateConstructionList();
+            setTimeout(drawNetworkCanvas, 100);
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                if (document.getElementById('construction-tab').classList.contains('active')) {
+                    drawNetworkCanvas();
+                }
+            });
+        });
+
+        // Redraw network when tab becomes active
+        document.querySelector('[data-tab="construction"]').addEventListener('click', () => {
+            setTimeout(drawNetworkCanvas, 100);
+        });
+    </script>
+</body>
+</html>

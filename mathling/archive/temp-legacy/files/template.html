@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{HTML_LANG}}" data-lang="{{LANG}}">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{TITLE}} — 謝舒凱</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -147,48 +147,6 @@ li { margin-bottom: 0.35rem; line-height: 1.55; }
 .site-footer p { font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
 .site-footer a { color: var(--color-accent); text-decoration: none; }
 
-
-/* ═══ LANGUAGE SWITCH ═══ */
-.lang-switch { margin-left: auto; display: flex; border: 1px solid rgba(255,255,255,0.28); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
-.site-bar .lang-switch a { padding: 0.18rem 0.75rem; font-size: 0.76rem; font-weight: 500; letter-spacing: 0.04em; color: rgba(255,255,255,0.75); }
-.site-bar .lang-switch a.current { background: var(--color-accent-light); color: #fff; }
-.site-bar .lang-switch a:not(.current):hover { background: rgba(255,255,255,0.08); }
-
-/* ═══ 中文排版 ═══ */
-html[lang^="zh"] { --font-display: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif; --font-body: 'Source Sans 3', 'Noto Sans TC', sans-serif; }
-html[lang^="zh"] body { line-height: 1.9; letter-spacing: 0.015em; }
-html[lang^="zh"] p { hyphens: manual; }
-html[lang^="zh"] .epigraph p, html[lang^="zh"] .example-block p, html[lang^="zh"] .cover .subtitle { font-style: normal; }
-html[lang^="zh"] h2.chapter-title, html[lang^="zh"] h3 { letter-spacing: 0.02em; }
-html[lang^="zh"] .chapter-label, html[lang^="zh"] .nav-part-label { letter-spacing: 0.08em; }
-html[lang^="zh"] .nav-link { font-size: 0.8rem; }
-
-/* ═══ SUB-HEADINGS ═══ */
-h4 { font-family: var(--font-display); font-size: 1.08rem; font-weight: 600; color: var(--color-accent); margin: 1.7rem 0 0.6rem; line-height: 1.35; }
-
-/* ═══ INTUITION BOX ═══ */
-.intuition { background: var(--color-bg-warm); border: 1px solid var(--color-border); border-radius: 6px; padding: 1rem 1.3rem 0.4rem; margin: 1.5rem 0; }
-.intuition p { font-size: 0.97rem; }
-.box-label { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 0.45rem; }
-.deep-dive .box-label { color: var(--color-accent); }
-.deep-dive p:last-child, .intuition p:last-child { margin-bottom: 0.6rem; }
-
-/* ═══ FIGURES ═══ */
-figure.fig { margin: 1.8rem 0; }
-figure.fig svg, figure.fig img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
-figure.fig svg text { font-family: var(--font-body); }
-figure.fig figcaption { font-size: 0.82rem; color: var(--color-text-secondary); margin-top: 0.7rem; line-height: 1.55; text-align: left; }
-figure.fig figcaption b { color: var(--color-text); font-weight: 600; }
-
-/* ═══ TABLES ═══ */
-.tbl-wrap { overflow-x: auto; margin: 1.3rem 0 1.5rem; }
-table.tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; line-height: 1.5; }
-table.tbl th { text-align: left; font-weight: 600; color: var(--color-text); border-bottom: 1.5px solid var(--color-accent-light); padding: 0.45rem 0.6rem; }
-table.tbl td { border-bottom: 1px solid var(--color-border-light); padding: 0.45rem 0.6rem; vertical-align: top; color: var(--color-text-secondary); }
-table.tbl td:first-child { color: var(--color-text); font-weight: 500; }
-
-@media (max-width: 560px) { .site-bar nav { display: none; } }
-
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 960px) {
   .sidebar { transform: translateX(-100%); }
@@ -214,15 +172,11 @@ table.tbl td:first-child { color: var(--color-text); font-weight: 500; }
     <a href="https://loperntu.github.io/posts.html">Blog</a>
     <a href="https://loperntu.github.io/cv.html">CV</a>
     <a href="https://loperntu.github.io/iol/index.html">TOL</a>
-    <a href="#cover" class="current">{{UI_BOOK}}</a>
+    <a href="#cover" class="current">Book</a>
   </nav>
-  <div class="lang-switch" role="group" aria-label="Language / 語言">
-    <a href="{{EN_PAGE}}" data-lang="en" hreflang="en" class="{{EN_CURRENT}}">EN</a>
-    <a href="{{ZH_PAGE}}" data-lang="zh" hreflang="zh-Hant" class="{{ZH_CURRENT}}">中文</a>
-  </div>
 </header>
 
-<button class="menu-toggle" id="menuToggle" aria-label="{{UI_NAV_ARIA}}">☰</button>
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
 <div class="overlay" id="overlay"></div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -254,13 +208,13 @@ table.tbl td:first-child { color: var(--color-text); font-weight: 500; }
 {{BODY}}
 <footer class="site-footer">
   <p><em>{{TITLE}}</em> · {{DATE}}</p>
-  <p style="margin-top:0.4rem;">© 2026 <a href="https://loperntu.github.io/">Shu-Kai Hsieh</a> · {{UI_SOURCE}}: <code>{{SRC_NAME}}</code> → <code>build.py</code></p>
+  <p style="margin-top:0.4rem;">© 2026 <a href="https://loperntu.github.io/">Shu-Kai Hsieh</a> · Source: <code>book.md</code> → <code>build.py</code></p>
 </footer>
 </div>
 </div>
 </main>
 
-<button class="back-to-top" id="backToTop" aria-label="{{UI_TOP_ARIA}}">↑</button>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script>
 const sidebar=document.getElementById('sidebar'),menuToggle=document.getElementById('menuToggle'),overlay=document.getElementById('overlay');
@@ -278,15 +232,6 @@ document.querySelectorAll('.chapter').forEach(ch=>obs.observe(ch));
 let ticking=false;
 window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{updateActiveNav();updateProgress();backToTop.classList.toggle('show',window.scrollY>500);ticking=false;});ticking=true;}});
 updateActiveNav();updateProgress();
-
-// Language switch: keep the reader at the same chapter/section
-document.querySelectorAll('.lang-switch a').forEach(a=>{a.addEventListener('click',e=>{
-  if(a.classList.contains('current')){e.preventDefault();return;}
-  e.preventDefault();let id='';
-  document.querySelectorAll('.cover, .chapter, .chapter h3[id]').forEach(el=>{if(el.getBoundingClientRect().top<=120)id=el.id;});
-  try{localStorage.setItem('mathling-lang',a.dataset.lang);}catch(_){}
-  location.href=a.getAttribute('href')+(id?'#'+id:'');
-});});
 </script>
 </body>
 </html>

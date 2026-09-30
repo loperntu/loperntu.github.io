@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語言的幾何 — 謝舒凱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-bg: #FDFBF7;
+  --color-bg-warm: #F7F3EC;
+  --color-text: #2C2825;
+  --color-text-secondary: #6B635A;
+  --color-text-muted: #9E958A;
+  --color-accent: #6B4C3B;
+  --color-accent-light: #B08968;
+  --color-accent-bg: #F5EDE3;
+  --color-border: #E2DBD1;
+  --color-border-light: #EDE8E0;
+  --color-nav-bg: #2B2B2B;
+  --color-nav-text: #C0BAB2;
+  --color-nav-active: #E8CBA8;
+  --color-nav-hover: #F5EDE3;
+  --color-nav-heading: #8A8279;
+  --color-site-bar: #343a40;
+  --content-max: 720px;
+  --nav-width: 280px;
+  --site-bar-height: 46px;
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 17px; scroll-behavior: smooth; scroll-padding-top: calc(var(--site-bar-height) + 20px); -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.75; }
+::selection { background: var(--color-accent-light); color: #fff; }
+
+/* ═══ SITE TOP BAR — matches loperntu.github.io ═══ */
+.site-bar { position: fixed; top: 0; left: 0; right: 0; height: var(--site-bar-height); background: var(--color-site-bar); z-index: 200; display: flex; align-items: center; padding: 0 1.2rem; font-family: var(--font-body); font-size: 0.85rem; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+.site-bar a { color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.15s ease; }
+.site-bar a:hover { color: #fff; }
+.site-bar .site-name { font-weight: 600; font-size: 0.92rem; margin-right: 2rem; }
+.site-bar nav { display: flex; gap: 1.4rem; }
+.site-bar nav a.current { color: #fff; border-bottom: 2px solid var(--color-accent-light); padding-bottom: 2px; }
+
+/* ═══ BOOK SIDEBAR ═══ */
+.sidebar { position: fixed; top: var(--site-bar-height); left: 0; width: var(--nav-width); height: calc(100vh - var(--site-bar-height)); background: var(--color-nav-bg); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; transition: transform 0.4s var(--ease-out); scrollbar-width: thin; scrollbar-color: #4a4540 transparent; }
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-thumb { background: #4a4540; border-radius: 3px; }
+.sidebar-header { padding: 1.5rem 1.3rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+.sidebar-header .book-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: #F0E8DD; line-height: 1.3; }
+.sidebar-header .book-subtitle { font-size: 0.68rem; color: var(--color-nav-heading); margin-top: 0.3rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+.nav-body { padding: 0.8rem 0; flex: 1; }
+.nav-part-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-nav-heading); padding: 0.9rem 1.3rem 0.35rem; }
+.nav-link { display: block; padding: 0.3rem 1.3rem; font-size: 0.78rem; color: var(--color-nav-text); text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent; line-height: 1.4; }
+.nav-link:hover { color: var(--color-nav-hover); background: rgba(255,255,255,0.03); }
+.nav-link.active { color: var(--color-nav-active); border-left-color: var(--color-accent-light); background: rgba(255,255,255,0.04); }
+.nav-link .ch-num { font-variant-numeric: tabular-nums; opacity: 0.5; margin-right: 0.25em; font-size: 0.75rem; }
+
+.menu-toggle { display: none; position: fixed; top: calc(var(--site-bar-height) + 0.6rem); left: 0.8rem; z-index: 150; width: 40px; height: 40px; border: none; background: var(--color-nav-bg); color: #F0E8DD; border-radius: 8px; cursor: pointer; font-size: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 90; opacity: 0; transition: opacity 0.3s ease; }
+
+/* ═══ MAIN ═══ */
+.main { margin-left: var(--nav-width); margin-top: var(--site-bar-height); flex: 1; min-width: 0; }
+.content-wrapper { max-width: var(--content-max); margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+/* ═══ COVER ═══ */
+.cover { text-align: center; padding: 5rem 2rem 3.5rem; margin-top: var(--site-bar-height); position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 220%; background: radial-gradient(ellipse at 30% 20%, rgba(107,76,59,0.05) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(176,137,104,0.04) 0%, transparent 50%); pointer-events: none; }
+.cover-content { position: relative; z-index: 1; }
+.cover-ornament { font-size: 1.4rem; letter-spacing: 0.5em; color: var(--color-accent-light); margin-bottom: 1.8rem; opacity: 0; animation: fadeDown 0.8s var(--ease-out) 0.2s forwards; }
+.cover h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 600; line-height: 1.15; color: var(--color-text); opacity: 0; animation: fadeDown 0.8s var(--ease-out) 0.4s forwards; }
+.cover .subtitle { font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 400; font-style: italic; color: var(--color-text-secondary); margin-top: 0.7rem; opacity: 0; animation: fadeDown 0.8s var(--ease-out) 0.6s forwards; }
+.cover .author-line { font-size: 0.88rem; color: var(--color-text-secondary); margin-top: 1.2rem; opacity: 0; animation: fadeDown 0.8s var(--ease-out) 0.7s forwards; }
+.cover .edition { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-text-muted); margin-top: 0.8rem; font-weight: 500; opacity: 0; animation: fadeDown 0.8s var(--ease-out) 0.85s forwards; }
+.cover-rule { width: 50px; height: 1px; background: var(--color-accent-light); margin: 2rem auto 0; opacity: 0; animation: scaleIn 0.6s var(--ease-out) 1s forwards; }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+
+/* ═══ TYPOGRAPHY ═══ */
+.chapter { padding-top: 1.5rem; margin-bottom: 3.5rem; opacity: 0; transform: translateY(14px); transition: all 0.6s var(--ease-out); }
+.chapter.visible { opacity: 1; transform: translateY(0); }
+.chapter-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 0.4rem; }
+h2.chapter-title { font-family: var(--font-display); font-size: clamp(1.7rem, 3.2vw, 2.2rem); font-weight: 600; line-height: 1.2; color: var(--color-text); margin-bottom: 1.6rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--color-border); }
+h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--color-text); margin: 2.2rem 0 0.9rem; line-height: 1.3; }
+h3 .section-num { color: var(--color-accent-light); font-weight: 500; }
+p { margin-bottom: 1.1rem; text-align: justify; hyphens: auto; }
+
+/* ═══ EPIGRAPHS ═══ */
+.epigraph { margin: 0 0 2.2rem 0; padding: 1rem 0 1rem 1.4rem; border-left: 2px solid var(--color-accent-light); }
+.epigraph p { font-family: var(--font-display); font-size: 1.05rem; font-style: italic; color: var(--color-text-secondary); line-height: 1.55; margin-bottom: 0.3rem; text-align: left; }
+.epigraph .attribution { font-family: var(--font-body); font-size: 0.8rem; color: var(--color-text-muted); font-style: normal; }
+
+/* ═══ EXAMPLE BLOCKS ═══ */
+.example-block { background: var(--color-bg-warm); border-radius: 5px; padding: 1rem 1.3rem; margin: 1.3rem 0; border: 1px solid var(--color-border-light); }
+.example-block p { font-family: var(--font-display); font-size: 1.05rem; font-style: italic; text-align: center; color: var(--color-text); line-height: 1.55; margin-bottom: 0; }
+
+/* ═══ CODE ═══ */
+pre { background: #1E1E1E; color: #D4D4D4; border-radius: 6px; padding: 1rem 1.2rem; margin: 1.3rem 0; overflow-x: auto; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.55; border: 1px solid #333; }
+code { font-family: var(--font-mono); font-size: 0.88em; }
+p code, li code { background: var(--color-accent-bg); padding: 0.12em 0.35em; border-radius: 3px; color: var(--color-accent); }
+
+/* ═══ MATH ═══ */
+.katex-display { margin: 1.1rem 0 !important; overflow-x: auto; overflow-y: hidden; padding: 0.3rem 0; }
+.katex { font-size: 1.04em !important; }
+
+/* ═══ DEEP DIVE / NOTE ═══ */
+.deep-dive { background: linear-gradient(135deg, #F0EBE3 0%, #EDE7DC 100%); border-left: 3px solid var(--color-accent); border-radius: 0 5px 5px 0; padding: 1rem 1.3rem; margin: 1.5rem 0; font-size: 0.93rem; color: var(--color-text-secondary); }
+
+/* ═══ LISTS ═══ */
+ul, ol { margin: 0.7rem 0 1.1rem 1.4rem; }
+li { margin-bottom: 0.35rem; line-height: 1.55; }
+
+/* ═══ IMAGES ═══ */
+.chapter img { max-width: 100%; height: auto; border-radius: 6px; margin: 1.2rem 0; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+/* ═══ BIBLIOGRAPHY ═══ */
+.bib-section h3 { font-size: 1.1rem; color: var(--color-accent); margin: 1.8rem 0 0.7rem; }
+.bib-section p { font-size: 0.88rem; margin-bottom: 0.6rem; padding-left: 2em; text-indent: -2em; text-align: left; color: var(--color-text-secondary); line-height: 1.5; }
+
+/* ═══ PROGRESS BAR ═══ */
+.progress-bar { position: fixed; top: var(--site-bar-height); left: var(--nav-width); right: 0; height: 2px; background: var(--color-border-light); z-index: 80; }
+.progress-bar .progress-fill { height: 100%; background: var(--color-accent-light); width: 0%; transition: width 0.1s linear; }
+
+/* ═══ BACK TO TOP ═══ */
+.back-to-top { position: fixed; bottom: 1.8rem; right: 1.8rem; width: 40px; height: 40px; border: none; border-radius: 50%; background: var(--color-nav-bg); color: #F0E8DD; font-size: 1rem; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.15); z-index: 80; }
+.back-to-top.show { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-2px); }
+
+/* ═══ FOOTER ═══ */
+.site-footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid var(--color-border); margin-top: 3.5rem; }
+.site-footer p { font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
+.site-footer a { color: var(--color-accent); text-decoration: none; }
+
+
+/* ═══ LANGUAGE SWITCH ═══ */
+.lang-switch { margin-left: auto; display: flex; border: 1px solid rgba(255,255,255,0.28); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+.site-bar .lang-switch a { padding: 0.18rem 0.75rem; font-size: 0.76rem; font-weight: 500; letter-spacing: 0.04em; color: rgba(255,255,255,0.75); }
+.site-bar .lang-switch a.current { background: var(--color-accent-light); color: #fff; }
+.site-bar .lang-switch a:not(.current):hover { background: rgba(255,255,255,0.08); }
+
+/* ═══ 中文排版 ═══ */
+html[lang^="zh"] { --font-display: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif; --font-body: 'Source Sans 3', 'Noto Sans TC', sans-serif; }
+html[lang^="zh"] body { line-height: 1.9; letter-spacing: 0.015em; }
+html[lang^="zh"] p { hyphens: manual; }
+html[lang^="zh"] .epigraph p, html[lang^="zh"] .example-block p, html[lang^="zh"] .cover .subtitle { font-style: normal; }
+html[lang^="zh"] h2.chapter-title, html[lang^="zh"] h3 { letter-spacing: 0.02em; }
+html[lang^="zh"] .chapter-label, html[lang^="zh"] .nav-part-label { letter-spacing: 0.08em; }
+html[lang^="zh"] .nav-link { font-size: 0.8rem; }
+
+/* ═══ SUB-HEADINGS ═══ */
+h4 { font-family: var(--font-display); font-size: 1.08rem; font-weight: 600; color: var(--color-accent); margin: 1.7rem 0 0.6rem; line-height: 1.35; }
+
+/* ═══ INTUITION BOX ═══ */
+.intuition { background: var(--color-bg-warm); border: 1px solid var(--color-border); border-radius: 6px; padding: 1rem 1.3rem 0.4rem; margin: 1.5rem 0; }
+.intuition p { font-size: 0.97rem; }
+.box-label { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 0.45rem; }
+.deep-dive .box-label { color: var(--color-accent); }
+.deep-dive p:last-child, .intuition p:last-child { margin-bottom: 0.6rem; }
+
+/* ═══ FIGURES ═══ */
+figure.fig { margin: 1.8rem 0; }
+figure.fig svg, figure.fig img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+figure.fig svg text { font-family: var(--font-body); }
+figure.fig figcaption { font-size: 0.82rem; color: var(--color-text-secondary); margin-top: 0.7rem; line-height: 1.55; text-align: left; }
+figure.fig figcaption b { color: var(--color-text); font-weight: 600; }
+
+/* ═══ TABLES ═══ */
+.tbl-wrap { overflow-x: auto; margin: 1.3rem 0 1.5rem; }
+table.tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; line-height: 1.5; }
+table.tbl th { text-align: left; font-weight: 600; color: var(--color-text); border-bottom: 1.5px solid var(--color-accent-light); padding: 0.45rem 0.6rem; }
+table.tbl td { border-bottom: 1px solid var(--color-border-light); padding: 0.45rem 0.6rem; vertical-align: top; color: var(--color-text-secondary); }
+table.tbl td:first-child { color: var(--color-text); font-weight: 500; }
+
+@media (max-width: 560px) { .site-bar nav { display: none; } }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 960px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .overlay.open { display: block; opacity: 1; }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .main { margin-left: 0; }
+  .progress-bar { left: 0; }
+  .content-wrapper { padding: 1.2rem 1rem 4rem; }
+  .cover { padding: 4rem 1.2rem 2.5rem; }
+  .site-bar nav { gap: 0.8rem; }
+}
+@media (max-width: 600px) { html { font-size: 16px; } .cover h1 { font-size: 2rem; } .site-bar .site-name { margin-right: 1rem; font-size: 0.85rem; } }
+@media print { .sidebar, .menu-toggle, .overlay, .progress-bar, .back-to-top, .site-bar { display: none !important; } .main { margin: 0; } .cover { margin-top: 0; } .chapter { opacity: 1; transform: none; page-break-inside: avoid; } body { font-size: 11pt; } }
+</style>
+</head>
+<body>
+<!-- ═══ SITE TOP BAR ═══ -->
+<header class="site-bar">
+  <a href="https://loperntu.github.io/index.html" class="site-name">謝舒凱</a>
+  <nav>
+    <a href="https://loperntu.github.io/index.html">Home</a>
+    <a href="https://loperntu.github.io/posts.html">Blog</a>
+    <a href="https://loperntu.github.io/cv.html">CV</a>
+    <a href="https://loperntu.github.io/iol/index.html">TOL</a>
+    <a href="#cover" class="current">本書</a>
+  </nav>
+  <div class="lang-switch" role="group" aria-label="Language / 語言">
+    <a href="book.html" data-lang="en" hreflang="en" class="">EN</a>
+    <a href="book-zh.html" data-lang="zh" hreflang="zh-Hant" class="current">中文</a>
+  </div>
+</header>
+
+<button class="menu-toggle" id="menuToggle" aria-label="切換目錄">☰</button>
+<div class="overlay" id="overlay"></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ═══ BOOK SIDEBAR ═══ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="book-title">語言的幾何</div>
+    <div class="book-subtitle">語言的數學之旅——從邏輯到流形</div>
+  </div>
+  <div class="nav-body">
+        <a class="nav-link" href="#cover">封面</a>
+    <a class="nav-link" href="#preface">序言</a>
+    <div class="nav-part-label">第一部 · 離散的基礎</div>
+    <a class="nav-link" href="#ch1"><span class="ch-num">1</span> 為什麼語言學家需要數學？</a>
+    <a class="nav-link" href="#ch2"><span class="ch-num">2</span> 集合、關係與語言的架構</a>
+    <a class="nav-link" href="#ch3"><span class="ch-num">3</span> 邏輯與自然語言的形式語意學</a>
+    <a class="nav-link" href="#ch4"><span class="ch-num">4</span> 形式語言、自動機與喬姆斯基階層</a>
+    <a class="nav-link" href="#ch5"><span class="ch-num">5</span> 圖、樹與語言結構</a>
+    <div class="nav-part-label">第二部 · 機率與代數的轉向</div>
+    <a class="nav-link" href="#ch6"><span class="ch-num">6</span> 機率、資訊與語言的統計</a>
+    <a class="nav-link" href="#ch7"><span class="ch-num">7</span> 線性代數：語言的向量空間</a>
+    <a class="nav-link" href="#ch8"><span class="ch-num">8</span> 神經網路與學習表徵的數學</a>
+    <div class="nav-part-label">第三部 · 幾何轉向</div>
+    <a class="nav-link" href="#ch9"><span class="ch-num">9</span> 意義的幾何：語意空間中的流形</a>
+    <a class="nav-link" href="#ch10"><span class="ch-num">10</span> 拓撲與語言空間的形狀</a>
+    <a class="nav-link" href="#ch11"><span class="ch-num">11</span> 語言地景上的微分幾何</a>
+    <a class="nav-link" href="#ch12"><span class="ch-num">12</span> 範疇論：數學語言學的數學</a>
+    <div class="nav-part-label">第四部 · 複雜系統與反思</div>
+    <a class="nav-link" href="#ch13"><span class="ch-num">13</span> 作為複雜適應系統的語言</a>
+    <a class="nav-link" href="#ch14"><span class="ch-num">14</span> 哲學反思：數學告訴了我們什麼關於語言的事？</a>
+    <div class="nav-part-label">附錄與書目</div>
+    <a class="nav-link" href="#bibliography">參考書目</a>
+    <a class="nav-link" href="#appendix">數學符號與慣例</a>
+    <a class="nav-link" href="#glossary">中英術語對照</a>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+<div style="width:100%">
+<section class="cover" id="cover">
+  <div class="cover-content">
+    <div class="cover-ornament">◆ ◇ ◆</div>
+    <h1>語言的幾何</h1>
+    <div class="subtitle">語言的數學之旅——從邏輯到流形</div>
+    <div class="author-line">謝舒凱</div>
+    <div class="edition">草稿 — 2026 年 2 月</div>
+    <div class="cover-rule"></div>
+  </div>
+</section>
+<div class="content-wrapper">
+<article class="chapter" id="preface">
+  <div class="chapter-label">序言</div>
+  <h2 class="chapter-title">序言</h2>
+<div class="epigraph">
+  <p>「自然之書是以數學的語言寫成的。」</p>
+  <div class="attribution">— 伽利略（Galileo Galilei）</div>
+</div>
+<p>這本書講述一個已經展開了一個多世紀的故事：數學如何形塑了我們對人類語言的理解，而語言又如何反過來催生出新的數學分支。本書寫給這樣的語言學家：隱約感覺到數學工具在自己的領域中日益不可或缺，卻又被眼前五花八門的數學框架嚇退。本書也寫給那些好奇的數學家與電腦科學家：自然語言——這個最具人性的現象——為何總能源源不絕地產生如此豐富的數學問題？</p>
+<p>本書的敘事主線，是一場引人注目的思想遷徙。在二十世紀的大半時間裡，語言的數學本質上是離散的：集合、關係、邏輯式、樹與自動機。語言被切分成範疇、剖析成階層結構，並透過形式邏輯的透鏡加以分析。這個離散範式成就非凡——生成語法、形式語意學、剖析的計算複雜度理論——至今依然深具意義。</p>
+<p>然而從 1990 年代開始，並在 2010 年代急遽加速，一套新的數學詞彙開始滲透語言學與自然語言處理：向量、矩陣、張量、機率分布，最終是流形、曲率與拓撲。分布語意學、詞嵌入，乃至大型語言模型的興起，不只是為語言學家的工具箱添加了新工具；它從根本上改變了「表徵」一個語言物件的意義。一個詞不再只是樹上的一個節點或詞典中的一個條目——它是高維空間中的一個點，而詞與詞之間的關係是幾何關係：距離、角度、投影，以及彎曲的路徑。</p>
+<p>本書希望讓這整條軌跡清晰可見、易於理解。每一個數學框架都不是以抽象方式引入，而是透過催生它的語言現象來介紹。每一個定義都配有語言學的例子；每一個定理都放在它所回答的語言問題脈絡中。目標不是培養數學家，而是培養能夠真正讀懂數學語言學各個時代原典文獻的語言學家。</p>
+<p>本書特別著重於<strong>幾何轉向</strong>：現代語言模型的內部表徵如何展現出幾何結構——流形、纖維叢、曲率——並與數學及認知科學中的深刻問題相連。這是前沿，也是語言學、數學與哲學交會最具挑戰性的地方。</p>
+<p>本書可以當作一部歷史敘事依序閱讀，也可以把個別章節當作特定數學框架的獨立導論來查閱。全書我試圖向萊布尼茲所揭示的精神致敬：<em>Calculemus</em>——讓我們來計算吧。但我也試圖尊重另一個互補的洞見：語言不只是形式物件，更是一種活生生的、具身的、社會的現象；它的數學投影無論多麼優美，永遠只是局部的。</p>
+<div class="deep-dive"><div class="box-label">關於中文版</div>
+<p>本中文版譯自英文版，並與英文版同步增補。數學式、例句與參考文獻保留原文；專有名詞首次出現時附上英文，完整對照見〈附錄 B：中英術語對照〉。頁面右上角可隨時切換中英文，切換時會停留在同一章節。</p>
+</div>
+</article>
+
+
+<article class="chapter" id="ch1">
+  <div class="chapter-label">第 1 章</div>
+  <h2 class="chapter-title">為什麼語言學家需要數學？</h2>
+<div class="epigraph">
+  <p>「語言是一種自由創造的過程；它的法則與原則是固定的，但運用這些生成原則的方式卻是自由的、變化無窮的。」</p>
+  <div class="attribution">— 喬姆斯基（Noam Chomsky）</div>
+</div>
+<h3 id="sec-1-1"><span class="section-num">1.1</span> 數學在語言學中「不合理的有效性」</h3>
+<p>先談談所謂的<strong>語言學家的難題</strong>：<em>語言結構太嚴密，無法僅靠描述；變異太多，又無法僅靠記憶。</em></p>
+<p>語言學一直游走於兩種誘惑之間。第一種是把語言視為事實的清單——詞彙、構式與例外的列表。第二種是把語言視為純粹的抽象——規則、語法與邏輯系統。兩者都不足夠。語言既是離散的，也是適應的：它有硬性限制（不合語法確實存在），也有軟性梯度（用法在變遷、意義在漂移、規範在演化）。</p>
+<p>1960 年，物理學家維格納（Eugene Wigner）發表了一篇著名的文章〈數學在自然科學中不合理的有效性〉。他驚嘆於：那些因其內在之美而發展出來的數學結構，竟一再以驚人的精確度描述了物理世界。語言學也呈現出類似的謎題：為什麼描述物理學中對稱群、或純數學中拓撲空間的同一批數學結構，也能照亮人類語言的結構？</p>
+<p>一個答案是：語言和物理世界一樣，在多個尺度上展現結構——音韻模式、構詞規律、句法階層、語意組合性、篇章連貫——而數學的核心正是關於結構的科學。但更深層的答案或許是：語言處在生物、認知與社會三者交會的獨特位置。</p>
+<p>它是一個能生成無限變化的有限系統，一個編碼連續意義的離散符號系統，一個（一個詞接著一個詞的）局部過程卻能創造全域的連貫。這些張力——有限與無限、離散與連續、局部與全域——恰恰是數學的不同分支被發展出來所要處理的張力。</p>
+<p>當我們提出一些問題，迫使我們明確說出 (i) 什麼算是分析的對象、(ii) 什麼算是「相同」、(iii) 我們允許哪些運算時，數學就登場了。這三個選擇——<strong>對象、等價、運算</strong>——默默決定了哪些解釋成為可能。</p>
+<ul>
+  <li><strong>對象。</strong> 我們研究的是什麼？字串、樹、特徵束、意義、言談步驟，還是學習得來的表徵？</li>
+  <li><strong>等價。</strong> 兩個對象在什麼情況下「就我們的目的而言是相同的」？音韻學家可能把兩個音素變體視為「同一個音位」；語意學家可能把兩個表達式視為「同一個意義」（透過相互蘊涵）；言談分析者可能把兩個話語視為「同一個步驟」（相同的更新效果）。每一種選擇都把紛雜的世界切分成等價類。這不是記帳，而是理論本身。</li>
+  <li><strong>運算。</strong> 對象如何組合與轉換？<code>串接（concatenation）、合併（merge）、特徵統合（unification）、函數應用、更新、推論</code>，以及在現代至關重要的——表徵空間中的<code>平滑變換</code>。</li>
+</ul>
+<p>這個三元組正是數學一再回歸的原因：一旦你對「對象／等價／運算」做出承諾，你就已經置身於結構的國度。</p>
+<p>以英語詞形 <em>bank</em> 為例。它可以指金融機構，也可以指河岸。如果我們把「詞義」視為每個詞形對應單一物件，<em>bank</em> 就成了問題。如果我們把意義視為在受語境制約的詞義上的一個分布，<em>bank</em> 就成了一個結構化的物件（一族點、一個混合分布，或一張用法的圖）。本書會一再回到 <em>bank</em>，不是因為它特別，而是因為它迫使我們決定「一個意義」到底是什麼。</p>
+<h3 id="sec-1-2"><span class="section-num">1.2</span> 領域的地圖</h3>
+<p>應用於語言的數學框架可以沿著幾條軸線來整理。一條軸線從<strong>離散</strong>延伸到<strong>連續</strong>：離散端有集合論、邏輯、形式語言理論與圖論；連續端有微積分、微分幾何與拓撲。另一條軸線從<strong>代數</strong>延伸到<strong>幾何</strong>：代數強調運算與變換，幾何強調空間與距離。第三條軸線從<strong>確定性</strong>延伸到<strong>機率性</strong>。數學語言學的歷史可以讀成沿著這三條軸線的漸進移動——從離散—代數—確定性，走向連續—幾何—機率性——儘管每一個較早的框架都仍保有其意義。</p>
+<p>這樣的移動不只是風潮所致，而是反映了對語言本質的真實發現。離散框架以非凡的精確度捕捉了語言的組合性與構成性，卻難以處理梯度性、歧義、語境依賴，以及實際使用中語言的紛雜。機率與幾何框架更自然地回應了這些挑戰，代價則是另一種形式的精確。</p>
+<h3 id="sec-1-3"><span class="section-num">1.3</span> 語言學的動機：我們想要表徵什麼？</h3>
+<p>在一頭栽進數學之前，值得先停下來問：我們希望數學表徵捕捉語言的哪些面向？考慮一個看似簡單的英語句子：</p>
+<div class="example-block"><p><em>The bank by the river collapsed after the flood.</em>（河邊的堤岸在洪水後崩塌了。）</p></div>
+<p>即使是這樣一個平凡的句子，也牽涉一連串的語言現象，而每一種都曾是數學建模的對象。在<strong>音韻</strong>層次，句子是組織成音節、音步與語調短語的音段序列——這種結構可以用自主音段表徵與韻律格來建模。在<strong>構詞</strong>層次，像 "collapsed" 這樣的詞有內部結構（collapse + -ed），適合用有限狀態方法分析。在<strong>句法</strong>層次，句子具有階層式的詞組結構，決定了修飾語的轄域（"by the river" 修飾的是 "bank"，而非 "collapsed"）。在<strong>語意</strong>層次，"bank" 在金融機構與河岸之間有歧義，而 "by the river" 幫助消解歧義。在<strong>語用</strong>層次，時間狀語 "after the flood" 預設了洪水確實發生過。每一個分析層次都邀請不同的數學工具。</p>
+<h3 id="sec-1-4"><span class="section-num">1.4</span> 本書的架構</h3>
+<p><strong>第一部</strong>（第 2–5 章）涵蓋古典的離散基礎：集合論與關係、形式邏輯、形式語言理論與自動機，以及圖論。<strong>第二部</strong>（第 6–8 章）介紹機率與代數的轉向：機率論與資訊理論，以及支撐現代計算方法的線性代數與神經網路。<strong>第三部</strong>（第 9–12 章）專注於幾何轉向：語意空間中的流形、拓撲方法、語言流形上的微分幾何，以及統攝這一切的範疇論。<strong>第四部</strong>（第 13–14 章）走向複雜性與反思。第 13 章把語言視為一個<em>複雜適應系統</em>，運用動態系統理論、代理人基模型、網路拓撲，以及量子複雜度結果 $\text{MIP}^* = \text{RE}$，說明語言不是靜態結構，而是自組織的、湧現的、本質上不可化約的複雜現象。第 14 章退後一步，對這一整串數學框架所揭示的語言本質進行哲學反思。</p>
+<p>每一章都依循共同的模式：先從催生該數學框架的語言問題出發，以語言學例子介紹必要的數學概念，說明框架如何被應用，最後討論它的侷限，以及引向下一個框架的問題。</p>
+<h3 id="sec-1-5"><span class="section-num">1.5</span> 如何閱讀本書中的數學</h3>
+<p>本書的每一條公式，都是某人對語言提出的某個問題的答案。一個有用的習慣是分三遍來讀。第一遍讀<strong>圖像</strong>：它描述的是什麼形狀、空間或過程？第二遍讀<strong>句子</strong>：用白話把公式唸出來（「在已知前面各詞的條件下，下一個詞的機率」）。第三遍才讀<strong>符號</strong>：檢查每個記號如何對應那個句子的某一部分。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>把公式想成一段高度壓縮的文字。你讀一段艱深的哲學論文時，不會盯著個別字母看；你會找它的主詞、動詞和主張。公式有同樣的組成：被定義的東西（等號 $=$ 的左邊）、運算（動詞：加總、應用、合成），以及限制（必須成立的條件）。如果你能用自己的話轉述它，你就理解它了。</p>
+</div>
+<p>因此，每一章都先介紹概念——通常透過一個比喻或一張圖——然後才給出形式化的陳述。比喻是鷹架，不是證明：每個比喻都被挑選成<em>在要緊之處是對的</em>；比喻失效的地方，本文會明白指出。標示為<strong>直覺</strong>的方框提供圖像；標示為<strong>深入</strong>的方框提供可選讀的技術細節，初讀時可以跳過。</p>
+</article>
+
+
+<article class="chapter" id="ch2">
+  <div class="chapter-label">第 2 章</div>
+  <h2 class="chapter-title">集合、關係與語言的架構</h2>
+<div class="epigraph">
+  <p>「集合是一個容許自己被思考為「一」的「多」。」</p>
+  <div class="attribution">— 康托爾（Georg Cantor）</div>
+</div>
+<h3 id="sec-2-1"><span class="section-num">2.1</span> 集合的語言</h3>
+<p>應用於語言最基本的數學框架是集合論。當索緒爾（Ferdinand de Saussure）區分 <em>langue</em>（抽象的語言系統）與 <em>parole</em>（實際的言語）時，他已隱含地運用了集合論的思維：<em>langue</em> 是一個符號的集合，每個符號被定義為能指與所指的配對。當音韻學家界定一個語言的母音系統時，他們是在指定一個集合。當構詞學家列出一個動詞的屈折詞形變化表時，他們是在建構一個從特徵束集合到詞形集合的函數。</p>
+<p>形式上，集合就是一群相異物件的聚集，這些物件稱為元素或成員。我們寫 $a \in A$ 表示 $a$ 是集合 $A$ 的元素。集合論的力量不在於這個簡單的定義，而在於我們能在集合上定義的運算與關係：聯集（$\cup$）、交集（$\cap$）、補集、笛卡兒積（$\times$），以及關鍵的概念——函數作為一種特殊的關係。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>集合就像一位拿著賓客名單的門口保全。保全不在乎賓客抵達的順序，也不在乎名單上同一個名字被寫了幾次；它唯一能回答的問題是：「你在名單上，還是不在？」這種樸素正是重點。集合拒絕編碼順序、重複或內部結構，讓我們得以單獨處理我們想談的那一件事：<em>成員資格</em>。所有更豐富的東西——序列、樹、函數——都是之後在其上添加結構而建成的。</p>
+</div>
+<p>笛卡兒積 $A \times B$ 值得有一張自己的圖像：它是<em>所有可能配對</em>構成的方格，就像一份菜單，列出從 $A$ 欄選一道前菜、從 $B$ 欄選一道主菜的所有組合。語言學的大部分工作都發生在這樣的方格裡。詞典把形式與意義配對；詞形變化表把特徵束與詞形配對；語法規則把一個範疇與它可能的展開配對。真正有意思的主張，永遠是關於方格中<em>哪些</em>格子實際被用到。</p>
+<h3 id="sec-2-2"><span class="section-num">2.2</span> 作為集合論的音韻特徵系統</h3>
+<p>集合論在語言學中最早、也最優雅的應用之一，是雅柯布森（Jakobson）、范特（Fant）與哈勒（Halle）於 1952 年提出、後由喬姆斯基與哈勒（1968）在《英語語音模式》（<em>The Sound Pattern of English</em>）中加以精煉的區別特徵理論。在這個框架中，每個音位都由一組二元特徵刻畫。例如，英語子音 /p/ 可描述為：</p>
+$$\text{/p/} = \{[{+}\text{consonantal}],\; [{-}\text{sonorant}],\; [{-}\text{continuant}],\; [{-}\text{voiced}],\; [{+}\text{labial}]\}$$
+<p>音韻學的自然類——在音韻規則中表現一致的音群——對應於特徵集合的交集。清塞音類 $\{p, t, k\}$ 就是 $[{-}\text{voiced}]$ 與 $[{-}\text{continuant}]$ 兩者的交集。</p>
+<figure class="fig">
+<svg viewBox="0 0 520 250" width="520" role="img" aria-label="Natural class as intersection of feature sets">
+<ellipse cx="200" cy="125" rx="150" ry="100" fill="#B08968" fill-opacity="0.12" stroke="#B08968" stroke-width="1.5"/>
+<ellipse cx="320" cy="125" rx="150" ry="100" fill="#7A9CC6" fill-opacity="0.12" stroke="#7A9CC6" stroke-width="1.5"/>
+<text x="110" y="42" font-size="14" fill="#6B4C3B" font-weight="600">[−帶聲]</text>
+<text x="350" y="42" font-size="14" fill="#4A6E9A" font-weight="600">[−持續]</text>
+<text x="105" y="120" font-size="16" fill="#2C2825">f  s  ʃ</text><text x="118" y="146" font-size="16" fill="#2C2825">θ  h</text>
+<text x="372" y="120" font-size="16" fill="#2C2825">b  d  g</text><text x="385" y="146" font-size="16" fill="#2C2825">m  n</text>
+<text x="222" y="132" font-size="20" fill="#2C2825" font-weight="600">p  t  k</text>
+<text x="260" y="240" font-size="12" fill="#6B635A" text-anchor="middle">清塞音 = [−帶聲] ∩ [−持續]</text>
+</svg>
+<figcaption><b>圖 2.1</b>　自然類就是交集。每個特徵值挑出一組音段；清塞音恰好是同時落在兩個圓內的音段。像 {p, s, g} 這樣的組合無法透過特徵集合的交集切分出來——而它們在音韻規則中也確實很少一起表現。</figcaption>
+</figure>
+<p>這個集合論的觀點有深遠的後果。它預測：並非任意的音位組合都能在音韻規則中充當自然類；只有能以特徵規格的交集來定義的組合才行。這個預測大致獲得跨語言資料的證實，這構成了一項證據，顯示特徵系統反映了語音在認知表徵中某種真實的東西。</p>
+<h3 id="sec-2-3"><span class="section-num">2.3</span> 關係：從詞形變化表到階層</h3>
+<p>集合 $A$ 上的一個關係 $R$ 是笛卡兒積 $A \times A$ 的一個子集。不同類型的關係——自反、對稱、遞移、反對稱——為不同種類的語言結構建模。等價關係（自反、對稱、遞移）把集合切分成等價類，這正是構詞學中聚合關係所做的事：拉丁語所有名詞形式的集合，可以切分成各個變格類，每一類包含遵循相同屈折模式的名詞。</p>
+<p>把這些性質並排，並各自用一個熟悉的語言關係來檢驗，會很有幫助：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>性質</th><th>白話檢驗</th><th>具備此性質的語言關係</th><th>……以及不具備的</th></tr>
+<tr><td>自反</td><td>每個東西都與自己有此關係</td><td>「與……屬於同一變格類」</td><td>「在……之前」（沒有詞在自己之前）</td></tr>
+<tr><td>對稱</td><td>若 $a$ 與 $b$ 有此關係，則 $b$ 與 $a$ 亦然</td><td>「與……押韻」</td><td>「是……的下位詞」</td></tr>
+<tr><td>遞移</td><td>關係可以串連：$a \to b \to c$ 推得 $a \to c$</td><td>樹中的「支配」</td><td>「是……的近義詞」（串連會漂移：<em>big → large → generous</em>）</td></tr>
+<tr><td>反對稱</td><td>只有相同者之間才能互相有此關係</td><td>「是……的下位詞或與之相同」</td><td>「與……共現」</td></tr>
+</table></div>
+<p>近義關係不具遞移性這一點值得停下來思考。它是一個早期警訊：意義是<em>有梯度的</em>、<em>局部的</em>：相似性存在於鄰近者之間，卻不會無限傳遞。我們會在第 7 章與第 9 章以幾何事實的形式再次遇見這個現象——在那裡，意義空間中的「接近」是距離問題，而距離並不會沿著鏈條簡單相加。</p>
+<p>偏序（自反、反對稱、遞移）為階層結構建模。詞彙語意學中的下位關係（is-a）構成一個偏序："dog" 是 "animal" 的下位詞，"animal" 又是 "living thing" 的下位詞。這產生了一種格（lattice）結構，已在 WordNet（Miller, 1995）等框架中被形式化。音韻學的特徵幾何把特徵組織成階層樹，是偏序在語言學中的另一個實例。</p>
+<h3 id="sec-2-4"><span class="section-num">2.4</span> 函數與組合性</h3>
+<p>函數 $f: A \to B$ 為集合 $A$ 的每個元素指派集合 $B$ 中恰好一個元素。函數是形式語意學的核心：一個複雜表達式的意義，是其組成部分意義的函數。在我們將於第 3 章詳細探討的蒙太古（Montague）框架中，像 "runs quickly" 這樣的動詞詞組，其意義是透過把副詞 "quickly" 所指涉的函數，應用到 "runs" 所指涉的函數上而算出來的。整個組合語意學的事業，都建立在函數合成這一數學概念之上。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>函數是一台自動販賣機。按下一個按鈕（輸入），恰好掉出一件商品（輸出）。兩個不同的按鈕可以掉出同一種零食——這是允許的。絕不允許的是：同一個按鈕隨機掉出兩種不同的零食。這個「恰好一個輸出」的條件，正是合成之所以可靠的原因：如果每一步都是一台販賣機，那麼一連串步驟也是一台販賣機。</p>
+</div>
+<p>這個圖像立刻照亮了一個構詞現象。屈折詞形變化表是一個從特徵束到詞形的函數，例如拉丁語 <em>amāre</em>「愛」的 $f(\langle \text{1sg}, \text{pres} \rangle) = \textit{amō}$。<strong>合併（syncretism）</strong>——不同格子共用同一形式，如英語 <em>put</em> 同時充當現在式、過去式與分詞——不過是觀察到這個函數<em>不是單射</em>：好幾個按鈕掉出同一種零食。反過來，<strong>冗餘形式（overabundance）</strong>（<em>dreamed</em> / <em>dreamt</em>）則是詞形變化表根本不成其為函數的地方，語言學家必須決定要豐富輸出（一組形式），還是拆分輸入（語體、方言）。</p>
+<p>函數的概念也是結構主義聚合替換觀念的基礎。兩個表達式如果能在相同語境中互相替換，它們就屬於同一句法範疇——也就是說，若把它們視為從左語境到右語境的函數，它們具有相同的定義域與值域。這個由哈里斯（Zellig Harris）、其後由範疇語法學家形式化的洞見，把集合論的函數空間直接連結到句法範疇。</p>
+<h3 id="sec-2-5"><span class="section-num">2.5</span> 侷限與前路</h3>
+<p>集合論為描述語言的靜態架構——其清單、範疇與關係——提供了強大的詞彙。但對於在這些結構上運作的動態過程，它說得相對很少：語音如何隨語境改變、句子如何被生成、意義如何被計算。為此，我們需要更具表達力的邏輯與代數框架，這是接下來幾章的主題。儘管如此，集合論仍是之後所有形式體系的通用語；我們遇到的每一個數學框架都建立在它的基礎上。</p>
+</article>
+
+
+<article class="chapter" id="ch3">
+  <div class="chapter-label">第 3 章</div>
+  <h2 class="chapter-title">邏輯與自然語言的形式語意學</h2>
+<div class="epigraph">
+  <p>「我的語言的界限，就是我的世界的界限。」</p>
+  <div class="attribution">— 維根斯坦（Ludwig Wittgenstein）</div>
+</div>
+<h3 id="sec-3-1"><span class="section-num">3.1</span> 從亞里斯多德到蒙太古：作為意義語言的邏輯</h3>
+<p>把邏輯應用於自然語言，其淵源可以追溯到亞里斯多德的三段論。但現代紀元始於弗雷格（Gottlob Frege）的《概念文字》（<em>Begriffsschrift</em>, 1879），它引入了謂詞邏輯——一種足以表達像 "Every linguist admires some mathematician"（每位語言學家都欽佩某位數學家）這類量化陳述的形式語言。弗雷格的洞見是：自然語言句子具有被其表層形式所遮蔽的內部邏輯結構。"Every linguist admires some mathematician" 在兩種讀法之間有歧義：</p>
+$$\forall x\bigl[\mathrm{Linguist}(x) \to \exists y[\mathrm{Mathematician}(y) \wedge \mathrm{Admires}(x,y)]\bigr]$$
+$$\exists y\bigl[\mathrm{Mathematician}(y) \wedge \forall x[\mathrm{Linguist}(x) \to \mathrm{Admires}(x,y)]\bigr]$$
+<p>兩者的差別在於全稱量詞與存在量詞的相對轄域——這個區別有深遠的語意後果，卻在表層句法中看不見。</p>
+<figure class="fig">
+<svg viewBox="0 0 560 220" width="560" role="img" aria-label="Two scope readings">
+<text x="140" y="22" font-size="13" fill="#6B4C3B" font-weight="600" text-anchor="middle">∀ > ∃（表層轄域）</text>
+<text x="420" y="22" font-size="13" fill="#6B4C3B" font-weight="600" text-anchor="middle">∃ > ∀（逆轉轄域）</text>
+<circle cx="80" cy="70" r="6" fill="#B08968"/><text x="66" y="74" font-size="12" fill="#2C2825" text-anchor="end">L1</text><circle cx="80" cy="120" r="6" fill="#B08968"/><text x="66" y="124" font-size="12" fill="#2C2825" text-anchor="end">L2</text><circle cx="80" cy="170" r="6" fill="#B08968"/><text x="66" y="174" font-size="12" fill="#2C2825" text-anchor="end">L3</text><circle cx="200" cy="70" r="6" fill="#7A9CC6"/><text x="214" y="74" font-size="12" fill="#2C2825" text-anchor="start">M1</text><circle cx="200" cy="120" r="6" fill="#7A9CC6"/><text x="214" y="124" font-size="12" fill="#2C2825" text-anchor="start">M2</text><circle cx="200" cy="170" r="6" fill="#7A9CC6"/><text x="214" y="174" font-size="12" fill="#2C2825" text-anchor="start">M3</text>
+<g stroke="#6B4C3B" stroke-width="1.4" fill="none"><line x1="86" y1="70" x2="192" y2="120"/><line x1="86" y1="120" x2="192" y2="170"/><line x1="86" y1="170" x2="192" y2="70"/></g>
+<circle cx="360" cy="70" r="6" fill="#B08968"/><text x="346" y="74" font-size="12" fill="#2C2825" text-anchor="end">L1</text><circle cx="360" cy="120" r="6" fill="#B08968"/><text x="346" y="124" font-size="12" fill="#2C2825" text-anchor="end">L2</text><circle cx="360" cy="170" r="6" fill="#B08968"/><text x="346" y="174" font-size="12" fill="#2C2825" text-anchor="end">L3</text><circle cx="480" cy="120" r="6" fill="#7A9CC6"/><text x="494" y="124" font-size="12" fill="#2C2825">M</text>
+<g stroke="#6B4C3B" stroke-width="1.4" fill="none"><line x1="366" y1="70" x2="473" y2="118"/><line x1="366" y1="120" x2="473" y2="120"/><line x1="366" y1="170" x2="473" y2="122"/></g>
+<text x="140" y="208" font-size="12" fill="#6B635A" text-anchor="middle">每位語言學家各自挑選</text>
+<text x="420" y="208" font-size="12" fill="#6B635A" text-anchor="middle">所有人共同的一位數學家</text>
+<line x1="280" y1="40" x2="280" y2="190" stroke="#E2DBD1"/>
+</svg>
+<figcaption><b>圖 3.1</b>　轄域就是「誰先選」。左圖中，全稱量詞先選：對每一位語言學家（L），我們接著可以自由挑選一位（可能各不相同的）被欽佩的數學家（M）。右圖中，存在量詞先選：一位數學家先被固定，每位語言學家都必須欽佩同一個人。右邊的情境蘊涵左邊的情境，反之則不然。</figcaption>
+</figure>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>一個聽出差別的好方法：量詞轄域是一場有出手順序的遊戲。在 $\forall x\,\exists y$ 中，挑戰者先任意點名一位語言學家，然後你才能點名一位數學家——所以你的答案可以依語言學家而定。在 $\exists y\,\forall x$ 中，你必須在看到任何語言學家<em>之前</em>就承諾一位數學家。後出手比較容易；這就是逆轉轄域讀法在邏輯上較強的原因。</p>
+</div>
+<h3 id="sec-3-2"><span class="section-num">3.2</span> 命題邏輯：最簡單的片段</h3>
+<p>命題邏輯處理非真即假的句子，以及組合它們的連接詞：否定（$\lnot$）、合取（$\wedge$）、析取（$\vee$）、蘊涵（$\to$）與雙條件（$\leftrightarrow$）。在自然語言中，它們（不完美地）對應於 "not"、"and"、"or"、"if...then" 與 "if and only if"。這種對應的不完美，一直是形式語用學中最具生產力的謎題之一。自然語言的 "or" 在會話語境中通常是排他的（"You can have coffee or tea"，咖啡或茶擇一），而邏輯的 $\vee$ 是相容的。自然語言的 "if...then" 帶有實質條件句 $\to$ 所沒有的預設與會話含義。</p>
+<p>現代的標準解答來自格萊斯（Grice, 1975）："or" 的<em>語意</em>是相容的，排他性則是一種<em>語用</em>推論。如果說話者想表達「兩者皆可」，他本可以用更強的詞 "and"；選擇較弱的 "or"，說話者便邀請聽者推論出「並非兩者皆可」。這是一種<strong>等級含義（scalar implicature）</strong>，而且可以被取消（"You can have coffee or tea — or both, if you like"），這是真值條件式的蘊涵做不到的。清晰的邏輯核心與彈性的推論層之間的分工，是本書中反覆出現的設計模式。</p>
+<p>儘管有這些錯配，命題邏輯仍為理解句子意義的真值條件核心奠定了基礎。一個複合句的真值表界定了它為真的可能世界集合——這是一個集合論物件，把邏輯連回第 2 章的框架。</p>
+<h3 id="sec-3-3"><span class="section-num">3.3</span> 謂詞邏輯與自然語言語意學</h3>
+<p>一階謂詞邏輯在命題邏輯之上加入了變項、謂詞、量詞（$\forall$ 與 $\exists$）以及變項約束的機制。這正是蒙太古（Richard Montague）在 1970 年代初期的里程碑論文中所使用的數學語言，他主張自然語言可以用與形式語言同等的數學嚴謹度來處理。蒙太古的〈普通英語中量化的恰當處理〉（"The Proper Treatment of Quantification in Ordinary English", 1973）展示了：英語的一個片段可以透過型別化 λ 演算與內涵邏輯，被賦予完全組合式的模型論語意。</p>
+<p>蒙太古語法的關鍵一步是使用型別化的函數。每個句法範疇都被指派一個語意型別：</p>
+$$\begin{aligned}
+\text{專有名詞} &: e \quad \text{（個體）} \\
+\text{句子} &: t \quad \text{（真值）} \\
+\text{不及物動詞詞組} &: \langle e, t \rangle \quad \text{（函數：個體} \to \text{真值）} \\
+\text{及物動詞} &: \langle e, \langle e, t \rangle \rangle
+\end{aligned}$$
+<p>"John walks" 的意義是把函數 $\llbracket \text{walks} \rrbracket$（型別 $\langle e, t \rangle$）應用到個體 $\llbracket \text{John} \rrbracket$（型別 $e$）上而算出，得到一個真值。這種由型別驅動的組合，是數學函數理論應用於語言最優雅的例子之一。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>語意型別就像插頭與插座的形狀。型別為 $\langle e, t \rangle$ 的表達式是一個等待 $e$ 形插頭的插座；一插上，就輸出一個 $t$。及物動詞 $\langle e, \langle e, t \rangle \rangle$ 是一個插座，吃進一個插頭後變成另一個插座。只有形狀吻合時組合才會成功——這也是型別錯配之所以是診斷工具的原因：如果什麼都插不上，語意學就必須假設一個隱藏的運算（型別轉換），否則句子就無法解讀。</p>
+</div>
+<h3 id="sec-3-4"><span class="section-num">3.4</span> λ 演算：組合性的黏著劑</h3>
+<p>λ 演算由邱奇（Alonzo Church）於 1930 年代發明，提供了一套定義與應用函數的記法。在形式語意學中，它扮演把詞義黏合成詞組意義的「黏著劑」。及物動詞 "loves" 可以表示為 $\lambda x.\lambda y.\,\mathrm{Loves}(y, x)$。要計算 "loves Mary" 的意義，我們進行 $\beta$ 化簡：</p>
+$$(\lambda x.\lambda y.\,\mathrm{Loves}(y, x))(\mathrm{Mary}) = \lambda y.\,\mathrm{Loves}(y, \mathrm{Mary})$$
+<p>得到的表達式——一個從個體到真值的函數——就是動詞詞組 "loves Mary" 的意義。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>λ 項就是一張有空格的表單。$\lambda x.\,\mathrm{Loves}(x, \mathrm{Mary})$ 讀作：「＿＿愛 Mary。」$\lambda x$ 宣告哪個空格可以填，而 $\beta$ 化簡不過就是把一個名字寫進空格。沒有什麼更神祕的事；這套記法只是在有好幾個空格時，幫我們記住<em>哪一個</em>空格被填了。</p>
+</div>
+<p>λ 抽象也能處理更複雜的現象，例如關係子句。關係子句 "who loves Mary" 指涉愛 Mary 的個體所成的集合，表示為 $\lambda x.\,\mathrm{Loves}(x, \mathrm{Mary})$。當它與普通名詞 "man" 結合時，結果是兩個集合的交集：</p>
+$$\lambda x\bigl[\mathrm{Man}(x) \wedge \mathrm{Loves}(x, \mathrm{Mary})\bigr]$$
+<p>這種數學上的優雅令人驚嘆：集合交集、函數應用與變項約束共同協作，為任意複雜的構式產生正確的意義。</p>
+<h3 id="sec-3-5"><span class="section-num">3.5</span> 模態邏輯與可能世界</h3>
+<p>自然語言充滿了模態："must"、"might"、"can"、"should"、"necessarily"、"possibly"。模態邏輯在古典邏輯之上加入運算子 $\Box$（必然）與 $\Diamond$（可能），並在一組由可及關係相連的可能世界上加以詮釋。句子 "John might be a spy"（John 可能是間諜）在現實世界為真，若且唯若存在某個可及的可能世界，其中 John 是間諜。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>想像一疊透明的地圖，每一張呈現世界可能的一種樣貌。可及關係告訴你，從你所在之處，可以參考哪些地圖。「必須 $p$」（$\Box p$）是說 $p$ 在你可參考的<em>每一張</em>地圖上都成立；「可能 $p$」（$\Diamond p$）是說它在<em>至少一張</em>上成立。不同種類的模態，就是對哪些地圖可以參考的不同規則：<em>知識</em>模態的「必定」參考與你所知相容的地圖；<em>義務</em>模態的「必須」參考規則被遵守的地圖。同一副邏輯骨架，配上不同的可及關係，便產生不同的模態意義。</p>
+</div>
+<p>可能世界框架在形式語意學中極為豐產。它為條件句（"If kangaroos had no tails, they would topple over" 需要評估一個反事實情境）、態度動詞（"John believes that it is raining" 牽涉 John 的信念世界）以及時態（"John will arrive" 牽涉對未來時間的量化）提供了分析。其數學結構——克里普克框架 $\langle W, R, V \rangle$（Kripke, 1963），由世界集合 $W$、可及關係 $R \subseteq W \times W$ 與賦值函數 $V$ 組成——是第 2 章所介紹的關係結構的又一實例。</p>
+<h3 id="sec-3-6"><span class="section-num">3.6</span> 超越一階邏輯：廣義量詞</h3>
+<p>自然語言的量化遠不止 "every" 與 "some"。像 "most"、"few"、"more than half"、"exactly three" 這樣的限定詞，無法在一階謂詞邏輯中表達。由巴懷斯與庫柏（Barwise & Cooper, 1981）發展的廣義量詞理論，把限定詞視為集合之間的關係：</p>
+<ul>
+  <li><strong>Every：</strong> $\llbracket\text{every}\rrbracket(A)(B) = 1 \iff A \subseteq B$</li>
+  <li><strong>Most：</strong> $\llbracket\text{most}\rrbracket(A)(B) = 1 \iff |A \cap B| > |A \setminus B|$</li>
+  <li><strong>No：</strong> $\llbracket\text{no}\rrbracket(A)(B) = 1 \iff A \cap B = \varnothing$</li>
+  <li><strong>Exactly $n$：</strong> $\llbracket\text{exactly } n\rrbracket(A)(B) = 1 \iff |A \cap B| = n$</li>
+</ul>
+<p>廣義量詞框架揭示了一個引人注目的跨語言共性：自然語言的限定詞具有<strong>保守性（conservativity）</strong>，亦即 $D(A)(B) \Leftrightarrow D(A)(A \cap B)$。這個在所有已知語言中都成立的保守性共性，是對可能人類語言空間的一個數學限制——這是數學照亮語言共性最令人驚嘆的例子之一。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>保守性有一個簡單的直覺：要判斷 "Every student smokes"（每個學生都抽菸）是否為真，你只需要看學生。非學生——抽菸與否——都無關緊要。形式上，$D(A)(B)$ 只取決於 $A$ 以及 $B$ 落在 $A$ 之內的那一部分。要體會這有多強，想像一個假想的限定詞 <em>nall</em>，使得 "Nall students smoke" 意為「每個<em>不是</em>學生的人都抽菸」。作為集合之間的關係，它完全可以定義，但沒有任何人類語言有這樣的詞（Keenan & Stavi, 1986）。數學描述了一個比語言實際使用的大得多的可能意義空間——而共性是關於語言佔據了其中哪個區域的主張。</p>
+</div>
+<h3 id="sec-3-7"><span class="section-num">3.7</span> 以邏輯為基礎的方法之侷限</h3>
+<p>儘管優雅，邏輯方法在語意學上仍面臨持續的挑戰。模糊性（"John is tall"）、梯度性（"This sentence is grammatical"）、語境依賴（"enough"——對什麼目的而言足夠？）、隱喻（"Time flies"），以及詞義的開放性，都難以安放在古典邏輯清晰的二元框架中。這些挑戰催生了各種擴充——模糊邏輯、程度語意學、動態語意學、情境語意學——但它們也催生了一種根本不同的數學取徑：第二部與第三部的幾何與機率框架。邏輯的組合精確性與實際語言使用的彈性梯度之間的張力，可以說是意義之數學研究的核心張力。</p>
+</article>
+
+
+<article class="chapter" id="ch4">
+  <div class="chapter-label">第 4 章</div>
+  <h2 class="chapter-title">形式語言、自動機與喬姆斯基階層</h2>
+<div class="epigraph">
+  <p>「Colorless green ideas sleep furiously.（無色的綠色概念狂怒地睡著。）」</p>
+  <div class="attribution">— 喬姆斯基（Noam Chomsky）</div>
+</div>
+<h3 id="sec-4-1"><span class="section-num">4.1</span> 生成的事業</h3>
+<p>1957 年，喬姆斯基出版《句法結構》（<em>Syntactic Structures</em>），開啟了一場語言學革命，其數學基礎至今仍居於這個領域的核心。喬姆斯基的關鍵洞見是：一個語言可以被定義為一個由形式語法所生成的字串集合——一組有限的規則，遞迴地產生無限多個合式的表達式。這個觀點把語言學直接連結到由圖靈（Turing）、波斯特（Post）與克萊尼（Kleene）所發展的計算數學理論。</p>
+<p>形式語法 $G$ 是一個四元組 $\langle V, \Sigma, R, S \rangle$，其中 $V$ 是非終端符號的有限集合，$\Sigma$ 是終端符號（字母表）的有限集合，$R$ 是產生規則的有限集合，$S \in V$ 是起始符號。由 $G$ 生成的語言 $L(G)$，是所有能從 $S$ 反覆套用 $R$ 中規則推導出來的終端符號字串的集合。</p>
+<p>一個極小的語法能讓這件事具體起來。給定規則 $S \to NP\ VP$、$NP \to \textit{Det}\ N$、$VP \to V$，以及詞彙規則 $\textit{Det} \to \text{the}$、$N \to \text{dog}$、$V \to \text{barks}$，推導</p>
+$$S \Rightarrow NP\ VP \Rightarrow \textit{Det}\ N\ VP \Rightarrow \text{the}\ N\ VP \Rightarrow \text{the dog}\ VP \Rightarrow \text{the dog barks}$$
+<p>一次改寫一個符號，直到只剩下詞。語法是一份食譜；推導是按照它做出的一道菜。一旦某條規則能重新引入它自己的左側符號（例如 $NP \to NP\ PP$），遞迴便登場了：一本有限的食譜就能描述無限多道菜。</p>
+<h3 id="sec-4-2"><span class="section-num">4.2</span> 喬姆斯基階層</h3>
+<p>喬姆斯基階層依產生規則的形式對形式語法分類，得到四種生成能力遞增的型別。第 3 型（正規）語法等價於有限狀態自動機，生成像 $a^n$ 這樣的語言。第 2 型（上下文無關）語法等價於下推自動機，生成像 $a^n b^n$ 這樣需要配對依存關係的語言。第 1 型（上下文相關）與第 0 型（無限制）語法的能力依次更強，其中第 0 型等價於圖靈機。</p>
+<figure class="fig">
+<svg viewBox="0 0 560 300" width="560" role="img" aria-label="Chomsky hierarchy">
+<rect x="10" y="10" width="540" height="280" rx="18" fill="#F7F3EC" stroke="#9E958A"/>
+<rect x="40" y="48" width="480" height="234" rx="16" fill="#F5EDE3" stroke="#B08968"/>
+<rect x="70" y="86" width="420" height="188" rx="14" fill="#EDE3D6" stroke="#B08968" stroke-dasharray="5 4"/>
+<rect x="100" y="124" width="360" height="142" rx="12" fill="#E6EDF4" stroke="#7A9CC6"/>
+<rect x="130" y="172" width="300" height="86" rx="10" fill="#E3EEE8" stroke="#8CB4A0"/>
+<text x="24" y="32" font-size="12.5" fill="#2C2825" font-weight="600">第 0 型 · 遞迴可枚舉 — 圖靈機</text>
+<text x="54" y="70" font-size="12.5" fill="#2C2825" font-weight="600">第 1 型 · 上下文相關 — 線性有界自動機</text>
+<text x="84" y="108" font-size="12.5" fill="#6B4C3B" font-weight="600">輕度上下文相關 — TAG、CCG（自然語言句法？）</text>
+<text x="114" y="146" font-size="12.5" fill="#2C2825" font-weight="600">第 2 型 · 上下文無關 — 下推自動機（堆疊）</text>
+<text x="144" y="194" font-size="12.5" fill="#2C2825" font-weight="600">第 3 型 · 正規 — 有限狀態自動機</text>
+<text x="144" y="214" font-size="11.5" fill="#6B635A">例：aⁿ、(ab)*、多數音韻規則</text>
+<text x="144" y="232" font-size="11.5" fill="#6B635A">記憶：固定數量的狀態</text>
+<text x="114" y="164" font-size="11.5" fill="#6B635A">例：aⁿbⁿ、巢狀嵌入</text>
+</svg>
+<figcaption><b>圖 4.1</b>　以巢狀類別呈現的喬姆斯基階層。每一圈都能做到內圈所能做的一切，再多一些——而那「多一些」永遠是記憶的問題。虛線圈標示喬希（Joshi）的輕度上下文相關類，是目前對自然語言句法所在位置的最佳猜測。</figcaption>
+</figure>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>這個階層最好理解為一道<strong>記憶</strong>的階梯。有限狀態自動機就像一個只記得自己站在屋子哪個房間的人：它能依循模式，卻無法無限制地計數。下推自動機多了一疊盤子：每遇到一個左括號就放下一個盤子，每遇到一個右括號就拿走一個，所以它能檢查 $a^n b^n$——但只能依「後進先出」的順序。線性有界自動機可以重讀並改寫整個輸入，而圖靈機則有無限的草稿紙。問「語言位於哪裡？」，就是在問「語法需要多少、以及什麼形狀的記憶？」</p>
+</div>
+<p>數學語言學中最熱切的問題一直是：自然語言落在這個階層的哪裡？喬姆斯基很早就主張自然語言不是正規的——也就是說，無法由有限狀態語法生成。他著名的例子涉及中心嵌入：英語允許像 "The cat the dog the rat bit chased ran" 這樣的句子，它需要追蹤巢狀的依存關係（cat–ran、dog–chased、rat–bit），而有限狀態裝置無法處理。</p>
+<div class="deep-dive"><div class="box-label">深入：抽取引理</div>
+<p>要如何<em>證明</em>一個語言不是正規的？關鍵是<strong>抽取引理（pumping lemma）</strong>，其想法就是鴿籠原理。一台有 $p$ 個狀態的有限狀態機器，讀取長度超過 $p$ 的字串時，必定會重複造訪某個狀態——它繞了一圈。它在那一圈上讀到的東西可以被重複（「抽取」）任意多次，而機器不會察覺。形式上：若 $L$ 是正規語言，則存在 $p$，使得每個 $|w| \ge p$ 的 $w \in L$ 都能拆成 $w = xyz$，滿足 $|xy| \le p$、$|y| \ge 1$，且對所有 $i \ge 0$ 都有 $xy^iz \in L$。在 $a^n b^n$ 中抽取 $a$ 會破壞它與 $b$ 的平衡，因此 $a^n b^n$ 不是正規的——任何具有無界深度中心嵌入的語言也都不是。</p>
+</div>
+<h3 id="sec-4-3"><span class="section-num">4.3</span> 超越上下文無關：輕度上下文相關語言</h3>
+<p>1985 年，希伯（Stuart Shieber, 1985）證明了瑞士德語中的交叉序列依存——賓格與與格賓語必須以交叉的模式與各自的動詞配對——無法由任何上下文無關語法生成。這確立了自然語言至少是輕度上下文相關的。這個術語由喬希（Aravind Joshi）提出，用來描述一類語法——包括樹接合語法（TAG）、組合範疇語法（CCG）與線性索引語法——它們比上下文無關語法稍強，卻遠弱於完整的上下文相關語法。</p>
+<figure class="fig">
+<svg viewBox="0 0 520 250" width="520" role="img" aria-label="Nested versus cross-serial dependencies">
+<text x="10" y="20" font-size="12.5" fill="#6B4C3B" font-weight="600">巢狀（英語中心嵌入）：堆疊順序即可處理</text>
+<g transform="translate(20,0)"><text x="40" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">cat</text><text x="120" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">dog</text><text x="200" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">rat</text><text x="280" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">bit</text><text x="360" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">chased</text><text x="440" y="118" font-size="12.5" fill="#2C2825" text-anchor="middle">ran</text><path d="M40 100 A200 70 0 0 1 440 100" fill="none" stroke="#B08968" stroke-width="1.6"/><path d="M120 100 A120 70 0 0 1 360 100" fill="none" stroke="#B08968" stroke-width="1.6"/><path d="M200 100 A40 40 0 0 1 280 100" fill="none" stroke="#B08968" stroke-width="1.6"/></g>
+<text x="10" y="148" font-size="12.5" fill="#4A6E9A" font-weight="600">交叉序列（瑞士德語）：弧線交叉——單一堆疊不夠</text>
+<g transform="translate(20,0)"><text x="40" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">d'chind</text><text x="120" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">em Hans</text><text x="200" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">es huus</text><text x="280" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">lönd</text><text x="360" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">hälfe</text><text x="440" y="244" font-size="12.5" fill="#2C2825" text-anchor="middle">aastriiche</text><path d="M40 226 A120 70 0 0 1 280 226" fill="none" stroke="#7A9CC6" stroke-width="1.6"/><path d="M120 226 A120 70 0 0 1 360 226" fill="none" stroke="#7A9CC6" stroke-width="1.6"/><path d="M200 226 A120 70 0 0 1 440 226" fill="none" stroke="#7A9CC6" stroke-width="1.6"/></g>
+</svg>
+<figcaption><b>圖 4.2</b>　為什麼依存的形狀很重要。巢狀的弧線依開啟的相反順序關閉，這正是堆疊所提供的。在瑞士德語子句「（……我們）讓孩子們幫 Hans 粉刷房子」中，每個名詞詞組以<em>相同</em>順序與其動詞進行格位配對，因此弧線交叉。要處理無界多的交叉，單一堆疊是不夠的。</figcaption>
+</figure>
+<p>輕度上下文相關語言具有幾項吸引人的性質：它們能生成自然語言中的交叉序列依存，具有多項式時間的剖析複雜度，而且其結構描述是樹（或稍加豐富的樹）。喬希猜想：人類語言恰好就是輕度上下文相關語言這一類——這是一個關於普遍語法計算複雜度的數學假說。</p>
+<h3 id="sec-4-4"><span class="section-num">4.4</span> 音韻與構詞中的有限狀態方法</h3>
+<p>句法需要上下文無關或輕度上下文相關的能力，音韻與構詞卻被證明可以用階層中最弱的一類很好地建模：正規語言與有限狀態轉換器。這個由卡普蘭（Ronald Kaplan）與凱（Martin Kay, 1994）形式化的洞見是：大多數音韻規則都可以編譯成有限狀態轉換器——一種讀入輸入字串、產出輸出字串，且只用有界記憶運作的裝置。</p>
+<p>在構詞學中，有限狀態方法取得了非凡的成功。柯斯肯涅米（Kimmo Koskenniemi）的雙層構詞學（1983）把詞的底層形式與表層形式之間的關係，建模為一組平行的有限狀態限制。這種方法能處理芬蘭語、土耳其語等黏著語的複雜構詞現象，並促成了數十種語言的實用構詞分析器的開發。</p>
+<h3 id="sec-4-5"><span class="section-num">4.5</span> 作為認知模型的自動機</h3>
+<p>自動機與認知之間的連結不只是類比。心理語言學中的有限狀態假說——人類句子處理以有限記憶運作，因此本質上是有限狀態的——既有人辯護，也有人攻擊。雖然人類句法無界的遞迴能力反對嚴格的有限狀態處理，但心理語言學證據顯示，深度中心嵌入的句子實際上無法處理，這意味著人類剖析器在實務上是在喬姆斯基階層的一個有界區域內運作的。</p>
+<p>能力（語法原則上能生成什麼）與表現（處理器實際上能處理什麼）之間的張力，直接對應到階層中不同層級之間的數學區別。這個張力會在本書中一再出現，特別是當我們遇到神經網路語言模型時：它們原則上是有限狀態機器（受參數數量所限），卻能近似更強大計算裝置的行為。</p>
+<h3 id="sec-4-6"><span class="section-num">4.6</span> 侷限與前路</h3>
+<p>喬姆斯基階層衡量的是<strong>弱生成能力</strong>：語法能產生哪些<em>字串集合</em>。語言學家通常在意更多——<strong>強生成能力</strong>，即指派給這些字串的<em>結構</em>。兩個語法可能生成相同的字串，卻指派不同的樹，而其中只有一個能支撐正確的語意。這就是為什麼下一章要從字串轉向結構本身：樹與圖。而且，由於這個階層是類別式的——一個字串要嘛在語言中，要嘛不在——它對於第二部將處理的梯度判斷與頻率效應無話可說。</p>
+</article>
+
+
+<article class="chapter" id="ch5">
+  <div class="chapter-label">第 5 章</div>
+  <h2 class="chapter-title">圖、樹與語言結構</h2>
+<div class="epigraph">
+  <p>「可能性的分岔之樹，是對實在最深刻的圖像。」</p>
+  <div class="attribution">— 多伊奇（David Deutsch）</div>
+</div>
+<h3 id="sec-5-1"><span class="section-num">5.1</span> 樹：句法的典型表徵</h3>
+<p>如果有一個數學物件能象徵現代語言學，那就是樹。從喬姆斯基的詞組結構樹到依存樹，從音韻的韻律樹到由語意型別驅動的推導樹，樹狀圖無所不在。數學上，樹是一個連通的無環圖——一組由邊相連的節點，任兩個節點之間恰好只有一條路徑。</p>
+<figure class="fig">
+<svg viewBox="0 0 500 340" width="500" role="img" aria-label="Constituency tree and dependency tree">
+<defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#7A9CC6"/></marker></defs>
+<text x="0" y="14" font-size="12" fill="#6B635A">成分（詞組結構）樹</text>
+<text x="275" y="34" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">S</text><text x="120" y="68" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">NP</text><text x="430" y="98" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">VP</text><text x="237" y="98" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">PP</text><text x="285" y="128" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">NP</text>
+<text x="50" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">Det</text><text x="120" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">N</text><text x="190" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">P</text><text x="250" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">Det</text><text x="320" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">N</text><text x="430" y="160" font-size="12" fill="#6B4C3B" text-anchor="middle" font-weight="600">V</text>
+<line x1="275" y1="38" x2="120" y2="55" stroke="#B08968" stroke-width="1.2"/><line x1="275" y1="38" x2="430" y2="85" stroke="#B08968" stroke-width="1.2"/><line x1="120" y1="72" x2="50" y2="147" stroke="#B08968" stroke-width="1.2"/><line x1="120" y1="72" x2="120" y2="147" stroke="#B08968" stroke-width="1.2"/><line x1="120" y1="72" x2="237" y2="85" stroke="#B08968" stroke-width="1.2"/><line x1="237" y1="102" x2="190" y2="147" stroke="#B08968" stroke-width="1.2"/><line x1="237" y1="102" x2="285" y2="115" stroke="#B08968" stroke-width="1.2"/><line x1="285" y1="132" x2="250" y2="147" stroke="#B08968" stroke-width="1.2"/><line x1="285" y1="132" x2="320" y2="147" stroke="#B08968" stroke-width="1.2"/><line x1="430" y1="102" x2="430" y2="147" stroke="#B08968" stroke-width="1.2"/>
+<text x="50" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">The</text><text x="120" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">bank</text><text x="190" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">by</text><text x="250" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">the</text><text x="320" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">river</text><text x="430" y="186" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">collapsed</text>
+<line x1="0" y1="206" x2="500" y2="206" stroke="#E2DBD1"/>
+<text x="0" y="226" font-size="12" fill="#6B635A">依存樹（Universal Dependencies 風格）</text>
+<path d="M430 300 A155 58 0 0 0 120 300" fill="none" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="275" y="238" font-size="10.5" fill="#4A6E9A" text-anchor="middle">nsubj</text><path d="M120 300 A35 35 0 0 0 50 300" fill="none" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="85" y="261" font-size="10.5" fill="#4A6E9A" text-anchor="middle">det</text><path d="M120 300 A100 58 0 0 1 320 300" fill="none" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="220" y="238" font-size="10.5" fill="#4A6E9A" text-anchor="middle">nmod</text><path d="M320 300 A65 58 0 0 0 190 300" fill="none" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="255" y="238" font-size="10.5" fill="#4A6E9A" text-anchor="middle">case</text><path d="M320 300 A35 35 0 0 0 250 300" fill="none" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="285" y="261" font-size="10.5" fill="#4A6E9A" text-anchor="middle">det</text>
+<line x1="430" y1="236" x2="430" y2="296" stroke="#7A9CC6" stroke-width="1.5" marker-end="url(#ah)"/><text x="436" y="246" font-size="10.5" fill="#4A6E9A">root</text>
+<text x="50" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">The</text><text x="120" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">bank</text><text x="190" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">by</text><text x="250" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">the</text><text x="320" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">river</text><text x="430" y="318" font-size="13" fill="#2C2825" text-anchor="middle" font-style="italic">collapsed</text>
+</svg>
+<figcaption><b>圖 5.1</b>　同一個句子的兩張圖。成分樹把詞組成巢狀的詞組；它的內部節點是範疇。依存樹完全沒有詞組節點：每一條弧都連接一個中心語與一個依附語，結構完全由「誰依附於誰」來承載。注意在兩張圖中，"by the river" 都附著於 <em>bank</em>，而非 <em>collapsed</em>。</figcaption>
+</figure>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>句法樹就像一張組織圖。除了主管之外，每位員工都恰好有一位直屬上司（一個母節點）；上司可以有好幾位下屬（子節點）；沒有人能是自己上司的上司（無環）。從這張組織圖可以得出兩個有用的關係。<strong>支配（dominance）</strong>——「在同一條指揮鏈中位於其上方某處」——正是第 2 章那種偏序。<strong>成分統制（c-command）</strong>——一個節點成分統制它的姊妹節點及其下的一切——捕捉了誰能「看見」誰，並限制了約束現象：在 <em>John's mother admires himself</em> 中，<em>John</em> 並不成分統制 <em>himself</em>，因此句子不成立。</p>
+</div>
+<h3 id="sec-5-2"><span class="section-num">5.2</span> 依存圖</h3>
+<p>詞組結構之外的另一種選擇是依存語法，其數學形式化使用有向圖而非成分樹。在依存樹中，每個詞是一個節點，有向邊把中心語連到它的依附語。依存樹與詞組結構樹在數學上相關但並不等價。依存剖析已成為計算語言學的主流，部分原因是依存樹較容易從資料中學習，部分原因是它們更自然地推廣到類型各異的語言。</p>
+<p>一個簡單卻有用的計數直接從定義得出：$n$ 個詞上的依存樹恰好有 $n-1$ 條弧，因為除了根以外，每個詞都恰好有一個中心語。因此，一個句子的整個分析可以寫成一個函數 $h: \{1,\ldots,n\} \to \{0,1,\ldots,n\}$，為每個詞指派其中心語（以 $0$ 代表根）——這又是 §2.4 意義上的函數，並受到「沿著中心語往上走永不繞圈」的限制。</p>
+<h3 id="sec-5-3"><span class="section-num">5.3</span> 超越樹的圖：語意與篇章結構</h3>
+<p>句法大致是樹狀的，但語言分析的其他層次需要圖的完整一般性。語意表徵常涉及有向無環圖（DAG），甚至有環圖。抽象意義表徵（AMR；Banarescu et al., 2013）使用有根的 DAG 來表徵句子的意義，允許重入（reentrancy）——同一個實體在多個語意角色中出現。</p>
+<h3 id="sec-5-4"><span class="section-num">5.4</span> 圖的性質與語言共性</h3>
+<p>語言圖的數學性質編碼了實質的語言學主張。依存樹的投射性（projectivity）——要求當詞依線性順序排開時，依存弧彼此不交叉——對應於對詞序自由度的一種限制。像平均依存長度這樣的圖論指標，已被證明與處理難度相關。依存長度最小化（Gildea & Jaeger, 2015; Futrell, Mahowald & Gibson, 2015），即語言偏好較短依存的傾向，已在數十種語言中得到記錄，似乎是一個真正的共性，可解釋為人類剖析器的一種最佳化策略。</p>
+<p>這個指標本身簡單得出奇。若詞 $i$ 的中心語是 $h(i)$，則一個句子的總依存長度為</p>
+$$\mathrm{DL} = \sum_{i \ne \text{root}} |\,i - h(i)\,|,$$
+<p>也就是每個依附語必須「伸手」觸及其中心語的總距離。比較一個片語動詞的兩種語序：</p>
+<div class="example-block"><p><em>John threw out the old trash</em>（DL = 9） vs. <em>John threw the old trash out</em>（DL = 11）</p></div>
+<p>在第一種語序中，<em>out</em> 緊鄰 <em>threw</em>（距離 1），<em>trash</em> 在距離 4；在第二種語序中，<em>trash</em> 近了一步（3），但 <em>out</em> 被推到距離 4，於是總和從 9 升到 11。賓語越重，差距越大，說話者也越傾向把小品詞放在前面。看似是風格偏好的東西，從圖的角度看，是總「接線長度」的最小化。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>把每一個依存想像成一段繩子，必須握在工作記憶中，直到它的中心語到來。長繩子握起來費力；同時握著許多長繩子更費力。依存長度最小化是說，語言——以及在不同語序之間做選擇的說話者——傾向讓繩子保持短。<strong>投射性</strong>則是相關的要求：畫在句子上方的繩子永不交叉（對照圖 4.2）。</p>
+</div>
+<h3 id="sec-5-5"><span class="section-num">5.5</span> 從圖到矩陣：通往第二部的橋梁</h3>
+<p>任何 $n$ 個節點上的圖，都能寫成一張 $n \times n$ 的表格，即它的<strong>鄰接矩陣</strong> $A$：若有一條從 $i$ 到 $j$ 的弧，則 $A_{ij} = 1$，否則為 $0$。這個看似只是抄寫的步驟其實是一座橋。一旦圖成了矩陣，線性代數的工具便可適用：$A$ 的冪次計算路徑數（$(A^2)_{ij}$ 是從 $i$ 到 $j$ 的兩步路徑數），而 $A$ 的特徵向量能找出最核心的節點。把 0 與 1 換成實數權重，讓權重由<em>學習</em>而非標注得來，你得到的——正如第 8 章將展示的——恰好就是 Transformer 注意力頭所計算的東西。本章的離散樹與第二部的連續矩陣，是同一個物件的兩種視角。</p>
+</article>
+
+
+<article class="chapter" id="ch6">
+  <div class="chapter-label">第 6 章</div>
+  <h2 class="chapter-title">機率、資訊與語言的統計</h2>
+<div class="epigraph">
+  <p>「我每開除一位語言學家，語音辨識器的表現就提升一些。」</p>
+  <div class="attribution">— 耶利內克（Frederick Jelinek，據傳）</div>
+</div>
+<h3 id="sec-6-1"><span class="section-num">6.1</span> 機率轉向</h3>
+<p>在二十世紀的大半時間裡，理論語言學的主流範式是類別式的：一個句子要嘛合語法，要嘛不合語法。喬姆斯基有一個著名的論證反對以機率模型處理自然語言：他指出 "Colorless green ideas sleep furiously" 與 "Furiously sleep ideas green colorless" 同樣不可能出現，然而只有前者合語法。反革命同時來自計算語言學與社會語言學。</p>
+<p>喬姆斯基的例子是反對某一種特定機率模型——對整個句子計數——的好論證，卻不是反對機率本身的論證。一個為<em>結構</em>指派機率、或在詞類上做平滑的模型，很容易就會偏好 <em>Colorless green ideas sleep furiously</em> 勝過它的倒序。同時，有三類證據使機率難以被忽視。社會語言學家發現，變異規則（例如拉波夫〔Labov〕研究的 <em>-t/-d</em> 刪除）以穩定的、受條件制約的<em>比率</em>運作，而非類別式地套用。心理語言學家發現，閱讀時間追蹤著一個詞有多<em>可預測</em>。而仔細蒐集的可接受度判斷，結果是<em>梯度的</em>而非二元的。對這三者而言，機率都是最自然的數學。</p>
+<h3 id="sec-6-2"><span class="section-num">6.2</span> 語言物件上的機率分布</h3>
+<p>集合 $\Omega$ 上的機率分布為每個元素 $\omega \in \Omega$ 指派一個非負實數 $P(\omega)$，且所有機率總和為 1。在語言建模中，$\Omega$ 是所有可能句子的集合，$P$ 為每個句子指派其出現機率。最簡單的語言模型是 $n$ 元語法（$n$-gram）模型，它只以前 $n{-}1$ 個詞為條件，來近似一個詞在給定完整歷史下的機率：</p>
+$$P(w_i \mid w_1, \ldots, w_{i-1}) \approx P(w_i \mid w_{i-n+1}, \ldots, w_{i-1})$$
+<div class="intuition"><div class="box-label">直覺</div>
+<p>把語言模型想成賽馬場上一位老練的下注者，而賽馬就是詞。每個詞揭曉之前，下注者把固定數量的籌碼（總機率為 1）分散押在所有可能的下一個詞上。以歷史為條件，就是縮小賽場：在 <em>Please pass the</em> 之後，大部分籌碼押在 <em>salt</em>、<em>butter</em> 與 <em>ball</em>，幾乎沒有押在 <em>democracy</em>。好的模型是：在許多場比賽中，持續把大量籌碼押在實際勝出的那匹馬上。</p>
+</div>
+<p>上面的公式是一個精確恆等式的近似。依機率的<strong>連鎖律</strong>，任何句子的機率都可以分解成一連串「下一個詞」預測的乘積：</p>
+$$P(w_1, \ldots, w_n) = \prod_{i=1}^{n} P(w_i \mid w_1, \ldots, w_{i-1}).$$
+<p>$n$ 元語法模型只是截斷了歷史。二元語法模型從計數估計每個因子，$P(w_i \mid w_{i-1}) \approx C(w_{i-1} w_i) / C(w_{i-1})$：如果 <em>the</em> 在語料中出現 1,000 次，而 <em>the bank</em> 出現 12 次，那麼 $P(\text{bank} \mid \text{the}) \approx 0.012$。每一個現代語言模型，包括 Transformer，仍然在估計同樣的因子——只是它使用完整的歷史，而非最後 $n-1$ 個詞。</p>
+<h3 id="sec-6-3"><span class="section-num">6.3</span> 資訊理論與語言</h3>
+<p>香農（Claude Shannon）的資訊理論（1948）提供了一個量化語言訊息之資訊量的數學框架。隨機變數 $X$ 的熵定義為：</p>
+$$H(X) = -\sum_{x} P(x) \log_2 P(x)$$
+<p>它衡量結果所伴隨的平均驚奇程度。</p>
+<p>其基本構件是單一結果的<strong>驚奇度（surprisal）</strong>，$s(x) = -\log_2 P(x)$。其直覺是新聞價值：宣布今天早上太陽升起的頭條幾乎不帶資訊；宣布太陽沒有升起的頭條則資訊量極大。驚奇度把機率轉換成可相加的「新聞位元」：確定的事件（$P=1$）驚奇度為 $0$，一次公平的擲硬幣是 $1$ 位元，機率 $1/8$ 的事件是 $3$ 位元——相當於擲三次硬幣的新聞量。熵就是對所有結果<em>平均</em>的驚奇度。公平硬幣的 $H = 1$ 位元；一枚 90% 出現正面的硬幣只有 $H = -(0.9\log_2 0.9 + 0.1\log_2 0.1) \approx 0.47$ 位元，因為它大多數的投擲都不令人驚訝。</p>
+<p>驚奇度已成為連結機率與心智最成功的橋梁之一。<strong>驚奇度理論</strong>（Hale, 2001; Levy, 2008）主張，一個詞的處理難度與它在語境中的驚奇度成正比；大規模的閱讀時間研究證實，閱讀時間與 $-\log P(w_i \mid \text{context})$ 之間大致呈線性關係（Smith & Levy, 2013）。像 <em>The horse raced past the barn fell</em> 這樣的花園路徑句，在這個觀點下，是某一個詞——<em>fell</em>——承載了巨大、意料之外之位元量的句子。</p>
+<p>英語的熵大約是每個字元 1.0 到 1.5 位元——意思是每個字元大約只攜帶一個位元的資訊，遠少於均勻隨機字母所攜帶的 $\log_2(26) \approx 4.7$ 位元。這種冗餘提供了抗雜訊的強韌性，也有助於預測。</p>
+<h4>交叉熵、困惑度與 KL 散度</h4>
+<p>還有三個量會在本書其餘部分反覆出現。如果真實分布是 $P$，而我們用模型 $Q$ 來預測，那麼我們實際經歷的平均驚奇度是<strong>交叉熵</strong></p>
+$$H(P, Q) = -\sum_x P(x) \log_2 Q(x) \;\ge\; H(P).$$
+<p>語言模型的訓練，正是在文本上最小化這個量。它的指數，<strong>困惑度（perplexity）</strong> $\mathrm{PP} = 2^{H(P,Q)}$，有一個生動的解讀：它是模型在每一步猶豫不決的<em>有效等機率選項數</em>。困惑度 20 表示模型平均而言，就像在 20 個詞之間均勻地選擇一樣不確定。兩者之間的差距，<strong>KL 散度（Kullback–Leibler divergence）</strong></p>
+$$\mathrm{KL}(P \,\|\, Q) = H(P, Q) - H(P) = \sum_x P(x) \log_2 \frac{P(x)}{Q(x)} \;\ge\; 0,$$
+<p>是因為用錯了密碼本而<em>額外</em>付出的位元數。只有當 $Q = P$ 時它才為零，而且它不對稱——被一個你以為不可能的罕見事件嚇到，代價遠高於反過來的情況。KL 散度會在 t-SNE（§7.3）中再次出現，並以其無窮小形式成為 §11.5 的費雪度量。</p>
+<p>最後，<strong>逐點互資訊（PMI）</strong>衡量兩個詞共現的頻率比純屬偶然時高出多少：</p>
+$$\mathrm{PMI}(w, c) = \log_2 \frac{P(w, c)}{P(w)\,P(c)}.$$
+<p><em>Strong tea</em>（濃茶）的 PMI 很高；<em>powerful tea</em> 則不然，儘管兩個形容詞是近義詞。PMI 正是把原始共現計數轉換成第 7 章詞向量的那個量。</p>
+<h3 id="sec-6-4"><span class="section-num">6.4</span> 語言的貝氏取徑</h3>
+<p>貝氏定理為依據證據更新信念提供了一個有原則的框架：</p>
+$$P(H \mid D) = \frac{P(D \mid H)\,P(H)}{P(D)}$$
+<p>貝氏取徑已被應用於語言習得、句法剖析、語用推理（理性言語行為框架〔Rational Speech Acts〕, Frank & Goodman, 2012），以及歷史語言學（語系的貝氏譜系分析）。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>貝氏定理是偵探的算術。<strong>先驗</strong> $P(H)$ 是新線索出現之前某位嫌犯的可信度；<strong>概似</strong> $P(D \mid H)$ 是這條線索與那位嫌犯有多吻合；<strong>後驗</strong> $P(H \mid D)$ 則是更新後的懷疑程度。分母只是重新縮放，讓所有嫌犯的懷疑程度加總為一。</p>
+</div>
+<p>回到 <em>bank</em>。假設在一般文本中，金融義較常見：$P(\text{fin}) = 0.7$、$P(\text{river}) = 0.3$。現在附近出現了 <em>fishing</em>（釣魚）這個詞，而 $P(\textit{fishing} \mid \text{fin}) = 0.01$、$P(\textit{fishing} \mid \text{river}) = 0.2$。那麼</p>
+$$P(\text{river} \mid \textit{fishing}) = \frac{0.2 \times 0.3}{0.2 \times 0.3 + 0.01 \times 0.7} = \frac{0.06}{0.067} \approx 0.90.$$
+<p>單一條語境線索，就把 70 比 30 的先驗翻轉成另一個方向的 90 比 10 後驗。從這個角度看，詞義消歧就是證據的累積。</p>
+<h3 id="sec-6-5"><span class="section-num">6.5</span> 齊夫定律與詞彙的統計</h3>
+<p>語言最引人注目的統計規律之一是齊夫定律（Zipf, 1949）：如果把一個語言的詞依頻率排序，第 $r$ 名的詞，其頻率大約與 $1/r$ 成正比：</p>
+$$f(r) \propto \frac{1}{r^\alpha}, \quad \alpha \approx 1$$
+<figure class="fig">
+<svg viewBox="0 0 520 280" width="520" role="img" aria-label="Zipf's law on log-log axes">
+<line x1="60" y1="230" x2="490" y2="230" stroke="#6B635A"/><line x1="60" y1="20" x2="60" y2="230" stroke="#6B635A"/>
+<text x="60" y="248" font-size="11" fill="#6B635A" text-anchor="middle">10⁰</text><text x="165" y="248" font-size="11" fill="#6B635A" text-anchor="middle">10¹</text><text x="270" y="248" font-size="11" fill="#6B635A" text-anchor="middle">10²</text><text x="375" y="248" font-size="11" fill="#6B635A" text-anchor="middle">10³</text><text x="480" y="248" font-size="11" fill="#6B635A" text-anchor="middle">10⁴</text>
+<text x="52" y="234" font-size="11" fill="#6B635A" text-anchor="end">10⁰</text><text x="52" y="192" font-size="11" fill="#6B635A" text-anchor="end">10¹</text><text x="52" y="150" font-size="11" fill="#6B635A" text-anchor="end">10²</text><text x="52" y="108" font-size="11" fill="#6B635A" text-anchor="end">10³</text><text x="52" y="66" font-size="11" fill="#6B635A" text-anchor="end">10⁴</text><text x="52" y="24" font-size="11" fill="#6B635A" text-anchor="end">10⁵</text>
+<line x1="60" y1="20" x2="480" y2="188" stroke="#B08968" stroke-width="1.2" stroke-dasharray="5 4"/>
+<circle cx="60.0" cy="20.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="70.5" cy="20.9" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="81.0" cy="29.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="91.5" cy="35.7" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="102.0" cy="35.1" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="112.5" cy="38.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="123.0" cy="47.6" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="133.5" cy="51.5" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="144.0" cy="50.7" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="154.5" cy="56.5" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="165.0" cy="65.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="175.5" cy="66.7" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="186.0" cy="67.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="196.5" cy="75.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="207.0" cy="82.1" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="217.5" cy="81.8" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="228.0" cy="84.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="238.5" cy="93.4" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="249.0" cy="98.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="259.5" cy="97.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="270.0" cy="102.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="280.5" cy="111.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="291.0" cy="113.4" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="301.5" cy="113.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="312.0" cy="120.7" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="322.5" cy="128.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="333.0" cy="128.5" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="343.5" cy="130.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="354.0" cy="139.1" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="364.5" cy="144.6" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="375.0" cy="143.7" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="385.5" cy="148.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="396.0" cy="157.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="406.5" cy="160.1" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="417.0" cy="159.6" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="427.5" cy="166.4" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="438.0" cy="174.6" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="448.5" cy="175.2" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="459.0" cy="176.3" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="469.5" cy="184.9" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/><circle cx="480.0" cy="191.0" r="3.2" fill="#6B4C3B" fill-opacity="0.75"/>
+<text x="70" y="26" font-size="11.5" fill="#2C2825">the</text><text x="100" y="46" font-size="11.5" fill="#2C2825">of</text><text x="130" y="60" font-size="11.5" fill="#2C2825">and</text>
+<text x="340" y="110" font-size="12" fill="#6B4C3B">斜率 ≈ −1</text>
+<text x="275" y="272" font-size="12" fill="#2C2825" text-anchor="middle">排名 r（對數刻度）</text>
+<text x="16" y="125" font-size="12" fill="#2C2825" text-anchor="middle" transform="rotate(-90 16 125)">頻率 f（對數刻度）</text>
+</svg>
+<figcaption><b>圖 6.1</b>　在一般座標軸上，齊夫定律是一條緊貼兩軸的陡峭曲線。在對數座標軸上，它變成一條直線，因為 $\log f = \text{const} - \alpha \log r$。斜率是 $-\alpha$；對詞頻而言接近 $-1$。</figcaption>
+</figure>
+<p>這種冪律分布意味著少數幾個詞（"the"、"of"、"and"）就佔了所有詞例的一大部分，而絕大多數的詞型則很少出現。齊夫定律已在所有被研究過的語言中得到記錄，並延伸到其他語言單位。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>冪律是「富者愈富」世界的特徵。城市規模、引用次數與詞頻都共享這個特徵：少數巨人、一條長長的冷門尾巴，而沒有一個具代表性的「典型」大小。語言為什麼會長這樣，至今仍有爭論。齊夫本人提出<strong>最省力原則</strong>——說話者偏好一個萬用詞，聽者偏好一義一詞，兩者的折衷就是冪律。其他解釋訴諸已高頻之詞的優先重用（我們會在 §13.5 再遇到這個機制），也有人指出即使是隨機打字也會產生類似齊夫的曲線。這條定律毫無疑問確立的是一個實際的事實：大多數的詞<em>型</em>都很罕見，所以任何語言模型都必須能推廣到它幾乎沒見過的詞。</p>
+</div>
+</article>
+
+
+<article class="chapter" id="ch7">
+  <div class="chapter-label">第 7 章</div>
+  <h2 class="chapter-title">線性代數：語言的向量空間</h2>
+<div class="epigraph">
+  <p>「觀其友，知其詞。（You shall know a word by the company it keeps.）」</p>
+  <div class="attribution">— 弗斯（J.R. Firth）</div>
+</div>
+<h3 id="sec-7-1"><span class="section-num">7.1</span> 分布假說</h3>
+<p>一個詞的意義可以從它的共現模式中推斷出來——這個分布假說由哈里斯（Harris, 1954）與弗斯（Firth, 1957）提出，已成為計算語言學中最具生產力的想法之一。它的數學實現需要線性代數：詞成為向量，語境成為維度，意義成為幾何。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>「觀其友，知其詞」可以照字面理解。想像在一場派對上，你只用「每個人跟誰聊天」的名單來描述他。你永遠不會知道任何人的名字或職業——但名單大量重疊的兩個人，很可能是相似的（同事，或同一家人）。分布假說押注：詞也是這樣——它們在<em>文本中的社交生活</em>揭露了它們的意義。</p>
+</div>
+<p>一張玩具般的共現表可以說明這個想法。每一列是一個詞；每一欄計算某個語境詞在某語料中出現在附近的次數：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th></th><th>bark 吠</th><th>pet 寵物</th><th>feed 餵</th><th>vote 投票</th><th>law 法律</th></tr>
+<tr><td>dog 狗</td><td>9</td><td>7</td><td>6</td><td>0</td><td>1</td></tr>
+<tr><td>cat 貓</td><td>0</td><td>8</td><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>democracy 民主</td><td>0</td><td>0</td><td>0</td><td>9</td><td>7</td></tr>
+</table></div>
+<p>每一列現在是一串五個數字——一個<strong>向量</strong>——而一個詞就是五維空間中的一個點（或從原點出發的一支箭頭）。<em>Dog</em> 與 <em>cat</em> 指向相似的方向；<em>democracy</em> 則指向完全不同的地方。本章接下來的一切，都是把這個觀察變得精確，並把它從五欄擴展到數十萬欄的方法。</p>
+<h3 id="sec-7-2"><span class="section-num">7.2</span> 向量、矩陣與意義的代數</h3>
+<p>體 $F$（通常是 $\mathbb{R}$）上的向量空間 $V$，是一個配備兩種運算——向量加法與純量乘法——並滿足若干公理的集合。對語言學應用而言，關鍵概念有：</p>
+<ul>
+  <li><strong>內積：</strong> $\langle \mathbf{u}, \mathbf{v} \rangle = \sum_i u_i\, v_i$ ——衡量對齊程度</li>
+  <li><strong>範數：</strong> $\|\mathbf{v}\| = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$ ——衡量大小</li>
+  <li><strong>餘弦相似度：</strong> $\cos(\theta) = \dfrac{\langle \mathbf{u}, \mathbf{v} \rangle}{\|\mathbf{u}\| \cdot \|\mathbf{v}\|}$ ——衡量夾角，與大小無關</li>
+</ul>
+<figure class="fig">
+<svg viewBox="0 0 460 250" width="460" role="img" aria-label="Cosine similarity as angle between word vectors">
+<defs><marker id="va6B4C3B" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#6B4C3B"/></marker><marker id="vaB08968" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#B08968"/></marker><marker id="va7A9CC6" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#7A9CC6"/></marker></defs>
+<line x1="60" y1="230" x2="440" y2="230" stroke="#E2DBD1"/><line x1="60" y1="20" x2="60" y2="230" stroke="#E2DBD1"/>
+<line x1="60" y1="230" x2="338.2" y2="117.6" stroke="#6B4C3B" stroke-width="2.2" marker-end="url(#va6B4C3B)"/><text x="344.2" y="113.6" font-size="13" fill="#6B4C3B" font-weight="600">dog 狗</text><line x1="60" y1="230" x2="187.2" y2="150.5" stroke="#B08968" stroke-width="2.2" marker-end="url(#vaB08968)"/><text x="193.2" y="146.5" font-size="13" fill="#B08968" font-weight="600">cat 貓</text><line x1="60" y1="230" x2="99.5" y2="44.2" stroke="#7A9CC6" stroke-width="2.2" marker-end="url(#va7A9CC6)"/><text x="105.5" y="40.2" font-size="13" fill="#7A9CC6" font-weight="600">democracy 民主</text>
+<path d="M124.9 203.8 A70 70 0 0 0 119.4 192.9" fill="none" stroke="#2C2825" stroke-width="1"/>
+<text x="138" y="196" font-size="12" fill="#2C2825">小夾角 θ</text>
+<path d="M102.4 203.5 A50 50 0 0 0 70.4 181.1" fill="none" stroke="#9E958A" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="92" y="160" font-size="12" fill="#6B635A">大夾角 θ</text>
+</svg>
+<figcaption><b>圖 7.1</b>　餘弦相似度衡量的是箭頭之間的夾角，而非它們的長度。<em>Dog</em> 被畫得比 <em>cat</em> 長——就像較高頻詞的計數向量會有的樣子——但兩者幾乎平行，因此高度相似。<em>Democracy</em> 指向不同的方向。忽略長度是刻意的：頻率會拉長向量，卻不改變意義。</figcaption>
+</figure>
+<p>在詞向量空間中，餘弦相似度成為語意相似度的度量。"dog" 與 "cat" 的向量會有很高的餘弦相似度，因為它們出現在相似的語境中；而 "dog" 與 "democracy" 的餘弦相似度則很低。這很了不起：對共現計數所做的純數學運算，竟還原出某種非常像人類語意直覺的東西。</p>
+<h3 id="sec-7-3"><span class="section-num">7.3</span> 降維：SVD 與意義的潛在結構</h3>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>想像要摘要一個影音串流平台那張「使用者 × 影片」的巨大表格。你可以用數千個個別評分來描述每部影片——或者注意到，少數幾個隱藏的「旋鈕」就能解釋大部分的評分：動作成分多少、浪漫成分多少、邪典程度多少。SVD 會自動找出這樣的旋鈕。它說，任何矩陣都可以分解成三個簡單步驟——<em>旋轉</em>到旋鈕座標、依重要性<em>拉伸</em>每個旋鈕、再<em>旋轉</em>回來——而且只保留最重要的少數幾個旋鈕，損失出奇地小。對詞—語境矩陣而言，這些旋鈕就是潛在的語意維度：主題、語體、領域。</p>
+</div>
+<p>原始的詞—語境矩陣龐大而稀疏。奇異值分解（SVD）提供了一種有原則的方法，在保留最重要模式的同時降低其維度。給定秩為 $r$ 的矩陣 $M$，SVD 將它分解為：</p>
+$$M = U \Sigma V^\top$$
+<p>其中 $U$ 與 $V$ 是正交矩陣，$\Sigma = \mathrm{diag}(\sigma_1, \ldots, \sigma_r)$ 是奇異值構成的對角矩陣。只保留 $k$ 個最大的奇異值（$k \ll r$），我們就得到一個捕捉主要潛在結構的低秩近似 $M_k = U_k \Sigma_k V_k^\top$。由蘭道爾與杜梅（Landauer & Dumais, 1997）提出的潛在語意分析（LSA），把 SVD 應用於詞—文件矩陣，並證明所得的低維表徵捕捉到了原始計數中不存在的語意關係。</p>
+<p><strong>t-SNE：嵌入的非線性視覺化（直覺與應用）。</strong></p>
+<p>SVD 是一種<strong>線性</strong>方法：它透過在低秩子空間中保留全域變異結構來壓縮矩陣。實務上，我們常常也需要一種工具，對高維表徵（詞／句嵌入，或 Transformer 某一層的 token 狀態）進行<strong>探索式視覺化</strong>。一種廣泛使用的方法是 <strong>t-SNE</strong>（t-distributed Stochastic Neighbor Embedding；van der Maaten & Hinton, 2008）。它的目標不是保留全域幾何，而是保留<strong>局部鄰域</strong>：在原始空間中接近的點，在 2D/3D 中也應保持接近。</p>
+<p>t-SNE 把距離轉換成機率。對每個點 $x_i$，它用高斯核定義條件鄰居機率：</p>
+$$p_{j\mid i} \propto \exp\!\left(-\frac{\|x_i-x_j\|^2}{2\sigma_i^2}\right),\quad p_{i\mid i}=0,$$
+<p>並選擇 $\sigma_i$，使 $\{p_{j\mid i}\}_j$ 的熵符合使用者選定的<strong>困惑度</strong>（直覺上是「有效鄰居數」；典型值約為 5–50）。這些條件機率接著被對稱化為一個聯合分布，例如</p>
+$$p_{ij}=\frac{p_{j\mid i}+p_{i\mid j}}{2n}.$$
+<p>在低維映射 $y_i$ 中，t-SNE 使用厚尾的 Student-$t$ 核：</p>
+$$q_{ij} \propto \left(1+\|y_i-y_j\|^2\right)^{-1},\quad q_{ii}=0,$$
+<p>並最小化 KL 散度</p>
+$$\mathrm{KL}(P\|Q)=\sum_{i\ne j} p_{ij}\log\frac{p_{ij}}{q_{ij}}.$$
+<p>厚尾有助於緩解「擁擠問題」，讓不同的局部群集更容易在 2D 中分開。</p>
+<p>典型的語言相關用途包括：</p>
+<ul>
+  <li><strong>嵌入的健全性檢查</strong>：視覺化選定的詞彙，看同義詞、主題或領域是否形成連貫的局部鄰域，並找出離群值。</li>
+  <li><strong>多義與語境分群</strong>：對同一詞型的<em>語境化</em>嵌入做 t-SNE，看不同詞義是否形成不同的「島嶼」。</li>
+  <li><strong>模型／層次比較</strong>：比較不同模型或不同層之間的鄰域結構（例如句法區別是否在某些層中出現得更清楚）。</li>
+</ul>
+<p><strong>一個具體的語言例子（多義：“bank”）。</strong> 取多個包含不同詞義 <em>bank</em> 的句子（金融 vs 河岸）。從 Transformer 某個固定層抽取 <em>bank</em> 這個 token 的語境化嵌入，然後做 t-SNE，檢查兩個詞義是否在局部分開。</p>
+<pre><code class="language-python">from transformers import AutoTokenizer, AutoModel
+from sklearn.manifold import TSNE
+import numpy as np, torch, matplotlib.pyplot as plt
+
+S = [
+  "I deposited cash at the bank.",
+  "The bank approved the loan.",
+  "We sat on the river bank at dusk.",
+  "The boat reached the bank.",
+]
+
+tok = AutoTokenizer.from_pretrained("bert-base-uncased")
+m = AutoModel.from_pretrained("bert-base-uncased", output_hidden_states=True).eval()
+L = 8
+
+@torch.no_grad()
+def v(s):
+  e = tok(s, return_tensors="pt")
+  hs = m(**e).hidden_states[L][0]
+  toks = tok.convert_ids_to_tokens(e["input_ids"][0])
+  idx = [i for i,t in enumerate(toks) if t == "bank"]
+  return hs[idx].mean(0).cpu().numpy()
+
+Y = TSNE(2, perplexity=2, init="pca", random_state=0).fit_transform(np.stack([v(s) for s in S]))
+plt.scatter(Y[:,0], Y[:,1]); [plt.text(Y[i,0], Y[i,1], i, fontsize=9) for i in range(len(S))]
+plt.title('t-SNE of contextual "bank" embeddings'); plt.tight_layout(); plt.show()</code></pre>
+<p>一個關鍵的提醒：t-SNE 圖中的<strong>相對位置、群集間距離與群集大小</strong>，一般<em>不</em>具有可靠的全域幾何意義。結果會隨困惑度、學習率、初始化與隨機種子而改變。常見的工作流程是先用 PCA/SVD 降到 30–100 維，再做 t-SNE，並以多個種子重複，以免過度解讀單一張視覺化圖。</p>
+<h3 id="sec-7-4"><span class="section-num">7.4</span> 詞嵌入：從計數到預測</h3>
+<p>Word2Vec（Mikolov et al., 2013）與 GloVe（Pennington et al., 2014）透過訓練神經網路預測語境來學習詞向量。所得的嵌入展現出驚人的代數性質——向量算術編碼了語意關係：</p>
+$$\vec{v}_{\text{king}} - \vec{v}_{\text{man}} + \vec{v}_{\text{woman}} \approx \vec{v}_{\text{queen}}$$
+<p>這顯示向量的位移捕捉了關係結構——不同的方向對應不同的語意關係（性別、時態、單複數等）。</p>
+<p>訓練目標本身就是一場填空遊戲。<em>Skip-gram</em> 模型看到一個詞，必須猜出它周圍出現哪些詞；透過<strong>負取樣</strong>，它學會分辨真正的鄰居與隨機的冒牌者。每一次成功的猜測，都會把共享鄰居的詞向量推得更近一些。因此，當列維與戈德堡（Levy & Goldberg, 2014）證明帶負取樣的 skip-gram 其實是在隱性地<strong>分解一個矩陣</strong>——即 §6.3 的 PMI 矩陣，平移一個常數——時，這是一個令人滿意的統一。「計數」（第 6 章與 §7.3）與「預測」（神經嵌入）結果是通往幾乎相同幾何的兩條路。</p>
+<div class="deep-dive"><div class="box-label">關於類比的提醒</div>
+<p><em>king − man + woman ≈ queen</em> 的平行四邊形圖像令人難忘，卻很脆弱。在標準評估中，輸入詞本身會被排除在答案之外；若不排除，最接近 <em>king − man + woman</em> 的向量通常就是 <em>king</em> 本身（Linzen, 2016）。許多「類比」之所以成功，也只是因為目標詞本來就是某個輸入詞的近鄰。比較穩妥的結論是保守的：<em>有些</em>關係被編碼為大致一致的方向，而這正是第 9 章更仔細檢驗的「局部線性因子」想法。</p>
+</div>
+<h3 id="sec-7-5"><span class="section-num">7.5</span> 張量積與組合式分布語意學</h3>
+<p>由柯克、薩德扎德與克拉克（Coecke, Sadrzadeh & Clark, 2010）提出的範疇組合分布（DisCoCat）框架，透過把關係詞表徵為張量來處理組合性。像 "loves" 這樣的及物動詞，被表徵為一個三階張量 $\mathcal{T} \in V \otimes V \otimes V$。"John loves Mary" 的意義透過張量縮併計算：</p>
+$$\llbracket\text{John loves Mary}\rrbracket_k = \sum_{i,j} \mathcal{T}_{ijk} \cdot \vec{v}_{\text{John},\,i} \cdot \vec{v}_{\text{Mary},\,j}$$
+<div class="intuition"><div class="box-label">直覺</div>
+<p>把及物動詞想成一台有兩個輸入槽和一個出料口的機器。名詞是單一向量，也就是一串數字。動詞必須說明：對主語特徵 $i$ 與賓語特徵 $j$ 的<em>每一種</em>組合，每個輸出特徵 $k$ 被激發多少——這是一張三維的數字表，$\mathcal{T}_{ijk}$。把 <em>John</em> 與 <em>Mary</em> 放進去，再對 $i$ 與 $j$ 加總，正是上面的縮併。代價是規模：若名詞是 $d$ 維，一個動詞就需要 $d^3$ 個數字，這也是實用系統要壓縮或分解這些張量的原因。</p>
+</div>
+<p>這種取徑優雅地結合了形式語意學的組合結構與向量空間模型的分布內容。</p>
+<h3 id="sec-7-6"><span class="section-num">7.6</span> 句法中的線性代數：譜方法</h3>
+<p>這座橋梁的一個具體例子是<strong>譜學習（spectral learning）</strong>。隱馬可夫模型或潛變數 PCFG 是離散的符號裝置，傳統上要把它擬合到資料上需要迭代搜尋（EM 演算法），而這可能卡住。許、卡卡德與張（Hsu, Kakade & Zhang, 2012）以及柯恩等人（Cohen et al., 2012）證明：參數可以改由可觀察共現統計矩陣——例如詞三元組依序出現的頻率——的奇異值分解來還原（至多差一個基底變換）。隱藏的語法在統計量上留下低秩的指紋；SVD 把它讀出來。</p>
+<p>線性代數是古典語言學的離散符號表徵與現代計算語言學的連續分布表徵之間的橋梁。離散的語法生成樹；這些樹產生分布統計；這些統計存在於一個向量空間中；而該向量空間的結構反映了底層語法的結構。線性代數正是讓這個連結變得精確的數學框架。</p>
+</article>
+
+
+<article class="chapter" id="ch8">
+  <div class="chapter-label">第 8 章</div>
+  <h2 class="chapter-title">神經網路與學習表徵的數學</h2>
+<div class="epigraph">
+  <p>「我無法創造的，我就不理解。」</p>
+  <div class="attribution">— 費曼（Richard Feynman）</div>
+</div>
+<h3 id="sec-8-1"><span class="section-num">8.1</span> 從感知器到 Transformer</h3>
+<p>語言學中的神經網路革命，可以講成一個逐步豐富的數學故事。每一種架構都能以線性代數的語言精確描述。</p>
+<p>基本單元很樸素。一個人工<strong>神經元</strong>對它的輸入做加權投票，再把結果送進一個非線性函數：$y = \sigma(\mathbf{w}^\top \mathbf{x} + b)$。一個<strong>層</strong>就是同時運作的許多神經元，$\mathbf{y} = \sigma(W\mathbf{x} + \mathbf{b})$——一次矩陣乘法（第 7 章），再加上一次彎折。沒有這個彎折，疊加許多層就毫無意義，因為矩陣的乘積仍然只是另一個矩陣；非線性才讓深度能夠建構出真正新的特徵。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>訓練一個網路，就像在濃霧中走下山。你看不見山谷，只能感覺腳下的坡度。<strong>損失</strong>是你的海拔——對語言模型而言，就是 §6.3 的交叉熵，即模型被真正的下一個詞嚇到多少。<strong>梯度</strong>是局部坡度，透過<em>反向傳播</em>（有系統地應用微積分的連鎖律）一次為數百萬個參數同時算出。<strong>梯度下降</strong>往下坡走一小步，重新量測，再重複。這個程序中沒有任何東西懂語言學；網路最終編碼了什麼語法，都是因為語法能降低海拔而被它找到的。</p>
+</div>
+<p>如今主導的架構是 Transformer（Vaswani et al., 2017），其招牌元件是<strong>注意力（attention）</strong>。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>注意力就像在圖書館裡查書。每個詞寫下一個<strong>查詢（query）</strong>（「我在找什麼？」），同時每個詞也帶著一個<strong>鍵（key）</strong>（書脊上的標籤）與一個<strong>值（value）</strong>（書的內容）。一個詞拿自己的查詢與每一個鍵比對；越吻合，就從那個詞的值借越多。以 <em>The bank by the river collapsed</em> 中的 token <em>bank</em> 為例，一個問「附近有沒有跟水或錢有關的東西？」的查詢，會與 <em>river</em> 的鍵強烈吻合，於是 <em>bank</em> 的表徵會吸收一部分 <em>river</em> 的值——把它推向河岸的詞義。</p>
+</div>
+<p>一個 Transformer 注意力頭計算：</p>
+$$\mathrm{Attention}(Q, K, V) = \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+<p>其中 $Q = XW^Q$、$K = XW^K$、$V = XW^V$ 是輸入 $X$ 的線性投影，$d_k$ 是鍵向量的維度。整個 Transformer 是注意力層與逐位置前饋網路、層正規化與殘差連接交錯組合而成。</p>
+<p>這條公式的每一部分，現在都有白話的讀法。$QK^\top$ 是每個查詢與每個鍵之間的吻合分數表。<strong>softmax</strong> 把每一列分數轉換成為正且總和為 1 的注意力份額——它是「取最大值」的「柔性」版本，分數越高，份額呈指數地越大。除以 $\sqrt{d_k}$ 可避免分數隨維度增大，否則 softmax 會變得過於尖銳，讓每個詞只注意到另一個詞。最後乘上 $V$，依這些份額混合各個值。由於注意力本身忽略順序，Transformer 會在每個 token 向量上加上<strong>位置編碼</strong>，使 "the dog bit the man" 與 "the man bit the dog" 看起來不會一樣。</p>
+<h3 id="sec-8-2"><span class="section-num">8.2</span> 殘差流的幾何</h3>
+<p>機制可解釋性研究的一個關鍵洞見是：Transformer 可以被理解為對代表每個 token 的高維向量進行一連串的幾何變換。殘差流——流經網路的向量序列——可以被看作高維空間中的一條軌跡。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>把殘差流想成貼在每個 token 旁的一塊共用白板。每一層讀取白板上目前的內容，計算一些東西，然後<em>加上</em>自己的筆記，而不擦掉任何東西：$\mathbf{x}_{\ell+1} = \mathbf{x}_\ell + f_\ell(\mathbf{x}_\ell)$。因為各層的貢獻是相加的，後面的層可以直接讀取前面的筆記，研究者也可以追問是哪一層把哪個「方向」寫上白板（Elhage et al., 2021）。最後的白板再由輸出層讀取，轉換成下一個詞的機率分布。</p>
+</div>
+<p>不同的層執行不同種類的運算：較早的層編碼局部的句法關係，中間的層編碼較全域的句法與語意關係，較晚的層則編碼預測所需的分布資訊。</p>
+<h3 id="sec-8-3"><span class="section-num">8.3</span> 注意力作為柔性的圖建構</h3>
+<p>注意力機制在圖論上有一個優美的詮釋。每個注意力頭在 token 上定義一張加權有向圖，從 token $i$ 到 token $j$ 的邊權重就是注意力權重 $\alpha_{ij}$。不同的頭學會建構不同的圖：有的注意句法上相鄰的詞，有的注意當前詞組的中心語，有的注意句子的主語。Transformer 除了其他身分之外，也是柔性的結構學習機器。</p>
+<figure class="fig">
+<svg viewBox="0 0 470 170" width="470" role="img" aria-label="Attention weights as a weighted graph">
+<text x="40" y="150" font-size="13" fill="#2C2825" font-weight="400" text-anchor="middle" font-style="italic">The</text><text x="110" y="150" font-size="13" fill="#6B4C3B" font-weight="700" text-anchor="middle" font-style="italic">bank</text><text x="180" y="150" font-size="13" fill="#2C2825" font-weight="400" text-anchor="middle" font-style="italic">by</text><text x="245" y="150" font-size="13" fill="#2C2825" font-weight="400" text-anchor="middle" font-style="italic">the</text><text x="320" y="150" font-size="13" fill="#2C2825" font-weight="400" text-anchor="middle" font-style="italic">river</text><text x="420" y="150" font-size="13" fill="#2C2825" font-weight="400" text-anchor="middle" font-style="italic">collapsed</text>
+<path d="M110 132 A0 0 0 0 0 110 132" fill="none" stroke="#7A9CC6" stroke-opacity="0.45" stroke-width="2.3"/><text x="110" y="126" font-size="11" fill="#4A6E9A" text-anchor="middle">0.15</text><path d="M110 132 A105 80 0 0 1 320 132" fill="none" stroke="#7A9CC6" stroke-opacity="0.85" stroke-width="6.0"/><text x="215" y="46" font-size="11" fill="#4A6E9A" text-anchor="middle">0.55</text><path d="M110 132 A35 35 0 0 0 40 132" fill="none" stroke="#7A9CC6" stroke-opacity="0.50" stroke-width="2.8"/><text x="75" y="91" font-size="11" fill="#4A6E9A" text-anchor="middle">0.20</text><path d="M110 132 A35 35 0 0 1 180 132" fill="none" stroke="#7A9CC6" stroke-opacity="0.40" stroke-width="1.9"/><text x="145" y="91" font-size="11" fill="#4A6E9A" text-anchor="middle">0.10</text>
+<text x="235" y="20" font-size="12" fill="#6B635A" text-anchor="middle">來自「bank」的注意力（單一注意力頭；權重總和為 1）</text>
+</svg>
+<figcaption><b>圖 8.1</b>　把注意力矩陣的一列畫成一張圖。弧線粗細代表從 <em>bank</em> 到其他各 token 的注意力權重（省略自我注意與過小的權重）。對照圖 5.1：標注好的依存樹是一張權重恰為 0 或 1 的圖；注意力頭則是一張權重為實數、由資料學得、且對每個句子重新計算的圖。</figcaption>
+</figure>
+<h3 id="sec-8-4"><span class="section-num">8.4</span> 疊加與特徵的幾何</h3>
+<p>網路表徵的特徵比它擁有的維度還多：它把特徵編碼為近乎正交的方向，放在一個小到無法讓它們全部精確正交的空間中。這個現象與壓縮感知以及詹森—林登斯特勞斯引理（Johnson & Lindenstrauss, 1984）有深刻的關聯。疊加的數學顯示，神經網路利用了高維空間的幾何——特別是高維空間容納指數級多個近乎正交方向這一事實——把大量的語言知識塞進有限維的表徵中。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>疊加就像在一個頻段裡塞進比乾淨頻率更多的電台，代價是容忍一點串音。它之所以可行，是因為大多數特徵是<strong>稀疏的</strong>：任何一個句子只會提到網路所能表徵的數千件事物中的少數幾件，因此很少同時活躍的特徵可以共用幾乎重疊的方向，而不會彼此干擾。詹森—林登斯特勞斯引理量化了可用的空間：$n$ 個點只需放在 $k = O(\log n / \varepsilon^2)$ 維中，就能讓所有兩兩距離的扭曲不超過 $1 \pm \varepsilon$ 倍。「幾乎垂直」的方向數量隨維度呈指數增長（Elhage et al., 2022）。</p>
+</div>
+<h3 id="sec-8-5"><span class="section-num">8.5</span> 探針：在向量中找到樹</h3>
+<p>如果神經網路學到了語言結構，它在哪裡？<strong>探針（probe）</strong>是一個小而刻意簡單的模型，被訓練來從隱藏向量中讀出某個語言性質。如果連<em>線性</em>探針都能成功，那麼這個性質就以一種容易取用的形式寫在幾何中。</p>
+<p>最驚人的例子是休伊特與曼寧（Hewitt & Manning, 2019）的<strong>結構探針</strong>。他們尋找單一個線性映射 $B$，使得對句子中每一對詞 $i, j$，兩者變換後向量之間的平方距離，近似於它們在依存樹中的距離：</p>
+$$\|B(\mathbf{h}_i - \mathbf{h}_j)\|^2 \approx d_T(i, j),$$
+<p>其中 $d_T(i,j)$ 是在類似圖 5.1 下方那棵樹中，$i$ 與 $j$ 之間路徑上的弧數。這樣的 $B$ 確實存在，而且跨句子都有效：在 BERT 表徵的某個合適線性子空間中，依存樹<em>以幾何的形式</em>存在。第 2–5 章用離散物件描述句法；這個結果顯示，那些物件以距離的形式近似地重新出現。這是通往第三部的一扇自然的門。</p>
+<div class="deep-dive"><div class="box-label">關於探針的提醒</div>
+<p>探針結果需要謹慎看待：一個夠強的探針幾乎可以「找到」任何東西，因為它自己就學會了那個任務。好的做法是與控制任務和隨機基準比較，並偏好能奏效的最簡單探針——目標是發現表徵中<em>容易讀出</em>的東西，而不是只要花夠多力氣就能從中算出的東西。</p>
+</div>
+</article>
+
+
+<article class="chapter" id="ch9">
+  <div class="chapter-label">第 9 章</div>
+  <h2 class="chapter-title">意義的幾何：語意空間中的流形</h2>
+<div class="epigraph">
+  <p>「數學是從畫錯的圖形中進行正確推理的藝術。」</p>
+  <div class="attribution">— 龐加萊（Henri Poincaré）</div>
+</div>
+<h3 id="sec-9-1"><span class="section-num">9.1</span> 為什麼「平坦」的語意空間不夠：從向量空間到流形</h3>
+<p>第 7 章的向量空間語意模型始於一個方便的理想化：意義存在於一個歐氏空間中，用一把全域的尺來量距離。這是一個強大的起點，但語言給了我們懷疑這個假設的理由。多義、階層與組合互動都暗示：「每移動一單位的語意距離」取決於你在意義空間中的位置。換言之，意義的幾何很可能是彎曲的。</p>
+<p>考慮概念的階層結構："animal" 包含 "mammal"，"mammal" 包含 "dog"，"dog" 又包含 "poodle"。這種樹狀結構無法在不失真的情況下嵌入歐氏空間，卻能自然地嵌入雙曲空間——在雙曲空間中，球的體積隨半徑呈指數增長，正如樹的節點數隨深度呈指數增長。</p>
+<p><strong>流形</strong>是一個局部為歐氏、但全域可能彎曲或扭轉的空間。地球是典型的例子：局部夠平坦，可以鋪路；全域夠彎曲，讓平面地圖產生扭曲。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>想像一張紙被揉成一團，漂浮在房間裡。房間是三維的，但住在紙上的一隻螞蟻只經驗到兩個維度：前後與左右。紙上的兩點可能<em>隔空</em>很近，<em>沿著紙面</em>卻很遠。高維表徵被認為也有類似的行為：向量存在於一個（比如說）768 維的空間中，但具語言意義的狀態只佔據其中一個薄得多、皺成一團的曲面。螞蟻能移動的方向數是<strong>內在維度</strong>；房間的大小是<strong>外圍維度</strong>。</p>
+</div>
+<p>表徵學習中的<strong>流形假說</strong>主張：語言資料——語境中的詞、構式、言談步驟——佔據一個高維外圍空間中的一個有結構的子集 $\mathcal{M}$。對語言學家而言，關鍵的重新詮釋是：</p>
+<ul>
+  <li>外圍空間是表徵空間（嵌入空間、隱藏狀態空間）。</li>
+  <li>流形 $\mathcal{M}$ 是由語法、意義與使用所形塑的「合理語言狀態」的集合。</li>
+  <li>「不合語法」或「不恰當」的物件，自然被建模為落在流形之外。</li>
+</ul>
+<p>這並不取代符號語法。它提供了一個互補的觀點：語法是在表徵空間中劃出一塊區域的限制。</p>
+<h4>局部線性與語言的最小對比</h4>
+<p>流形是局部線性的——把皺紙放大到足夠近，它看起來是平的。這很重要，因為語言分析仰賴最小對比。</p>
+<p>如果一個語言因素的行為是平滑的（風格、禮貌、漸進的語意漂移），那麼小而受控的修改應該產生局部一致的表徵位移。如果一個因素的行為是類別式的（慣用語、轄域翻轉），我們預期會出現不連續——細微的表層線索引發巨大的表徵變化。</p>
+<p><strong>實作範例：「禮貌方向」檢驗。</strong> 取一組內容受控的配對：</p>
+<ul>
+  <li>$s$：“Open the window.”（開窗。）</li>
+  <li>$E(s)$：“Could you please open the window?”（可以麻煩你開一下窗嗎？）</li>
+</ul>
+<p>令 $v(\cdot)$ 為句子嵌入，定義編輯向量 $\Delta_E(s)=v(E(s))-v(s)$。檢驗 $\Delta_E(s)$ 在許多基底句 $s$ 之間是否大致平行（例如用編輯向量之間的平均餘弦值）。</p>
+<ul>
+  <li>若是：禮貌表現得像一個穩定的局部因子——一個可以從許多起點出發沿之前進的<strong>切方向</strong>。</li>
+  <li>若否：禮貌高度依賴互動（彎曲，或與內容糾纏）。</li>
+</ul>
+<p>這是在正式引入微分幾何之前的微分幾何思維。</p>
+<h4>曲率作為互動的特徵</h4>
+<p>在語言學中，互動是常態而非例外：否定與量詞互動；時貌與終結性互動；敬語與社會角色互動。</p>
+<p>在幾何上，一個清楚的診斷是可加性。比較兩個編輯 $E_1$ 與 $E_2$ 的效果。若</p>
+$$\Delta_{E_1\circ E_2}(s)\approx \Delta_{E_1}(s)+\Delta_{E_2}(s),$$
+<p>則效果是局部可加的——空間在 $s$ 附近表現得像是平的。系統性的失敗則暗示類似曲率的互動：順序與語境很重要。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>在平坦的地板上，先往北走 3 公尺再往東走 4 公尺，和先往東走 4 公尺再往北走 3 公尺，會到達同一個地點。在像球面這樣的彎曲表面上，兩條路線的終點會略有不同，而且差距隨繞行範圍變大而增加。這種對順序的依賴<em>就是</em>曲率。當「改得禮貌」再「加上否定」，與「加上否定」再「改得禮貌」落在不同的地方時，表徵空間正在告訴我們：這兩個因素彼此互動。</p>
+</div>
+<h3 id="sec-9-2"><span class="section-num">9.2</span> 雙曲幾何與詞彙階層</h3>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>雙曲空間是一個越往外走、就越有空間的空間。皺摺的萵苣葉與鉤針編織的珊瑚模型是它的物理近似：它們的邊緣之所以起皺，是因為邊緣比一個平面圓盤所能容納的還要多。家族樹有同樣的問題——每一代都倍增——在平面上，葉節點很快就沒有空間而擠在一起。在雙曲空間中，圓周長以 $2\pi \sinh r \approx \pi e^{r}$ 而非 $2\pi r$ 增長，所以下一代永遠有空間。</p>
+</div>
+<p>尼克爾與基拉（Nickel & Kiela, 2017）證明，把 WordNet 階層嵌入雙曲空間，所得的表徵遠優於相同維度的歐氏嵌入。僅用兩個雙曲維度，他們就能嵌入一個在歐氏空間中需要數百維的階層。其數學原因很優雅：分支因子為 $b$ 的樹在深度 $n$ 有 $O(b^n)$ 個節點。半徑為 $r$ 的雙曲球，其體積同樣呈指數增長：</p>
+$$\mathrm{Vol}_{\mathbb{H}^d}(r) \propto e^{(d-1)\,r}$$
+<p>因此樹的深度與雙曲距離之間存在自然的對應。相反地，歐氏體積只以多項式增長（$\propto r^d$），與樹結構不相稱。</p>
+<h3 id="sec-9-3"><span class="section-num">9.3</span> 龐加萊嵌入與詞彙蘊涵</h3>
+<p>龐加萊圓盤模型把整個無限的雙曲平面映射到單位圓的內部。關鍵洞見是：這個模型中的距離並不均勻——在邊界附近移動一段固定的歐氏距離，所對應的雙曲距離遠大於在中心附近移動同樣的距離。形式上，龐加萊球中兩點 $\mathbf{u}, \mathbf{v}$ 之間的距離為：</p>
+$$d(\mathbf{u}, \mathbf{v}) = \mathrm{arcosh}\!\left(1 + \frac{2\,\|\mathbf{u} - \mathbf{v}\|^2}{(1 - \|\mathbf{u}\|^2)(1 - \|\mathbf{v}\|^2)}\right)$$
+<p>注意分母：當任一點趨近邊界（$\|\mathbf{u}\| \to 1$）時，因子 $(1 - \|\mathbf{u}\|^2) \to 0$，使距離趨於無限大。這正是龐加萊圓盤成為階層之自然家園的原因。分類體系的根位於原點附近；每深入一層特化，節點就被往外推，而邊界附近呈指數增長的「空間」恰好容納呈指數分岔的葉節點。</p>
+<p>對詞彙蘊涵而言，這個幾何性質有一個清楚的語意詮釋：如果概念 $A$ 蘊涵概念 $B$（即 $A$ 較具體），那麼 $A$ 應該被嵌入得比 $B$ 離原點更遠，而從 $A$ 到 $B$ 的測地線應該指向內側。尼克爾與基拉（2017）證明，一個簡單的限制——$\|\mathbf{v}_{\text{hypernym}}\| < \|\mathbf{v}_{\text{hyponym}}\|$——僅用 2 個維度就能高準確度地捕捉 is-a 關係。</p>
+<p>下面的互動模擬讓你直接體驗這一點。把任何一個詞拖向邊界，看看雙曲距離如何暴增——即使歐氏位移很小。點選兩個節點來比較它們的距離。切換測地線檢視，看看彎曲的最短路徑。</p>
+<div class="interactive-widget" id="poincare-widget">
+<style>
+.pw-container {
+  background: linear-gradient(145deg, #1a1814 0%, #2a2520 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid #3d3630;
+  font-family: 'Source Sans 3', sans-serif;
+  color: #e8e0d6;
+}
+.pw-header {
+  display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.3rem;
+}
+.pw-header h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: #E8CBA8; margin: 0;
+}
+.pw-header .pw-badge {
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(176,137,104,0.2); color: #B08968; padding: 0.15em 0.6em;
+  border-radius: 3px; font-weight: 600;
+}
+.pw-desc {
+  font-size: 0.82rem; color: #9e958a; margin-bottom: 1rem; line-height: 1.5;
+}
+.pw-layout {
+  display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;
+}
+.pw-canvas-wrap { position: relative; flex: 0 0 auto; }
+.pw-canvas-wrap canvas {
+  border-radius: 50%; cursor: grab;
+  box-shadow: 0 0 30px rgba(176,137,104,0.1), inset 0 0 60px rgba(0,0,0,0.3);
+}
+.pw-canvas-wrap canvas:active { cursor: grabbing; }
+.pw-panel { flex: 1; min-width: 220px; }
+.pw-info-box {
+  background: rgba(255,255,255,0.04); border-radius: 8px;
+  padding: 0.9rem 1rem; margin-bottom: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.pw-info-box .pw-label {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #8a8279; margin-bottom: 0.3rem;
+}
+.pw-info-box .pw-value {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: #E8CBA8;
+}
+.pw-info-box .pw-explain {
+  font-size: 0.75rem; color: #7a7268; margin-top: 0.25rem; line-height: 1.4;
+}
+.pw-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+.pw-btn {
+  background: rgba(176,137,104,0.15); border: 1px solid rgba(176,137,104,0.3);
+  color: #B08968; padding: 0.35em 0.8em; border-radius: 5px; cursor: pointer;
+  font-size: 0.75rem; font-family: inherit; transition: all 0.2s;
+}
+.pw-btn:hover { background: rgba(176,137,104,0.3); color: #E8CBA8; }
+.pw-btn.active { background: rgba(176,137,104,0.4); color: #fff; border-color: #B08968; }
+.pw-legend {
+  font-size: 0.72rem; color: #7a7268; margin-top: 0.8rem; line-height: 1.6;
+}
+.pw-legend span { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+@media (max-width: 700px) {
+  .pw-layout { flex-direction: column; align-items: center; }
+  .pw-panel { min-width: 100%; }
+}
+</style>
+<div class="pw-container">
+  <div class="pw-header">
+    <h4>互動：龐加萊圓盤模型</h4>
+    <span class="pw-badge">拖曳探索</span>
+  </div>
+  <p class="pw-desc">
+    龐加萊圓盤把無限的雙曲平面映射到一個有限的圓內。靠近中心的點是「一般」概念（階層中的高層）；靠近邊界的點是「具體」概念（深層的葉節點）。<strong>拖曳任何一個詞</strong>，感受雙曲距離如何在邊緣附近呈指數增長。<strong>點選兩個節點</strong>來比較距離。
+  </p>
+  <div class="pw-layout">
+    <div class="pw-canvas-wrap">
+      <canvas id="poincareCanvas" width="420" height="420"></canvas>
+    </div>
+    <div class="pw-panel">
+      <div class="pw-info-box">
+        <div class="pw-label">選取的詞對</div>
+        <div class="pw-value" id="pwPair">點選兩個節點</div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">雙曲距離 d(u,v)</div>
+        <div class="pw-value" id="pwDist">—</div>
+        <div class="pw-explain" id="pwDistExplain"></div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">歐氏距離 ‖u−v‖</div>
+        <div class="pw-value" id="pwEuclid">—</div>
+        <div class="pw-explain" id="pwEuclidExplain"></div>
+      </div>
+      <div class="pw-info-box">
+        <div class="pw-label">距離公式（龐加萊球）</div>
+        <div class="pw-value" style="font-size:0.78rem; color:#9e958a;">
+          d(u,v) = arcosh(1 + 2‖u−v‖² / ((1−‖u‖²)(1−‖v‖²)))
+        </div>
+      </div>
+      <div class="pw-controls">
+        <button class="pw-btn" onclick="pwReset()">重設</button>
+        <button class="pw-btn" id="pwGeodesicBtn" onclick="pwToggleGeodesic()">測地線</button>
+        <button class="pw-btn" id="pwGridBtn" onclick="pwToggleGrid()">格線</button>
+      </div>
+      <div class="pw-legend">
+        <span style="background:#E8CBA8;"></span> 根 &nbsp;
+        <span style="background:#8CB4A0;"></span> 中層 &nbsp;
+        <span style="background:#7A9CC6;"></span> 葉 &nbsp;
+        <span style="background:#C97A7A;"></span> 葉（另一組）
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const canvas = document.getElementById('poincareCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, R = W/2 - 15, cx = W/2, cy = H/2;
+  const nodes = [
+    { label: 'entity',    x: 0.00, y: 0.00, color: '#E8CBA8', depth: 0 },
+    { label: 'organism',  x:-0.18, y:-0.22, color: '#8CB4A0', depth: 1 },
+    { label: 'artifact',  x: 0.22, y:-0.15, color: '#8CB4A0', depth: 1 },
+    { label: 'substance', x: 0.05, y: 0.25, color: '#8CB4A0', depth: 1 },
+    { label: 'animal',    x:-0.38, y:-0.45, color: '#7A9CC6', depth: 2 },
+    { label: 'plant',     x: 0.05, y:-0.50, color: '#7A9CC6', depth: 2 },
+    { label: 'vehicle',   x: 0.50, y:-0.30, color: '#7A9CC6', depth: 2 },
+    { label: 'food',      x: 0.20, y: 0.50, color: '#7A9CC6', depth: 2 },
+    { label: 'dog',       x:-0.55, y:-0.68, color: '#C97A7A', depth: 3 },
+    { label: 'cat',       x:-0.20, y:-0.72, color: '#C97A7A', depth: 3 },
+    { label: 'oak',       x: 0.15, y:-0.73, color: '#C97A7A', depth: 3 },
+    { label: 'car',       x: 0.70, y:-0.45, color: '#C97A7A', depth: 3 },
+    { label: 'boat',      x: 0.68, y:-0.15, color: '#C97A7A', depth: 3 },
+    { label: 'bread',     x: 0.10, y: 0.72, color: '#C97A7A', depth: 3 },
+    { label: 'rice',      x: 0.35, y: 0.65, color: '#C97A7A', depth: 3 },
+  ];
+  const edges = [[0,1],[0,2],[0,3],[1,4],[1,5],[2,6],[3,7],[4,8],[4,9],[5,10],[6,11],[6,12],[7,13],[7,14]];
+  let origPos = nodes.map(n => ({x:n.x, y:n.y}));
+  let lastPair = [null, null], showGeodesic = false, showGrid = false;
+  let dragging = null, dragOff = {x:0,y:0};
+
+  function pd(u,v) {
+    const dx=u.x-v.x, dy=u.y-v.y, num=dx*dx+dy*dy;
+    const nu=u.x*u.x+u.y*u.y, nv=v.x*v.x+v.y*v.y;
+    const den=(1-nu)*(1-nv); if(den<=0)return Infinity;
+    return Math.acosh(Math.max(1,1+2*num/den));
+  }
+  function ed(u,v){return Math.sqrt((u.x-v.x)**2+(u.y-v.y)**2);}
+  function toS(p){return{x:cx+p.x*R,y:cy+p.y*R};}
+  function toP(s){return{x:(s.x-cx)/R,y:(s.y-cy)/R};}
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    g.addColorStop(0,'#2a2520');g.addColorStop(0.85,'#1f1b17');g.addColorStop(1,'#151210');
+    ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.strokeStyle='rgba(176,137,104,0.3)';ctx.lineWidth=1.5;ctx.stroke();
+    if(showGrid){for(let r=0.2;r<1;r+=0.2){ctx.beginPath();ctx.arc(cx,cy,r*R,0,Math.PI*2);ctx.strokeStyle='rgba(176,137,104,0.08)';ctx.lineWidth=1;ctx.stroke();}for(let a=0;a<Math.PI;a+=Math.PI/6){ctx.beginPath();ctx.moveTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.lineTo(cx-R*Math.cos(a),cy-R*Math.sin(a));ctx.strokeStyle='rgba(176,137,104,0.06)';ctx.lineWidth=1;ctx.stroke();}}
+    edges.forEach(([i,j])=>{const a=toS(nodes[i]),b=toS(nodes[j]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(176,137,104,0.15)';ctx.lineWidth=1;ctx.stroke();});
+    if(showGeodesic&&lastPair[0]!==null&&lastPair[1]!==null){const u=nodes[lastPair[0]],v=nodes[lastPair[1]];const sp=toS(u),ep=toS(v);const mx=(u.x+v.x)/2,my=(u.y+v.y)/2,mn=Math.sqrt(mx*mx+my*my),pull=0.3*(1-mn);const cp=toS({x:mx*(1-pull),y:my*(1-pull)});ctx.beginPath();ctx.moveTo(sp.x,sp.y);ctx.quadraticCurveTo(cp.x,cp.y,ep.x,ep.y);ctx.strokeStyle='rgba(232,203,168,0.6)';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
+    nodes.forEach((n,i)=>{const s=toS(n);const r=n.depth===0?7:n.depth===1?6:n.depth===2?5:4.5;ctx.beginPath();ctx.arc(s.x,s.y,r+4,0,Math.PI*2);ctx.fillStyle=n.color+'18';ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,r,0,Math.PI*2);ctx.fillStyle=n.color;if(lastPair.includes(i)){ctx.fillStyle='#fff';ctx.shadowColor=n.color;ctx.shadowBlur=12;}ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#c8c0b6';ctx.font=(lastPair.includes(i)?'bold ':'')+'11px "Source Sans 3",sans-serif';ctx.textAlign='center';ctx.fillText(n.label,s.x,s.y-r-5);});
+  }
+
+  function info() {
+    if(lastPair[0]!==null&&lastPair[1]!==null){
+      const a=nodes[lastPair[0]],b=nodes[lastPair[1]];
+      const hd=pd(a,b),eu=ed(a,b),ratio=hd/Math.max(eu,0.001);
+      document.getElementById('pwPair').textContent=a.label+' ↔ '+b.label;
+      document.getElementById('pwDist').textContent=hd===Infinity?'∞':hd.toFixed(3);
+      document.getElementById('pwEuclid').textContent=eu.toFixed(3);
+      document.getElementById('pwDistExplain').textContent=hd>4?'非常遠——位於階層的不同分支。':hd>2?'中等——相隔數個層級。':'接近——在階層中相鄰。';
+      document.getElementById('pwEuclidExplain').textContent='比值：'+ratio.toFixed(1)+'× — '+(ratio>3?'邊界的扭曲放大了真實距離！':'靠近中心，兩種距離相近。');
+    }
+  }
+
+  canvas.addEventListener('mousedown',e=>{const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;let best=-1,bd=20;nodes.forEach((n,i)=>{const s=toS(n);const d=Math.sqrt((mx-s.x)**2+(my-s.y)**2);if(d<bd){bd=d;best=i;}});if(best>=0){dragging=best;const s=toS(nodes[best]);dragOff={x:mx-s.x,y:my-s.y};if(lastPair[0]===null){lastPair[0]=best;}else if(lastPair[1]===null&&lastPair[0]!==best){lastPair[1]=best;}else{lastPair=[best,null];}info();draw();}});
+  canvas.addEventListener('mousemove',e=>{if(dragging===null)return;const rect=canvas.getBoundingClientRect();const p=toP({x:e.clientX-rect.left-dragOff.x,y:e.clientY-rect.top-dragOff.y});const norm=Math.sqrt(p.x*p.x+p.y*p.y),mx=0.92;if(norm>mx){p.x*=mx/norm;p.y*=mx/norm;}nodes[dragging].x=p.x;nodes[dragging].y=p.y;info();draw();});
+  canvas.addEventListener('mouseup',()=>{dragging=null;});
+  canvas.addEventListener('mouseleave',()=>{dragging=null;});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];canvas.dispatchEvent(new MouseEvent('mousedown',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();const t=e.touches[0];canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+  canvas.addEventListener('touchend',()=>{dragging=null;});
+
+  window.pwReset=function(){origPos.forEach((p,i)=>{nodes[i].x=p.x;nodes[i].y=p.y;});lastPair=[null,null];document.getElementById('pwPair').textContent='點選兩個節點';document.getElementById('pwDist').textContent='—';document.getElementById('pwEuclid').textContent='—';document.getElementById('pwDistExplain').textContent='';document.getElementById('pwEuclidExplain').textContent='';draw();};
+  window.pwToggleGeodesic=function(){showGeodesic=!showGeodesic;document.getElementById('pwGeodesicBtn').classList.toggle('active',showGeodesic);draw();};
+  window.pwToggleGrid=function(){showGrid=!showGrid;document.getElementById('pwGridBtn').classList.toggle('active',showGrid);draw();};
+  draw();
+})();
+</script>
+</div>
+<p>更廣泛地說，幾何空間的選擇成為一個具有語言學內容的建模決定。歐氏空間 $\mathbb{E}^n$ 適合對稱的相似性。雙曲空間 $\mathbb{H}^n$ 適合階層。球面空間 $\mathbb{S}^n$ 可能適合循環結構（顏色詞、星期、季節詞彙）。而乘積空間 $\mathbb{H}^{n_1} \times \mathbb{S}^{n_2} \times \mathbb{E}^{n_3}$ 可能是處理自然語言語意中複雜關係混合所必需的——在那裡，階層的、循環的與平坦的相似關係同時並存。</p>
+<h3 id="sec-9-4"><span class="section-num">9.4</span> 語言模型中的流形假說</h3>
+<p>近期研究顯示，Transformer 模型中的 token 表徵位於內在維度遠低於外圍維度的流形上。不同的語言性質對應不同的幾何特徵：句法資訊傾向編碼在線性子空間結構中，而語意資訊則編碼在非線性的流形幾何（曲率、拓撲）中。這個區別與傳統語言學中句法與語意的區別相互呼應。</p>
+<h3 id="sec-9-5"><span class="section-num">9.5</span> 語境化嵌入與多義的幾何</h3>
+<p>埃塔雅拉（Ethayarajh, 2019）證明，語境化嵌入佔據高維空間中一個狹窄的錐體。多義詞的不同詞義佔據這個錐體的不同區域，而分離的程度隨層次而異。在較早的層，詞義彼此靠近；在中間層，它們分離得最開；在較晚的層，它們可能重新匯聚。這種詞義消歧的逐層幾何，是觀察神經網路如何處理詞彙歧義的一扇窗。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>「狹窄錐體」的發現有一個實際的啟示。如果每個向量都大致指向同一個方向——就像許多手電筒都照向同一面牆——那麼任何兩個詞的原始餘弦相似度都很高，餘弦就不再有資訊量。這個性質稱為<strong>各向異性（anisotropy）</strong>，這也是為什麼嚴謹的研究在詮釋相似度之前，會先減去平均向量、標準化各維度，或與隨機詞對的基準做比較。</p>
+</div>
+</article>
+
+
+<article class="chapter" id="ch10">
+  <div class="chapter-label">第 10 章</div>
+  <h2 class="chapter-title">拓撲與語言空間的形狀</h2>
+<div class="epigraph">
+  <p>「拓撲學家就是分不清咖啡杯和甜甜圈的人。」</p>
+  <div class="attribution">— 數學界的民間說法</div>
+</div>
+<figure class="fig"><img src="./figures/topology.png" alt="" loading="lazy"></figure>
+<h3 id="sec-10-1"><span class="section-num">10.1</span> 拓撲能為語言學提供什麼</h3>
+<p>拓撲研究在連續變形——拉伸、彎曲與扭轉，但不撕裂也不黏合——之下保持不變的性質。幾何在乎距離與角度，拓撲則在乎連通性、洞，以及空間的整體「形狀」。對語言學而言，拓撲提供了回答幾何無法回答之問題的工具：詞義的空間有沒有洞？語言模型的內部表徵有沒有特徵性的拓撲指紋？</p>
+<h3 id="sec-10-2"><span class="section-num">10.2</span> 基本拓撲概念</h3>
+<p>一個語言上直覺的例子：考慮顏色詞的語意空間。在一個基本顏色詞沿色相環排列的語言中，其拓撲具有一個特徵性的一維洞——你可以依序走過各個顏色詞（紅 → 橙 → 黃 → 綠 → 藍 → 紫 → 紅）並回到起點，形成一個無法收縮成一點的環。無論我們如何拉伸或變形這個空間，這個環都是存在的拓撲特徵。</p>
+<div class="deep-dive"><div class="box-label">深入：語意學的拓撲轉向</div>
+<p>在語義學中，傳統的向量空間（幾何）告訴我們詞與詞之間的「距離」，但拓撲學則揭示了語義結構的「連通性」與「形狀」。加入拓撲學的深度之後，分析不僅涵蓋了語言的「量」（機率與向量），更觸及了語言的「質」與「結構」。本節接下來介紹兩個核心工具——<strong>單純複形（simplicial complex）</strong>與<strong>持續同調（persistent homology）</strong>——以及它們對語意空間可能具有的數學意義。</p>
+</div>
+<h4>從配對到單形</h4>
+<p>在向量語意學中，我們關注的是兩兩之間的關係（兩個詞之間的一條邊）。然而，語言經常涉及更高階的依存。一個「語境」不只是一對詞，而是一群共同構成連貫意義的詞。</p>
+<p>數學上，我們用<strong>單純複形</strong> $K$ 來表示這一點——一組沿共用面黏合起來的「實心」形狀：</p>
+<ul>
+  <li>0-單形是單一個詞：$[w_i]$。</li>
+  <li>1-單形是兩個詞之間的關係：$[w_i, w_j]$。</li>
+  <li>2-單形是一個實心三角形，代表三方的語意連貫：$[w_i, w_j, w_k]$。</li>
+</ul>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>單純複形是一套由點、棍子與三角形磁磚組成的積木。點是詞；棍子連接兩個屬於一起的詞；當三個詞<em>作為一個群體</em>而連貫——而不只是兩兩相關——時，就用一塊磁磚把三角形填滿。三根棍子與一塊磁磚的差別，就是「每一對都相關」與「三者構成同一個語境」的差別——這正是僅靠兩兩相似度無法表達的區別。</p>
+</div>
+<p><strong>語言學例子。</strong> 考慮詞組 {<em>bank</em>, <em>river</em>, <em>money</em>, <em>interest</em>}。</p>
+<ul>
+  <li>{<em>bank</em>, <em>river</em>} 在地理語境中共享一個 1-單形。</li>
+  <li>{<em>bank</em>, <em>money</em>, <em>interest</em>} 在金融語境中共享一個 2-單形。</li>
+  <li>關鍵在於，{<em>river</em>, <em>money</em>} 之間可能沒有邊。這條「缺少的邊」阻止了三方單形的形成，從而界定了語意領域的邊界。</li>
+</ul>
+<h4>同調與詞彙空缺</h4>
+<p>拓撲讓我們能計算<strong>貝蒂數（Betti numbers）</strong> $\beta_n$，它們計數一個空間中的「洞」：</p>
+<ul>
+  <li>$\beta_0$：連通分支的數目（彼此孤立的語意群集）；</li>
+  <li>$\beta_1$：圍住空白區域的一維環的數目；</li>
+  <li>$\beta_2$：封閉空腔的數目，就像空心球的內部。</li>
+</ul>
+<p>最小的例子能讓這個想法具體起來。三個詞以三根棍子兩兩相連、但沒有磁磚，構成一個空心三角形：一個連通分支、一個環，所以 $\beta_0 = 1, \beta_1 = 1$。加上磁磚，環被填滿：$\beta_1 = 0$。一個有用的檢查是歐拉公式——（頂點數）−（邊數）+（面數）等於 $\beta_0 - \beta_1 + \beta_2$：空心三角形是 $3 - 3 + 0 = 0 = 1 - 1$；實心三角形是 $3 - 3 + 1 = 1 = 1 - 0$。</p>
+<p>在語意空間中，一個洞（$\beta_1 > 0$）是<strong>詞彙空缺（lexical gap）</strong>的候選：一個被詞包圍、中心卻是空的概念區域。</p>
+<p>例子：想像一組描述「溫暖」、「熱」、「燃燒」的詞，以及另一組描述「情感」、「熱情」、「慾望」的詞。如果這些群集環繞著一個語言中沒有專屬詞彙的中心概念（例如某種特定的精神性熱度），那麼詞彙的拓撲就會真的顯示出一個洞。這仍是一個有待檢驗的假說，而非既定結果——洞也可能源自詞彙取樣的稀疏。</p>
+<h4>持續同調：哪些洞是真的？</h4>
+<p>我們怎麼知道一個洞是「真的」，還是只是雜訊？我們使用<strong>持續同調</strong>。我們在每個詞向量周圍長出半徑為 $\epsilon$ 的「球」。</p>
+<p>隨著 $\epsilon$ 增加，詞彼此相連形成邊，再形成三角形。我們追蹤拓撲特徵（連通分支、洞）的「誕生」與「消亡」。</p>
+<figure class="fig">
+<svg viewBox="0 0 540 350" width="540" role="img" aria-label="Filtration and persistence barcode">
+<g transform="translate(90,92)"><circle cx="40.1" cy="13.4" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="9.9" cy="39.9" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-28.4" cy="26.7" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-42.0" cy="-13.2" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-9.5" cy="-41.8" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="28.7" cy="-26.3" r="8" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="40.1" cy="13.4" r="3.5" fill="#6B4C3B"/><circle cx="9.9" cy="39.9" r="3.5" fill="#6B4C3B"/><circle cx="-28.4" cy="26.7" r="3.5" fill="#6B4C3B"/><circle cx="-42.0" cy="-13.2" r="3.5" fill="#6B4C3B"/><circle cx="-9.5" cy="-41.8" r="3.5" fill="#6B4C3B"/><circle cx="28.7" cy="-26.3" r="3.5" fill="#6B4C3B"/></g><text x="90" y="198" font-size="12" fill="#2C2825" text-anchor="middle">小 ε：六個彼此分離的詞</text><g transform="translate(270,92)"><circle cx="40.1" cy="13.4" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="9.9" cy="39.9" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-28.4" cy="26.7" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-42.0" cy="-13.2" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-9.5" cy="-41.8" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="28.7" cy="-26.3" r="24" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><line x1="40.1" y1="13.4" x2="9.9" y2="39.9" stroke="#6B4C3B" stroke-width="1.5"/><line x1="9.9" y1="39.9" x2="-28.4" y2="26.7" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-28.4" y1="26.7" x2="-42.0" y2="-13.2" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-42.0" y1="-13.2" x2="-9.5" y2="-41.8" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-9.5" y1="-41.8" x2="28.7" y2="-26.3" stroke="#6B4C3B" stroke-width="1.5"/><line x1="28.7" y1="-26.3" x2="40.1" y2="13.4" stroke="#6B4C3B" stroke-width="1.5"/><circle cx="40.1" cy="13.4" r="3.5" fill="#6B4C3B"/><circle cx="9.9" cy="39.9" r="3.5" fill="#6B4C3B"/><circle cx="-28.4" cy="26.7" r="3.5" fill="#6B4C3B"/><circle cx="-42.0" cy="-13.2" r="3.5" fill="#6B4C3B"/><circle cx="-9.5" cy="-41.8" r="3.5" fill="#6B4C3B"/><circle cx="28.7" cy="-26.3" r="3.5" fill="#6B4C3B"/></g><text x="270" y="198" font-size="12" fill="#2C2825" text-anchor="middle">中 ε：一個環誕生</text><g transform="translate(450,92)"><circle cx="40.1" cy="13.4" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="9.9" cy="39.9" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-28.4" cy="26.7" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-42.0" cy="-13.2" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="-9.5" cy="-41.8" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><circle cx="28.7" cy="-26.3" r="44" fill="#B08968" fill-opacity="0.13" stroke="#B08968" stroke-opacity="0.35"/><polygon points="40.1,13.4 9.9,39.9 -28.4,26.7 -42.0,-13.2 -9.5,-41.8 28.7,-26.3" fill="#8CB4A0" fill-opacity="0.4"/><line x1="40.1" y1="13.4" x2="9.9" y2="39.9" stroke="#6B4C3B" stroke-width="1.5"/><line x1="9.9" y1="39.9" x2="-28.4" y2="26.7" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-28.4" y1="26.7" x2="-42.0" y2="-13.2" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-42.0" y1="-13.2" x2="-9.5" y2="-41.8" stroke="#6B4C3B" stroke-width="1.5"/><line x1="-9.5" y1="-41.8" x2="28.7" y2="-26.3" stroke="#6B4C3B" stroke-width="1.5"/><line x1="28.7" y1="-26.3" x2="40.1" y2="13.4" stroke="#6B4C3B" stroke-width="1.5"/><circle cx="40.1" cy="13.4" r="3.5" fill="#6B4C3B"/><circle cx="9.9" cy="39.9" r="3.5" fill="#6B4C3B"/><circle cx="-28.4" cy="26.7" r="3.5" fill="#6B4C3B"/><circle cx="-42.0" cy="-13.2" r="3.5" fill="#6B4C3B"/><circle cx="-9.5" cy="-41.8" r="3.5" fill="#6B4C3B"/><circle cx="28.7" cy="-26.3" r="3.5" fill="#6B4C3B"/></g><text x="450" y="198" font-size="12" fill="#2C2825" text-anchor="middle">大 ε：環被填滿（消亡）</text>
+<g transform="translate(0,222)">
+<text x="10" y="0" font-size="12" fill="#6B635A">條碼圖：每一條代表一個特徵，從誕生畫到消亡</text>
+<line x1="60" y1="110" x2="520" y2="110" stroke="#6B635A"/><text x="524" y="114" font-size="12" fill="#2C2825">ε</text>
+<line x1="210" y1="14" x2="210" y2="114" stroke="#E2DBD1" stroke-dasharray="3 3"/><line x1="390" y1="14" x2="390" y2="114" stroke="#E2DBD1" stroke-dasharray="3 3"/>
+<text x="10" y="42" font-size="12" fill="#6B4C3B" font-weight="600">β₀</text>
+<line x1="60" y1="18" x2="200" y2="18" stroke="#6B4C3B" stroke-width="3"/><line x1="60" y1="25" x2="203" y2="25" stroke="#6B4C3B" stroke-width="3"/><line x1="60" y1="32" x2="206" y2="32" stroke="#6B4C3B" stroke-width="3"/><line x1="60" y1="39" x2="209" y2="39" stroke="#6B4C3B" stroke-width="3"/><line x1="60" y1="46" x2="212" y2="46" stroke="#6B4C3B" stroke-width="3"/>
+<line x1="60" y1="53" x2="515" y2="53" stroke="#6B4C3B" stroke-width="3"/>
+<text x="10" y="86" font-size="12" fill="#4A6E9A" font-weight="600">β₁</text>
+<line x1="214" y1="82" x2="386" y2="82" stroke="#7A9CC6" stroke-width="5"/>
+</g>
+</svg>
+<figcaption><b>圖 10.1</b>　一個過濾（filtration）及其條碼圖。當六個詞點周圍的球逐漸長大，分離的連通分支合併（短的 $\beta_0$ 條結束），一個環出現；球再長大，三角形把環填滿，環便消亡。長的條代表穩健的結構；短的條則是雜訊。</figcaption>
+</figure>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>持續同調就像看著墨漬在濕紙上暈開。一開始每一滴都是分開的；接著相鄰的墨滴碰觸並融合；有時一圈墨滴會在中央圍出一塊乾燥的區域，它會存活一陣子，直到墨水最終把它淹沒。存活很久的乾燥區域，是這個排列的真實特徵；幾乎立刻被淹沒的，則只是間距上的偶然。</p>
+</div>
+<p><strong>語言學洞見。</strong> 穩健的語意結構在很長一段 $\epsilon$ 範圍內都「持續」存在，而偶然的聯想則很快消失。這給了我們一張語言概念結構的「條碼圖」。</p>
+<h4>邊界運算子</h4>
+<p>為了以代數方式找出洞，我們定義一個<strong>邊界運算子</strong> $\partial_n$，把每個單形映射到其各面的帶號和：</p>
+$$\partial_n([v_0, \dots, v_n]) = \sum_{i=0}^{n} (-1)^i [v_0, \dots, \hat{v}_i, \dots, v_n]$$
+<p>其中 $\hat{v}_i$ 表示「省略 $v_i$」。對一個三角形而言，$\partial_2[a,b,c] = [b,c] - [a,c] + [a,b]$：它的三條邊，定向成繞行一圈。邊界為零的鏈是<strong>循環（cycle）</strong>（它首尾相接）；本身就是某個實心物件之邊界的循環，是「平凡的」環。洞就是那些<em>不是</em>邊界的循環：形式上，是循環 $Z_n = \ker \partial_n$ 對邊界 $B_n = \mathrm{im}\, \partial_{n+1}$ 的商 $H_n = Z_n / B_n$，而 $\beta_n = \mathrm{rank}\, H_n$。對語言學家而言，$H_n$ 是詞彙留下空白之處的數學特徵——一個語言說不出的，或選擇不歸在一起的東西。</p>
+<h3 id="sec-10-3"><span class="section-num">10.3</span> 持續同調與詞嵌入的拓撲</h3>
+<p>持續同調追蹤拓撲特徵如何隨尺度參數的變化而出現與消失。給定一組點（例如詞嵌入），我們建構一族以距離閾值 $\varepsilon$ 為索引的單純複形：在每個閾值下，把距離在 $\varepsilon$ 之內的點相連。當 $\varepsilon$ 從 $0$ 增加到 $\infty$，拓撲特徵「誕生」（新的連結產生環或空腔時）並「消亡」（這些特徵被填滿時）。持續圖——畫出每個特徵的誕生時間 $b_i$ 與消亡時間 $d_i$——總結了多尺度的拓撲結構。持續性 $d_i - b_i$ 高的特徵代表穩健的拓撲結構。詞嵌入空間展現出非平凡的持續同調：一些穩定的環，可能對應於語意的「迴路」——循環的聯想模式（季節、星期、人生階段）。</p>
+<h3 id="sec-10-4"><span class="section-num">10.4</span> 語言模型的拓撲資料分析</h3>
+<p>不同 Transformer 層之激活向量的持續同調顯示，拓撲複雜度呈現系統性的變化：較早的層拓撲較簡單，中間層展現最大的複雜度，較晚的層又再度簡化。編碼豐富句法結構的層，傾向具有較高的貝蒂數 $\beta_k = \mathrm{rank}\,H_k$，暗示更複雜的拓撲。</p>
+<h3 id="sec-10-5"><span class="section-num">10.5</span> 層論與篇章連貫</h3>
+<p>層論（sheaf theory）提供了一個數學框架，研究局部資訊如何能一致地組合成全域資訊。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>想像一件事件的幾位目擊者，每個人都只看到一部分。每一份證詞在局部都是連貫的。只有當這些證詞<em>在重疊之處彼此一致</em>時，才存在一個一致的全域故事——如果兩位目擊者都看到了逃逸的車，他們必須同意車的顏色。層正是把這件事形式化：附在各個局部區域上的資料，加上一個<strong>黏合條件</strong>，說明局部資料何時能組裝成全域的整體。篇章也是如此：每個句子在其局部語境中被詮釋，而一篇連貫的文本，就是其局部詮釋能夠黏合在一起的文本；無法黏合，就是矛盾或未解的歧義。</p>
+</div>
+<p>阿布拉姆斯基及其合作者（Abramsky & Brandenburger, 2011）已用層論為語言中的語境性建模——出人意料地連結到量子力學，在那裡層論方法刻畫了非古典的相關性。語言語境性與量子語境性之間的數學平行，反映出一種共享的語境依賴形式結構，可能具有深遠的認知意涵。</p>
+</article>
+
+
+<article class="chapter" id="ch11">
+  <div class="chapter-label">第 11 章</div>
+  <h2 class="chapter-title">語言地景上的微分幾何</h2>
+<div class="epigraph">
+  <p>「上帝創造了整數；其餘一切都是人的作品。」</p>
+  <div class="attribution">— 克羅內克（Leopold Kronecker）</div>
+</div>
+<h3 id="sec-11-1"><span class="section-num">11.1</span> 為什麼需要微分幾何？</h3>
+<p>微分幾何是用微積分工具研究彎曲空間的數學框架。如果拓撲告訴我們空間的整體「形狀」，微分幾何則告訴我們空間在局部如何彎曲與伸展——距離、角度與體積如何逐點變化。對語言而言，一旦我們認識到語言物件所嵌入的空間——語言模型的參數空間、詞表徵的流形、損失地景——並不是平的而是彎曲的，而且這種曲率承載著語言資訊，微分幾何就變得不可或缺。</p>
+<h3 id="sec-11-2"><span class="section-num">11.2</span> 黎曼流形：基礎</h3>
+<p>黎曼流形是一個配備黎曼度量的光滑流形 $M$——在每個切空間 $T_pM$ 上平滑變化的內積 $g_p$，讓我們能量測長度、角度與體積。曲線 $\gamma: [a,b] \to M$ 的長度為：</p>
+$$L(\gamma) = \int_a^b \sqrt{g_{\gamma(t)}\!\bigl(\dot\gamma(t),\, \dot\gamma(t)\bigr)}\; dt$$
+<p>而兩點之間的測地距離 $d(p,q)$，是所有連接它們的曲線長度的下確界。對語言學家而言，關鍵的直覺是：黎曼流形是一個量測距離的「尺」會隨地點改變的空間。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>想像一張登山地圖，每一平方公里都附有一則註記：「平坦草地——好走」或「陡峭碎石坡——每一公尺抵十公尺」。<strong>度量</strong> $g$ 就是那則註記：在每一點，它說明朝各個方向走一小步要花多少力氣。上面的長度公式，就是沿著路線 $\gamma$ 走，用當地的規則量測每一小步 $\dot\gamma(t)\,dt$，再把代價加總。<strong>測地線</strong>是最省力的路線——在崎嶇地形上，它很少是地圖上的那條直線。</p>
+</div>
+<p>以語言學的話來說，從語意空間的一個區域移動到另一個區域，每單位幾何距離可能牽涉不同量的「語意距離」——局部的度量反映了意義在局部的密度與組織。</p>
+<h3 id="sec-11-3"><span class="section-num">11.3</span> 曲率與語意空間的局部結構</h3>
+<figure class="fig">
+<svg viewBox="0 0 540 205" width="540" role="img" aria-label="Triangles in flat, spherical and hyperbolic geometry">
+<g transform="translate(90,90)"><path d="M0 -55 Q-30.0 -5.0 -60 45 Q0.0 45.0 60 45 Q30.0 -5.0 0 -55 Z" fill="#6B4C3B" fill-opacity="0.18" stroke="#6B4C3B" stroke-width="1.8"/><text x="0" y="82" font-size="12.5" fill="#2C2825" text-anchor="middle" font-weight="600">平坦（K = 0）</text><text x="0" y="100" font-size="12" fill="#6B635A" text-anchor="middle">內角和 = 180°</text></g><g transform="translate(270,90)"><path d="M0 -55 Q-46.5 -5.0 -60 45 Q0.0 72.5 60 45 Q46.5 -5.0 0 -55 Z" fill="#8CB4A0" fill-opacity="0.18" stroke="#8CB4A0" stroke-width="1.8"/><text x="0" y="82" font-size="12.5" fill="#2C2825" text-anchor="middle" font-weight="600">球面（K > 0）</text><text x="0" y="100" font-size="12" fill="#6B635A" text-anchor="middle">內角和 > 180°</text></g><g transform="translate(450,90)"><path d="M0 -55 Q-13.5 -5.0 -60 45 Q0.0 17.5 60 45 Q13.5 -5.0 0 -55 Z" fill="#7A9CC6" fill-opacity="0.18" stroke="#7A9CC6" stroke-width="1.8"/><text x="0" y="82" font-size="12.5" fill="#2C2825" text-anchor="middle" font-weight="600">雙曲（K < 0）</text><text x="0" y="100" font-size="12" fill="#6B635A" text-anchor="middle">內角和 < 180°</text></g>
+</svg>
+<figcaption><b>圖 11.1</b>　從內部看曲率。一個無法離開表面的居民，仍然可以用最短路徑畫一個三角形、把內角加起來，藉此偵測曲率。在球面上三角形的邊向外鼓；在馬鞍形（雙曲）的表面上，邊則向內收。</figcaption>
+</figure>
+<p>黎曼流形的曲率衡量它偏離平坦的程度。負曲率（雙曲）表示測地線發散，體積增長得比平坦空間快；正曲率（球面）表示測地線匯聚。表徵流形中高負曲率的區域可能對應階層分岔結構；正曲率的區域可能對應緊密聚集的循環結構。藉由在不同點與不同層量測曲率，研究者可以建立一份語言資訊組織的「曲率圖集」。</p>
+<h3 id="sec-11-4"><span class="section-num">11.4</span> 測地線與語意軌跡</h3>
+<p>測地線是流形上兩點之間的最短路徑——直線在彎曲空間中的推廣。從 "puppy" 到 "dog" 的測地線，可能會經過編碼「成長」的表徵；從 "walk" 到 "run" 的測地線，可能會經過編碼「速度增加」的表徵。表徵流形上的測地線，或許編碼了概念路徑——一個概念被轉換成另一個概念的認知路徑。</p>
+<h3 id="sec-11-5"><span class="section-num">11.5</span> 費雪資訊度量</h3>
+<p>微分幾何與語言模型之間最深刻的連結之一，來自費雪資訊度量。對一族以 $\theta$ 為參數的機率分布 $p(x|\theta)$，費雪資訊矩陣在參數空間上定義了一個黎曼度量：</p>
+$$F(\theta)_{ij} = \mathbb{E}_{x \sim p(\cdot|\theta)}\!\left[\frac{\partial \log p(x|\theta)}{\partial \theta_i} \cdot \frac{\partial \log p(x|\theta)}{\partial \theta_j}\right]$$
+<p>這個度量衡量機率分布隨參數變化而改變得多快。平坦的方向（低費雪資訊）對應冗餘的參數；彎曲的方向（高費雪資訊）對應強烈影響語言行為的參數。這個幾何觀點對災難性遺忘，以及像 LoRA（Hu et al., 2022）這類低秩適應方法的有效性，都有意涵。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>費雪度量回答的問題是：「如果我稍微推動模型的參數，新舊預測有多<em>容易區分</em>？」在這個幾何中，兩組設定相距很遠，不是因為它們的數字相差很多，而是因為它們會產生明顯不同的文本。這是聽者會感知到的距離，而不是會計師會算出的距離。</p>
+</div>
+<p>最簡單的情況說明了這為何重要。令單一參數 $p$ 為某個詞出現的機率（伯努利分布）。它的費雪資訊是</p>
+$$F(p) = \frac{1}{p(1-p)}.$$
+<p>在 $p = 0.5$ 時 $F = 4$；在 $p = 0.01$ 時 $F \approx 101$。把一個常見詞的機率從 50% 提高到 51%，幾乎不改變我們觀察到的東西；但把一個罕見詞的機率從 1% 提高到 2%，它出現的頻率就<em>加倍</em>了——同樣 $0.01$ 的歐氏步長，在費雪距離中要長上好幾倍（費雪距離以 $\sqrt{F}$ 縮放）。因此，機率空間的幾何確實是彎曲的：它在邊緣——罕見事件所在之處——被拉伸，這與 §9.3 的龐加萊圓盤如出一轍。形式上，費雪度量是 §6.3 之 KL 散度的無窮小形式：</p>
+$$\mathrm{KL}\bigl(p_\theta \,\|\, p_{\theta + d\theta}\bigr) \approx \tfrac{1}{2}\, d\theta^\top F(\theta)\, d\theta,$$
+<p>而<strong>自然梯度</strong>方法（Amari, 2016）正是利用這一點，以固定的<em>費雪</em>長度而非固定的歐氏長度來走最佳化的每一步。</p>
+<h3 id="sec-11-6"><span class="section-num">11.6</span> 纖維叢與語言表徵的架構</h3>
+<p>纖維叢是一個局部看起來像乘積空間 $E \cong B \times F$（帶有投影 $\pi: E \to B$）、但可能具有非平凡全域結構的拓撲空間——當我們在底空間上移動時，纖維可能會「扭轉」。在語言表徵中，底空間 $B$ 可能代表句法結構，而每個節點 $p$ 上的纖維 $F_p = \pi^{-1}(p)$ 可能代表語意與構詞特徵。這連結到規範等變神經網路（gauge equivariant neural networks），它們使用纖維叢與聯絡來建構尊重特定對稱性的網路。如果語言結構具有類似規範的對稱性，規範等變架構或許是下一代語言模型的自然候選。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>纖維叢是這樣一種空間：「底空間」的每一點都帶著一個自己的小空間——就像頭皮上的每一點都長著一根頭髮，或地圖上的每個城鎮都有自己的當地時刻表。在局部，它就只是「底空間 × 纖維」。有意思的情況是附著方式在全域上<em>扭轉</em>：莫比烏斯帶是一個圓（底空間），每一點附著一條線段（纖維），但繞一圈回來，線段會翻面。對語言而言，這個提議是：語法位置是底空間，而該位置上可能的填充者所構成的空間是纖維。在結構中移動時纖維如何「相連」，便描述了特徵如何傳遞——例如一致性（agreement）。這仍是一個研究綱領，而非既定結果。</p>
+</div>
+</article>
+
+
+<article class="chapter" id="ch12">
+  <div class="chapter-label">第 12 章</div>
+  <h2 class="chapter-title">範疇論：數學語言學的數學</h2>
+<div class="epigraph">
+  <p>「範疇論是對數學的鳥瞰。」</p>
+  <div class="attribution">— 萊因斯特（Tom Leinster）</div>
+</div>
+<h3 id="sec-12-1"><span class="section-num">12.1</span> 範疇作為統一的語言</h3>
+<p>範疇論提供了一種語言，用以描述不同數學框架之間深層的結構相似性。一個範疇 $\mathbf{C}$ 由物件、物件之間的態射，以及一個合成運算組成。範疇 $\mathbf{Set}$ 以集合為物件、函數為態射；範疇 $\mathbf{Vect}$ 以向量空間為物件、線性映射為態射；範疇 $\mathbf{Top}$ 以拓撲空間為物件、連續映射為態射。透過抽象出共同的結構，我們能看出在語言的不同數學表徵之間轉換時，什麼被保留了下來。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>範疇就像一張捷運路線圖。<strong>物件</strong>是車站；<strong>態射</strong>是從一站到另一站的路線；<strong>合成</strong>是轉乘——從 A 到 B 的路線接上從 B 到 C 的路線，本身就是一條從 A 到 C 的路線。每個車站都有一條平凡的「待在原地」路線（<strong>恆等態射</strong>），而一段有多次轉乘的旅程怎麼加括號都無所謂（<strong>結合律</strong>）。定義就只有這些。它的威力來自它假設得有多少：集合與函數、向量空間與線性映射、句法型別與推導，全都滿足它。</p>
+</div>
+<p>一個語言學的範疇，依循蘭貝克（Lambek, 1958）的傳統，以<em>句法型別</em>為物件（例如名詞詞組 $n$、句子 $s$），以<em>推導</em>為態射：只要能證明型別為 $a$ 的表達式也具有型別 $b$，就有一個態射 $a \to b$。合成是把推導串接起來；恆等態射是平凡的推導。</p>
+<h3 id="sec-12-2"><span class="section-num">12.2</span> 函子與自然變換</h3>
+<p>函子 $F: \mathbf{C} \to \mathbf{D}$ 是範疇之間保持結構的映射。在語言學中，從句法樹到語意表徵的過渡可以被建模為一個函子。把詞嵌入向量，是一個從離散語言範疇到向量空間範疇的函子。自然變換 $\eta: F \Rightarrow G$ 則提供了一種在尊重結構的前提下，系統性地比較兩種這樣的翻譯的方法。</p>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>函子是一種保持連接關係的翻譯。捷運路線圖就是城市的一個函子：它把每個車站送到一個點、每條路線送到一條線，並保證如果兩條路線在城市中相接，它們的線在地圖上也相接。它遺忘了大量資訊（距離、街道、景觀），卻從不打斷任何連接。定義性的法則 $F(g \circ f) = F(g) \circ F(f)$ 是說：翻譯一段組合起來的旅程，和先翻譯每一段再把翻譯組合起來，結果相同。</p>
+</div>
+<figure class="fig">
+<svg viewBox="0 0 520 230" width="520" role="img" aria-label="Compositionality as a commutative square">
+<defs><marker id="ca" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#6B4C3B"/></marker></defs>
+<rect x="20" y="30" width="170" height="44" rx="6" fill="#F7F3EC" stroke="#B08968"/><text x="105" y="57" font-size="12.5" fill="#2C2825" text-anchor="middle">John · loves · Mary</text>
+<rect x="330" y="30" width="170" height="44" rx="6" fill="#F7F3EC" stroke="#B08968"/><text x="415" y="57" font-size="12.5" fill="#2C2825" text-anchor="middle">John loves Mary</text>
+<rect x="20" y="160" width="170" height="44" rx="6" fill="#E6EDF4" stroke="#7A9CC6"/><text x="105" y="187" font-size="12.5" fill="#2C2825" text-anchor="middle">⟦John⟧, ⟦loves⟧, ⟦Mary⟧</text>
+<rect x="330" y="160" width="170" height="44" rx="6" fill="#E6EDF4" stroke="#7A9CC6"/><text x="415" y="187" font-size="12.5" fill="#2C2825" text-anchor="middle">⟦John loves Mary⟧</text>
+<line x1="192" y1="52" x2="326" y2="52" stroke="#6B4C3B" stroke-width="1.5" marker-end="url(#ca)"/><text x="260" y="44" font-size="12" fill="#6B4C3B" text-anchor="middle">句法組合</text>
+<line x1="192" y1="182" x2="326" y2="182" stroke="#6B4C3B" stroke-width="1.5" marker-end="url(#ca)"/><text x="260" y="174" font-size="12" fill="#6B4C3B" text-anchor="middle">語意組合</text>
+<line x1="105" y1="76" x2="105" y2="156" stroke="#6B4C3B" stroke-width="1.5" marker-end="url(#ca)"/><text x="115" y="121" font-size="13" fill="#6B4C3B" font-style="italic">F</text>
+<line x1="415" y1="76" x2="415" y2="156" stroke="#6B4C3B" stroke-width="1.5" marker-end="url(#ca)"/><text x="425" y="121" font-size="13" fill="#6B4C3B" font-style="italic">F</text>
+<text x="260" y="121" font-size="12" fill="#6B635A" text-anchor="middle">兩條路徑結果一致</text>
+</svg>
+<figcaption><b>圖 12.1</b>　作為交換方塊的組合性。先向右再向下（先建構句子，再詮釋它），與先向下再向右（先詮釋各個詞，再組合意義），必須得到相同的答案。說詮釋 $F$ 是一個函子，正是說這個方塊可交換——這是以圖形陳述的弗雷格原則。</figcaption>
+</figure>
+<h3 id="sec-12-3"><span class="section-num">12.3</span> 組合性的範疇取徑</h3>
+<p>DisCoCat 框架把句法—語意介面建模為一個從前群語法（pregroup grammar，建模句法）到 $\mathbf{FdVect}$（有限維向量空間，建模語意）的么半函子（monoidal functor）。這個範疇觀點統一了蒙太古的形式語意學傳統與分布傳統——兩者都可以表達為從句法到語意的函子。它們的差別在於目標範疇（$\mathbf{Set}$ vs. $\mathbf{Vect}$），卻共享同一個抽象原則。範疇論揭示，這些取徑不是競爭者，而是同一個組合性原則的不同實例。</p>
+<p><strong>前群語法</strong>（Lambek, 1999）讓句法這一側具體化。每個基本型別 $a$ 都有一個左伴隨 $a^l$ 與一個右伴隨 $a^r$，它們與 $a$ 相消：$a^l \cdot a \to 1$ 且 $a \cdot a^r \to 1$。把 $a^r$ 想成「我的左邊需要一個 $a$」，把 $a^l$ 想成「我的右邊需要一個 $a$」。及物動詞的型別是 $n^r\, s\, n^l$：它兩側各需要一個名詞詞組，並產出一個句子。對 <em>John loves Mary</em>：</p>
+$$n \cdot (n^r\, s\, n^l) \cdot n \;\to\; (n \cdot n^r)\; s\; (n^l \cdot n) \;\to\; 1 \cdot s \cdot 1 = s.$$
+<p>這些相消就是語法的「接線」。DisCoCat 的洞見是：<em>同一套接線</em>可以在 $\mathbf{FdVect}$ 中被解讀，其中每一次相消都變成一次張量縮併——恰好就是 §7.5 中對 $i$ 與 $j$ 的加總。</p>
+<h3 id="sec-12-4"><span class="section-num">12.4</span> 豐富範疇與分級結構</h3>
+<p>在豐富範疇（enriched category）中，態射構成另一個範疇中的物件——是度量空間或向量空間，而非集合。這對語言學應用很自然，因為其中的關係是分級的：兩個詞之間的相似度是一個連續的量，而非二元的。把語言範疇豐富化於度量空間之上，就得到一個讓分級語言關係成為一等公民的框架。</p>
+<h3 id="sec-12-5"><span class="section-num">12.5</span> 範疇論帶來什麼——以及代價是什麼</h3>
+<p>範疇觀點的回報是<em>可轉移性</em>：一旦兩個框架被證明是同一結構的實例，結果、證明，甚至軟體都能在它們之間移轉。它也讓設計選擇變得明確——選擇目標範疇，就是選擇你相信哪一種意義（真值、向量、機率分布）。代價是抽象：範疇論很少能告訴你某個具體句子的任何事，是具體框架本身說不出來的。最好不要把它讀成一個新的語言理論，而是一個關於語言<em>理論</em>的理論——一張描繪前面各章所畫地圖的地圖。</p>
+</article>
+
+
+<article class="chapter" id="ch13">
+  <div class="chapter-label">第 13 章</div>
+  <h2 class="chapter-title">作為複雜適應系統的語言</h2>
+<div class="epigraph">
+  <p>「多即不同。（More is different.）」</p>
+  <div class="attribution">— 安德森（Philip Anderson）</div>
+</div>
+<h3 id="sec-13-1"><span class="section-num">13.1</span> 語言學的複雜轉向</h3>
+<p>第一至第三部所探討的框架共享一個假設：語言可以用穩定的結構——語法、向量空間、流形、範疇——來分析。然而，語言實際存在於跨越時間分布的說話社群之中，它並不單單是這些東西中的任何一個。它紛雜、動態、受歷史偶然所左右，而且永遠不完整。認真對待這些性質、而不把它們當作雜訊擱置的科學傳統，是<em>複雜適應系統</em>（complex adaptive systems, CAS）的研究。</p>
+<p>這個研究綱領在語言學中的里程碑式宣言，是「五恩典小組」（Five Graces Group；Beckner, Blythe, Bybee, Christiansen, Croft, Ellis, Holland, Ke, Larsen-Freeman & Schoenemann, 2009）發表的文章，標題就叫〈語言是一個複雜適應系統〉。貝克納等人借鑑複雜性科學、演化生物學與認知科學的研究，主張語言——同時是認知系統、社會制度與歷史產物——展現了 CAS 的所有特徵：它分布在一群互動的代理人之中，它在沒有中央控制的情況下演化，它在系統層次展現出個別代理人層次所沒有的湧現性質，而且它持續適應新的溝通壓力。</p>
+<p>這不是隱喻。複雜性科學的數學工具——動態系統理論、代理人基模型、網路理論，以及自組織的資訊理論度量——已被應用於語言，並產出具體且可檢驗的結果。</p>
+<h3 id="sec-13-2"><span class="section-num">13.2</span> 複雜適應系統的性質</h3>
+<p>什麼使一個系統成為<em>複雜適應</em>的？依據霍蘭（Holland, 1995）與米契爾（Mitchell, 2009），我們可以列舉其關鍵性質，並把它們對應到語言現象上。</p>
+<p><strong>分散控制與湧現。</strong> 沒有任何中央權威主宰語言的演化。語音變化、語法化過程，以及新構式的擴散，都源自數百萬說話者的局部互動。現代英語的語法模式不是任何規劃者的設計；它們是數個世紀以來無數言語行為的湧現結果。克羅夫特（Croft, 2000）在<em>話語選擇</em>（utterance selection）理論中將此形式化：語言變體在一個群體中競爭，而這場競爭的結果——各形式的差異性複製——產生了我們稱為語言變遷的方向性模式。</p>
+<p><strong>內在多樣性與非平穩性。</strong> CAS 把內部變異保留為一種資源。語言社群從來不是同質的：地區方言、社會語體、年齡分級的變異與個人語型的差異，構成了一個永久的變異庫，供選擇在其上運作。社會語言學文獻以細緻的量化方式記錄了這種多樣性。</p>
+<p><strong>非線性與相變。</strong> 在 CAS 中，小擾動可能觸發大規模的重組。語言史中穿插著快速的重組——英語的元音大推移、從綜合語到分析語詞序的出現——它們與其觸發因素看起來不成比例。這種非線性是在<em>臨界點</em>附近運作的動態系統的特徵，我們在 §13.6 中討論。</p>
+<p><strong>對網路結構的敏感依賴。</strong> 一項語言創新擴散得多快，關鍵取決於說話者互動所經之社會網路的拓撲（Barabási & Albert, 1999）。無尺度網路——少數高度連結的樞紐與許多邊緣節點互動——所產生的擴散動態，不同於小世界網路或規則格狀網路。</p>
+<p><strong>透過放大與競爭而適應。</strong> 語言形式持續在溝通生態位中競爭。能有效發揮溝通功能的形式被放大；冗餘或低效的形式被修剪。結果是一個持續適應、既非隨機也非僵固決定的系統。</p>
+<h3 id="sec-13-3"><span class="section-num">13.3</span> 動態系統：吸引子、相變與變遷的語法</h3>
+<p>複雜性科學的數學骨幹是<em>動態系統理論</em>。動態系統是一個二元組 $(\mathcal{X}, \Phi^t)$，其中 $\mathcal{X}$ 是狀態空間，$\Phi^t: \mathcal{X} \to \mathcal{X}$ 是流映射，給出系統在時間 $t$ 的狀態（給定其初始狀態）。對一個由微分方程 $\dot{x} = f(x)$ 支配的連續時間系統，流就是初值問題的解。</p>
+<p>我們關注的關鍵物件是流的<em>吸引子</em>：</p>
+<ul>
+  <li><strong>定點吸引子：</strong> 系統收斂到一個穩定平衡點 $x^* = f^{-1}(0)$。在語言學中，一個完全約定俗成的形式——一個已類別式轉移的音位——代表一個定點吸引子。</li>
+  <li><strong>極限環：</strong> 系統週期性地振盪。某些語言節奏與韻律組織的模型展現極限環行為。</li>
+  <li><strong>奇異吸引子：</strong> 對混沌系統而言，吸引子具有碎形幾何。雖然語言系統不太可能是完全混沌的，但在臨界點附近，對初始條件的敏感性可能在局部顯現。</li>
+</ul>
+<p><em>相變</em>發生在一個控制參數跨越臨界閾值、使系統從一個吸引盆重組到另一個吸引盆之時。語言變遷的邏輯斯（S 曲線）模型，</p>
+$$\frac{dx}{dt} = \beta\, x(1-x) + \sigma\, \xi(t)$$
+<p>其中 $x \in [0,1]$ 是創新形式的頻率，$\beta$ 是選擇係數，$\xi(t)$ 是高斯雜訊，描述了在數百個語言變遷案例中記錄到的 S 形採用曲線。從 $x \approx 0$（舊形式主導）到 $x \approx 1$（新形式主導）的轉變，是吸引子之間的轉移：當 $\beta > 0$ 時，$x = 0$ 的定點是不穩定的，所以創新的任何一顆小種子都會成長，而 $x = 1$ 的定點則捕獲系統的軌跡。（嚴格說來，<em>相變</em>一詞保留給控制參數跨越閾值時的質變——這裡是 $\beta$ 變號——但 S 曲線本身正是那種不穩定性的可見特徵。）</p>
+<figure class="fig">
+<svg viewBox="0 0 520 270" width="520" role="img" aria-label="S-curve of language change">
+<line x1="60" y1="220" x2="490" y2="220" stroke="#6B635A"/><line x1="60" y1="30" x2="60" y2="220" stroke="#6B635A"/>
+<text x="52" y="224" font-size="11" fill="#6B635A" text-anchor="end">0</text><text x="52" y="44" font-size="11" fill="#6B635A" text-anchor="end">1</text>
+<line x1="60" y1="40" x2="490" y2="40" stroke="#E2DBD1" stroke-dasharray="3 3"/>
+<path d="M60.0 219.6 L67.0 219.5 L74.0 219.3 L81.0 219.2 L88.0 219.0 L95.0 218.8 L102.0 218.5 L109.0 218.2 L116.0 217.8 L123.0 217.3 L130.0 216.8 L137.0 216.1 L144.0 215.2 L151.0 214.2 L158.0 213.0 L165.0 211.5 L172.0 209.7 L179.0 207.6 L186.0 205.0 L193.0 202.0 L200.0 198.5 L207.0 194.5 L214.0 189.8 L221.0 184.4 L228.0 178.3 L235.0 171.6 L242.0 164.2 L249.0 156.2 L256.0 147.8 L263.0 139.0 L270.0 130.0 L277.0 121.0 L284.0 112.2 L291.0 103.8 L298.0 95.8 L305.0 88.4 L312.0 81.7 L319.0 75.6 L326.0 70.2 L333.0 65.5 L340.0 61.5 L347.0 58.0 L354.0 55.0 L361.0 52.4 L368.0 50.3 L375.0 48.5 L382.0 47.0 L389.0 45.8 L396.0 44.8 L403.0 43.9 L410.0 43.2 L417.0 42.7 L424.0 42.2 L431.0 41.8 L438.0 41.5 L445.0 41.2 L452.0 41.0 L459.0 40.8 L466.0 40.7 L473.0 40.5 L480.0 40.4 " fill="none" stroke="#6B4C3B" stroke-width="2.4"/>
+<text x="110" y="205" font-size="12" fill="#6B635A" text-anchor="middle">緩慢起步</text>
+<text x="300" y="120" font-size="12" fill="#6B4C3B">快速擴散</text>
+<text x="440" y="60" font-size="12" fill="#6B635A" text-anchor="middle">趨於飽和</text>
+<text x="275" y="252" font-size="12" fill="#2C2825" text-anchor="middle">時間</text>
+<text x="18" y="125" font-size="12" fill="#2C2825" text-anchor="middle" transform="rotate(-90 18 125)">新形式所占比例 x</text>
+</svg>
+<figcaption><b>圖 13.1</b>　邏輯斯 S 曲線。變遷一開始很慢（可模仿的說話者很少），在中段加速（許多創新者，也有許多保守者可以轉化），到最後又變慢（剩下的頑固者不多）。它最陡的一點在 $x = 1/2$，此時成長率 $\beta x(1-x)$ 最大。</figcaption>
+</figure>
+<div class="intuition"><div class="box-label">直覺</div>
+<p>S 曲線就是謠言在學校裡傳開的方式。一開始只有少數學生知道，所以傳得很慢。一旦許多人都知道了，每一次對話都是傳出去的機會，它便爆炸性地擴散。到最後，幾乎每個人都聽過了，也就沒有人可以再告訴了。$x(1-x)$ 這一項正是這個邏輯：成長既需要擁有新形式的人（$x$），也需要還沒有的人（$1-x$）。</p>
+</div>
+<p>布萊斯與克羅夫特（Blythe & Croft, 2012）對作為隨機動態過程的語言變遷提供了全面的數學處理，將社會語言學資料與族群動態的數學統一起來。</p>
+<h3 id="sec-13-4"><span class="section-num">13.4</span> 代理人基模型與語言約定的湧現</h3>
+<p>另一個互補的數學取徑，把語言建模為許多<em>代理人</em>互動的結果：每個代理人遵循簡單的局部規則，全域結構則從中湧現。典範的例子是斯蒂爾斯（Steels, 1995, 2011）的<em>語言遊戲</em>（Language Game）框架。</p>
+<p>在命名遊戲（Naming Game）中，一個由 $N$ 個代理人組成的群體，必須在沒有任何中央協調者的情況下，就一組物件的共同詞彙達成一致。協定如下：</p>
+<ol>
+  <li>隨機選出一位<em>說話者</em>，嘗試為隨機挑選的一個物件命名，從自己的詞庫中取詞（若詞庫為空則發明一個新詞）。</li>
+  <li>一位<em>聽者</em>嘗試解析這個詞。若成功，雙方都強化這個詞並修剪其他候選；若不成功，聽者把這個新詞加入自己的詞庫。</li>
+</ol>
+<p>對這個協定的數學分析揭示了一個相變：從初始的無序（每個代理人使用不同的詞）透過對稱破缺，到全域共識（所有代理人對每個物件收斂到同一個詞）。收斂時間以 $O(N^{1.5})$ 縮放（Baronchelli et al., 2006），而在中間階段，詞頻分布遵循冪律——這是臨界性的又一個特徵。本章結尾的模擬器讓你即時觀察這些動態。</p>
+<h3 id="sec-13-5"><span class="section-num">13.5</span> 作為複雜網路的構式語法</h3>
+<p>從 CAS 的觀點看，語法系統本身不是一組類別式的規則，而是一張<em>構式網路</em>——形式與意義的配對，從完全詞彙化的慣用語（"by and large"）到圖式化的模式（"the Xer the Yer"，「越 X 越 Y」）。這是<em>構式語法</em>（Construction Grammar；Goldberg, 1995; Croft, 2001; Tomasello, 2003）的觀點。</p>
+<p>構式觀之所以與複雜性科學相容，在於構式網路具有<em>複雜網路</em>的拓撲性質：無尺度的度分布（少數非常一般、高度連結的圖式，與許多具體、連結微弱的慣用語並存），以及小世界性質（任何兩個構式都能透過一條由繼承或相似連結構成的短路徑相連）。巴拉巴西與阿爾伯特（Barabási & Albert, 1999）證明，無尺度網路源自<em>優先連接</em>：新構式較可能繼承並延伸已經固著的構式。</p>
+<p>固著度（entrenchment）——蘭蓋克（Langacker, 1987）用以指語言單位之認知強度的術語——在數學上就是擴散激活網路中一個節點的激活水準。從構式 $i$ 到構式 $j$ 的連結權重 $w_{ij}$，反映兩者在功能與形式上的相似度。擴散激活，</p>
+$$a_j(t+1) = (1-d)\sum_i \frac{w_{ij}}{\sum_k w_{ik}} \cdot a_i(t) + d \cdot s_j$$
+<p>其中 $d$ 是衰減因子，$s_j$ 是外部刺激，建模了促發一個構式如何激活相關構式（Collins & Loftus, 1975）。網路拓撲決定了哪些構式最居中（介數中心性高）、最可及（平均最短路徑短），以及最容易受擾動影響。</p>
+<h3 id="sec-13-6"><span class="section-num">13.6</span> 自組織與混沌的邊緣</h3>
+<p>許多 CAS 一個引人注目的性質是：它們會在沒有任何外部調校的情況下，自發地組織到一個臨界狀態——既不完全有序，也不完全隨機。這個現象被巴克、湯與維森菲爾德（Bak, Tang & Wiesenfeld, 1987）稱為<em>自組織臨界性</em>（self-organized criticality, SOC），其標誌是冪律分布、$1/f$ 雜訊與尺度不變的起伏。</p>
+<p>凱洛等人（Kello et al., 2010）提供了系統性的證據，顯示語言行為——閱讀時間、反應潛伏期、音素時長——展現出與 SOC 一致的 $1/f$ 起伏。齊夫定律本身（§6.5）——詞的冪律頻率分布——如今被理解為語言臨界性的一個標誌：一個處於混沌邊緣的系統，在溝通所需的秩序與表達彈性所需的無序之間取得平衡。</p>
+<p>SOC 的數學特徵是冪律分布：</p>
+$$P(s) \propto s^{-\tau}$$
+<p>其中 $s$ 是起伏的大小（一個詞的排名、一段剖析時間、一個句法依存長度），$\tau$ 是臨界指數。語言的可觀測量在不同語言與不同說話者之間聚集在相近的指數附近，這個事實暗示語言會主動自組織以維持臨界狀態。從認知的角度看，在混沌邊緣運作在計算上是最佳的：系統對輸入最敏感，同時又穩定到足以維持連貫的表徵。</p>
+<h3 id="sec-13-7"><span class="section-num">13.7</span> 超越可計算性的複雜度：互動式證明、糾纏與意義驗證</h3>
+<p>複雜度理論與語言之間的關係，比第 4 章的喬姆斯基階層更深。量子資訊理論與計算複雜度交會處的近期研究，揭示了一個對形式系統之極限具有深遠意涵的結果：紀、納塔拉詹、維迪克、萊特與袁（Ji, Natarajan, Vidick, Wright & Yuen, 2021）證明了 $\text{MIP}^* = \text{RE}$。</p>
+<p>把它拆解開來：$\text{MIP}^*$（具量子糾纏的多證明者互動式證明）是這樣一類問題：一個古典的多項式時間驗證者，透過與多個彼此量子糾纏的證明者互動，就能驗證它們。$\text{RE}$（遞迴可枚舉）是所有「肯定實例可由圖靈機驗證」的問題所成的類別——古典階層中最廣的一類。等式 $\text{MIP}^* = \text{RE}$ 意味著：在互不通訊的證明者之間共享的量子糾纏，賦予多項式時間驗證者驗證任何遞迴可枚舉問題的能力。由於停機問題屬於 $\text{RE}$ 卻是不可判定的，$\text{MIP}^*$ 的驗證協定本身是不可計算的。</p>
+<p>這對語言學為何重要？<strong>溝通互動在其理想化形式下，就是一個多證明者互動式證明。</strong> 兩位對話者——說話者與聽者——是證明者；溝通行為是協定；被驗證的意義是所傳達的命題。古典溝通理論（Shannon, 1948）假設證明者之間沒有糾纏。但語用學文獻（Grice, 1975; Sperber & Wilson, 1986; Frank & Goodman, 2012）早已認識到，人類溝通以遠超過古典通道傳遞的方式，仰賴<em>共享語境</em>、<em>相互知識</em>與<em>共同基礎</em>。</p>
+<p>轉譯成複雜度理論的術語：對話者之間共享的認知語境——關於世界、語言與對話歷史的龐大隱性知識——發揮著一種<em>語用糾纏</em>的作用。在完全的語用糾纏下，可透過溝通驗證的命題類別成為 $\text{MIP}^*$——也就是全部的 $\text{RE}$。但 $\text{RE}$ 包含不可判定的停機問題。這意味著，存在某些溝通命題，透過語用推理來驗證它們，在原則上是不可判定的。</p>
+<p>這與維根斯坦（《哲學研究》）的洞見相連：「意義即使用」意味著意義的空間與人類實踐的空間一樣複雜——至少與 $\text{RE}$ 一樣複雜。哥德爾的不完備定理（1931）證明形式算術不可能是完備的；$\text{MIP}^* = \text{RE}$ 的結果把這種不完備性延伸到意義的互動式驗證。袁的更廣泛研究綱領把這些結果連結到第 9–11 章的幾何：使 $\text{MIP}^*$ 如此強大的量子相關性由無限維希爾伯特空間中的算子描述，而刻畫可達成的策略，最終化約為一個關於非交換凸體之拓撲的幾何問題。</p>
+<div class="deep-dive"><div class="box-label">謹慎的註記</div>
+<p>本節的論證是一個<strong>類比</strong>，也應該被當作類比來讀。$\text{MIP}^* = \text{RE}$ 是一個關於共享<em>量子</em>糾纏之證明者、以及執行特定協定之驗證者的定理；對話者之間的「語用糾纏」是對共享語境的隱喻，而非量子資源，人類對話也並非字面意義上的互動式證明系統。這個類比真正能正當提示的，是一個研究問題——<em>共享的背景（而非傳送的訊號）能在多大程度上擴展一場對話所能確立的東西？</em>——以及一個提醒：不要假設意義必然能被任何單一有限形式系統完整捕捉。它本身並不能證明語言意義是不可計算的。</p>
+</div>
+<p>如果這個類比成立，其意涵既令人謙卑又令人振奮：語言意義的完整複雜度，在一個精確的意義上，可能是不可計算的。沒有任何有限的形式系統能捕捉它。這不是絕望的勸告——而是一個邀請，邀請我們認真對待語言的形式之外的面向：具身性、社會性、歷史性，以及不可化約的語用性。</p>
+<h3 id="sec-13-8"><span class="section-num">13.8</span> 湧現能力與語言模型的 CAS 觀點</h3>
+<p>CAS 觀點也照亮了大型語言模型（LLM）的行為。魏等人（Wei et al., 2022）記錄了一個引人注目的現象：當 LLM 在參數與訓練資料上擴大規模時，某些能力——多步算術、思維鏈推理、語言翻譯——看似<em>不連續地</em>湧現。在一個臨界規模以下，某項能力並不存在；在其之上，它則完整出現。這是參數—規模空間中的一個相變。（謝弗、米蘭達與科耶霍〔Schaeffer, Miranda & Koyejo, 2023〕提醒，這種表面上的不連續有一部分是評估指標的選擇所造成的：像完全比對準確率這類全有或全無的分數，會把平滑的底層進步轉變成突然的跳躍。哪些湧現能力是真正的相變，至今仍是開放問題。）</p>
+<p>從費雪資訊度量（§11.5）的角度，這樣的相變可以用幾何來刻畫：隨著規模增加，損失地景發展出一個新的吸引盆，而模型在訓練期間的軌跡越過一個閾值，在該處表徵流形經歷第 10 章意義下的拓撲相變。湧現的能力對應於高維表徵空間中的一個新吸引子。</p>
+<p>從 CAS 的觀點看，這正是我們預期的。LLM 是一個複雜系統——不是生物或社會意義上的，而是數學意義上的：許多互動的組件、非線性的動態，以及高維的狀態空間。就像語言社群一樣，它能展現臨界現象。LLM 學到的「語言」是一個微型的 CAS：一個由分布式表徵構成的自組織系統，透過一個類似演化選擇的過程，適應了人類語言的統計結構。這並不意味著 LLM 在 §13.7 所勾勒的完整語用意義上理解語言。重點毋寧是：吸引子、相變、臨界指數與網路拓撲，為理解 LLM 的行為提供了比單純古典計算框架更豐富的詞彙。</p>
+<p><strong>通往第 14 章的橋梁。</strong> CAS 觀點並不取代前面各章的邏輯、幾何與範疇框架——而是把它們安放在一個更大的故事中。第 4 章的形式語法不是語言本身；它們是語言使用這個動態系統中的吸引子。第 9–11 章的流形不是靜態的；它們是一個自組織過程的瞬間快照。第 12 章的範疇論提供抽象的骨架；複雜性科學提供血肉。在第 14 章，我們從所有這些框架中退後一步，提出它們共同引發的哲學問題：為像語言這樣深刻、不可化約地屬於人的東西提供一個數學說明，究竟意味著什麼？</p>
+<h3 id="sec-13-9"><span class="section-num">13.9</span> 互動模擬器：探索作為複雜系統的語言</h3>
+<p>下面的三頁式模擬器讓你探索本章介紹的核心數學模型。<strong>第 1 頁（代理人基模型）</strong>實作命名遊戲（Steels, 1995）：觀察詞彙約定如何從簡單代理人的互動中湧現，並觀察 S 形的收斂曲線與冪律的中間階段。<strong>第 2 頁（動態）</strong>實作帶隨機雜訊的複製子動態（Blythe & Croft, 2012）：調整選擇係數與雜訊水準，看它們如何支配從舊語言形式到新語言形式的轉變。<strong>第 3 頁（構式網路）</strong>實作一個擴散激活的構式網路（Goldberg, 1995），以華語「X 什麼 X」構式為案例：激活一個構式，觀察固著度與激活如何在網路中擴散。（模擬器介面為英文。）</p>
+<div class="simulator-embed" style="width:100%;height:720px;border-radius:16px;overflow:hidden;margin:2.5rem 0;border:1px solid rgba(255,255,255,0.08);">
+<iframe src="language_complexity_simulator.html" style="width:100%;height:100%;border:none;" loading="lazy" title="Language Complexity Simulator"></iframe>
+</div>
+<p><em>模擬器完全可互動，並在你的瀏覽器中執行。所有計算都在本機進行；不會傳送任何資料。</em></p>
+</article>
+
+
+<article class="chapter" id="ch14">
+  <div class="chapter-label">第 14 章</div>
+  <h2 class="chapter-title">哲學反思：數學告訴了我們什麼關於語言的事？</h2>
+<div class="epigraph">
+  <p>「形式化的極限，揭示了理解的極限。」</p>
+  <div class="attribution">— 據傳為哥德爾（Gödel）所言</div>
+</div>
+<h3 id="sec-14-1"><span class="section-num">14.1</span> 數學表徵的多元性</h3>
+<p>我們走過了一片非凡的地景：從集合論與邏輯，經過機率與資訊理論，到線性代數、幾何與拓撲。每一個框架都出色地捕捉了語言的某些面向，卻對其他面向保持沉默。這種多元性不是缺陷，而是特色。語言本身就是多面的——它同時是一種生物能力、一個認知系統、一種社會制度，以及一個形式結構。</p>
+<h3 id="sec-14-2"><span class="section-num">14.2</span> 離散與連續的辯證</h3>
+<p>也許最深的張力，在離散表徵與連續表徵之間。語言既有離散的面向（音位、詞素、句法範疇、真值），也有連續的面向（語音變異、語意梯度、機率期待）。Transformer 架構可以說是迄今建造得最成功的橋梁：它接收離散的輸入（token），透過連續的變換加以處理，而這些變換隱性地編碼了離散結構。理解離散的語言結構如何從連續的神經計算中湧現，是最重大的開放問題之一。</p>
+<h3 id="sec-14-3"><span class="section-num">14.3</span> 意義作為幾何：一個哲學評估</h3>
+<p>如果一個詞的意義是高維空間中的一個點，一個句子的意義是穿越該空間的一條軌跡，那這是哪一種「意義」？它不是指涉意義（弗雷格），也不是真值條件意義（塔斯基、蒙太古）。它是某種新的東西：一種關係性的、幾何的意義，不是由一個詞指涉什麼來定義，而是由它與其他每個詞的關係來定義。這與維根斯坦後期哲學——意義即使用——有驚人的相似之處。但這種形式化也揭露了其極限：幾何上的接近捕捉了使用上的相似，卻沒有捕捉意義在具身經驗、社會實踐與物理世界中的根基。</p>
+<h3 id="sec-14-4"><span class="section-num">14.4</span> 以幾何重訪中文房間</h3>
+<p>當「符號」不再是離散的 token，而是連續幾何空間中的點時，瑟爾（Searle）的中文房間論證便呈現出新的面貌。在中文房間中，符號之間的關係純粹是句法的。在幾何語言模型中，關係是實質的——由編碼語意內容的距離、角度與曲率所定義。這種幾何的豐富性是否構成「理解」仍有爭議，但它顯示了內部表徵遠比瑟爾所設想的離散符號串豐富。</p>
+<h3 id="sec-14-5"><span class="section-num">14.5</span> 一個詞，多種數學</h3>
+<p>值得在本書開始的地方結束：英語詞形 <em>bank</em>。我們遇到的每一個框架都賦予它不同的數學身分，而每一種身分都讓一個不同的問題變得可回答：</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>框架</th><th><em>bank</em> 成了什麼</th><th>它回答的問題</th></tr>
+<tr><td>集合（第 2 章）</td><td>兩個詞條，或一個詞形對應到一組詞義</td><td>這是一個詞還是兩個詞？</td></tr>
+<tr><td>邏輯（第 3 章）</td><td>兩個謂詞，$\mathrm{Bank}_1(x)$ 與 $\mathrm{Bank}_2(x)$</td><td>在哪種讀法下句子為真？</td></tr>
+<tr><td>自動機（第 4 章）</td><td>一個終端符號；歧義是穿越語法的兩條路徑</td><td>哪些字串是合式的？</td></tr>
+<tr><td>圖（第 5 章）</td><td>一個節點，其附著成分（<em>by the river</em>）選定詞義</td><td>什麼依附於什麼？</td></tr>
+<tr><td>機率（第 6 章）</td><td>詞義上的一個分布，隨語境更新</td><td>此處每種讀法的可能性多大？</td></tr>
+<tr><td>向量（第 7–8 章）</td><td>一個點，或一團語境化的點</td><td>哪些詞相似？如何相似？</td></tr>
+<tr><td>幾何（第 9、11 章）</td><td>彎曲流形上的一個區域，帶有詞義「島嶼」</td><td>詞義之間相距多遠？沿著什麼路徑？</td></tr>
+<tr><td>拓撲（第 10 章）</td><td>一個橋接兩個原本分離之連通分支的頂點</td><td>語意空間如何連通？</td></tr>
+<tr><td>範疇（第 12 章）</td><td>一個物件，在不同函子下的像各不相同</td><td>跨表徵時什麼被保留？</td></tr>
+<tr><td>複雜系統（第 13 章）</td><td>一個詞義分布在群體中漂移的形式</td><td>它如何變成這樣？又將往哪裡去？</td></tr>
+</table></div>
+<p>這些身分沒有一個是 <em>bank</em> 的<em>那個</em>意義。合在一起，它們暗示：「意義」所指的不是單一的數學物件，而是一族結構，每一種都回應一種不同的提問實踐。</p>
+<h3 id="sec-14-6"><span class="section-num">14.6</span> 未來方向</h3>
+<p>第 13 章的 CAS 觀點提醒我們：本書所綜覽的數學框架不是終點，而是吸引子——從科學探究這個持續進行的自組織過程中湧現的穩定模式，受制於它們所描述的同一種相變與湧現重組。在這個匯流的時刻，有幾個方向似乎特別有前景。分析 LLM 內部的幾何與拓撲方法，可以從 §13.6 的臨界性框架中受益：在規模閾值處量測拓撲相變，或許能讓魏等人（Wei et al., 2022）的湧現結果在數學上變得精確。形式語意學與分布語意學的範疇論統一、以表徵空間的跨語言曲率與拓撲作為觀察語言共性的窗口，以及訓練動態的資訊幾何，都仍是活躍的前沿。隨著新的數學工具被發展出來、語言模型變得越來越可解釋，我們可以期待這個故事的新篇章——這些篇章將同時加深我們對結構之數學與人類語言之結構的理解。</p>
+</article>
+
+
+<article class="chapter bib-section" id="bibliography">
+  <div class="chapter-label">參考書目</div>
+  <h2 class="chapter-title">參考書目</h2>
+<div class="example-block"><p>為便於查找原始文獻，書目保留原文格式。</p></div>
+<h3>數學背景</h3>
+<p>Wigner, E.P. "The Unreasonable Effectiveness of Mathematics in the Natural Sciences." <em>Communications in Pure and Applied Mathematics</em>, 13(1):1–14, 1960.</p>
+<h3>基礎教科書</h3>
+<p>Partee, B.H., ter Meulen, A., and Wall, R.E. <em>Mathematical Methods in Linguistics.</em> Kluwer, 1990.</p>
+<p>Kornai, A. <em>Mathematical Linguistics.</em> Springer, 2008.</p>
+<p>Winter, Y. <em>Elements of Formal Semantics.</em> Edinburgh University Press, 2016.</p>
+<h3>邏輯與形式語意學</h3>
+<p>Frege, G. <em>Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens.</em> Halle: Louis Nebert, 1879.</p>
+<p>Montague, R. "The Proper Treatment of Quantification in Ordinary English." In Hintikka, J. et al. (eds.), <em>Approaches to Natural Language</em>, 221–242. Reidel, 1973.</p>
+<p>Barwise, J. and Cooper, R. "Generalized Quantifiers and Natural Language." <em>Linguistics and Philosophy</em>, 4(2):159–219, 1981.</p>
+<p>Kripke, S.A. "Semantic Considerations on Modal Logic." <em>Acta Philosophica Fennica</em>, 16:83–94, 1963.</p>
+<p>Heim, I. and Kratzer, A. <em>Semantics in Generative Grammar.</em> Blackwell, 1998.</p>
+<p>Grice, H.P. "Logic and Conversation." In Cole, P. and Morgan, J.L. (eds.), <em>Syntax and Semantics 3: Speech Acts</em>, 41–58. Academic Press, 1975.</p>
+<p>Keenan, E.L. and Stavi, J. "A Semantic Characterization of Natural Language Determiners." <em>Linguistics and Philosophy</em>, 9(3):253–326, 1986.</p>
+<h3>音韻與構詞</h3>
+<p>Jakobson, R., Fant, C.G.M., and Halle, M. <em>Preliminaries to Speech Analysis: The Distinctive Features and Their Correlates.</em> MIT Press, 1952.</p>
+<p>Chomsky, N. and Halle, M. <em>The Sound Pattern of English.</em> Harper & Row, 1968.</p>
+<p>Koskenniemi, K. <em>Two-Level Morphology: A General Computational Model for Word-Form Recognition and Production.</em> Ph.D. thesis, University of Helsinki, 1983.</p>
+<h3>形式語言理論</h3>
+<p>Chomsky, N. <em>Syntactic Structures.</em> Mouton, 1957.</p>
+<p>Shieber, S.M. "Evidence Against the Context-Freeness of Natural Language." <em>Linguistics and Philosophy</em>, 8(3):333–343, 1985.</p>
+<p>Joshi, A.K. "Tree Adjoining Grammars." In Dowty, D.R. et al. (eds.), <em>Natural Language Parsing</em>, 206–250. Cambridge University Press, 1985.</p>
+<p>Kaplan, R.M. and Kay, M. "Regular Models of Phonological Rule Systems." <em>Computational Linguistics</em>, 20(3):331–378, 1994.</p>
+<h3>機率與資訊理論</h3>
+<p>Zipf, G.K. <em>Human Behavior and the Principle of Least Effort.</em> Addison-Wesley, 1949.</p>
+<p>Shannon, C.E. "A Mathematical Theory of Communication." <em>Bell System Technical Journal</em>, 27:379–423, 1948.</p>
+<p>Manning, C.D. and Schütze, H. <em>Foundations of Statistical Natural Language Processing.</em> MIT Press, 1999.</p>
+<p>Frank, M.C. and Goodman, N.D. "Predicting Pragmatic Reasoning in Language Games." <em>Science</em>, 336(6084):998, 2012.</p>
+<p>Cover, T.M. and Thomas, J.A. <em>Elements of Information Theory.</em> 2nd ed. Wiley, 2006.</p>
+<p>Hale, J. "A Probabilistic Earley Parser as a Psycholinguistic Model." <em>Proceedings of NAACL</em>, 159–166, 2001.</p>
+<p>Levy, R. "Expectation-Based Syntactic Comprehension." <em>Cognition</em>, 106(3):1126–1177, 2008.</p>
+<p>Smith, N.J. and Levy, R. "The Effect of Word Predictability on Reading Time Is Logarithmic." <em>Cognition</em>, 128(3):302–319, 2013.</p>
+<h3>分布語意學與詞彙資源</h3>
+<p>Harris, Z. "Distributional Structure." <em>Word</em>, 10(2–3):146–162, 1954.</p>
+<p>Firth, J.R. <em>Papers in Linguistics 1934–1951.</em> Oxford University Press, 1957.</p>
+<p>Miller, G.A. "WordNet: A Lexical Database for English." <em>Communications of the ACM</em>, 38(11):39–41, 1995.</p>
+<p>Banarescu, L., Bonial, C., Cai, S., Georgescu, M., Griffitt, K., Hermjakob, U., Knight, K., Koehn, P., Palmer, M., and Schneider, N. "Abstract Meaning Representation for Sembanking." <em>Proceedings of the 7th Linguistic Annotation Workshop</em>, 178–186, 2013.</p>
+<p>Gildea, D. and Jaeger, T.F. "Human Languages Order Information Efficiently." arXiv:1510.02823, 2015.</p>
+<p>Futrell, R., Mahowald, K., and Gibson, E. "Large-Scale Evidence of Dependency Length Minimization in 37 Languages." <em>Proceedings of the National Academy of Sciences</em>, 112(33):10336–10341, 2015.</p>
+<p>Levy, O. and Goldberg, Y. "Neural Word Embedding as Implicit Matrix Factorization." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2014.</p>
+<p>Linzen, T. "Issues in Evaluating Semantic Spaces Using Word Analogies." <em>Proceedings of the 1st Workshop on Evaluating Vector-Space Representations for NLP</em>, 13–18, 2016.</p>
+<p>van der Maaten, L. and Hinton, G. "Visualizing Data Using t-SNE." <em>Journal of Machine Learning Research</em>, 9:2579–2605, 2008.</p>
+<p>Hsu, D., Kakade, S.M., and Zhang, T. "A Spectral Algorithm for Learning Hidden Markov Models." <em>Journal of Computer and System Sciences</em>, 78(5):1460–1480, 2012.</p>
+<p>Cohen, S.B., Stratos, K., Collins, M., Foster, D.P., and Ungar, L. "Spectral Learning of Latent-Variable PCFGs." <em>Proceedings of the 50th Annual Meeting of the ACL</em>, 223–231, 2012.</p>
+<p>Landauer, T.K. and Dumais, S.T. "A Solution to Plato's Problem: The Latent Semantic Analysis Theory of Acquisition, Induction, and Representation of Knowledge." <em>Psychological Review</em>, 104(2):211–240, 1997.</p>
+<p>Mikolov, T., Chen, K., Corrado, G., and Dean, J. "Efficient Estimation of Word Representations in Vector Space." arXiv:1301.3781, 2013.</p>
+<p>Pennington, J., Socher, R., and Manning, C.D. "GloVe: Global Vectors for Word Representation." <em>Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP)</em>, 1532–1543, 2014.</p>
+<p>Coecke, B., Sadrzadeh, M., and Clark, S. "Mathematical Foundations for a Compositional Distributional Model of Meaning." <em>Linguistic Analysis</em>, 36:345–384, 2010.</p>
+<h3>神經網路與 Transformer</h3>
+<p>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł., and Polosukhin, I. "Attention Is All You Need." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2017.</p>
+<p>Elhage, N., Hume, T., Olsson, C., Schiefer, N., Henighan, T., Kravec, S., Hatfield-Dodds, Z., Lasenby, R., Drain, D., Chen, C., Grosse, R., McCandlish, S., Kaplan, J., Amodei, D., Wattenberg, M., and Olah, C. "Toy Models of Superposition." <em>Transformer Circuits Thread</em>, Anthropic, 2022.</p>
+<p>Hu, E.J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., and Chen, W. "LoRA: Low-Rank Adaptation of Large Language Models." <em>International Conference on Learning Representations (ICLR)</em>, 2022.</p>
+<p>Elhage, N., Nanda, N., Olsson, C., Henighan, T., Joseph, N., Mann, B., et al. "A Mathematical Framework for Transformer Circuits." <em>Transformer Circuits Thread</em>, Anthropic, 2021.</p>
+<p>Hewitt, J. and Manning, C.D. "A Structural Probe for Finding Syntax in Word Representations." <em>Proceedings of NAACL-HLT</em>, 4129–4138, 2019.</p>
+<p>Schaeffer, R., Miranda, B., and Koyejo, S. "Are Emergent Abilities of Large Language Models a Mirage?" <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2023.</p>
+<h3>幾何與拓撲方法</h3>
+<p>Johnson, W.B. and Lindenstrauss, J. "Extensions of Lipschitz Mappings into a Hilbert Space." <em>Contemporary Mathematics</em>, 26:189–206, 1984.</p>
+<p>Nickel, M. and Kiela, D. "Poincaré Embeddings for Learning Hierarchical Representations." <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2017.</p>
+<p>Abramsky, S. and Brandenburger, A. "The Sheaf-Theoretic Structure of Non-Locality and Contextuality." <em>New Journal of Physics</em>, 13:113036, 2011.</p>
+<p>Ethayarajh, K. "How Contextual Are Contextualized Word Representations? Understanding the Geometry of Hidden States." <em>Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP)</em>, 2019.</p>
+<p>Amari, S. <em>Information Geometry and Its Applications.</em> Springer, 2016.</p>
+<p>Carlsson, G. "Topology and Data." <em>Bulletin of the American Mathematical Society</em>, 46(2):255–308, 2009.</p>
+<h3>範疇論與語言學</h3>
+<p>Lambek, J. "The Mathematics of Sentence Structure." <em>American Mathematical Monthly</em>, 65(3):154–170, 1958.</p>
+<p>Lambek, J. "Type Grammar Revisited." In Lecomte, A. et al. (eds.), <em>Logical Aspects of Computational Linguistics</em>, LNCS 1582, 1–27. Springer, 1999.</p>
+<p>Coecke, B. and Kissinger, A. <em>Picturing Quantum Processes: A First Course in Quantum Theory and Diagrammatic Reasoning.</em> Cambridge University Press, 2017.</p>
+<h3>複雜適應系統與語言動態</h3>
+<p>Beckner, C., Blythe, R., Bybee, J., Christiansen, M.H., Croft, W., Ellis, N.C., Holland, J., Ke, J., Larsen-Freeman, D., and Schoenemann, T. "Language Is a Complex Adaptive System: Position Paper." <em>Language Learning</em>, 59(S1):1–26, 2009.</p>
+<p>Holland, J.H. <em>Hidden Order: How Adaptation Builds Complexity.</em> Addison-Wesley, 1995.</p>
+<p>Mitchell, M. <em>Complexity: A Guided Tour.</em> Oxford University Press, 2009.</p>
+<p>Croft, W. <em>Explaining Language Change: An Evolutionary Approach.</em> Longman, 2000.</p>
+<p>Croft, W. <em>Radical Construction Grammar: Syntactic Theory in Typological Perspective.</em> Oxford University Press, 2001.</p>
+<p>Goldberg, A.E. <em>Constructions: A Construction Grammar Approach to Argument Structure.</em> University of Chicago Press, 1995.</p>
+<p>Tomasello, M. <em>Constructing a Language: A Usage-Based Theory of Language Acquisition.</em> Harvard University Press, 2003.</p>
+<p>Langacker, R.W. <em>Foundations of Cognitive Grammar, Vol. 1: Theoretical Prerequisites.</em> Stanford University Press, 1987.</p>
+<p>Collins, A.M. and Loftus, E.F. "A Spreading-Activation Theory of Semantic Processing." <em>Psychological Review</em>, 82(6):407–428, 1975.</p>
+<p>Steels, L. "A Self-Organizing Spatial Vocabulary." <em>Artificial Life</em>, 2(3):319–332, 1995.</p>
+<p>Baronchelli, A., Felici, M., Loreto, V., Caglioti, E., and Steels, L. "Sharp Transition Towards Shared Vocabularies in Multi-Agent Systems." <em>Journal of Statistical Mechanics</em>, P06014, 2006.</p>
+<p>Steels, L. "Modeling the Cultural Evolution of Language." <em>Physics of Life Reviews</em>, 8(4):339–356, 2011.</p>
+<p>Blythe, R.A. and Croft, W. "S-curves and the Mechanisms of Propagation in Language Change." <em>Language</em>, 88(2):269–304, 2012.</p>
+<p>Bak, P., Tang, C., and Wiesenfeld, K. "Self-Organized Criticality: An Explanation of the 1/f Noise." <em>Physical Review Letters</em>, 59(4):381–384, 1987.</p>
+<p>Barabási, A.-L. and Albert, R. "Emergence of Scaling in Random Networks." <em>Science</em>, 286(5439):509–512, 1999.</p>
+<p>Kello, C.T., Brown, G.D.A., Ferrer-i-Cancho, R., Holden, J.G., Linkenkaer-Hansen, K., Rhodes, T., and Van Orden, G.C. "Scaling Laws in Cognitive Sciences." <em>Trends in Cognitive Sciences</em>, 14(5):223–232, 2010.</p>
+<p>Ji, Z., Natarajan, A., Vidick, T., Wright, J., and Yuen, H. "MIP* = RE." <em>Communications of the ACM</em>, 64(11):131–138, 2021.</p>
+<p>Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., Yogatama, D., Bosma, M., Zhou, D., Narang, S., Chowdhery, A., Roberts, A., Barham, P., Dean, J., Petrov, S., and Le, Q.V. "Emergent Abilities of Large Language Models." <em>Transactions on Machine Learning Research</em>, 2022.</p>
+<p>Lund, H., Basso Fossali, P., Mazur, J., and Ollagnier-Beldame, M. (eds.) <em>Language Is a Complex Adaptive System: Explorations and Evidence.</em> Language Science Press, 2022.</p>
+</article>
+
+
+<article class="chapter" id="appendix">
+  <div class="chapter-label">附錄 A</div>
+  <h2 class="chapter-title">數學符號與慣例</h2>
+<h3>集合論</h3>
+<p>$\in$（屬於）、$\subseteq$（子集）、$\cup$（聯集）、$\cap$（交集）、$\times$（笛卡兒積）、$\varnothing$（空集合）、$|A|$（基數）、$\mathcal{P}(A)$（冪集）、$f: A \to B$（從 $A$ 到 $B$ 的函數）、$f \circ g$（合成）。</p>
+<h3>邏輯</h3>
+<p>$\lnot$（否定）、$\wedge$（合取）、$\vee$（析取）、$\to$（蘊涵）、$\forall$（全稱量詞）、$\exists$（存在量詞）、$\lambda$（λ 抽象）、$\llbracket\cdot\rrbracket$（語意詮釋括號）。</p>
+<h3>機率與資訊</h3>
+<p>$P(A)$ 機率、$P(A \mid B)$ 條件機率、$\mathbb{E}[X]$ 期望值、$H(X)$ 熵、$H(P,Q)$ 交叉熵、$\mathrm{KL}(P\|Q)$ KL 散度、$\mathrm{PMI}(w,c)$ 逐點互資訊、$-\log_2 P(x)$ 驚奇度（位元）。</p>
+<h3>線性代數</h3>
+<p>向量以粗體表示（$\mathbf{v}$），矩陣以大寫表示（$M$），純量以小寫表示（$a$）。$\langle \mathbf{u}, \mathbf{v} \rangle$ 內積、$\|\mathbf{v}\|$ 範數、$M^\top$ 轉置、$M^{-1}$ 反矩陣、$\det(M)$ 行列式、$\mathrm{tr}(M)$ 跡、$\lambda_i$ 特徵值、$\sigma_i$ 奇異值。</p>
+<h3>拓撲與幾何</h3>
+<p>$M$ 流形、$T_pM$ 在 $p$ 點的切空間、$g$ 黎曼度量、$R_{ijkl}$ 黎曼曲率張量、$H_k(X)$ 第 $k$ 個同調群、$\beta_k$ 第 $k$ 個貝蒂數、$\gamma$ 曲線／測地線、$\nabla$ 聯絡／共變導數。</p>
+</article>
+
+
+<article class="chapter" id="glossary">
+  <div class="chapter-label">附錄 B</div>
+  <h2 class="chapter-title">中英術語對照</h2>
+<p>依本書出現順序排列。台灣學界對部分術語有多種譯法，括號內列出常見的替代譯名。</p>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>English</th><th>本書譯名</th><th>章節</th></tr>
+<tr><td>set / element</td><td>集合／元素</td><td>2</td></tr>
+<tr><td>Cartesian product</td><td>笛卡兒積</td><td>2</td></tr>
+<tr><td>distinctive feature / natural class</td><td>區別特徵／自然類</td><td>2</td></tr>
+<tr><td>equivalence relation / partial order</td><td>等價關係／偏序</td><td>2</td></tr>
+<tr><td>injective function</td><td>單射函數（一對一函數）</td><td>2</td></tr>
+<tr><td>syncretism</td><td>合併（形式合併）</td><td>2</td></tr>
+<tr><td>compositionality</td><td>組合性（組合原則）</td><td>2–3, 12</td></tr>
+<tr><td>scope</td><td>轄域（範域）</td><td>3</td></tr>
+<tr><td>scalar implicature</td><td>等級含義（等級隱涵）</td><td>3</td></tr>
+<tr><td>lambda calculus / β-reduction</td><td>λ 演算／β 化簡</td><td>3</td></tr>
+<tr><td>possible worlds / accessibility relation</td><td>可能世界／可及關係</td><td>3</td></tr>
+<tr><td>generalized quantifier / conservativity</td><td>廣義量詞／保守性</td><td>3</td></tr>
+<tr><td>formal grammar / derivation</td><td>形式語法／推導</td><td>4</td></tr>
+<tr><td>finite-state automaton / pushdown automaton</td><td>有限狀態自動機／下推自動機</td><td>4</td></tr>
+<tr><td>context-free / mildly context-sensitive</td><td>上下文無關／輕度上下文相關</td><td>4</td></tr>
+<tr><td>pumping lemma</td><td>抽取引理（泵引理）</td><td>4</td></tr>
+<tr><td>cross-serial dependency</td><td>交叉序列依存</td><td>4</td></tr>
+<tr><td>weak / strong generative capacity</td><td>弱／強生成能力</td><td>4</td></tr>
+<tr><td>constituency tree / dependency tree</td><td>成分樹／依存樹</td><td>5</td></tr>
+<tr><td>dominance / c-command</td><td>支配／成分統制</td><td>5</td></tr>
+<tr><td>projectivity</td><td>投射性</td><td>5</td></tr>
+<tr><td>dependency length minimization</td><td>依存長度最小化</td><td>5</td></tr>
+<tr><td>adjacency matrix</td><td>鄰接矩陣</td><td>5</td></tr>
+<tr><td>chain rule</td><td>連鎖律</td><td>6</td></tr>
+<tr><td>entropy / surprisal</td><td>熵／驚奇度（驚異值）</td><td>6</td></tr>
+<tr><td>cross-entropy / perplexity</td><td>交叉熵／困惑度</td><td>6</td></tr>
+<tr><td>KL divergence</td><td>KL 散度（相對熵）</td><td>6</td></tr>
+<tr><td>pointwise mutual information (PMI)</td><td>逐點互資訊</td><td>6</td></tr>
+<tr><td>prior / likelihood / posterior</td><td>先驗／概似／後驗</td><td>6</td></tr>
+<tr><td>power law</td><td>冪律</td><td>6, 13</td></tr>
+<tr><td>distributional hypothesis</td><td>分布假說</td><td>7</td></tr>
+<tr><td>cosine similarity</td><td>餘弦相似度</td><td>7</td></tr>
+<tr><td>singular value decomposition (SVD)</td><td>奇異值分解</td><td>7</td></tr>
+<tr><td>word embedding / negative sampling</td><td>詞嵌入／負取樣</td><td>7</td></tr>
+<tr><td>tensor / tensor contraction</td><td>張量／張量縮併</td><td>7</td></tr>
+<tr><td>spectral learning</td><td>譜學習</td><td>7</td></tr>
+<tr><td>gradient descent / backpropagation</td><td>梯度下降／反向傳播</td><td>8</td></tr>
+<tr><td>attention (query, key, value)</td><td>注意力（查詢、鍵、值）</td><td>8</td></tr>
+<tr><td>residual stream</td><td>殘差流</td><td>8</td></tr>
+<tr><td>superposition</td><td>疊加</td><td>8</td></tr>
+<tr><td>probe / structural probe</td><td>探針／結構探針</td><td>8</td></tr>
+<tr><td>manifold / intrinsic dimension</td><td>流形／內在維度</td><td>9</td></tr>
+<tr><td>tangent direction</td><td>切方向</td><td>9</td></tr>
+<tr><td>hyperbolic space / Poincaré disk</td><td>雙曲空間／龐加萊圓盤</td><td>9</td></tr>
+<tr><td>anisotropy</td><td>各向異性</td><td>9</td></tr>
+<tr><td>simplicial complex</td><td>單純複形</td><td>10</td></tr>
+<tr><td>homology / Betti number</td><td>同調／貝蒂數</td><td>10</td></tr>
+<tr><td>persistent homology / barcode</td><td>持續同調（持久同調）／條碼圖</td><td>10</td></tr>
+<tr><td>boundary operator</td><td>邊界運算子</td><td>10</td></tr>
+<tr><td>sheaf / gluing condition</td><td>層／黏合條件</td><td>10</td></tr>
+<tr><td>Riemannian metric / geodesic</td><td>黎曼度量／測地線</td><td>11</td></tr>
+<tr><td>curvature</td><td>曲率</td><td>11</td></tr>
+<tr><td>Fisher information metric</td><td>費雪資訊度量</td><td>11</td></tr>
+<tr><td>natural gradient</td><td>自然梯度</td><td>11</td></tr>
+<tr><td>fiber bundle</td><td>纖維叢</td><td>11</td></tr>
+<tr><td>category / morphism / functor</td><td>範疇／態射／函子</td><td>12</td></tr>
+<tr><td>natural transformation</td><td>自然變換</td><td>12</td></tr>
+<tr><td>commutative diagram</td><td>交換圖</td><td>12</td></tr>
+<tr><td>pregroup grammar</td><td>前群語法</td><td>12</td></tr>
+<tr><td>enriched category</td><td>豐富範疇</td><td>12</td></tr>
+<tr><td>complex adaptive system</td><td>複雜適應系統</td><td>13</td></tr>
+<tr><td>attractor / phase transition</td><td>吸引子／相變</td><td>13</td></tr>
+<tr><td>agent-based model / Naming Game</td><td>代理人基模型／命名遊戲</td><td>13</td></tr>
+<tr><td>entrenchment / spreading activation</td><td>固著度／擴散激活</td><td>13</td></tr>
+<tr><td>self-organized criticality</td><td>自組織臨界性</td><td>13</td></tr>
+<tr><td>interactive proof</td><td>互動式證明</td><td>13</td></tr>
+</table></div>
+</article>
+
+<footer class="site-footer">
+  <p><em>語言的幾何</em> · 草稿 — 2026 年 2 月</p>
+  <p style="margin-top:0.4rem;">© 2026 <a href="https://loperntu.github.io/">Shu-Kai Hsieh</a> · 原始檔: <code>book.zh.md</code> → <code>build.py</code></p>
+</footer>
+</div>
+</div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="回到頂端">↑</button>
+
+<script>
+const sidebar=document.getElementById('sidebar'),menuToggle=document.getElementById('menuToggle'),overlay=document.getElementById('overlay');
+menuToggle.addEventListener('click',()=>{sidebar.classList.toggle('open');overlay.classList.toggle('open');});
+overlay.addEventListener('click',()=>{sidebar.classList.remove('open');overlay.classList.remove('open');});
+sidebar.querySelectorAll('.nav-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=960){sidebar.classList.remove('open');overlay.classList.remove('open');}});});
+const navLinks=document.querySelectorAll('.nav-link'),chapters=document.querySelectorAll('.chapter, .cover');
+function updateActiveNav(){let c='';chapters.forEach(s=>{if(s.getBoundingClientRect().top<=100)c=s.id;});navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+c));}
+const progressFill=document.getElementById('progressFill');
+function updateProgress(){const s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;progressFill.style.width=(h>0?(s/h)*100:0)+'%';}
+const backToTop=document.getElementById('backToTop');
+backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.04,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.chapter').forEach(ch=>obs.observe(ch));
+let ticking=false;
+window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{updateActiveNav();updateProgress();backToTop.classList.toggle('show',window.scrollY>500);ticking=false;});ticking=true;}});
+updateActiveNav();updateProgress();
+
+// Language switch: keep the reader at the same chapter/section
+document.querySelectorAll('.lang-switch a').forEach(a=>{a.addEventListener('click',e=>{
+  if(a.classList.contains('current')){e.preventDefault();return;}
+  e.preventDefault();let id='';
+  document.querySelectorAll('.cover, .chapter, .chapter h3[id]').forEach(el=>{if(el.getBoundingClientRect().top<=120)id=el.id;});
+  try{localStorage.setItem('mathling-lang',a.dataset.lang);}catch(_){}
+  location.href=a.getAttribute('href')+(id?'#'+id:'');
+});});
+</script>
+</body>
+</html>

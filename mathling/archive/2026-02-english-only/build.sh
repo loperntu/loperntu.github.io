@@ -1,41 +1,32 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════
-#  build.sh — Build EN + 中文 books into temp/
+#  build.sh — One-command build: book.md → temp/book.html
 # ═══════════════════════════════════════════════════
 #
 #  Usage:
-#    bash build.sh              # build both languages (default)
-#    bash build.sh --open       # build and open EN in browser (macOS)
-#    bash build.sh src.md o.html [en|zh]   # custom single-language build
+#    bash build.sh              # build with defaults
+#    bash build.sh --open       # build and open in browser (macOS)
+#    bash build.sh src.md o.html # custom paths
 #
 # ═══════════════════════════════════════════════════
 
-set -euo pipefail
+set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
-mkdir -p temp
 
-OPEN=false
-ARGS=()
-for arg in "$@"; do
-  if [[ "$arg" == "--open" ]]; then
-    OPEN=true
-  else
-    ARGS+=("$arg")
-  fi
-done
+SRC="${1:-book.md}"
+OUT="${2:-temp/book.html}"
+
+# Skip flags
+[[ "$SRC" == --* ]] && SRC="book.md"
+[[ "$OUT" == --* ]] && OUT="temp/book.html"
 
 echo "🔨 Building..."
-if [[ ${#ARGS[@]} -eq 0 ]]; then
-  python3 build.py
-  OUT="temp/book.html"
-else
-  python3 build.py "${ARGS[@]}"
-  OUT="${ARGS[1]:-temp/book.html}"
-fi
+python3 build.py "$SRC" "$OUT"
 
-if [[ "$OPEN" == true ]]; then
+# Open in browser if --open flag
+if [[ "$*" == *--open* ]]; then
   if command -v open &>/dev/null; then
     open "$OUT"
   elif command -v xdg-open &>/dev/null; then
