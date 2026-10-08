@@ -1,0 +1,18 @@
+const src = await readFile('Logic for Formal Semantics.dc.html');
+const headEnd = src.indexOf('<sc-if value="{{ tocVisible }}"');
+let head = src.slice(0, headEnd);
+head = head.replace(/<html[^>]*>/, '<html lang="zh-Hant-TW">').replace(/<title>[^<]*<\/title>/, '<title>語意學的圖論基礎</title>');
+const navStart = headEnd, navEnd = src.indexOf('<div role="group" aria-label="Language"');
+let nav = src.slice(navStart, navEnd).replace('aria-label="Contents"', 'aria-label="目次"').replace('>Contents<', '>目次<').replace('>Close<', '>關閉<');
+const ncStart = src.indexOf('<sc-if value="{{ tocNarrowClosed }}"');
+const ncEnd = src.indexOf('</sc-if>', ncStart) + 8;
+let nc = src.slice(ncStart, ncEnd).replace('Contents · {{ tocCur }}', '目次 · {{ tocCur }}');
+const scriptTag = '<script type="text/x-dc" data-dc-script data-props="' + JSON.stringify({ showNotes: { editor: 'boolean', default: true, tsType: 'boolean', section: '內容' }, showSources: { editor: 'boolean', default: true, tsType: 'boolean', section: '內容' }, showAnswers: { editor: 'boolean', default: false, tsType: 'boolean', section: '內容' }, showToc: { editor: 'boolean', default: true, tsType: 'boolean', section: '導覽' } }).replace(/"/g, '&quot;') + '">\n';
+let body = '';
+for (const f of (await ls('work')).filter(n => /^b\d+\.html$/.test(n)).sort((a, b) => parseInt(a.slice(1)) - parseInt(b.slice(1)))) body += await readFile('work/' + f);
+let n = 0; body = body.replace(/@@N@@/g, () => String(++n).padStart(2, '0'));
+let m = 0; body = body.replace(/@@F@@/g, () => String(++m));
+const logic = await readFile('work/logic.js');
+const out = head + nav + nc + '\n' + body + '</div>\n</x-dc>\n' + scriptTag + logic + '</script>\n</body>\n</html>\n';
+await saveFile('graph-build.dc.html', out);
+log('pages', n, 'len', out.length, head.includes('TeXVar'));

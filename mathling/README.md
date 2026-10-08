@@ -18,6 +18,7 @@ mathling/
 ├── build.sh                         # convenience wrapper for build.py
 ├── publish.sh                       # build + sync to docs/mathling/
 ├── language_complexity_simulator.html
+├── foundations/                     # Appendix primers (語言學的數學基礎)
 ├── figures/                         # images referenced by the book
 ├── temp/book.html                   # generated EN HTML
 ├── temp/book-zh.html                # generated 中文 HTML

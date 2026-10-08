@@ -1703,3 +1703,33 @@ $M$ 流形、$T_pM$ 在 $p$ 點的切空間、$g$ 黎曼度量、$R_{ijkl}$ 黎�
 <tr><td>interactive proof</td><td>互動式證明</td><td>13</td></tr>
 </table>
 
+# Appendix C. 語言學的數學基礎 {#foundations .unnumbered}
+
+本書各章多半「從語言問題走進數學」。本附錄則把方向倒過來：先把工具箱建好，再回到語言。可當作對應章節的預習，也可當作讀完後的工作坊延伸。
+
+入口頁：[foundations/index.html](foundations/index.html)。
+
+### C.1 形式語義學的邏輯基礎
+
+從論證與邏輯形式出發，涵蓋命題／謂詞邏輯、模型與真值條件、集合／關係／函數、語意型別與 λ 演算、組合解釋，並附型別演練與漢語例句。建議搭配第 3 章。
+
+- 中文模組：[形式語義學的邏輯基礎](foundations/形式語義學的邏輯基礎.dc.html)
+- 英文模組：[Logical Foundations of Formal Semantics](foundations/Logic%20for%20Formal%20Semantics.dc.html)
+- 獨立打包版：[Logic for Formal Semantics (standalone)](foundations/Logic%20for%20Formal%20Semantics%20(standalone).html)
+
+### C.2 語意學的圖論基礎
+
+圖、有向圖、樹與 DAG；路徑與距離；偏序、格與繼承；中心性；語意網路與擴散激發；知識圖譜；WordNet 與中文詞彙網路（CWN）；相似度、詞義消歧與圖嵌入。建議搭配第 5、10 章。
+
+- 中文模組：[語意學的圖論基礎](foundations/語意學的圖論基礎.dc.html)
+- 英文模組：[Graph Theory for Semantics](foundations/Graph%20Theory%20for%20Semantics.dc.html)
+
+### C.3 語意學的向量基礎
+
+向量與相似度、矩陣與線性映射、特徵分解／SVD／低秩近似、共現與 PMI／tf-idf、LSA、預測式詞嵌入、語境化表徵，以及流形、測地線、曲率與雙曲嵌入的初步幾何直覺。建議搭配第 7–9 章。
+
+- 中文模組：[語意學的向量基礎](foundations/語意學的向量基礎.dc.html)
+
+> 這些模組在瀏覽器中即可互動閱讀，作為本書的延伸材料，而非取代各章論證。
+{.intuition}
+
