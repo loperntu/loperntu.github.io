@@ -55,11 +55,11 @@
 
 | 模組 | 中文 | 英文 | 練習題數 |
 |---|---|---|---|
-| 形式語義學的邏輯基礎 | [連結](../foundations/形式語義學的邏輯基礎.dc.html) | [連結](../foundations/Logic%20for%20Formal%20Semantics.dc.html) | 10 |
+| 形式語義學的邏輯基礎 | [連結](../foundations/語意學的邏輯基礎.dc.html) | [連結](../foundations/Logic%20for%20Formal%20Semantics.dc.html) | 10 |
 | 語意學的圖論基礎 | [連結](../foundations/語意學的圖論基礎.dc.html) | [連結](../foundations/Graph%20Theory%20for%20Semantics.dc.html) | 10 |
 | 語意學的向量基礎 | [連結](../foundations/語意學的向量基礎.dc.html) | （英文版準備中） | 8 |
 
-- 邏輯模組另有離線單檔版：`Logic for Formal Semantics (standalone).html`，適合網路不穩的教室。
+- 邏輯模組另有離線單檔版：`logic-standalone.html`，適合網路不穩的教室。
 - 向量模組目前**只有中文版**；如有不諳中文的學員，Day 5–6 需另備英文講義。
 
 **本書選讀**：Mathling 中文版 `book-zh.html`（英文版 `book.html`），各日對應章節見下。
