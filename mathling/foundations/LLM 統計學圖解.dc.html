@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>圖解學習指南：LLM 的統計學</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&amp;family=LXGW+WenKai+TC&amp;family=Inconsolata:wght@400;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/lm.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+body{margin:0;background:#e6e5e1}
+*{box-sizing:border-box}
+a{color:#1c4c98;text-decoration:none}
+a:hover{color:#a1231e}
+.katex{font-size:1.08em}
+.katex-display{margin:0}
+</style>
+</helmet>
+<div style="background:#e6e5e1;min-height:100vh;padding:28px 12px 48px;color:#1d1d1d;font-family:'LMRoman','Noto Serif TC','Songti TC','PMingLiU',serif;font-size:15.5px;line-height:1.8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility">
+
+<!-- 封面 -->
+<section data-screen-label="封面" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:54px clamp(18px,7vw,58px) 30px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:left">
+  <p style="font-size:13px;letter-spacing:.2em;color:#6a6a6a;margin:0">LLM 圖解學習指南　統計篇</p>
+  <h1 style="font-size:40px;letter-spacing:.14em;margin:6px 0 0;line-height:1.3;font-weight:700">LLM 的統計學</h1>
+  <p style="font-size:19px;margin:2px 0 6px">了解大型語言模型所需的機率與統計概念</p>
+  <p style="font-size:14.5px;margin:0 0 18px;letter-spacing:.08em">謝舒凱　編審<sup style="font-size:.7em;margin-left:.15em">*</sup></p>
+  <figure style="margin:12px 0 14px">
+    <svg viewBox="0 0 488 124" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto" role="img" aria-label="讀入上下文、算出分布、抽出詞元">
+      <text x="52" y="64" font-size="13" text-anchor="middle" fill="#1d1d1d">石虎在溪邊…</text>
+      <line x1="100" y1="60" x2="128" y2="60" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M128,56.5 L135,60 L128,63.5 z" fill="#1d1d1d"></path>
+      <rect x="140" y="40" width="70" height="40" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <text x="175" y="64.5" font-size="13" text-anchor="middle" fill="#2a6190">模型</text>
+      <line x1="216" y1="60" x2="240" y2="60" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M240,56.5 L247,60 L240,63.5 z" fill="#1d1d1d"></path>
+      <line x1="252" y1="96" x2="384" y2="96" stroke="#1d1d1d" stroke-width="0.7"></line>
+      <rect x="256" y="44" width="16" height="52" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8"></rect>
+      <rect x="278" y="73" width="16" height="23" fill="#fff" stroke="#b0392c" stroke-width="0.8"></rect>
+      <rect x="300" y="84" width="16" height="12" fill="#fff" stroke="#b0392c" stroke-width="0.8"></rect>
+      <rect x="322" y="87" width="16" height="9" fill="#fff" stroke="#b0392c" stroke-width="0.8"></rect>
+      <rect x="344" y="92.5" width="16" height="3.5" fill="#fff" stroke="#b0392c" stroke-width="0.8"></rect>
+      <rect x="366" y="95" width="16" height="1" fill="#fff" stroke="#b0392c" stroke-width="0.8"></rect>
+      <text x="264" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">喝</text><text x="286" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">休</text><text x="308" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">散</text><text x="330" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">覓</text><text x="352" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">游</text><text x="374" y="110" font-size="10" text-anchor="middle" fill="#6a6a6a">唱</text>
+      <text x="318" y="30" font-size="11" text-anchor="middle" fill="#b0392c">P(下一個詞元)</text>
+      <line x1="392" y1="60" x2="414" y2="60" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M414,56.5 L421,60 L414,63.5 z" fill="#1d1d1d"></path>
+      <text x="430" y="50" font-size="10" fill="#6a6a6a">抽樣</text>
+      <rect x="428" y="51" width="36" height="18" fill="#fff" stroke="#1d1d1d" stroke-width="0.8" stroke-dasharray="1.6 1.6"></rect>
+      <text x="446" y="64.3" font-size="12" text-anchor="middle" fill="#1d1d1d" style="font-family:'Inconsolata',monospace">喝水</text>
+    </svg>
+  </figure>
+  <p style="font-size:14px;color:#6a6a6a;line-height:1.75;margin:6px 0">從統計的角度看，大型語言模型是一台機率機器（自迴歸）：讀入一段文字，算出「下一個詞元」的機率分布，再從中抽出一個。本篇分四章介紹背後的統計概念 - 機率、分布與抽樣、從資料學習、評估與不確定性。</p>
+  <h3 style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700">閱讀說明</h3>
+  <div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;align-items:center;margin:10px 0 14px;font-size:14.5px">
+    <div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #3f8a48;background:#d6eed3;vertical-align:middle"></span></div><div>資料、先驗、觀察到的事實</div>
+    <div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #2a6190;background:#d1e4f3;vertical-align:middle"></span></div><div>模型內部：參數、估計、抽樣結果</div>
+    <div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #b0392c;background:#f7d6cf;vertical-align:middle"></span></div><div>輸出：機率、損失、需要注意之處</div>
+    <div style="text-align:center"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>概念</span></div><div>定義與基本量</div>
+    <div style="text-align:center"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>方法</span></div><div>演算法、估計與計算程序</div>
+    <div style="text-align:center"><span style="display:inline-block;border:.8px solid #2a6190;color:#2a6190;font-size:12px;letter-spacing:.12em;font-weight:700;padding:0 8px;line-height:1.9">動手試試</span></div><div>可以拖曳滑桿、按按鈕操作的動態圖</div>
+    <div style="text-align:center"><span style="display:inline-block;border:.8px solid #584a9a;color:#584a9a;font-size:12px;letter-spacing:.12em;font-weight:700;padding:0 8px;line-height:1.9">LLM 視角</span></div><div>這個概念在大型語言模型中的角色</div>
+  </div>
+  <h3 style="font-size:17px;margin:22px 0 6px;line-height:1.5;font-weight:700">本系列</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:4px 22px;font-size:14.5px"><a href="index.html">目錄</a><span style="font-weight:700;border-bottom:1.2px solid #1d1d1d">統計篇</span><a href="LLM%20微積分圖解.dc.html">微積分篇</a><a href="LLM%20線性代數圖解.dc.html">線性代數篇</a><a href="LLM%20微分幾何圖解.dc.html">幾何篇</a></div>
+  <p style="margin:22px 0 0;padding-top:10px;border-top:.6px solid #c9c9c9;font-size:12.5px;color:#6a6a6a">* 本指南草稿由 Claude 協助撰寫。</p>
+</section>
+
+<!-- 目錄 -->
+<section data-screen-label="目錄" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07)">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>目錄</span></header>
+  <h2 style="font-size:22px;letter-spacing:.3em;margin:6px 0 16px;font-weight:700">目錄</h2>
+  <nav style="display:flex;flex-direction:column;gap:2px">
+    <sc-for list="{{ toc }}" as="c" hint-placeholder-count="18">
+      <a href="{{ c.href }}" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:{{ c.fs }};font-weight:{{ c.fw }};margin-top:{{ c.mt }};padding-left:{{ c.pl }};line-height:1.75" style-hover="color:#1c4c98">
+        <span style="min-width:{{ c.nw }}">{{ c.n }}</span><span>{{ c.t }}</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">{{ c.p }}</span>
+      </a>
+    </sc-for>
+  </nav>
+</section>
+
+<!-- p1 -->
+<section data-screen-label="01 機率" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>機率</span></header>
+  <div id="ch1" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 1 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">機率</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Probability</div></div>
+  <p style="margin:6px 0">語言模型說的每一句話，背後都是一張機率表。本章建立描述這張表所需的概念。</p>
+
+  <h3 id="s1-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.1</span>隨機變數與機率分布</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">模型的每一次輸出，都是一個機率分布。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>隨機變數</span>（<i>random variable</i>）：結果事先不確定的量。例如「下一個詞元」<span data-tex="X"></span>，可能是「喝水」，也可能是「休息」。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>機率分布</span>（<i>probability distribution</i>）：列出每個可能結果及其機率。每個機率都不小於 0，而且全部加起來等於 1：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\sum_{x} P(X=x)=1" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>類別分布</span>（<i>categorical distribution</i>）：結果是有限個類別之一的分布。詞彙表有 <span data-tex="V"></span> 個詞元，下一個詞元就服從一個有 <span data-tex="V"></span> 個類別的類別分布。</p>
+  <figure style="margin:14px 0 14px">
+    <div style="max-width:430px;margin:0 auto">
+      <div style="display:flex;gap:10px;align-items:flex-end;height:120px;border-bottom:.8px solid #1d1d1d">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">52%</span><div style="width:70%;height:52%;background:#f7d6cf;border:.8px solid #b0392c"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">23%</span><div style="width:70%;height:23%;background:#fff;border:.8px solid #b0392c"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">12%</span><div style="width:70%;height:12%;background:#fff;border:.8px solid #b0392c"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">9%</span><div style="width:70%;height:9%;background:#fff;border:.8px solid #b0392c"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">3%</span><div style="width:70%;height:3.5%;background:#fff;border:.8px solid #b0392c"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px">1%</span><div style="width:70%;height:1%;background:#fff;border:.8px solid #b0392c"></div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">喝水</span></div>
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">休息</span></div>
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">散步</span></div>
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">覓食</span></div>
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">游泳</span></div>
+        <div style="flex:1;text-align:center"><span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap">唱歌</span></div>
+      </div>
+    </div>
+    <figcaption style="text-align:center;font-size:13px;color:#6a6a6a;margin-top:6px">「石虎在溪邊＿＿」的下一個詞元分布（示意用，只列出六個候選）</figcaption>
+  </figure>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">語言模型並不「知道」答案，它給的是一張機率表。後面每一章都在回答同一組問題：這張表怎麼算出來、怎麼從中挑詞、怎麼學、學得好不好。</p></aside>
+  </sc-if>
+
+  <h3 id="s1-2" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.2</span>條件機率與連鎖律</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">把一整句話的機率，拆成一連串「接下來會是什麼」。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>條件機率</span>（<i>conditional probability</i>）：已知 <span data-tex="B"></span> 發生時，<span data-tex="A"></span> 發生的機率：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="P(A\mid B)=\frac{P(A,B)}{P(B)}" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>連鎖律</span>（<i>chain rule</i>）：任何聯合機率都能拆成條件機率的乘積。套用在一串詞元上：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="P(w_1,\dots,w_n)=\prod_{t=1}^{n}P(w_t\mid w_{\lt t})" data-display="1"></span></span></div>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <p style="margin:0 0 8px;font-size:14px">一步一步算出「石虎在溪邊喝水。」的機率：</p>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 118px 60px;gap:10px;padding:0 6px 4px;font-size:12px;color:#6a6a6a;border-bottom:.6px solid #c9c9c9">
+      <span>這一步的條件機率</span><span style="text-align:right">機率</span><span style="text-align:right">累積乘積</span><span style="text-align:right">累積 log</span>
+    </div>
+    <sc-for list="{{ chainRows }}" as="r" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 118px 60px;gap:10px;align-items:center;padding:4px 6px;font-size:13.5px;opacity:{{ r.op }};background:{{ r.bg }};transition:opacity .35s,background .35s;border-bottom:.6px solid #eee">
+        <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><i>P</i>( <span style="font-family:'Inconsolata',monospace;font-size:.92em;border:1px dotted #1d1d1d;padding:0 .3em;background:#fff">{{ r.tok }}</span> ｜ <span style="font-family:'LMRoman','LXGW WenKai TC',serif;font-style:italic;color:#6a6a6a">{{ r.ctx }}</span> )</span>
+        <span style="text-align:right;font-family:'Inconsolata',monospace">{{ r.p }}</span>
+        <span style="text-align:right;font-family:'Inconsolata',monospace;color:#b0392c">{{ r.cum }}</span>
+        <span style="text-align:right;font-family:'Inconsolata',monospace;color:#2a6190">{{ r.lg }}</span>
+      </div>
+    </sc-for>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">
+      <button onClick="{{ chainPrev }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">上一步</button>
+      <button onClick="{{ chainNext }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">下一步</button>
+      <button onClick="{{ chainPlay }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">{{ chainPlayLabel }}</button>
+      <span style="flex:1"></span>
+      <span style="font-size:13px;color:#6a6a6a;white-space:nowrap;flex-shrink:0">第 {{ step }} / 5 步</span>
+    </div>
+  </div>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style: normal;">附註：</span>許多小於 1 的數相乘，會迅速逼近 0，電腦容易「溢位」(overflost),就是說當產生的資料或數值大小超過了記憶體、暫存器所能容納的極限<font face="Google Sans, Arial, sans-serif"><span style="font-size: 16px;">。</span></font>實務上改為加總對數機率，因為乘積的對數等於對數的和，表中藍色那一欄就是這樣算的。</p>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">這就是「自迴歸」（<i>autoregressive</i>）生成：模型每一步只回答 <span data-tex="P(w_t\mid w_{\lt t})"></span>，把選出的詞元接到上下文後面，再問一次。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">1</footer>
+</section>
+
+<!-- p2 -->
+<section data-screen-label="02 期望值與貝氏" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>機率</span></header>
+  <h3 id="s1-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.3</span>期望值與變異數</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">用兩個數字概括一個分布：中心在哪裡、散得多開。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>期望值</span>（<i>expected value</i>）：以機率為權重的平均，記為 <span data-tex="\mu"></span>：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\mu=E[X]=\sum_{x}x\,P(X=x)" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>變異數</span>（<i>variance</i>）：偏離期望值的平方的期望；它的平方根 <span data-tex="\sigma"></span> 稱為標準差：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\sigma^2=\mathrm{Var}(X)=E\big[(X-\mu)^2\big]" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>樣本平均</span>（<i>sample mean</i>）：從分布抽出 <span data-tex="n"></span> 個樣本取平均，用來估計期望值。樣本越多越準，誤差隨 <span data-tex="1/\sqrt{n}"></span> 縮小：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i,\qquad \mathrm{SD}(\bar{x})=\frac{\sigma}{\sqrt{n}}" data-display="1"></span></span></div>
+  <sc-if value="{{ showCode }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;background:#f6f6f3;border:.8px solid #c9c9c9;margin:12px 0 14px"><span style="position:absolute;top:4px;right:10px;font-family:'LMCaps',serif;font-size:11.5px;letter-spacing:.08em;color:#6a6a6a">Python</span><pre style="margin:0;padding:12px 14px;overflow-x:auto;font-family:'Inconsolata','Menlo',monospace;font-size:12.8px;line-height:1.6;text-align:left"><span style="color:#1c4c98;font-weight:600">import</span> numpy <span style="color:#1c4c98;font-weight:600">as</span> np
+rng = np.random.default_rng(0)
+x = rng.normal(loc=3.0, scale=2.0, size=10_000)
+x.mean(), x.var()        <span style="color:#6a6a6a"># 約 (3.0, 4.0)：樣本估計逼近真值</span></pre></div>
+  </sc-if>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">訓練損失在理論上是「整個語言分布上的期望值」，但不可能看遍所有文字。每一批（<i>mini-batch</i>）資料的平均損失，就是它的樣本估計；批次越大，估計越穩定（見 3.3）。</p></aside>
+  </sc-if>
+
+  <h3 id="s1-4" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.4</span>貝氏定理</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">看到資料之後，如何更新原本的看法。</p>
+  <p style="margin:6px 0">先想一個問題：「失望」這個詞常出現在負面評論裡；反過來，一則評論出現「失望」，它有多大機會是負面的？前者是 <span data-tex="P(\text{失望}\mid\text{負面})"></span>，後者是 <span data-tex="P(\text{負面}\mid\text{失望})"></span>，兩者並不相同。貝氏定理就是把條件的方向翻過來。</p>
+  <p style="margin:10px 0 4px"><span style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic">用 1000 則評論來想。</span>假設過去的評論有 60% 是正面；「失望」出現在 2% 的正面評論、15% 的負面評論裡：</p>
+  <figure style="margin:12px 0 14px">
+    <svg viewBox="0 0 480 222" style="display:block;width:100%;max-width:480px;height:auto;margin:0 auto" role="img" aria-label="用 1000 則評論理解貝氏定理">
+      <rect x="126" y="126" width="228" height="42" fill="#fcefa2" stroke="#1d1d1d" stroke-width="0.8" stroke-dasharray="3 2"></rect>
+      <line x1="240" y1="36" x2="120" y2="70" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="240" y1="36" x2="360" y2="70" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="120" y1="100" x2="60" y2="132" stroke="#c9c9c9" stroke-width="0.8"></line>
+      <line x1="120" y1="100" x2="180" y2="132" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="360" y1="100" x2="300" y2="132" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="360" y1="100" x2="420" y2="132" stroke="#c9c9c9" stroke-width="0.8"></line>
+      <rect x="180" y="6" width="120" height="30" fill="#d6eed3" stroke="#3f8a48" stroke-width="0.8"></rect>
+      <text x="240" y="26" font-size="12.5" text-anchor="middle" fill="#1d1d1d">1000 則評論</text>
+      <text x="172" y="55" font-size="11" text-anchor="end" fill="#3f8a48">先驗 60%</text>
+      <text x="308" y="55" font-size="11" fill="#3f8a48">先驗 40%</text>
+      <rect x="70" y="70" width="100" height="30" fill="#fff" stroke="#1d1d1d" stroke-width="0.8"></rect>
+      <text x="120" y="90" font-size="12.5" text-anchor="middle" fill="#1d1d1d">正面 600</text>
+      <rect x="310" y="70" width="100" height="30" fill="#fff" stroke="#1d1d1d" stroke-width="0.8"></rect>
+      <text x="360" y="90" font-size="12.5" text-anchor="middle" fill="#1d1d1d">負面 400</text>
+      <text x="84" y="118" font-size="10.5" text-anchor="end" fill="#6a6a6a">98%</text>
+      <text x="156" y="118" font-size="11" fill="#2a6190">概似 2%</text>
+      <text x="324" y="118" font-size="11" text-anchor="end" fill="#2a6190">概似 15%</text>
+      <text x="396" y="118" font-size="10.5" fill="#6a6a6a">85%</text>
+      <rect x="14" y="132" width="92" height="30" fill="#fff" stroke="#c9c9c9" stroke-width="0.8"></rect>
+      <text x="60" y="151.5" font-size="11" text-anchor="middle" fill="#6a6a6a">沒有「失望」588</text>
+      <rect x="134" y="132" width="92" height="30" fill="#fff" stroke="#1d1d1d" stroke-width="0.9"></rect>
+      <text x="180" y="151.5" font-size="11.5" text-anchor="middle" fill="#1d1d1d">有「失望」<tspan font-weight="700">12</tspan></text>
+      <rect x="254" y="132" width="92" height="30" fill="#fff" stroke="#1d1d1d" stroke-width="0.9"></rect>
+      <text x="300" y="151.5" font-size="11.5" text-anchor="middle" fill="#1d1d1d">有「失望」<tspan font-weight="700">60</tspan></text>
+      <rect x="374" y="132" width="92" height="30" fill="#fff" stroke="#c9c9c9" stroke-width="0.8"></rect>
+      <text x="420" y="151.5" font-size="11" text-anchor="middle" fill="#6a6a6a">沒有「失望」340</text>
+      <text x="240" y="190" font-size="12" text-anchor="middle" fill="#1d1d1d">看到「失望」後，只剩黃框裡的 12 + 60 = 72 則</text>
+      <text x="240" y="212" font-size="12.5" text-anchor="middle" fill="#b0392c">其中正面的比例 ＝ 12 ÷ 72 ≈ 17%（後驗）</text>
+    </svg>
+  </figure>
+  <p style="margin:6px 0">重點在於：看到證據之後，<b>只看符合證據的那些情況</b>，再算各類別所占的比例。一個詞，就把判斷從「60% 正面」翻成「約 83% 負面」。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>貝氏定理</span>（<i>Bayes' theorem</i>）：把上面的算法寫成公式。<span data-tex="H"></span> 是假設（例如「正面」），<span data-tex="E"></span> 是證據（例如「出現失望」）：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\underbrace{P(H\mid E)}_{\text{後驗}}=\frac{\overbrace{P(E\mid H)}^{\text{概似}}\;\overbrace{P(H)}^{\text{先驗}}}{\underbrace{P(E)}_{\text{證據的總機率}}}" data-display="1"></span></span></div>
+  <div style="overflow-x:auto;margin:10px 0 12px">
+    <table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:left">
+      <thead><tr><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">名稱</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">意思</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">本例</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">樹狀圖</th></tr></thead>
+      <tbody>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;white-space:nowrap;color:#3f8a48">先驗</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">看證據之前的看法</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap"><span data-tex="P(\text{正面})=0.6"></span></td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap">600 / 1000</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;white-space:nowrap;color:#2a6190">概似</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">假設成立時，看到證據的機率</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap"><span data-tex="P(\text{失望}\mid\text{正面})=0.02"></span></td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap">12 / 600</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;white-space:nowrap">證據的總機率</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">不分類別，看到證據的機率</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap"><span data-tex="P(\text{失望})=0.072"></span></td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap">72 / 1000</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;white-space:nowrap;color:#b0392c">後驗</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">看完證據之後的看法</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap"><span data-tex="P(\text{正面}\mid\text{失望})\approx0.17"></span></td><td style="border:.8px solid #1d1d1d;padding:5px 9px;white-space:nowrap">12 / 72</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin:6px 0">代入數字：分子是「正面且有失望」這條路徑，分母把所有「有失望」的路徑加總：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="P(\text{正面}\mid\text{失望})=\frac{0.02\times0.6}{0.02\times0.6+0.15\times0.4}=\frac{0.012}{0.072}\approx 17\%" data-display="1"></span></div>
+  <p style="margin:6px 0">分母對每個類別都一樣，所以比較類別時常省略它，寫成 <span data-tex="\text{後驗}\propto\text{概似}\times\text{先驗}"></span>，最後再把結果正規化成加總為 1。下面的動手試試就是這樣算的。</p>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>最常見的錯誤是把兩個方向混為一談。<span data-tex="P(\text{失望}\mid\text{負面})"></span> 只有 15%，<span data-tex="P(\text{負面}\mid\text{失望})"></span> 卻約 83%；兩者可以差很遠。</p>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <p style="margin:0 0 8px;font-size:14px">點選評論中出現的詞，看後驗怎麼一步步更新：</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <sc-for list="{{ bayesChips }}" as="c" hint-placeholder-count="4">
+        <button onClick="{{ c.on }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;cursor:pointer;border:1px dotted #1d1d1d;background:{{ c.bg }};color:#1d1d1d;padding:3px 10px;display:flex;flex-direction:column;align-items:center;line-height:1.35">
+          <span style="font-family:'Inconsolata',monospace;font-size:14px">{{ c.w }}</span>
+          <span style="font-size:10.5px;font-family:'Inconsolata',monospace"><span style="color:#3f8a48">正 {{ c.lp }}</span>　<span style="color:#b0392c">負 {{ c.ln }}</span></span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="overflow-x:auto">
+      <div style="min-width:420px">
+        <div style="display:grid;grid-template-columns:52px 48px minmax(0,1fr) 88px 56px;gap:10px;padding:0 6px 4px;font-size:12px;color:#6a6a6a;border-bottom:.6px solid #c9c9c9">
+          <span>類別</span><span style="text-align:right">先驗</span><span style="text-align:right">× 概似</span><span style="text-align:right">＝ 未正規化</span><span style="text-align:right">後驗</span>
+        </div>
+        <sc-for list="{{ bayesRows }}" as="r" hint-placeholder-count="2">
+          <div style="display:grid;grid-template-columns:52px 48px minmax(0,1fr) 88px 56px;gap:10px;align-items:center;padding:4px 6px;font-size:13.5px;border-bottom:.6px solid #eee">
+            <span style="font-weight:700;color:{{ r.color }}">{{ r.name }}</span>
+            <span style="text-align:right;font-family:'Inconsolata',monospace">{{ r.prior }}</span>
+            <span style="text-align:right;font-family:'Inconsolata',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.lik }}</span>
+            <span style="text-align:right;font-family:'Inconsolata',monospace">{{ r.joint }}</span>
+            <span style="text-align:right;font-family:'Inconsolata',monospace;font-weight:700;color:{{ r.color }}">{{ r.post }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;height:22px;margin-top:12px;border:.8px solid #1d1d1d">
+      <div style="width:{{ bayesPosW }};background:#d6eed3;transition:width .4s ease;display:flex;align-items:center;justify-content:flex-start;padding-left:6px;font-size:11.5px;color:#3f8a48;overflow:hidden;white-space:nowrap">正面</div>
+      <div style="flex:1;background:#f7d6cf;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:11.5px;color:#b0392c;overflow:hidden;white-space:nowrap">負面</div>
+    </div>
+    <p style="margin:8px 0 0;font-size:13px;color:#6a6a6a">{{ bayesVerdict }}</p>
+  </div>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>這裡假設每個詞在給定類別下彼此獨立，所以概似可以直接相乘，這種分類器稱為「單純貝氏」（<i>naive Bayes</i>），是最早的文本分類方法之一。它忽略了「不」「但是」這類改變語意的結構，後來的神經網路與 LLM 才處理得了。</p>
+  <p style="margin:14px 0 4px"><span style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic">推廣到連續參數。</span>如果要估計的是連續的數值 <span data-tex="\theta"></span>（例如一個權重），先驗與概似都變成曲線，後驗就是兩條曲線相乘、再正規化後的形狀：</p>
+  <figure style="margin:12px 0 14px">
+    <svg viewBox="0 0 440 150" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="先驗、概似與後驗">
+      <line x1="30" y1="125" x2="410" y2="125" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <path d="M30.0,122.5L34.8,122.0L39.5,121.3L44.2,120.5L49.0,119.6L53.8,118.5L58.5,117.4L63.3,116.0L68.0,114.5L72.8,112.8L77.5,110.9L82.3,108.9L87.0,106.7L91.8,104.3L96.5,101.8L101.3,99.1L106.0,96.4L110.8,93.6L115.5,90.7L120.3,87.9L125.0,85.1L129.8,82.3L134.5,79.7L139.3,77.3L144.0,75.1L148.8,73.2L153.5,71.5L158.3,70.2L163.0,69.3L167.8,68.7L172.5,68.5L177.3,68.7L182.0,69.3L186.8,70.2L191.5,71.5L196.3,73.2L201.0,75.1L205.8,77.3L210.5,79.7L215.3,82.3L220.0,85.1L224.7,87.9L229.5,90.7L234.3,93.6L239.0,96.4L243.8,99.1L248.5,101.8L253.3,104.3L258.0,106.7L262.8,108.9L267.5,110.9L272.3,112.8L277.0,114.5L281.8,116.0L286.5,117.4L291.3,118.5L296.0,119.6L300.8,120.5L305.5,121.3L310.3,122.0L315.0,122.5L319.8,123.0L324.5,123.4L329.3,123.7L334.0,124.0L338.8,124.2L343.5,124.4L348.3,124.5L353.0,124.6L357.8,124.7L362.5,124.8L367.3,124.8L372.0,124.9L376.8,124.9L381.5,124.9L386.3,125.0L391.0,125.0L410.0,125.0" fill="none" stroke="#3f8a48" stroke-width="1.3"></path>
+      <path d="M30.0,125.0L120.3,125.0L125.0,124.9L129.8,124.9L134.5,124.8L139.3,124.7L144.0,124.6L148.8,124.4L153.5,124.1L158.3,123.6L163.0,123.1L167.8,122.3L172.5,121.3L177.3,119.9L182.0,118.3L186.8,116.1L191.5,113.5L196.3,110.4L201.0,106.7L205.8,102.4L210.5,97.5L215.3,92.1L220.0,86.2L224.7,80.0L229.5,73.6L234.3,67.2L239.0,61.0L243.8,55.3L248.5,50.2L253.3,46.0L258.0,42.8L262.8,40.9L267.5,40.2L272.3,40.9L277.0,42.8L281.8,46.0L286.5,50.2L291.3,55.3L296.0,61.0L300.8,67.2L305.5,73.6L310.3,80.0L315.0,86.2L319.8,92.1L324.5,97.5L329.3,102.4L334.0,106.7L338.8,110.4L343.5,113.5L348.3,116.1L353.0,118.3L357.8,119.9L362.5,121.3L367.3,122.3L372.0,123.1L376.8,123.6L381.5,124.1L386.3,124.4L391.0,124.6L395.8,124.7L400.5,124.8L405.3,124.9L410.0,124.9" fill="none" stroke="#2a6190" stroke-width="1.3" stroke-dasharray="4 2.5"></path>
+      <path d="M30.0,125.0L110.8,125.0L115.5,124.9L120.3,124.9L125.0,124.8L129.8,124.7L134.5,124.5L139.3,124.2L144.0,123.8L148.8,123.1L153.5,122.2L158.3,120.9L163.0,119.0L167.8,116.5L172.5,113.3L177.3,109.2L182.0,104.1L186.8,98.0L191.5,90.9L196.3,82.9L201.0,74.2L205.8,65.0L210.5,55.8L215.3,46.9L220.0,38.8L224.7,32.1L229.5,27.0L234.3,24.0L239.0,23.2L243.8,24.7L248.5,28.3L253.3,33.9L258.0,41.1L262.8,49.5L267.5,58.5L272.3,67.8L277.0,76.8L281.8,85.4L286.5,93.1L291.3,99.9L296.0,105.7L300.8,110.5L305.5,114.3L310.3,117.3L315.0,119.6L319.8,121.3L324.5,122.5L329.3,123.4L334.0,124.0L338.8,124.3L343.5,124.6L348.3,124.8L353.0,124.9L357.8,124.9L362.5,125.0L410.0,125.0" fill="#f7d6cf" fill-opacity="0.55" stroke="#b0392c" stroke-width="1.5"></path>
+      <text x="130" y="72" font-size="12" text-anchor="middle" fill="#3f8a48">先驗</text>
+      <text x="300" y="38" font-size="12" fill="#2a6190">概似（資料）</text>
+      <text x="239" y="15" font-size="12" text-anchor="middle" fill="#b0392c">後驗</text>
+      <text x="172.5" y="140" font-size="11" text-anchor="middle" fill="#6a6a6a">0</text>
+      <text x="267.5" y="140" font-size="11" text-anchor="middle" fill="#6a6a6a">2</text>
+      <text x="420" y="129" font-size="12" fill="#1d1d1d" font-style="italic">θ</text>
+    </svg>
+    <figcaption style="text-align:center;font-size:13px;color:#6a6a6a">先驗認為 θ 在 0 附近，資料指向 2；後驗落在兩者之間，而且比兩者都窄，因為結合了兩方的資訊。</figcaption>
+  </figure>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">訓練時常用的權重衰減（<i>weight decay</i>），相當於替權重加上「應該靠近 0」的常態先驗。提示詞裡的範例也可以這樣理解：它們是新證據，讓模型對「你要什麼」的判斷往特定方向更新。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">2</footer>
+</section>
+
+<!-- p3 -->
+<section data-screen-label="03 常態分布" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>分布與抽樣</span></header>
+  <div id="ch2" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 2 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">分布與抽樣</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Distributions and Sampling</div></div>
+  <p style="margin:6px 0">本章介紹兩個最重要的分布，即常態分布與 softmax 產生的類別分布，以及如何從分布中抽出詞元。</p>
+
+  <h3 id="s2-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.1</span>常態分布</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">自然界與神經網路裡最常見的鐘形曲線。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>常態分布</span>（<i>normal distribution</i>）<span data-tex="\mathcal{N}(\mu,\sigma^2)"></span>：由平均 <span data-tex="\mu"></span> 決定位置、標準差 <span data-tex="\sigma"></span> 決定寬度。約 68% 的值落在 <span data-tex="\mu\pm\sigma"></span>，約 95% 落在 <span data-tex="\mu\pm 2\sigma"></span>。</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="p(x)=\frac{1}{\sigma\sqrt{2\pi}}\exp\!\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big)" data-display="1"></span></div>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <svg viewBox="0 0 440 160" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="可調整的常態分布">
+      <path d="{{ normBand }}" fill="#d1e4f3" stroke="none"></path>
+      <path d="{{ stdPath }}" fill="none" stroke="#c9c9c9" stroke-width="1" stroke-dasharray="3 2.5"></path>
+      <path d="{{ normPath }}" fill="none" stroke="#2a6190" stroke-width="1.6"></path>
+      <line x1="{{ muX }}" y1="140" x2="{{ muX }}" y2="{{ muTop }}" stroke="#2a6190" stroke-width="0.8" stroke-dasharray="2 2"></line>
+      <line x1="20" y1="140" x2="420" y2="140" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <sc-for list="{{ normTicks }}" as="t" hint-placeholder-count="0">
+        <line x1="{{ t.x }}" y1="140" x2="{{ t.x }}" y2="144" stroke="#1d1d1d" stroke-width="0.8"></line>
+      </sc-for>
+      <text x="60" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">−4</text><text x="100" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">−3</text><text x="140" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">−2</text><text x="180" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">−1</text><text x="220" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0</text><text x="260" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">1</text><text x="300" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">2</text><text x="340" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">3</text><text x="380" y="155" font-size="10.5" text-anchor="middle" fill="#6a6a6a">4</text>
+      <text x="{{ muX }}" y="{{ bandLabelY }}" font-size="11" text-anchor="middle" fill="#2a6190">68%</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px">
+      <span>平均 <span data-tex="\mu"></span></span><input type="range" min="-2" max="2" step="0.1" value="{{ mu }}" onChange="{{ onMu }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ muTxt }}</span>
+      <span>標準差 <span data-tex="\sigma"></span></span><input type="range" min="0.5" max="2" step="0.05" value="{{ sigma }}" onChange="{{ onSigma }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ sigmaTxt }}</span>
+    </div>
+    <p style="margin:8px 0 0;font-size:13px;color:#6a6a6a">藍色區域是 <span data-tex="\mu\pm\sigma"></span>＝［{{ bandLo }}, {{ bandHi }}］，約占 68%。灰色虛線是標準常態 <span data-tex="\mathcal{N}(0,1)"></span>。</p>
+  </div>
+
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>標準化</span>（<i>standardization</i>）：減去平均、除以標準差，把任何資料轉成平均 0、標準差 1，在圖上就是把藍色曲線移回灰色虛線：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="z=\frac{x-\mu}{\sigma}" data-display="1"></span></div>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">模型的權重通常從小標準差的常態分布隨機初始化，例如 <span data-tex="\mathcal{N}(0,\,0.02^2)"></span>。每一層裡的 LayerNorm 則對隱藏向量做標準化，讓數值不會越傳越大或越小。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">3</footer>
+</section>
+
+<!-- p4 -->
+<section data-screen-label="04 Softmax 與溫度" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>分布與抽樣</span></header>
+  <h3 id="s2-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.2</span>Softmax 與溫度</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">把任意實數分數，變成一個機率分布。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>分數</span>（<i>logits</i>）<span data-tex="z_i"></span>：模型最後一層替每個詞元打的實數分數，可正可負，總和也不是 1。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Softmax</span>：先取指數讓每個值變正，再除以總和讓它們加起來等於 1。溫度 <span data-tex="T"></span> 控制分布的尖銳程度：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="P(w_i)=\frac{\exp(z_i/T)}{\sum_{j}\exp(z_j/T)}" data-display="1"></span></span></div>
+  <ul style="margin:4px 0 6px;padding-left:1.35em">
+    <li><span data-tex="T\lt 1"></span>：差距被放大，分布變尖，輸出更保守。</li>
+    <li><span data-tex="T\gt 1"></span>：差距被縮小，分布變平，輸出更多樣。</li>
+    <li><span data-tex="T\to 0"></span>：等同永遠選分數最高的那一個。</li>
+  </ul>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <p style="margin:0 0 8px;font-size:14px">「石虎在溪邊＿＿」的六個候選。拖動溫度，看分數相同、分布卻如何改變：</p>
+    <div style="max-width:430px;margin:0 auto">
+      <div style="display:flex;gap:10px;align-items:flex-end;height:140px;border-bottom:.8px solid #1d1d1d">
+        <sc-for list="{{ tempBars }}" as="b" hint-placeholder-count="6">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
+            <span style="font-size:12px;font-family:'Inconsolata',monospace">{{ b.pct }}</span>
+            <div style="width:70%;height:{{ b.h }};background:#f7d6cf;border:.8px solid #b0392c;transition:height .3s ease"></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <sc-for list="{{ tempBars }}" as="b" hint-placeholder-count="6">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;line-height:1.4">
+            <span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;white-space:nowrap">{{ b.tok }}</span>
+            <span style="font-size:11px;color:#2a6190;font-family:'Inconsolata',monospace;margin-top:3px">z={{ b.z }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:12px;font-size:14px">
+      <span>溫度 <span data-tex="T"></span></span><input type="range" min="0.1" max="3" step="0.05" value="{{ temp }}" onChange="{{ onTemp }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ tempTxt }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px;font-size:13px;color:#6a6a6a">
+      <span style="white-space:nowrap">熵 <span data-tex="H"></span> ＝ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ tempH }}</span> nats</span>
+      <span style="white-space:nowrap">等效選項數 <span data-tex="e^{H}"></span> ≈ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ tempEff }}</span></span>
+      <span style="white-space:nowrap">（熵的定義見 <a href="#s3-2">3.2</a>）</span>
+    </div>
+  </div>
+  <sc-if value="{{ showCode }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;background:#f6f6f3;border:.8px solid #c9c9c9;margin:12px 0 14px"><span style="position:absolute;top:4px;right:10px;font-family:'LMCaps',serif;font-size:11.5px;letter-spacing:.08em;color:#6a6a6a">Python</span><pre style="margin:0;padding:12px 14px;overflow-x:auto;font-family:'Inconsolata','Menlo',monospace;font-size:12.8px;line-height:1.6;text-align:left"><span style="color:#1c4c98;font-weight:600">def</span> softmax(z, T=1.0):
+    e = np.exp((z - z.<span style="color:#1d7469">max</span>()) / T)   <span style="color:#6a6a6a"># 先減去最大值，避免指數溢位</span>
+    <span style="color:#1c4c98;font-weight:600">return</span> e / e.<span style="color:#1d7469">sum</span>()
+
+z = np.array([2.4, 1.6, 0.9, 0.6, -0.3, -1.5])
+softmax(z).round(2)     <span style="color:#6a6a6a"># [0.52 0.23 0.12 0.09 0.03 0.01]</span></pre></div>
+  </sc-if>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">各家 API 的 <i>temperature</i> 參數就是這個 <span data-tex="T"></span>。寫程式、查事實適合低溫；腦力激盪、寫詩可以調高。溫度只改變分布的形狀，不會讓模型知道更多。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">4</footer>
+</section>
+
+<!-- p5 -->
+<section data-screen-label="05 抽樣策略" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>分布與抽樣</span></header>
+  <h3 id="s2-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.3</span>抽樣策略</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">有了分布，還得決定怎麼從中挑出一個詞元。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>貪婪解碼</span>（<i>greedy decoding</i>）：每一步都選機率最高者。結果固定，但容易重複、單調。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Top-k 抽樣</span>：只保留機率最高的 <span data-tex="k"></span> 個詞元，重新正規化後再抽。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Top-p 抽樣</span>（<i>nucleus sampling</i>）：由高到低累加機率，保留累計剛好達到 <span data-tex="p"></span> 的最小集合。分布越尖，留下的詞元越少。</p>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <div style="display:flex;flex-wrap:wrap;gap:0;margin-bottom:10px">
+      <sc-for list="{{ modeBtns }}" as="m" hint-placeholder-count="4">
+        <button onClick="{{ m.on }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;margin-right:-.8px;background:{{ m.bg }};color:#1d1d1d;cursor:pointer">{{ m.label }}</button>
+      </sc-for>
+    </div>
+    <div style="max-width:430px;margin:0 auto">
+      <div style="display:flex;gap:10px;align-items:flex-end;height:130px;border-bottom:.8px solid #1d1d1d">
+        <sc-for list="{{ sampBars }}" as="b" hint-placeholder-count="6">
+          <div style="flex:1;display:flex;align-items:flex-end;justify-content:center;gap:3px;height:100%;opacity:{{ b.op }};transition:opacity .3s">
+            <div style="width:38%;height:{{ b.th }};background:#f7d6cf;border:.8px solid #b0392c;transition:height .3s ease"></div>
+            <div style="width:38%;height:{{ b.emp }};background:#d1e4f3;border:.8px solid #2a6190;transition:height .12s linear"></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <sc-for list="{{ sampBars }}" as="b" hint-placeholder-count="6">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;line-height:1.4;opacity:{{ b.op }}">
+            <span style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;white-space:nowrap;background:{{ b.hl }}">{{ b.tok }}</span>
+            <span style="font-size:11px;font-family:'Inconsolata',monospace;margin-top:3px"><span style="color:#b0392c">{{ b.thPct }}</span> <span style="color:#2a6190">{{ b.empPct }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12.5px;color:#6a6a6a;justify-content:center">
+      <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:18px;height:11px;background:#f7d6cf;border:.8px solid #b0392c"></span>理論機率（重新正規化後）</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:18px;height:11px;background:#d1e4f3;border:.8px solid #2a6190"></span>實際抽中的頻率</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">
+      <button onClick="{{ sampOne }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">抽 1 次</button>
+      <button onClick="{{ sampMany }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">連抽 500 次</button>
+      <button onClick="{{ sampReset }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">清除</button>
+      <span style="flex:1"></span>
+      <span style="font-size:13px;color:#6a6a6a;white-space:nowrap">已抽 <span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ total }}</span> 次　最近一次：<span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ last }}</span></span>
+    </div>
+  </div>
+
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>大數法則</span>（<i>law of large numbers</i>）：抽樣次數越多，觀察到的頻率越接近真實機率。上圖只抽 10 次時，藍條跳來跳去；抽到 500 次，便幾乎貼齊紅條。</p>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">同一個問題問兩次，得到不同答案，正是因為每一步都在抽樣。溫度、top-k、top-p 通常一起使用：先用溫度調整形狀，再截掉長尾裡不合理的詞元。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">5</footer>
+</section>
+
+<!-- p6 -->
+<section data-screen-label="06 最大概似估計" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>從資料學習</span></header>
+  <div id="ch3" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 3 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">從資料學習</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Learning from Data</div></div>
+  <p style="margin:6px 0">「訓練模型」在統計上就是「估計參數」。本章說明目標是什麼、用什麼衡量、怎麼一步步逼近。</p>
+
+  <h3 id="s3-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">3.1</span>最大概似估計</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">選一組參數，讓已經看到的資料「最不意外」。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>概似函數</span>（<i>likelihood</i>）：把資料固定、參數當變數的機率：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="L(\theta)=\prod_{i=1}^{n}P_\theta(x_i)" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>最大概似估計</span>（<i>maximum likelihood estimation</i>，MLE）：找出讓 <span data-tex="L(\theta)"></span> 最大的參數。取對數、加負號後，等價於最小化「負對數概似」：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\hat\theta=\arg\max_\theta L(\theta)=\arg\min_\theta\Big(-\sum_{i}\log P_\theta(x_i)\Big)" data-display="1"></span></span></div>
+  <p style="margin:6px 0">例：語料中「溪邊」後面出現了 10 次，其中 7 次是「喝水」。令 <span data-tex="\theta=P(\text{喝水}\mid\text{溪邊})"></span>，則 <span data-tex="L(\theta)=\theta^{7}(1-\theta)^{3}"></span>。</p>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <svg viewBox="0 0 440 150" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="概似函數">
+      <line x1="30" y1="125" x2="415" y2="125" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="296" y1="125" x2="296" y2="22" stroke="#3f8a48" stroke-width="0.8" stroke-dasharray="2 2"></line>
+      <text x="296" y="16" font-size="11" text-anchor="middle" fill="#3f8a48">7/10 = 0.7</text>
+      <path d="{{ mlePath }}" fill="none" stroke="#2a6190" stroke-width="1.5"></path>
+      <line x1="{{ mleX }}" y1="125" x2="{{ mleX }}" y2="{{ mleY }}" stroke="#b0392c" stroke-width="0.8"></line>
+      <circle cx="{{ mleX }}" cy="{{ mleY }}" r="4.5" fill="#f7d6cf" stroke="#b0392c" stroke-width="1.2"></circle>
+      <text x="30" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0</text>
+      <text x="220" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0.5</text>
+      <text x="410" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">1</text>
+      <text x="422" y="129" font-size="12" fill="#1d1d1d" font-style="italic">θ</text>
+      <text x="34" y="30" font-size="11" fill="#2a6190"><tspan font-style="italic">L</tspan>(θ)</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px">
+      <span>猜測 <span data-tex="\theta"></span></span><input type="range" min="0.02" max="0.98" step="0.01" value="{{ theta }}" onChange="{{ onTheta }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ thetaTxt }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px;font-size:13px;color:#6a6a6a">
+      <span style="white-space:nowrap"><span data-tex="L(\theta)"></span> ＝ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ mleL }}</span></span>
+      <span style="white-space:nowrap"><span data-tex="-\log L(\theta)"></span> ＝ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ mleNLL }}</span></span>
+      <span style="color:#3f8a48">{{ mleHint }}</span>
+    </div>
+  </div>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">預訓練就是超大規模的 MLE：參數從一個 <span data-tex="\theta" data-k="1"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.6944em;"></span><span class="mord mathnormal" style="margin-right: 0.0278em;">θ</span></span></span></span></span> 變成數十億個權重，資料從 10 次觀察變成數兆個詞元，但目標不變，就是讓訓練文字的負對數概似盡量小。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">6</footer>
+</section>
+
+<!-- p7 -->
+<section data-screen-label="07 熵與交叉熵" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>從資料學習</span></header>
+  <h3 id="s3-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">3.2</span>熵、交叉熵與 KL 散度</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">用「意外程度」衡量預測的好壞。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>資訊量</span>（<i>surprisal</i>）：機率為 <span data-tex="p"></span> 的事件發生時的意外程度 <span data-tex="-\log p"></span>。必然發生的事毫不意外，罕見的事非常意外。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>熵</span>（<i>entropy</i>）：分布本身的平均意外程度，也就是它有多不確定。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>交叉熵</span>（<i>cross-entropy</i>）：真實分布是 <span data-tex="p"></span>，卻用模型 <span data-tex="q"></span> 去預測時的平均意外程度。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>KL 散度</span>（<i>Kullback–Leibler divergence</i>）：用 <span data-tex="q"></span> 代替 <span data-tex="p"></span> 所多付的意外程度，衡量兩個分布差多遠；只有 <span data-tex="q=p"></span> 時為 0。</p>
+  <div style="overflow-x:auto;margin:12px 0 14px">
+    <table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:left">
+      <tbody>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;text-align:center;white-space:nowrap">熵</td><td style="border:.8px solid #1d1d1d;padding:5px 12px"><span data-tex="H(p)=-\sum_x p(x)\log p(x)"></span></td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;text-align:center;white-space:nowrap">交叉熵</td><td style="border:.8px solid #1d1d1d;padding:5px 12px"><span data-tex="H(p,q)=-\sum_x p(x)\log q(x)"></span></td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;text-align:center;white-space:nowrap">KL 散度</td><td style="border:.8px solid #1d1d1d;padding:5px 12px"><span data-tex="D_{\mathrm{KL}}(p\,\|\,q)=H(p,q)-H(p)\ \ge 0"></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin:6px 0">訓練時，「真實分布」就是實際出現的那個詞元（機率 1），其餘為 0。交叉熵於是簡化成 <span data-tex="-\log q(\text{正確詞元})"></span>：模型給正確答案的機率越高，損失越小。</p>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <svg viewBox="0 0 440 150" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="交叉熵損失曲線">
+      <line x1="30" y1="125" x2="415" y2="125" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="30" y1="125" x2="30" y2="12" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <path d="{{ cePath }}" fill="none" stroke="#b0392c" stroke-width="1.5"></path>
+      <line x1="{{ ceX }}" y1="125" x2="{{ ceX }}" y2="{{ ceY }}" stroke="#2a6190" stroke-width="0.8" stroke-dasharray="2 2"></line>
+      <line x1="30" y1="{{ ceY }}" x2="{{ ceX }}" y2="{{ ceY }}" stroke="#2a6190" stroke-width="0.8" stroke-dasharray="2 2"></line>
+      <circle cx="{{ ceX }}" cy="{{ ceY }}" r="4.5" fill="#d1e4f3" stroke="#2a6190" stroke-width="1.2"></circle>
+      <text x="30" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0</text>
+      <text x="220" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0.5</text>
+      <text x="410" y="140" font-size="10.5" text-anchor="middle" fill="#6a6a6a">1</text>
+      <text x="36" y="20" font-size="11" fill="#b0392c">損失 −log q</text>
+      <text x="300" y="115" font-size="11" fill="#6a6a6a">q（給正確詞元的機率）</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px">
+      <span>模型給「喝水」的機率 <span data-tex="q"></span></span><input type="range" min="0.01" max="1" step="0.01" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ qTxt }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px;font-size:13px;color:#6a6a6a">
+      <span style="white-space:nowrap">損失 ＝ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ ceLoss }}</span></span>
+      <span style="white-space:nowrap">困惑度 <span data-tex="e^{\text{損失}}"></span> ＝ <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ cePPL }}</span></span>
+    </div>
+  </div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>困惑度</span>（<i>perplexity</i>，PPL）：把一整段文字的平均損失，換算成「模型每一步平均在幾個選項之間猶豫」。越低越好。</p>
+  <p style="margin:10px 0 4px"><span style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic">先從直覺開始。</span>擲一顆公正的骰子，每一面的機率都是 1/6，猜中的機率是 1/6，好比在 6 個選項中盲猜，困惑度就是 6。只要模型每一步都把機率平均分給 <span data-tex="k"></span> 個詞元，困惑度就是 <span data-tex="k"></span>：</p>
+  <div style="overflow-x:auto;margin:10px 0 12px">
+    <table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:center">
+      <thead><tr><th style="border:.8px solid #1d1d1d;padding:5px 10px">模型的狀態</th><th style="border:.8px solid #1d1d1d;padding:5px 10px">給正確詞元的機率</th><th style="border:.8px solid #1d1d1d;padding:5px 10px">困惑度</th></tr></thead>
+      <tbody>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px;text-align:left">完全確定，而且都對</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">1</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;background:#d6eed3">1</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px;text-align:left">在 4 個詞之間猶豫</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">1/4</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">4</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px;text-align:left">詞彙表 5 萬個詞，隨便亂猜</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">1/50000</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;background:#f7d6cf">50000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin:10px 0 4px"><span style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic">實際算一次。</span>模型讀「石虎在溪邊喝水」，每一步給正確詞元的機率各不相同。把每一步的損失 <span data-tex="-\log q"></span> 算出來、取平均，再取指數還原：</p>
+  <div style="overflow-x:auto;margin:10px 0 12px">
+    <table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:center">
+      <thead><tr><th style="border:.8px solid #1d1d1d;padding:5px 10px">步驟</th><th style="border:.8px solid #1d1d1d;padding:5px 10px">要預測的詞元</th><th style="border:.8px solid #1d1d1d;padding:5px 10px"><span data-tex="q"></span>（正確詞元）</th><th style="border:.8px solid #1d1d1d;padding:5px 10px">損失 <span data-tex="-\ln q"></span></th></tr></thead>
+      <tbody>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px">1</td><td style="border:.8px solid #1d1d1d;padding:5px 10px"><span style="font-family:'Inconsolata',monospace;font-size:.92em;border:1px dotted #1d1d1d;padding:0 .3em">在</span></td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">0.500</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;color:#b0392c">0.69</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px">2</td><td style="border:.8px solid #1d1d1d;padding:5px 10px"><span style="font-family:'Inconsolata',monospace;font-size:.92em;border:1px dotted #1d1d1d;padding:0 .3em">溪邊</span></td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">0.125</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;color:#b0392c">2.08</td></tr>
+        <tr><td style="border:.8px solid #1d1d1d;padding:5px 10px">3</td><td style="border:.8px solid #1d1d1d;padding:5px 10px"><span style="font-family:'Inconsolata',monospace;font-size:.92em;border:1px dotted #1d1d1d;padding:0 .3em">喝水</span></td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace">0.250</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;color:#b0392c">1.39</td></tr>
+        <tr><td colspan="3" style="border:.8px solid #1d1d1d;padding:5px 10px;text-align:right;font-weight:700">平均損失</td><td style="border:.8px solid #1d1d1d;padding:5px 10px;font-family:'Inconsolata',monospace;font-weight:700;color:#b0392c;background:#fcefa2">1.39</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\mathrm{PPL}=e^{\,1.39}\approx 4" data-display="1"></span></div>
+  <p style="margin:6px 0">三步裡模型有時很有把握（1/2），有時不太確定（1/8），平均下來，像是每一步都在 4 個詞之間猶豫。寫成一般式，就是「平均損失的指數」：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\mathrm{PPL}=\exp\Big(\underbrace{-\frac{1}{n}\sum_{t=1}^{n}\log q(w_t\mid w_{\lt t})}_{\text{平均損失（交叉熵）}}\Big)" data-display="1"></span></span></div>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>為什麼要取指數？損失的單位是 nats，不好想像；取指數後換回「幾個選項」，就能直接比較。例如困惑度從 20 降到 10，代表模型每一步的猶豫範圍大約縮小了一半。不過，不同詞元化方式的模型，困惑度不能直接比較，因為「一步」的長短不一樣。</p>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">交叉熵是預訓練的損失函數，困惑度是它的指數，常用來比較語言模型。KL 散度則出現在知識蒸餾（讓小模型的分布模仿大模型）與 RLHF（懲罰模型偏離原本的分布太遠）。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">7</footer>
+</section>
+
+<!-- p8 -->
+<section data-screen-label="08 梯度下降" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>從資料學習</span></header>
+  <h3 id="s3-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">3.3</span>梯度下降與隨機性</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">沿著損失下降最快的方向，一小步一小步往下走。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>梯度下降</span>（<i>gradient descent</i>）：梯度 <span data-tex="\nabla\mathcal{L}"></span> 指向損失上升最快的方向，往反方向走一步；步長由學習率 <span data-tex="\alpha"></span> 決定：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\theta\leftarrow\theta-\alpha\,\nabla_\theta\mathcal{L}(\theta)" data-display="1"></span></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>隨機梯度下降</span>（<i>stochastic gradient descent</i>，SGD）：每一步只用一小批資料估計梯度，用的就是 1.3 的樣本平均。估計帶有雜訊，但計算便宜得多。</p>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <svg viewBox="0 0 440 160" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="梯度下降動畫">
+      <line x1="30" y1="140" x2="415" y2="140" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <path d="{{ gdPath }}" fill="none" stroke="#1d1d1d" stroke-width="1.3"></path>
+      <text x="68" y="154" font-size="10.5" text-anchor="middle" fill="#6a6a6a">全域極小</text>
+      <text x="309" y="154" font-size="10.5" text-anchor="middle" fill="#6a6a6a">局部極小</text>
+      <sc-for list="{{ gdTrail }}" as="p" hint-placeholder-count="0">
+        <circle cx="{{ p.cx }}" cy="{{ p.cy }}" r="2.4" fill="#2a6190" fill-opacity="{{ p.op }}"></circle>
+      </sc-for>
+      <circle cx="{{ gdX }}" cy="{{ gdY }}" r="6" fill="#f7d6cf" stroke="#b0392c" stroke-width="1.3"></circle>
+      <text x="36" y="20" font-size="11" fill="#1d1d1d"><tspan font-style="italic">ℒ</tspan>(θ)</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px">
+      <span>學習率 <span data-tex="\alpha"></span></span><input type="range" min="0.01" max="0.5" step="0.01" value="{{ lr }}" onChange="{{ onLr }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ lrTxt }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px">
+      <button onClick="{{ gdRun }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">{{ gdRunLabel }}</button>
+      <button onClick="{{ gdReset }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">重設</button>
+      <button onClick="{{ gdNoise }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:{{ noiseBg }};color:#1d1d1d;cursor:pointer">梯度雜訊（SGD）：{{ noiseTxt }}</button>
+      <span style="flex:1"></span>
+      <span style="font-size:13px;color:#6a6a6a;display:flex;flex-wrap:wrap;gap:0 12px"><span style="white-space:nowrap">第 <span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ gdN }}</span> 步</span><span style="white-space:nowrap"><span data-tex="\theta"></span>＝<span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ gdTheta }}</span></span><span style="white-space:nowrap"><span data-tex="\mathcal{L}"></span>＝<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ gdLoss }}</span></span></span>
+    </div>
+  </div>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>不開雜訊時，小球從右邊出發會卡在局部極小。打開雜訊多跑幾次，它偶爾會被「推」過山頭，落進更深的谷底。學習率太小走得慢，太大則會來回震盪。</p>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">實際訓練用的是 Adam 等改良版優化器，學習率也會先暖身、再逐步衰減；但核心不變：用抽樣估計出來的梯度，在數十億維的空間裡往下走。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">8</footer>
+</section>
+
+<!-- p9 -->
+<section data-screen-label="09 過擬合" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>評估與不確定性</span></header>
+  <div id="ch4" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 4 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">評估與不確定性</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Evaluation and Uncertainty</div></div>
+  <p style="margin:6px 0">模型訓練好了，要怎麼知道它真的好？本章談泛化、分數的誤差範圍，以及模型的信心可不可信。</p>
+
+  <h3 id="s4-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">4.1</span>過擬合、偏差與變異</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">背得滾瓜爛熟，不代表真的學會。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>泛化</span>（<i>generalization</i>）：在沒看過的資料上依然表現良好。因此資料要切成訓練集、驗證集與測試集。</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>過擬合</span>（<i>overfitting</i>）：訓練損失持續下降，驗證損失卻開始上升，表示模型開始記住訓練資料裡的偶然雜訊。</p>
+  <figure style="margin:12px 0 14px">
+    <svg viewBox="0 0 440 160" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="訓練損失與驗證損失">
+      <rect x="40" y="10" width="198.3" height="120" fill="#d6eed3" fill-opacity="0.35"></rect>
+      <rect x="238.3" y="10" width="171.7" height="120" fill="#f7d6cf" fill-opacity="0.35"></rect>
+      <line x1="40" y1="130" x2="415" y2="130" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="40" y1="130" x2="40" y2="8" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <path d="M40.0,27.4L47.4,33.6L54.8,39.3L62.2,44.7L69.6,49.7L77.0,54.3L84.4,58.7L91.8,62.7L99.2,66.5L106.6,70.0L114.0,73.3L121.4,76.4L128.8,79.2L136.2,81.9L143.6,84.4L151.0,86.7L158.4,88.8L165.8,90.9L173.2,92.7L180.6,94.5L188.0,96.1L195.4,97.6L202.8,99.0L210.2,100.4L217.6,101.6L225.0,102.8L232.4,103.8L239.8,104.8L247.2,105.8L254.6,106.6L262.0,107.4L269.4,108.2L276.8,108.9L284.2,109.5L291.6,110.2L299.0,110.7L306.4,111.3L313.8,111.8L321.2,112.2L328.6,112.7L336.0,113.1L343.4,113.4L350.8,113.8L358.2,114.1L365.6,114.4L373.0,114.7L380.4,115.0L387.8,115.2L395.2,115.4L402.6,115.6L410.0,115.8" fill="none" stroke="#2a6190" stroke-width="1.5"></path>
+      <path d="M40.0,19.8L47.4,25.9L54.8,31.6L62.2,36.9L69.6,41.8L77.0,46.3L84.4,50.4L91.8,54.2L99.2,57.7L106.6,61.0L114.0,63.9L121.4,66.6L128.8,69.0L136.2,71.2L143.6,73.2L151.0,75.0L158.4,76.6L165.8,78.0L173.2,79.2L180.6,80.3L188.0,81.2L195.4,82.0L202.8,82.6L210.2,83.1L217.6,83.5L225.0,83.8L232.4,83.9L239.8,83.9L247.2,83.9L254.6,83.7L262.0,83.4L269.4,83.1L276.8,82.6L284.2,82.1L291.6,81.5L299.0,80.8L306.4,80.0L313.8,79.2L321.2,78.3L328.6,77.3L336.0,76.3L343.4,75.2L350.8,74.0L358.2,72.8L365.6,71.5L373.0,70.2L380.4,68.8L387.8,67.3L395.2,65.8L402.6,64.3L410.0,62.6" fill="none" stroke="#b0392c" stroke-width="1.5" stroke-dasharray="4 2.5"></path>
+      <line x1="238.3" y1="130" x2="238.3" y2="10" stroke="#1d1d1d" stroke-width="0.8" stroke-dasharray="2 2"></line>
+      <circle cx="238.3" cy="83.9" r="3.2" fill="#b0392c"></circle>
+      <text x="139" y="24" font-size="11.5" text-anchor="middle" fill="#3f8a48">還在學</text>
+      <text x="324" y="24" font-size="11.5" text-anchor="middle" fill="#b0392c">過擬合</text>
+      <text x="244" y="100" font-size="10.5" fill="#1d1d1d">提早停止</text>
+      <text x="360" y="108" font-size="11" fill="#2a6190">訓練損失</text>
+      <text x="360" y="58" font-size="11" fill="#b0392c">驗證損失</text>
+      <text x="415" y="146" font-size="11" text-anchor="end" fill="#6a6a6a">訓練時間 →</text>
+      <text x="36" y="146" font-size="11" fill="#6a6a6a">損失</text>
+    </svg>
+  </figure>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>偏差與變異</span>（<i>bias and variance</i>）：偏差是模型太簡單、抓不到規律的系統性誤差；變異是模型對訓練資料的偶然細節過度敏感。預測誤差可以拆成三份：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\text{期望誤差}=\text{偏差}^2+\text{變異}+\text{無法消除的雜訊}" data-display="1"></span></div>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">測試集必須是模型沒看過的。若基準測驗的題目混進了訓練語料（資料污染），模型可能只是「背過答案」，分數便高估了真正的能力。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">9</footer>
+</section>
+
+<!-- p10 -->
+<section data-screen-label="10 信賴區間" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>評估與不確定性</span></header>
+  <h3 id="s4-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">4.2</span>抽樣誤差與信賴區間</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">準確率 75% 一定比 72% 好嗎？</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>標準誤</span>（<i>standard error</i>）：基準測驗的 <span data-tex="n"></span> 道題，可以看成從「所有可能的題目」中抽出的樣本。換一批題目，分數就會變動；準確率 <span data-tex="\hat p"></span> 的標準誤是：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\mathrm{SE}=\sqrt{\frac{\hat p\,(1-\hat p)}{n}}" data-display="1"></span></div>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>95% 信賴區間</span>（<i>confidence interval</i>）：用同樣方法重複很多次，約 95% 的區間會包含真實準確率：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\hat p\;\pm\;1.96\,\mathrm{SE}" data-display="1"></span></span></div>
+
+  <div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left">
+    <span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+    <p style="margin:0 0 8px;font-size:14px">模型 A 答對 72%，模型 B 答對 75%。改變題目數，看差距是否超出抽樣誤差：</p>
+    <svg viewBox="0 0 440 110" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="兩個模型的信賴區間">
+      <text x="18" y="39" font-size="13" fill="#2a6190" font-weight="700">A</text>
+      <text x="18" y="74" font-size="13" fill="#b0392c" font-weight="700">B</text>
+      <rect x="{{ ciA.x }}" y="29" width="{{ ciA.w }}" height="12" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.9" style="transition:all .35s ease"></rect>
+      <line x1="{{ ciA.cx }}" y1="25" x2="{{ ciA.cx }}" y2="45" stroke="#2a6190" stroke-width="1.6"></line>
+      <rect x="{{ ciB.x }}" y="64" width="{{ ciB.w }}" height="12" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.9" style="transition:all .35s ease"></rect>
+      <line x1="{{ ciB.cx }}" y1="60" x2="{{ ciB.cx }}" y2="80" stroke="#b0392c" stroke-width="1.6"></line>
+      <line x1="40" y1="92" x2="400" y2="92" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="85" y1="92" x2="85" y2="96" stroke="#1d1d1d" stroke-width="0.8"></line><text x="85" y="107" font-size="10.5" text-anchor="middle" fill="#6a6a6a">60%</text>
+      <line x1="175" y1="92" x2="175" y2="96" stroke="#1d1d1d" stroke-width="0.8"></line><text x="175" y="107" font-size="10.5" text-anchor="middle" fill="#6a6a6a">70%</text>
+      <line x1="265" y1="92" x2="265" y2="96" stroke="#1d1d1d" stroke-width="0.8"></line><text x="265" y="107" font-size="10.5" text-anchor="middle" fill="#6a6a6a">80%</text>
+      <line x1="355" y1="92" x2="355" y2="96" stroke="#1d1d1d" stroke-width="0.8"></line><text x="355" y="107" font-size="10.5" text-anchor="middle" fill="#6a6a6a">90%</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:auto minmax(0,1fr) 44px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px">
+      <span>題目數 <span data-tex="n"></span></span><input type="range" min="0" max="6" step="1" value="{{ nIdx }}" onChange="{{ onN }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ nTxt }}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:6px;font-size:13px;color:#6a6a6a">
+      <span style="white-space:nowrap">A：<span style="font-family:'Inconsolata',monospace;color:#2a6190">{{ ciA.txt }}</span></span>
+      <span style="white-space:nowrap">B：<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ ciB.txt }}</span></span>
+    </div>
+    <p style="margin:8px 0 0;font-size:14px;padding:4px 8px;background:{{ verdictBg }};transition:background .35s">{{ verdict }}</p>
+  </div>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>「區間是否重疊」只是保守的粗略判斷。嚴謹的做法是直接對兩者的差做檢定；兩個模型答的是同一組題目時，應使用配對檢定，通常能分辨更小的差距。</p>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">排行榜上相差一兩個百分點的模型，在只有幾百題的測驗上往往無法區分。此外，生成本身帶有抽樣隨機性（見 2.3），同一模型重跑一次分數也會變；報告時附上信賴區間或多次執行的標準差，才看得出差距是真是假。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">10</footer>
+</section>
+
+<!-- p11 -->
+<section data-screen-label="11 校準" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>評估與不確定性</span></header>
+  <h3 id="s4-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">4.3</span>校準</h3>
+  <p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">模型說「我有八成把握」時，它真的對了八成嗎？</p>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>校準</span>（<i>calibration</i>）：把所有信心約為 <span data-tex="p"></span> 的預測放在一起，若其中恰好有比例 <span data-tex="p"></span> 答對，模型就是校準良好的。把各組畫成圖，校準良好的模型會貼著對角線。</p>
+  <figure style="margin:12px 0 14px">
+    <svg viewBox="0 0 280 230" style="display:block;width:100%;max-width:300px;height:auto;margin:0 auto" role="img" aria-label="可靠度圖">
+      <line x1="50" y1="200" x2="230" y2="200" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <line x1="50" y1="200" x2="50" y2="20" stroke="#1d1d1d" stroke-width="0.8"></line>
+      <rect x="52" y="178.4" width="32" height="21.6" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <rect x="88" y="153.2" width="32" height="46.8" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <rect x="124" y="126.2" width="32" height="73.8" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <rect x="160" y="101" width="32" height="99" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <rect x="196" y="77.6" width="32" height="122.4" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect>
+      <rect x="124" y="110" width="32" height="16.2" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8" stroke-dasharray="2 1.5"></rect>
+      <rect x="160" y="74" width="32" height="27" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8" stroke-dasharray="2 1.5"></rect>
+      <rect x="196" y="38" width="32" height="39.6" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8" stroke-dasharray="2 1.5"></rect>
+      <line x1="50" y1="200" x2="230" y2="20" stroke="#1d1d1d" stroke-width="0.9" stroke-dasharray="3 2.5"></line>
+      <text x="100" y="60" font-size="11" fill="#1d1d1d">完美校準</text>
+      <text x="236" y="54" font-size="11" fill="#b0392c">過度</text>
+      <text x="236" y="68" font-size="11" fill="#b0392c">自信</text>
+      <text x="50" y="214" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0</text>
+      <text x="140" y="214" font-size="10.5" text-anchor="middle" fill="#6a6a6a">0.5</text>
+      <text x="230" y="214" font-size="10.5" text-anchor="middle" fill="#6a6a6a">1</text>
+      <text x="140" y="227" font-size="11" text-anchor="middle" fill="#1d1d1d">模型的信心</text>
+      <text x="44" y="204" font-size="10.5" text-anchor="end" fill="#6a6a6a">0</text>
+      <text x="44" y="24" font-size="10.5" text-anchor="end" fill="#6a6a6a">1</text>
+      <text x="22" y="110" font-size="11" text-anchor="middle" fill="#1d1d1d" transform="rotate(-90 22 110)">實際正確率</text>
+    </svg>
+    <figcaption style="text-align:center;font-size:13px;color:#6a6a6a">可靠度圖：藍條是各組的實際正確率，紅色虛框是信心超出實際的部分。</figcaption>
+  </figure>
+  <p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>期望校準誤差</span>（<i>expected calibration error</i>，ECE）：各組「正確率與信心的差距」的加權平均，組 <span data-tex="b"></span> 有 <span data-tex="n_b"></span> 筆預測：</p>
+  <div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="\mathrm{ECE}=\sum_{b}\frac{n_b}{n}\,\big|\,\mathrm{acc}(b)-\mathrm{conf}(b)\,\big|" data-display="1"></span></div>
+  <sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">研究發現，預訓練模型在選擇題上給出的機率往往相當校準；經過對齊微調後，卻常變得過度自信。語氣篤定不等於答案正確，面對模型的「幻覺」時尤其要記得這一點。</p></aside>
+  </sc-if>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">11</footer>
+</section>
+
+<!-- p12 -->
+<section data-screen-label="12 速查表" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+  <header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>速查表</span></header>
+  <h3 id="cheat" style="font-size:22px;letter-spacing:.3em;margin:8px 0 14px;font-weight:700">速查表</h3>
+  <p style="margin:6px 0 10px">每個統計概念，在 LLM 的生命週期中出現在哪裡。</p>
+  <div style="overflow-x:auto;margin:12px 0 14px">
+    <table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:left;width:100%">
+      <thead><tr><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">概念</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap">階段</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">在 LLM 中的角色</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">節</th></tr></thead>
+      <tbody>
+        <sc-for list="{{ cheat }}" as="r" hint-placeholder-count="12">
+          <tr>
+            <td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700;white-space:nowrap">{{ r.c }}</td>
+            <td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap;background:{{ r.bg }}">{{ r.s }}</td>
+            <td style="border:.8px solid #1d1d1d;padding:5px 9px">{{ r.r }}</td>
+            <td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="{{ r.href }}">{{ r.n }}</a></td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:12.5px;color:#6a6a6a">
+    <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:18px;height:11px;background:#d6eed3;border:.8px solid #3f8a48"></span>訓練</span>
+    <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:18px;height:11px;background:#d1e4f3;border:.8px solid #2a6190"></span>生成</span>
+    <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:18px;height:11px;background:#f7d6cf;border:.8px solid #b0392c"></span>評估</span>
+  </div>
+  <p style="margin:22px 0 6px;padding-top:12px;border-top:.6px solid #c9c9c9;font-size:13.5px;color:#6a6a6a">總結：LLM 用 softmax 產生類別分布（第 2 章），以最大概似／交叉熵從資料學習（第 3 章），用連鎖律一次生成一個詞元（第 1 章），而它的分數與信心，都需要以抽樣誤差和校準的眼光來解讀（第 4 章）。</p>
+  <footer style="text-align:center;font-size:12.5px;margin-top:26px">12</footer>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAsides&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;內容&quot;},&quot;showCode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;內容&quot;}}">
+const TOK = ['喝水', '休息', '散步', '覓食', '游泳', '唱歌'];
+const LOGIT = [2.4, 1.6, 0.9, 0.6, -0.3, -1.5];
+const CHAIN = [
+  { tok: '石虎', ctx: '〈句首〉', p: 0.002 },
+  { tok: '在', ctx: '石虎', p: 0.30 },
+  { tok: '溪邊', ctx: '石虎 在', p: 0.08 },
+  { tok: '喝水', ctx: '石虎 在 溪邊', p: 0.52 },
+  { tok: '。', ctx: '石虎 在 溪邊 喝水', p: 0.60 }
+];
+const NS = [50, 100, 200, 500, 1000, 2000, 5000];
+const BW = [
+  { w: '失望', p: 0.02, n: 0.15 },
+  { w: '推薦', p: 0.10, n: 0.02 },
+  { w: '好吃', p: 0.12, n: 0.04 },
+  { w: '退貨', p: 0.01, n: 0.08 }
+];
+const MODES = [
+  { key: 'greedy', label: '貪婪' },
+  { key: 'topk', label: 'Top-k（k=4）' },
+  { key: 'topp', label: 'Top-p（p=0.7）' },
+  { key: 'all', label: '全部抽樣' }
+];
+const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+const sm = T => { const e = LOGIT.map(l => Math.exp(l / T)); const s = e.reduce((a, b) => a + b, 0); return e.map(x => x / s); };
+const sci = x => { if (x >= 0.01) return x.toFixed(3); const e = Math.floor(Math.log10(x)); return (x / 10 ** e).toFixed(2) + '×10' + String(e).split('').map(c => SUP[c]).join(''); };
+const pct = p => p >= 0.995 ? '100%' : (p * 100).toFixed(p < 0.1 ? 1 : 0) + '%';
+const pdf = (x, m, s) => Math.exp(-((x - m) ** 2) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI));
+const nx = x => 20 + (x + 5) * 40, ny = y => 140 - y * 150;
+const curve = (fn, x0, x1, X, Y, N) => { let d = ''; for (let i = 0; i <= N; i++) { const x = x0 + (x1 - x0) * i / N; d += (i ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(fn(x)).toFixed(1); } return d; };
+const STD = curve(x => pdf(x, 0, 1), -5, 5, nx, ny, 120);
+const LMAX = Math.pow(0.7, 7) * Math.pow(0.3, 3);
+const Lik = t => Math.pow(t, 7) * Math.pow(1 - t, 3);
+const mx = t => 30 + t * 380, my = t => 125 - Lik(t) / LMAX * 100;
+const MLE_PATH = curve(t => t, 0, 1, mx, my, 120);
+const cx = q => 30 + q * 380, cy = q => 125 - (-Math.log(q)) / 4.7 * 108;
+const CE_PATH = curve(q => q, 0.01, 1, cx, cy, 150);
+const Lgd = t => 0.1 * t ** 4 - 0.5 * t * t + 0.3 * t + 1;
+const dL = t => 0.4 * t ** 3 - t + 0.3;
+const gx = t => 30 + (t + 3) * 63.33, gy = t => 132 - (Lgd(t) + 0.3) * 20.5;
+const GD_PATH = curve(t => t, -3, 3, gx, gy, 150);
+const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+const TOC = [
+  ['ch', '1', '機率', '1', '#ch1'], ['', '1.1', '隨機變數與機率分布', '1', '#s1-1'], ['', '1.2', '條件機率與連鎖律', '1', '#s1-2'], ['', '1.3', '期望值與變異數', '2', '#s1-3'], ['', '1.4', '貝氏定理', '2', '#s1-4'],
+  ['ch', '2', '分布與抽樣', '3', '#ch2'], ['', '2.1', '常態分布', '3', '#s2-1'], ['', '2.2', 'Softmax 與溫度', '4', '#s2-2'], ['', '2.3', '抽樣策略', '5', '#s2-3'],
+  ['ch', '3', '從資料學習', '6', '#ch3'], ['', '3.1', '最大概似估計', '6', '#s3-1'], ['', '3.2', '熵、交叉熵與 KL 散度', '7', '#s3-2'], ['', '3.3', '梯度下降與隨機性', '8', '#s3-3'],
+  ['ch', '4', '評估與不確定性', '9', '#ch4'], ['', '4.1', '過擬合、偏差與變異', '9', '#s4-1'], ['', '4.2', '抽樣誤差與信賴區間', '10', '#s4-2'], ['', '4.3', '校準', '11', '#s4-3'],
+  ['ch', '', '速查表', '12', '#cheat']
+].map(([k, n, t, p, href]) => ({ n, t, p, href, fs: k ? '15.5px' : '14.5px', fw: k ? '700' : '400', mt: k ? '10px' : '0', pl: k ? '0' : '2.2em', nw: k ? '1.8em' : '2.6em' }));
+const STAGE_BG = { 訓練: '#d6eed3', 生成: '#d1e4f3', 評估: '#f7d6cf' };
+const CHEAT = [
+  ['類別分布', '生成', '每一步輸出下一個詞元的機率表', '1.1', '#s1-1'],
+  ['連鎖律', '生成', '自迴歸：一次預測一個詞元，句子機率是乘積', '1.2', '#s1-2'],
+  ['期望值、樣本平均', '訓練', '損失是期望值，mini-batch 平均是它的估計', '1.3', '#s1-3'],
+  ['貝氏定理', '訓練', '權重衰減＝常態先驗；範例是更新信念的證據', '1.4', '#s1-4'],
+  ['常態分布、標準化', '訓練', '權重初始化、LayerNorm', '2.1', '#s2-1'],
+  ['Softmax、溫度', '生成', '把分數變成機率；temperature 參數', '2.2', '#s2-2'],
+  ['抽樣、大數法則', '生成', 'Top-k、Top-p；同題不同答的原因', '2.3', '#s2-3'],
+  ['最大概似估計', '訓練', '預訓練的目標：讓語料的機率最大', '3.1', '#s3-1'],
+  ['交叉熵、KL、困惑度', '訓練', '損失函數、蒸餾與 RLHF 的懲罰項', '3.2', '#s3-2'],
+  ['梯度下降、SGD', '訓練', '用抽樣估計的梯度更新權重', '3.3', '#s3-3'],
+  ['過擬合、偏差與變異', '評估', '驗證集、提早停止、資料污染', '4.1', '#s4-1'],
+  ['信賴區間', '評估', '判斷排行榜上的差距是否可信', '4.2', '#s4-2'],
+  ['校準', '評估', '模型的信心能不能當真', '4.3', '#s4-3']
+].map(([c, s, r, n, href]) => ({ c, s, r, n, href, bg: STAGE_BG[s] }));
+
+class Component extends DCLogic {
+  state = { step: 0, chainPlaying: false, mu: 0, sigma: 1, temp: 1, mode: 'topk', tally: [0, 0, 0, 0, 0, 0], total: 0, last: '—', theta: 0.4, q: 0.25, bw: [true, false, false, false], lr: 0.1, noisy: false, gd: [2.8], gdN: 0, gdRunning: false, nIdx: 3 };
+
+  componentDidMount() {
+    this.tex();
+    this.mo = new MutationObserver(() => { clearTimeout(this.tt); this.tt = setTimeout(() => this.tex(), 60); });
+    this.mo.observe(document.body, { childList: true, subtree: true });
+  }
+  componentWillUnmount() {
+    if (this.mo) this.mo.disconnect();
+    ['ivC', 'ivS', 'ivG'].forEach(k => this.stop(k));
+  }
+  tex() {
+    if (!window.katex) { setTimeout(() => this.tex(), 150); return; }
+    document.querySelectorAll('[data-tex]:not([data-k])').forEach(el => {
+      el.setAttribute('data-k', '1');
+      try { window.katex.render(el.getAttribute('data-tex'), el, { displayMode: el.hasAttribute('data-display'), throwOnError: false }); } catch (e) {}
+    });
+  }
+  stop(k) { if (this[k]) { clearInterval(this[k]); this[k] = null; } }
+
+  dist(mode) {
+    const p = sm(1); let k = 6;
+    if (mode === 'greedy') k = 1;
+    else if (mode === 'topk') k = 4;
+    else if (mode === 'topp') { let c = 0; k = 0; while (c < 0.7) { c += p[k]; k++; } }
+    const s = p.slice(0, k).reduce((a, b) => a + b, 0);
+    return p.map((x, i) => i < k ? x / s : 0);
+  }
+  draw(q) { const u = Math.random(); let c = 0; for (let i = 0; i < q.length; i++) { c += q[i]; if (q[i] > 0 && u < c) return i; } return 0; }
+  addSamples(n) {
+    this.setState(s => {
+      const q = this.dist(s.mode); const t = s.tally.slice(); let last = 0;
+      for (let j = 0; j < n; j++) { last = this.draw(q); t[last]++; }
+      return { tally: t, total: s.total + n, last: TOK[last] };
+    });
+  }
+  gdStep() {
+    this.setState(s => {
+      const t = s.gd[s.gd.length - 1];
+      let g = dL(t); if (s.noisy) g += gauss() * 2.4;
+      const nt = Math.max(-3, Math.min(3, t - s.lr * g));
+      return { gd: [...s.gd, nt].slice(-40), gdN: s.gdN + 1 };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    // chain rule
+    let prod = 1, lg = 0;
+    const chainRows = CHAIN.map((c, i) => {
+      prod *= c.p; lg += Math.log(c.p);
+      const on = i < s.step;
+      return { tok: c.tok, ctx: c.ctx, p: c.p.toFixed(3), cum: on ? sci(prod) : '', lg: on ? lg.toFixed(2) : '', op: on ? 1 : 0.28, bg: i === s.step - 1 ? '#fcefa2' : 'transparent' };
+    });
+    // bayes
+    const selW = BW.filter((_, i) => s.bw[i]);
+    const lp = selW.reduce((a, x) => a * x.p, 1), ln = selW.reduce((a, x) => a * x.n, 1);
+    const jp = 0.6 * lp, jn = 0.4 * ln, postP = jp / (jp + jn);
+    const likStr = k => selW.length ? selW.map(x => x[k].toFixed(2)).join('×') : '1';
+    const bayesRows = [
+      { name: '正面', color: '#3f8a48', prior: '0.60', lik: likStr('p'), joint: sci(jp), post: pct(postP) },
+      { name: '負面', color: '#b0392c', prior: '0.40', lik: likStr('n'), joint: sci(jn), post: pct(1 - postP) }
+    ];
+    const bayesChips = BW.map((x, i) => ({ w: x.w, lp: x.p.toFixed(2), ln: x.n.toFixed(2), bg: s.bw[i] ? '#fcefa2' : '#fff', on: () => this.setState(t => { const b = t.bw.slice(); b[i] = !b[i]; return { bw: b }; }) }));
+    const bayesVerdict = !selW.length ? '還沒看到任何詞：後驗等於先驗，60% 正面。'
+      : '看到「' + selW.map(x => x.w).join('、') + '」後：' + (postP >= 0.5 ? '判為正面（' + pct(postP) + '）。' : '判為負面（' + pct(1 - postP) + '）。');
+    // normal
+    const { mu, sigma } = s;
+    const normPath = curve(x => pdf(x, mu, sigma), -5, 5, nx, ny, 160);
+    const a = Math.max(-5, mu - sigma), b = Math.min(5, mu + sigma);
+    const normBand = 'M' + nx(a).toFixed(1) + ',140 ' + curve(x => pdf(x, mu, sigma), a, b, nx, ny, 50).replace('M', 'L') + ' L' + nx(b).toFixed(1) + ',140 Z';
+    const normTicks = [-4, -3, -2, -1, 0, 1, 2, 3, 4].map(v => ({ x: nx(v), v: String(v) }));
+    // temperature
+    const pt = sm(s.temp);
+    const H = -pt.reduce((acc, p) => acc + (p > 0 ? p * Math.log(p) : 0), 0);
+    const tempBars = pt.map((p, i) => ({ tok: TOK[i], z: LOGIT[i].toFixed(1), pct: pct(p), h: (p * 100).toFixed(2) + '%' }));
+    // sampling
+    const q = this.dist(s.mode);
+    const sampBars = q.map((p, i) => {
+      const e = s.total ? s.tally[i] / s.total : 0;
+      return { tok: TOK[i], th: (p * 100).toFixed(2) + '%', emp: (e * 100).toFixed(2) + '%', thPct: pct(p), empPct: s.total ? pct(e) : '—', op: p > 0 ? 1 : 0.3, hl: s.last === TOK[i] ? '#fcefa2' : '#fff' };
+    });
+    const modeBtns = MODES.map(m => ({ label: m.label, bg: s.mode === m.key ? '#d1e4f3' : '#fff', on: () => { this.stop('ivS'); this.setState({ mode: m.key, tally: [0, 0, 0, 0, 0, 0], total: 0, last: '—' }); } }));
+    // MLE
+    const L = Lik(s.theta);
+    const dist7 = Math.abs(s.theta - 0.7);
+    // CE
+    const loss = -Math.log(s.q);
+    // GD
+    const gdCur = s.gd[s.gd.length - 1];
+    const gdTrail = s.gd.slice(0, -1).map((t, i, arr) => ({ cx: gx(t).toFixed(1), cy: gy(t).toFixed(1), op: (0.15 + 0.6 * (i + 1) / arr.length).toFixed(2) }));
+    // CI
+    const n = NS[s.nIdx];
+    const px = v => Math.max(40, Math.min(400, 40 + (v * 100 - 55) * 9));
+    const mk = p => { const h = 1.96 * Math.sqrt(p * (1 - p) / n); return { lo: p - h, hi: p + h, x: px(p - h), w: px(p + h) - px(p - h), cx: px(p), txt: (p * 100).toFixed(0) + '% ± ' + (h * 100).toFixed(1) + '%' }; };
+    const A = mk(0.72), B = mk(0.75);
+    const overlap = A.hi > B.lo;
+
+    return {
+      showAsides: this.props.showAsides ?? true,
+      showCode: this.props.showCode ?? true,
+      toc: TOC, cheat: CHEAT,
+      bayesChips, bayesRows, bayesVerdict, bayesPosW: (postP * 100).toFixed(1) + '%',
+      chainRows, step: s.step,
+      chainPrev: () => { this.stop('ivC'); this.setState(t => ({ step: Math.max(0, t.step - 1), chainPlaying: false })); },
+      chainNext: () => { this.stop('ivC'); this.setState(t => ({ step: Math.min(5, t.step + 1), chainPlaying: false })); },
+      chainPlay: () => {
+        if (this.ivC) { this.stop('ivC'); this.setState({ chainPlaying: false }); return; }
+        this.setState({ step: 0, chainPlaying: true });
+        this.ivC = setInterval(() => {
+          if (this.state.step >= 5) { this.stop('ivC'); this.setState({ chainPlaying: false }); return; }
+          this.setState(t => ({ step: t.step + 1 }));
+        }, 900);
+      },
+      chainPlayLabel: s.chainPlaying ? '暫停' : '自動播放',
+      mu, sigma, muTxt: mu.toFixed(1), sigmaTxt: sigma.toFixed(2),
+      onMu: e => this.setState({ mu: +e.target.value }), onSigma: e => this.setState({ sigma: +e.target.value }),
+      normPath, normBand, stdPath: STD, normTicks, muX: nx(mu).toFixed(1), muTop: ny(pdf(0, 0, sigma)).toFixed(1),
+      bandLabelY: (ny(pdf(0, 0, sigma)) + (140 - ny(pdf(0, 0, sigma))) * 0.55).toFixed(1),
+      bandLo: (mu - sigma).toFixed(2), bandHi: (mu + sigma).toFixed(2),
+      temp: s.temp, tempTxt: s.temp.toFixed(2), onTemp: e => this.setState({ temp: +e.target.value }),
+      tempBars, tempH: H.toFixed(2), tempEff: Math.exp(H).toFixed(1),
+      modeBtns, sampBars, total: s.total, last: s.last,
+      sampOne: () => { this.stop('ivS'); this.addSamples(1); },
+      sampMany: () => {
+        if (this.ivS) return;
+        let k = 0;
+        this.ivS = setInterval(() => { this.addSamples(10); if (++k >= 50) this.stop('ivS'); }, 30);
+      },
+      sampReset: () => { this.stop('ivS'); this.setState({ tally: [0, 0, 0, 0, 0, 0], total: 0, last: '—' }); },
+      theta: s.theta, thetaTxt: s.theta.toFixed(2), onTheta: e => this.setState({ theta: +e.target.value }),
+      mlePath: MLE_PATH, mleX: mx(s.theta).toFixed(1), mleY: my(s.theta).toFixed(1),
+      mleL: sci(L), mleNLL: (-Math.log(L)).toFixed(2),
+      mleHint: dist7 < 0.005 ? '最大值：θ̂ = 7/10，正好是觀察到的比例' : (s.theta < 0.7 ? '往右移，概似會變大' : '往左移，概似會變大'),
+      q: s.q, qTxt: s.q.toFixed(2), onQ: e => this.setState({ q: +e.target.value }),
+      cePath: CE_PATH, ceX: cx(s.q).toFixed(1), ceY: cy(s.q).toFixed(1), ceLoss: loss.toFixed(2), cePPL: Math.exp(loss).toFixed(1),
+      lr: s.lr, lrTxt: s.lr.toFixed(2), onLr: e => this.setState({ lr: +e.target.value }),
+      gdPath: GD_PATH, gdTrail, gdX: gx(gdCur).toFixed(1), gdY: gy(gdCur).toFixed(1),
+      gdN: s.gdN, gdTheta: gdCur.toFixed(2), gdLoss: Lgd(gdCur).toFixed(3),
+      gdRunLabel: s.gdRunning ? '暫停' : '執行 40 步',
+      gdRun: () => {
+        if (this.ivG) { this.stop('ivG'); this.setState({ gdRunning: false }); return; }
+        this.setState({ gdRunning: true }); let k = 0;
+        this.ivG = setInterval(() => { this.gdStep(); if (++k >= 40) { this.stop('ivG'); this.setState({ gdRunning: false }); } }, 110);
+      },
+      gdReset: () => { this.stop('ivG'); this.setState({ gd: [2.8], gdN: 0, gdRunning: false }); },
+      gdNoise: () => this.setState(t => ({ noisy: !t.noisy })),
+      noiseTxt: s.noisy ? '開' : '關', noiseBg: s.noisy ? '#fcefa2' : '#fff',
+      nIdx: s.nIdx, nTxt: String(n), onN: e => this.setState({ nIdx: +e.target.value }),
+      ciA: A, ciB: B,
+      verdict: overlap ? '兩個區間重疊：以這樣的題目數，還不能斷定 B 比 A 好。' : '兩個區間分開了：差距大於抽樣誤差，B 很可能確實比較好。',
+      verdictBg: overlap ? '#fcefa2' : '#d6eed3'
+    };
+  }
+}
+</script>
+</body>
+</html>
