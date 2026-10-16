@@ -1430,6 +1430,14 @@ CAS 觀點也照亮了大型語言模型（LLM）的行為。魏等人（Wei et 
 
 <!-- part: 附錄與書目 -->
 
+# Appendix C. 語言學的數學基礎 {#foundations .unnumbered}
+
+本書各章多半「從語言問題走進數學」。本附錄把方向倒過來，收成一本可以單獨閱讀的圖解小書：先把工具箱建好，再回到語言。
+
+入口頁：[語言學的數學基礎](foundations/index.html)。
+
+輔助課程：[語意的三種數學：六日圖解工作坊](course/syllabus.html)。這是以本書為教材的輔助課程，用六個半天依序走過這本圖解小書中的邏輯、圖論、向量三個模組，每天搭配本書對應章節選讀，最後以「一個詞，三種數學」期末專題收尾（參見 §14.5）。
+
 # 參考書目 {#bibliography .unnumbered}
 
 > 為便於查找原始文獻，書目保留原文格式。
@@ -1702,36 +1710,4 @@ $M$ 流形、$T_pM$ 在 $p$ 點的切空間、$g$ 黎曼度量、$R_{ijkl}$ 黎�
 <tr><td>self-organized criticality</td><td>自組織臨界性</td><td>13</td></tr>
 <tr><td>interactive proof</td><td>互動式證明</td><td>13</td></tr>
 </table>
-
-# Appendix C. 語言學的數學基礎 {#foundations .unnumbered}
-
-本書各章多半「從語言問題走進數學」。本附錄則把方向倒過來：先把工具箱建好，再回到語言。可當作對應章節的預習，也可當作讀完後的工作坊延伸。
-
-入口頁：[foundations/index.html](foundations/index.html)。
-
-輔助課程：[語意的三種數學：六日圖解工作坊](course/syllabus.html)。這是以本書為教材的輔助課程，用六個半天依序走過本附錄的三個圖解模組（邏輯、圖論、向量），每天搭配本書對應章節選讀，最後以「一個詞，三種數學」期末專題收尾（參見 §14.5）。
-
-### C.1 形式語義學的邏輯基礎
-
-從論證與邏輯形式出發，涵蓋命題／謂詞邏輯、模型與真值條件、集合／關係／函數、語意型別與 λ 演算、組合解釋，並附型別演練與漢語例句。建議搭配第 3 章。
-
-- 中文模組：[形式語義學的邏輯基礎](foundations/形式語義學的邏輯基礎.dc.html)
-- 英文模組：[Logical Foundations of Formal Semantics](foundations/Logic%20for%20Formal%20Semantics.dc.html)
-- 獨立打包版：[Logic for Formal Semantics (standalone)](foundations/Logic%20for%20Formal%20Semantics%20(standalone).html)
-
-### C.2 語意學的圖論基礎
-
-圖、有向圖、樹與 DAG；路徑與距離；偏序、格與繼承；中心性；語意網路與擴散激發；知識圖譜；WordNet 與中文詞彙網路（CWN）；相似度、詞義消歧與圖嵌入。建議搭配第 5、10 章。
-
-- 中文模組：[語意學的圖論基礎](foundations/語意學的圖論基礎.dc.html)
-- 英文模組：[Graph Theory for Semantics](foundations/Graph%20Theory%20for%20Semantics.dc.html)
-
-### C.3 語意學的向量基礎
-
-向量與相似度、矩陣與線性映射、特徵分解／SVD／低秩近似、共現與 PMI／tf-idf、LSA、預測式詞嵌入、語境化表徵，以及流形、測地線、曲率與雙曲嵌入的初步幾何直覺。建議搭配第 7–9 章。
-
-- 中文模組：[語意學的向量基礎](foundations/語意學的向量基礎.dc.html)
-
-> 這些模組在瀏覽器中即可互動閱讀，作為本書的延伸材料，而非取代各章論證。
-{.intuition}
 

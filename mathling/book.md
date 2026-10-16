@@ -1508,6 +1508,14 @@ The CAS perspective of Chapter 13 reminds us that the mathematical frameworks su
 
 <!-- part: Back Matter -->
 
+# Appendix B. Mathematical Foundations of Linguistics {#foundations .unnumbered}
+
+The chapters above introduce mathematical ideas *through linguistic questions*. This appendix reverses the direction and gathers the primers into a short book that can also be read on its own: build the toolkit first, then return to language.
+
+Entrance: [Mathematical Foundations of Linguistics](foundations/index.html).
+
+Companion course: [Three Mathematics of Meaning, a six-day illustrated workshop](course/syllabus.html) (syllabus in Chinese). It uses this book as its text: six half-day sessions work through the booklet's logic, graph and vector modules, each paired with chapter readings, and end with a capstone project modeled on §14.5.
+
 # Selected Bibliography {#bibliography .unnumbered}
 
 ### Mathematical Background
@@ -1705,35 +1713,3 @@ Vectors in bold ($\mathbf{v}$), matrices in capitals ($M$), scalars in lowercase
 
 $M$ manifold, $T_pM$ tangent space at $p$, $g$ Riemannian metric, $R_{ijkl}$ Riemann curvature tensor, $H_k(X)$ $k$th homology group, $\beta_k$ $k$th Betti number, $\gamma$ curve/geodesic, $\nabla$ connection/covariant derivative.
 
-# Appendix B. Mathematical Foundations of Linguistics {#foundations .unnumbered}
-
-The chapters above introduce mathematical ideas *through linguistic questions*. This appendix collects interactive primers that reverse the direction: they build the mathematical toolkit first, then return to language. Use them as preparation before the corresponding chapters, or as a workshop layer afterward.
-
-Open the primer hub: [foundations/index.html](foundations/index.html).
-
-Companion course: [Three Mathematics of Meaning, a six-day illustrated workshop](course/syllabus.html) (syllabus in Chinese). It uses this book as its text: six half-day sessions work through the three primers in this appendix (logic, graphs, vectors), each paired with chapter readings, and end with a capstone project modeled on §14.5.
-
-### B.1 Logic for Formal Semantics
-
-A guided path from arguments and logical form to propositional and predicate logic, models and truth conditions, sets/relations/functions, semantic types and the λ-calculus, and compositional interpretation — including a workshop on typing and Mandarin examples. Pair with Chapter 3.
-
-- English module: [Logical Foundations of Formal Semantics](foundations/Logic%20for%20Formal%20Semantics.dc.html)
-- Chinese module: [形式語義學的邏輯基礎](foundations/形式語義學的邏輯基礎.dc.html)
-- Self-contained bundle: [Logic for Formal Semantics (standalone)](foundations/Logic%20for%20Formal%20Semantics%20(standalone).html)
-
-### B.2 Graph Theory for Semantics
-
-Graphs, digraphs, trees and DAGs; paths and distance; partial orders, lattices, and inheritance; centrality; semantic networks and spreading activation; knowledge graphs; WordNet and the Chinese Wordnet (CWN); similarity, WSD, and graph embeddings. Pair with Chapters 5 and 10.
-
-- English module: [Graph Theory for Semantics](foundations/Graph%20Theory%20for%20Semantics.dc.html)
-- Chinese module: [語意學的圖論基礎](foundations/語意學的圖論基礎.dc.html)
-
-### B.3 Vector Foundations for Semantics
-
-Vectors and similarity; matrices and linear maps; eigendecomposition, SVD, and low-rank approximation; co-occurrence, PMI/tf-idf, LSA; predictive embeddings; contextual representations; and a first look at manifolds, geodesics, curvature, and hyperbolic embeddings. Pair with Chapters 7–9.
-
-- Chinese module: [語意學的向量基礎](foundations/語意學的向量基礎.dc.html)
-- An English edition of this primer is in preparation; until then, use the Chinese module or Chapters 7–9 of the main text.
-
-> These primers run entirely in the browser. They are companions to the book, not replacements for the chapter arguments.
-{.intuition}

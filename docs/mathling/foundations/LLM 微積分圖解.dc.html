@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>圖解學習指南：LLM 的微積分</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&amp;family=LXGW+WenKai+TC&amp;family=Inconsolata:wght@400;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/lm.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<style>
+body{margin:0;background:#e6e5e1}
+*{box-sizing:border-box}
+a{color:#1c4c98;text-decoration:none}
+a:hover{color:#a1231e}
+.katex{font-size:1.08em}
+.katex-display{margin:0}
+</style>
+</helmet>
+<div style="background:#e6e5e1;min-height:100vh;padding:28px 12px 48px;color:#1d1d1d;font-family:'LMRoman','Noto Serif TC','Songti TC','PMingLiU',serif;font-size:15.5px;line-height:1.8;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility">
+
+<!-- 封面 -->
+<section data-screen-label="封面" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:54px clamp(18px,7vw,58px) 30px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:left">
+<p style="font-size:13px;letter-spacing:.2em;color:#6a6a6a;margin:0">LLM 圖解學習指南　微積分篇</p>
+<h1 style="font-size:40px;letter-spacing:.14em;margin:6px 0 0;line-height:1.3;font-weight:700">LLM 的微積分</h1>
+<p style="font-size:19px;margin:2px 0 6px">模型如何從錯誤中學習：導數、梯度與反向傳播</p>
+<p style="font-size:14.5px;margin:0 0 18px;letter-spacing:.08em">謝舒凱　編審<sup style="font-size:.7em;margin-left:.15em">*</sup></p>
+<figure style="margin:12px 0 14px"><svg viewBox="0 0 488 124" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto" role="img" aria-label="前向算出損失，反向傳回梯度">
+
+<rect x="58" y="30" width="84" height="36" fill="#d6eed3" stroke="#3f8a48" stroke-width="0.8"></rect><text x="100.0" y="52.5" font-size="13" text-anchor="middle" fill="#1d1d1d">文字 <tspan font-style="italic">x</tspan></text>
+<line x1="146.0" y1="48.0" x2="179.0" y2="48.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M184.0,48.0L177.6,50.9L177.6,45.1Z" fill="#1d1d1d"></path>
+<rect x="188" y="30" width="110" height="36" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect><text x="243.0" y="52.5" font-size="13" text-anchor="middle" fill="#2a6190">模型（參數 θ）</text>
+<line x1="302.0" y1="48.0" x2="337.0" y2="48.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M342.0,48.0L335.6,50.9L335.6,45.1Z" fill="#1d1d1d"></path>
+<rect x="346" y="30" width="84" height="36" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8"></rect><text x="388.0" y="52.5" font-size="13" text-anchor="middle" fill="#b0392c">損失 ℒ</text>
+<text x="243.0" y="18.0" font-size="11" text-anchor="middle" fill="#6a6a6a">前向：算出預測與損失</text>
+<path d="M388,70 C388,104 243,104 243,76" fill="none" stroke="#b0392c" stroke-width="1" stroke-dasharray="4 3"></path><path d="M243.0,70.0L245.9,76.4L240.1,76.4Z" fill="#b0392c"></path>
+<text x="316.0" y="118.0" font-size="11" text-anchor="middle" fill="#b0392c">反向：梯度 ∂ℒ/∂θ 告訴每個參數往哪調</text>
+</svg></figure>
+<p style="font-size:14px;color:#6a6a6a;line-height:1.75;margin:6px 0">訓練語言模型，就是反覆做兩件事：算出它錯了多少，再算出每個參數該往哪裡調。第二件事靠的就是微積分。本篇分導數與梯度、連鎖律與反向傳播、LLM 裡的導數三章；建議先讀過統計篇的第 3 章。</p>
+<h3 style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700">閱讀說明</h3>
+<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;align-items:center;margin:10px 0 14px;font-size:14.5px">
+<div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #3f8a48;background:#d6eed3;vertical-align:middle"></span></div><div>輸入、資料、目標值</div>
+<div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #2a6190;background:#d1e4f3;vertical-align:middle"></span></div><div>模型內部：參數、中間值</div>
+<div style="text-align:center"><span style="display:inline-block;width:44px;height:16px;border:1px solid #b0392c;background:#f7d6cf;vertical-align:middle"></span></div><div>輸出：損失、梯度、需要注意之處</div>
+<div style="text-align:center"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>概念</span></div><div>定義與基本量</div>
+<div style="text-align:center"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>方法</span></div><div>演算法、定理與計算程序</div>
+<div style="text-align:center"><span style="display:inline-block;border:.8px solid #2a6190;color:#2a6190;font-size:12px;letter-spacing:.12em;font-weight:700;padding:0 8px;line-height:1.9">動手試試</span></div><div>可以拖曳滑桿、按按鈕操作的動態圖</div>
+<div style="text-align:center"><span style="display:inline-block;border:.8px solid #584a9a;color:#584a9a;font-size:12px;letter-spacing:.12em;font-weight:700;padding:0 8px;line-height:1.9">LLM 視角</span></div><div>這個概念在大型語言模型中的角色</div>
+</div>
+<h3 style="font-size:17px;margin:22px 0 6px;line-height:1.5;font-weight:700">本系列</h3>
+<div style="display:flex;flex-wrap:wrap;gap:4px 22px;font-size:14.5px"><a href="index.html">目錄</a><a href="LLM%20統計學圖解.dc.html">統計篇</a><span style="font-weight:700;border-bottom:1.2px solid #1d1d1d">微積分篇</span><a href="LLM%20線性代數圖解.dc.html">線性代數篇</a><a href="LLM%20微分幾何圖解.dc.html">幾何篇</a></div>
+<p style="margin:22px 0 0;padding-top:10px;border-top:.6px solid #c9c9c9;font-size:12.5px;color:#6a6a6a">* 本指南草稿由 Claude 協助撰寫。</p>
+</section>
+
+<!-- 目錄 -->
+<section data-screen-label="目錄" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07)">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>目錄</span></header>
+<h2 style="font-size:22px;letter-spacing:.3em;margin:6px 0 16px;font-weight:700">目錄</h2>
+<nav style="display:flex;flex-direction:column;gap:2px">
+<a href="#ch1" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:15.5px;font-weight:700;margin-top:10px;padding-left:0;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:1.8em">1</span><span>導數與梯度</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">1</span></a>
+<a href="#s1-1" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">1.1</span><span>導數：瞬間的變化率</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">1</span></a>
+<a href="#s1-2" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">1.2</span><span>偏導數與梯度</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">2</span></a>
+<a href="#s1-3" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">1.3</span><span>線性近似與曲率</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">3</span></a>
+<a href="#ch2" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:15.5px;font-weight:700;margin-top:10px;padding-left:0;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:1.8em">2</span><span>連鎖律與反向傳播</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">4</span></a>
+<a href="#s2-1" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">2.1</span><span>連鎖律</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">4</span></a>
+<a href="#s2-2" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">2.2</span><span>計算圖與反向傳播</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">5</span></a>
+<a href="#s2-3" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">2.3</span><span>梯度消失與梯度爆炸</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">6</span></a>
+<a href="#ch3" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:15.5px;font-weight:700;margin-top:10px;padding-left:0;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:1.8em">3</span><span>LLM 裡的導數</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">7</span></a>
+<a href="#s3-1" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">3.1</span><span>激活函數與它們的導數</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">7</span></a>
+<a href="#s3-2" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:14.5px;font-weight:400;margin-top:0;padding-left:2.2em;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:2.6em">3.2</span><span>Softmax 與交叉熵的梯度</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">8</span></a>
+<a href="#cheat" style="display:flex;align-items:baseline;color:#1d1d1d;text-decoration:none;font-size:15.5px;font-weight:700;margin-top:10px;padding-left:0;line-height:1.75" style-hover="color:#1c4c98"><span style="min-width:1.8em"></span><span>速查表</span><span style="flex:1;border-bottom:1px dotted #6a6a6a;margin:0 8px;transform:translateY(-4px)"></span><span style="min-width:1.6em;text-align:right">9</span></a>
+</nav>
+</section>
+
+<!-- p1 -->
+<section data-screen-label="01 導數" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>導數與梯度</span></header>
+<div id="ch1" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 1 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">導數與梯度</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Derivatives and Gradients</div></div>
+<p style="margin:6px 0">損失函數告訴我們模型錯了多少；導數則告訴我們，把一個參數稍微調動一下，損失會怎麼變。本章從一個變數出發，推廣到數十億個變數。</p>
+<h3 id="s1-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.1</span>導數：瞬間的變化率</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">把參數輕輕推一下，損失會變多少？</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>平均變化率</span>（<i>average rate of change</i>）：<span data-tex="x"></span> 增加 <span data-tex="h"></span> 時，<span data-tex="f"></span> 的改變量除以 <span data-tex="h"></span>，也就是穿過兩點的割線斜率。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>導數</span>（<i>derivative</i>）：讓 <span data-tex="h"></span> 趨近 0，割線就貼成切線，它的斜率就是 <span data-tex="f"></span> 在 <span data-tex="x"></span> 的導數：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}" data-display="1"></span></span></div>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span><p style="margin:0 0 8px;font-size:14px">固定 <span data-tex="x_0"></span>，把 <span data-tex="h"></span> 往 0 拖，看紅色割線如何貼近藍色虛線（切線）：</p>
+<svg viewBox="0 0 440 160" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="割線逼近切線">
+<line x1="40" y1="126.5" x2="410" y2="126.5" stroke="#1d1d1d" stroke-width="0.8"></line><text x="414.0" y="130.5" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">x</text><text x="36.0" y="14.0" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">f(x)</text>
+<path d="M40.0,133.3L42.4,127.7L44.8,122.3L47.2,117.1L49.6,112.1L52.0,107.3L54.4,102.6L56.8,98.2L59.2,93.9L61.6,89.8L64.0,85.8L66.4,82.1L68.8,78.5L71.2,75.0L73.6,71.7L76.0,68.6L78.4,65.6L80.8,62.8L83.2,60.2L85.6,57.6L88.0,55.3L90.4,53.0L92.8,51.0L95.2,49.0L97.6,47.2L100.0,45.5L102.4,43.9L104.8,42.5L107.2,41.2L109.6,40.0L112.0,39.0L114.4,38.0L116.8,37.2L119.2,36.5L121.6,35.9L124.0,35.3L126.4,34.9L128.8,34.6L131.2,34.4L133.6,34.3L136.0,34.3L138.4,34.4L140.8,34.6L143.2,34.8L145.6,35.1L148.0,35.6L150.4,36.1L152.8,36.6L155.2,37.3L157.6,38.0L160.0,38.8L162.4,39.6L164.8,40.5L167.2,41.5L169.6,42.5L172.0,43.6L174.4,44.7L176.8,45.9L179.2,47.1L181.6,48.3L184.0,49.7L186.4,51.0L188.8,52.4L191.2,53.8L193.6,55.3L196.0,56.7L198.4,58.2L200.8,59.8L203.2,61.3L205.6,62.9L208.0,64.5L210.4,66.0L212.8,67.7L215.2,69.3L217.6,70.9L220.0,72.5L222.4,74.1L224.8,75.7L227.2,77.3L229.6,79.0L232.0,80.5L234.4,82.1L236.8,83.7L239.2,85.2L241.6,86.8L244.0,88.3L246.4,89.7L248.8,91.2L251.2,92.6L253.6,94.0L256.0,95.3L258.4,96.7L260.8,97.9L263.2,99.1L265.6,100.3L268.0,101.4L270.4,102.5L272.8,103.5L275.2,104.5L277.6,105.4L280.0,106.3L282.4,107.0L284.8,107.7L287.2,108.4L289.6,108.9L292.0,109.4L294.4,109.9L296.8,110.2L299.2,110.4L301.6,110.6L304.0,110.7L306.4,110.7L308.8,110.6L311.2,110.4L313.6,110.1L316.0,109.7L318.4,109.1L320.8,108.5L323.2,107.8L325.6,107.0L328.0,106.0L330.4,105.0L332.8,103.8L335.2,102.5L337.6,101.1L340.0,99.5L342.4,97.8L344.8,96.0L347.2,94.0L349.6,92.0L352.0,89.7L354.4,87.4L356.8,84.8L359.2,82.2L361.6,79.4L364.0,76.4L366.4,73.3L368.8,70.0L371.2,66.5L373.6,62.9L376.0,59.2L378.4,55.2L380.8,51.1L383.2,46.8L385.6,42.4L388.0,37.7L390.4,32.9L392.8,27.9L395.2,22.7L397.6,17.3L400.0,11.8" fill="none" stroke="#1d1d1d" stroke-width="1.3"></path>
+<line x1="{{ tan.x1 }}" y1="{{ tan.y1 }}" x2="{{ tan.x2 }}" y2="{{ tan.y2 }}" stroke="#2a6190" stroke-width="1.2" stroke-dasharray="4 3"></line>
+<line x1="{{ sec.x1 }}" y1="{{ sec.y1 }}" x2="{{ sec.x2 }}" y2="{{ sec.y2 }}" stroke="#b0392c" stroke-width="1.3"></line>
+<path d="{{ dPath }}" fill="none" stroke="#6a6a6a" stroke-width="0.8" stroke-dasharray="2 2"></path>
+<text x="{{ hLab.x }}" y="{{ hLab.y }}" font-size="11" text-anchor="middle" fill="#6a6a6a" font-style="italic">h</text>
+<circle cx="{{ ptP.x }}" cy="{{ ptP.y }}" r="4" fill="#d1e4f3" stroke="#2a6190" stroke-width="1.2"></circle>
+<circle cx="{{ ptQ.x }}" cy="{{ ptQ.y }}" r="3.5" fill="#f7d6cf" stroke="#b0392c" stroke-width="1.2"></circle>
+</svg>
+<div style="display:grid;grid-template-columns:auto minmax(0,1fr) 48px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px"><span style="white-space:nowrap"><span data-tex="x_0"></span></span><input type="range" min="-2.5" max="1.5" step="0.05" value="{{ x0 }}" onChange="{{ onX0 }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ x0Txt }}</span><span style="white-space:nowrap"><span data-tex="h"></span></span><input type="range" min="0.01" max="1.5" step="0.01" value="{{ h }}" onChange="{{ onH }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ hTxt }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:6px;font-size:13px;color:#6a6a6a"><span style="white-space:nowrap">割線斜率 <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ secS }}</span></span><span style="white-space:nowrap">切線斜率 <span data-tex="f'(x_0)"></span> <span style="font-family:'Inconsolata',monospace;color:#2a6190">{{ tanS }}</span></span><span style="white-space:nowrap">兩者差距 <span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ gapS }}</span></span></div>
+</div>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>導數為正，往右走會上升；為負則會下降；等於 0 是平地，可能是谷底、山頂，也可能只是暫時的平台。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">在 LLM 裡，<span data-tex="x"></span> 換成某一個權重，<span data-tex="f"></span> 換成損失。導數回答的是：「這個權重調大一點點，損失會增加還是減少、變化多快？」但模型有數十億個權重，所以需要下一節的梯度。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">1</footer>
+</section>
+
+<!-- p2 -->
+<section data-screen-label="02 梯度" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>導數與梯度</span></header>
+<h3 id="s1-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.2</span>偏導數與梯度</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">數十億個旋鈕，每一個都要知道該往哪轉。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>偏導數</span>（<i>partial derivative</i>）：固定其他變數、只動其中一個時的導數，記作 <span data-tex="\partial f/\partial x_i"></span>。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>梯度</span>（<i>gradient</i>）：把所有偏導數排成一個向量。它指向函數上升最快的方向，長度代表有多陡：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\nabla f(\mathbf{x})=\Big(\frac{\partial f}{\partial x_1},\;\frac{\partial f}{\partial x_2},\;\dots,\;\frac{\partial f}{\partial x_n}\Big)" data-display="1"></span></span></div>
+<p style="margin:6px 0">以兩個參數的損失為例，<span data-tex="\mathcal{L}(w_1,w_2)=w_1^2+3w_2^2"></span>：<span data-tex="\partial\mathcal{L}/\partial w_1=2w_1"></span>，<span data-tex="\partial\mathcal{L}/\partial w_2=6w_2"></span>。在點 <span data-tex="(1,1)"></span>，梯度是 <span data-tex="(2,6)"></span>，<span data-tex="w_2"></span> 方向陡得多。</p>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span><p style="margin:0 0 8px;font-size:14px">灰色橢圓是損失的等高線。紅箭頭是梯度 <span data-tex="\nabla\mathcal{L}"></span>，藍虛線箭頭是下降方向 <span data-tex="-\nabla\mathcal{L}"></span>：</p>
+<svg viewBox="0 0 440 220" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="等高線上的梯度">
+<ellipse cx="220" cy="110" rx="45.0" ry="26.0" fill="none" stroke="#c9c9c9" stroke-width="0.8"></ellipse><ellipse cx="220" cy="110" rx="90.0" ry="52.0" fill="none" stroke="#c9c9c9" stroke-width="0.8"></ellipse><ellipse cx="220" cy="110" rx="135.0" ry="77.9" fill="none" stroke="#c9c9c9" stroke-width="0.8"></ellipse><ellipse cx="220" cy="110" rx="180.0" ry="103.9" fill="none" stroke="#c9c9c9" stroke-width="0.8"></ellipse><ellipse cx="220" cy="110" rx="225.0" ry="129.9" fill="none" stroke="#c9c9c9" stroke-width="0.8"></ellipse>
+<line x1="20" y1="110" x2="420" y2="110" stroke="#eee" stroke-width="0.8"></line><line x1="220" y1="8" x2="220" y2="212" stroke="#eee" stroke-width="0.8"></line>
+<text x="424.0" y="114.0" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">w₁</text><text x="226.0" y="18.0" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">w₂</text>
+<circle cx="220" cy="110" r="2.5" fill="#3f8a48"></circle><text x="226.0" y="124.0" font-size="10.5" text-anchor="start" fill="#3f8a48">最低點</text>
+<polyline points="{{ gTrail }}" fill="none" stroke="#2a6190" stroke-width="1" stroke-opacity="0.7"></polyline>
+<line x1="{{ gA.x1 }}" y1="{{ gA.y1 }}" x2="{{ gA.x2 }}" y2="{{ gA.y2 }}" stroke="#b0392c" stroke-width="1.5"></line><path d="{{ gA.h }}" fill="#b0392c"></path>
+<line x1="{{ gD.x1 }}" y1="{{ gD.y1 }}" x2="{{ gD.x2 }}" y2="{{ gD.y2 }}" stroke="#2a6190" stroke-width="1.4" stroke-dasharray="4 3"></line><path d="{{ gD.h }}" fill="#2a6190"></path>
+<circle cx="{{ gP.x }}" cy="{{ gP.y }}" r="5" fill="#fcefa2" stroke="#1d1d1d" stroke-width="1.1"></circle>
+</svg>
+<div style="display:grid;grid-template-columns:auto minmax(0,1fr) 48px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px"><span style="white-space:nowrap">起點 <span data-tex="w_1"></span></span><input type="range" min="-2.2" max="2.2" step="0.05" value="{{ gw1 }}" onChange="{{ onW1 }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ gw1Txt }}</span><span style="white-space:nowrap">起點 <span data-tex="w_2"></span></span><input type="range" min="-1.1" max="1.1" step="0.05" value="{{ gw2 }}" onChange="{{ onW2 }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ gw2Txt }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px"><button onClick="{{ gStep }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">沿 −∇ℒ 走一步（α = 0.3）</button><button onClick="{{ gReset }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">重設</button><span style="flex:1"></span><span style="font-size:13px;color:#6a6a6a;display:flex;flex-wrap:wrap;gap:0 12px"><span style="white-space:nowrap">第 <span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ gN }}</span> 步</span><span style="white-space:nowrap"><span data-tex="\nabla\mathcal{L}"></span>＝<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ gG }}</span></span><span style="white-space:nowrap"><span data-tex="\mathcal{L}"></span>＝<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ gL }}</span></span></span></div>
+</div>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>梯度永遠和等高線垂直，但不一定指向谷底。這裡 <span data-tex="w_2"></span> 方向很陡，學習率 <span data-tex="\alpha=0.3"></span> 在那個方向太大，每一步都衝過頭，所以軌跡呈 Z 字形。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">一個 70 億參數的模型，梯度就是一個 70 億維的向量，每個分量告訴對應的權重該往哪調、調多少。<a href="LLM%20統計學圖解.dc.html#s3-3">統計篇 3.3</a> 的梯度下降，就是反覆沿著 <span data-tex="-\nabla\mathcal{L}"></span> 走一小步。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">2</footer>
+</section>
+
+<!-- p3 -->
+<section data-screen-label="03 線性近似" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>導數與梯度</span></header>
+<h3 id="s1-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">1.3</span>線性近似與曲率</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">在夠小的範圍內，任何平滑的曲線看起來都像直線。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>線性近似</span>（<i>linear approximation</i>）：在 <span data-tex="x"></span> 附近，函數可以用切線來近似。這是泰勒展開的第一項：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="f(x+\Delta)\approx f(x)+f'(x)\,\Delta" data-display="1"></span></span></div>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>二階導數</span>（<i>second derivative</i>）<span data-tex="f''(x)"></span>：斜率本身的變化率，描述曲線彎得多厲害。把它加進來，近似更準：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span data-tex="f(x+\Delta)\approx f(x)+f'(x)\,\Delta+\tfrac12 f''(x)\,\Delta^2" data-display="1"></span></div>
+<figure style="margin:12px 0 14px">
+<svg viewBox="0 0 440 190" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="線性近似：小步準確、大步失準">
+<line x1="30" y1="112" x2="415" y2="112" stroke="#1d1d1d" stroke-width="0.8"></line><text x="418.0" y="116.0" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">θ</text><text x="36.0" y="14.0" font-size="11" text-anchor="start" fill="#1d1d1d" font-style="italic">ℒ(θ)</text>
+<path d="M40.0,12.7L44.0,16.3L48.0,19.8L52.0,23.2L56.0,26.6L60.0,29.9L64.0,33.1L68.0,36.3L72.0,39.4L76.0,42.4L80.0,45.3L84.0,48.2L88.0,51.0L92.0,53.7L96.0,56.3L100.0,58.9L104.0,61.4L108.0,63.8L112.0,66.2L116.0,68.5L120.0,70.7L124.0,72.8L128.0,74.9L132.0,76.9L136.0,78.8L140.0,80.6L144.0,82.4L148.0,84.1L152.0,85.8L156.0,87.3L160.0,88.8L164.0,90.2L168.0,91.6L172.0,92.8L176.0,94.0L180.0,95.1L184.0,96.2L188.0,97.2L192.0,98.1L196.0,98.9L200.0,99.7L204.0,100.4L208.0,101.0L212.0,101.5L216.0,102.0L220.0,102.4L224.0,102.7L228.0,103.0L232.0,103.2L236.0,103.3L240.0,103.3L244.0,103.3L248.0,103.2L252.0,103.0L256.0,102.7L260.0,102.4L264.0,102.0L268.0,101.5L272.0,101.0L276.0,100.4L280.0,99.7L284.0,98.9L288.0,98.1L292.0,97.2L296.0,96.2L300.0,95.1L304.0,94.0L308.0,92.8L312.0,91.6L316.0,90.2L320.0,88.8L324.0,87.3L328.0,85.8L332.0,84.1L336.0,82.4L340.0,80.6L344.0,78.8L348.0,76.9L352.0,74.9L356.0,72.8L360.0,70.7L364.0,68.5L368.0,66.2L372.0,63.8L376.0,61.4L380.0,58.9L384.0,56.3L388.0,53.7L392.0,51.0L396.0,48.2L400.0,45.3" fill="none" stroke="#1d1d1d" stroke-width="1.3"></path>
+<line x1="56.0" y1="44.1" x2="352.0" y2="172.9" stroke="#2a6190" stroke-width="1.1" stroke-dasharray="4 3"></line>
+<circle cx="144.0" cy="82.4" r="4.2" fill="#d1e4f3" stroke="#2a6190" stroke-width="1.2"></circle><text x="138.0" y="100.0" font-size="11" text-anchor="end" fill="#2a6190">起點</text>
+<circle cx="184.0" cy="96.2" r="3.4" fill="#d6eed3" stroke="#3f8a48" stroke-width="1.1"></circle>
+<line x1="184" y1="54" x2="184" y2="90" stroke="#3f8a48" stroke-width="0.7" stroke-dasharray="2 2"></line><text x="176.0" y="48.0" font-size="11" text-anchor="start" fill="#3f8a48">小步：預測與實際幾乎相同</text>
+<line x1="352.0" y1="74.9" x2="352.0" y2="172.9" stroke="#b0392c" stroke-width="0.8" stroke-dasharray="2 2"></line>
+<circle cx="352.0" cy="74.9" r="3.8" fill="#f7d6cf" stroke="#b0392c" stroke-width="1.2"></circle><text x="344.0" y="70.9" font-size="11" text-anchor="end" fill="#b0392c">實際：損失反而上升</text>
+<circle cx="352.0" cy="172.9" r="3.8" fill="#fff" stroke="#b0392c" stroke-width="1.2"></circle><text x="360.0" y="176.9" font-size="11" text-anchor="start" fill="#b0392c">切線的預測</text>
+</svg>
+<figcaption style="text-align:center;font-size:13px;color:#6a6a6a;margin-top:6px">從起點沿負梯度走一步：小步時切線是好的近似；大步時曲率主導，損失不降反升。</figcaption></figure>
+<p style="margin:6px 0">這就是學習率不能太大的原因：梯度只保證「在附近」往下。步子一大，第二項（曲率）就會主導。多變數時，所有二階偏導數排成的矩陣稱為 <span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>海森矩陣</span>（<i>Hessian</i>）；上一節的橢圓一邊陡、一邊緩，就是海森矩陣在兩個方向上的曲率不同。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">LLM 訓練常用的 Adam 優化器，會依每個參數過去梯度的大小自動縮放步長，某種程度上彌補了「各方向曲率不同」的問題。學習率暖身（<i>warm-up</i>）則是在訓練初期、地形最難捉摸時，先走小步。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">3</footer>
+</section>
+
+<!-- p4 -->
+<section data-screen-label="04 連鎖律" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>連鎖律與反向傳播</span></header>
+<div id="ch2" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 2 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">連鎖律與反向傳播</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">The Chain Rule and Backpropagation</div></div>
+<p style="margin:6px 0">神經網路是許多簡單函數一層層疊成的。要對這樣的組合求導，靠的是連鎖律；把連鎖律有系統地執行一遍，就是反向傳播。</p>
+<h3 id="s2-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.1</span>連鎖律</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">環環相扣的變化，變化率也環環相乘。</p>
+<p style="margin:6px 0">想像三個齒輪：A 轉一圈，B 轉 2 圈；B 轉一圈，C 轉 3 圈。那麼 A 轉一圈，C 轉 <span data-tex="2\times3=6"></span> 圈。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>連鎖律</span>（<i>chain rule</i>）：若 <span data-tex="y=f(u)"></span>、<span data-tex="u=g(x)"></span>，則 <span data-tex="y"></span> 對 <span data-tex="x"></span> 的導數是沿途各段導數的乘積：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\frac{dy}{dx}=\frac{dy}{du}\cdot\frac{du}{dx}" data-display="1"></span></span></div>
+<figure style="margin:12px 0 14px">
+<svg viewBox="0 0 460 150" style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto" role="img" aria-label="連鎖律：局部導數相乘">
+<rect x="14" y="30" width="44" height="30" fill="#d6eed3" stroke="#3f8a48" stroke-width="0.8"></rect><text x="36.0" y="50.0" font-size="14" text-anchor="middle" fill="#1d1d1d" font-style="italic">x</text>
+<line x1="58.0" y1="45.0" x2="91.0" y2="45.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M96.0,45.0L89.6,47.9L89.6,42.1Z" fill="#1d1d1d"></path>
+<rect x="100" y="30" width="96" height="30" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect><text x="148.0" y="50.0" font-size="13" text-anchor="middle" fill="#2a6190">u = 3x + 1</text>
+<line x1="196.0" y1="45.0" x2="251.0" y2="45.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M256.0,45.0L249.6,47.9L249.6,42.1Z" fill="#1d1d1d"></path><text x="226.0" y="38.0" font-size="13" text-anchor="middle" fill="#1d1d1d" font-style="italic">u</text>
+<rect x="260" y="30" width="96" height="30" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect><text x="308.0" y="50.0" font-size="13" text-anchor="middle" fill="#2a6190">y = u²</text>
+<line x1="356.0" y1="45.0" x2="389.0" y2="45.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M394.0,45.0L387.6,47.9L387.6,42.1Z" fill="#1d1d1d"></path>
+<rect x="398" y="30" width="44" height="30" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8"></rect><text x="420.0" y="50.0" font-size="14" text-anchor="middle" fill="#1d1d1d" font-style="italic">y</text>
+<text x="148.0" y="84.0" font-size="12.5" text-anchor="middle" fill="#b0392c">du/dx = 3</text><text x="308.0" y="84.0" font-size="12.5" text-anchor="middle" fill="#b0392c">dy/du = 2u</text>
+<path d="M148,92 V104 H308 V92" fill="none" stroke="#b0392c" stroke-width="0.8"></path><line x1="228" y1="104" x2="228" y2="114" stroke="#b0392c" stroke-width="0.8"></line>
+<text x="228.0" y="132.0" font-size="13" text-anchor="middle" fill="#b0392c" font-weight="700">dy/dx = 3 × 2u = 6(3x + 1)</text>
+</svg>
+<figcaption style="text-align:center;font-size:13px;color:#6a6a6a;margin-top:6px">例：<span data-tex="y=(3x+1)^2"></span>。每個方塊只需要知道自己的局部導數。</figcaption></figure>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span><a href="LLM%20統計學圖解.dc.html#s1-2">統計篇 1.2</a> 也有一個「連鎖律」，那是機率的乘法規則；這裡是導數的乘法規則。名字相同、內容不同，精神卻一樣：把複雜的東西拆成一段一段相乘。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">Transformer 有幾十層，每層又由注意力、前饋網路與正規化組成。損失對第一層某個權重的導數，就是沿著這條長鏈，把每一段的局部導數乘起來。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">4</footer>
+</section>
+
+<!-- p5 -->
+<section data-screen-label="05 反向傳播" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>連鎖律與反向傳播</span></header>
+<h3 id="s2-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.2</span>計算圖與反向傳播</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">先往前算出答案，再往回分配責任。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>計算圖</span>（<i>computational graph</i>）：把一個計算拆成節點，每個節點只做一個簡單運算（加、乘、平方……）。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>反向傳播</span>（<i>backpropagation</i>）：先做一次前向計算，記下每個節點的值；再從損失出發往回走，每個節點把「上游傳來的梯度」乘上自己的局部導數，繼續往下傳：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\frac{\partial\mathcal{L}}{\partial w}=\underbrace{\frac{\partial\mathcal{L}}{\partial z}}_{\text{上游梯度}}\cdot\underbrace{\frac{\partial z}{\partial w}}_{\text{局部導數}}" data-display="1"></span></span></div>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span><p style="margin:0 0 8px;font-size:14px">一個最小的模型：預測 <span data-tex="\hat y=wx+b"></span>，損失 <span data-tex="\mathcal{L}=(\hat y-y)^2"></span>。一步一步執行前向（黑字）與反向（紅字）：</p>
+<svg viewBox="0 0 460 172" style="display:block;width:100%;max-width:460px;height:auto;margin:0 auto" role="img" aria-label="反向傳播的計算圖">
+<rect x="14" y="24" width="56" height="26" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect><text x="42.0" y="41.5" font-size="11.5" text-anchor="middle" fill="#1d1d1d">w = 0.5</text>
+<rect x="14" y="100" width="56" height="26" fill="#d6eed3" stroke="#3f8a48" stroke-width="0.8"></rect><text x="42.0" y="117.5" font-size="11.5" text-anchor="middle" fill="#1d1d1d">x = 2</text>
+<line x1="70.0" y1="40.0" x2="104.0" y2="65.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M108.0,68.0L101.2,66.5L104.5,61.9Z" fill="#1d1d1d"></path><line x1="70.0" y1="110.0" x2="104.0" y2="85.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M108.0,82.0L104.5,88.1L101.2,83.5Z" fill="#1d1d1d"></path>
+<circle cx="120" cy="75" r="14" fill="{{ bp.f0 }}" stroke="#1d1d1d" stroke-width="0.9" style="transition:fill .3s"></circle><text x="120.0" y="79.5" font-size="14" text-anchor="middle" fill="#1d1d1d">×</text>
+<line x1="134.0" y1="75.0" x2="186.0" y2="75.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M191.0,75.0L184.6,77.9L184.6,72.1Z" fill="#1d1d1d"></path>
+<circle cx="205" cy="75" r="14" fill="{{ bp.f1 }}" stroke="#1d1d1d" stroke-width="0.9" style="transition:fill .3s"></circle><text x="205.0" y="79.5" font-size="14" text-anchor="middle" fill="#1d1d1d">+</text>
+<rect x="178" y="132" width="54" height="24" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8"></rect><text x="205.0" y="148.0" font-size="11.5" text-anchor="middle" fill="#1d1d1d">b = 0.3</text>
+<line x1="205.0" y1="132.0" x2="205.0" y2="94.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M205.0,89.0L207.9,95.4L202.1,95.4Z" fill="#1d1d1d"></path>
+<line x1="219.0" y1="75.0" x2="271.0" y2="75.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M276.0,75.0L269.6,77.9L269.6,72.1Z" fill="#1d1d1d"></path>
+<circle cx="290" cy="75" r="14" fill="{{ bp.f2 }}" stroke="#1d1d1d" stroke-width="0.9" style="transition:fill .3s"></circle><text x="290.0" y="79.5" font-size="12" text-anchor="middle" fill="#1d1d1d">−y</text><text x="290.0" y="106.0" font-size="10.5" text-anchor="middle" fill="#3f8a48">目標 y = 2</text>
+<line x1="304.0" y1="75.0" x2="356.0" y2="75.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M361.0,75.0L354.6,77.9L354.6,72.1Z" fill="#1d1d1d"></path>
+<circle cx="375" cy="75" r="14" fill="{{ bp.f3 }}" stroke="#1d1d1d" stroke-width="0.9" style="transition:fill .3s"></circle><text x="375.0" y="79.5" font-size="10.5" text-anchor="middle" fill="#1d1d1d">( )²</text>
+<line x1="389.0" y1="75.0" x2="415.0" y2="75.0" stroke="#1d1d1d" stroke-width="0.9"></line><path d="M420.0,75.0L413.6,77.9L413.6,72.1Z" fill="#1d1d1d"></path>
+<rect x="420" y="62" width="34" height="26" fill="#f7d6cf" stroke="#b0392c" stroke-width="0.8"></rect><text x="437.0" y="79.5" font-size="13" text-anchor="middle" fill="#1d1d1d" font-style="italic">ℒ</text>
+<text x="162" y="69" font-size="10.5" text-anchor="middle" fill="#1d1d1d" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.oz }}">z = 1.00</text><text x="247.5" y="69" font-size="10.5" text-anchor="middle" fill="#1d1d1d" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.oyh }}">ŷ = 1.30</text><text x="332.5" y="69" font-size="10.5" text-anchor="middle" fill="#1d1d1d" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.oe }}">e = −0.70</text><text x="437" y="54" font-size="10.5" text-anchor="middle" fill="#1d1d1d" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.oL }}">0.49</text>
+<text x="162" y="90" font-size="10.5" text-anchor="middle" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.ogz }}">−1.40</text><text x="247.5" y="90" font-size="10.5" text-anchor="middle" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.ogy }}">−1.40</text><text x="332.5" y="90" font-size="10.5" text-anchor="middle" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.oge }}">−1.40</text><text x="437" y="102" font-size="10.5" text-anchor="middle" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.ogL }}">1</text><text x="42" y="64" font-size="10.5" text-anchor="middle" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.ogw }}">∂ℒ/∂w = −2.80</text>
+<text x="238" y="150" font-size="10.5" text-anchor="start" fill="#b0392c" style="font-family:'Inconsolata',monospace" fill-opacity="{{ bp.ogb }}">∂ℒ/∂b = −1.40</text>
+</svg>
+<p style="margin:8px 0 0;font-size:14px;padding:4px 8px;background:{{ bp.bg }};transition:background .35s"><span style="font-weight:700;margin-right:.6em">{{ bp.phase }}</span>{{ bp.txt }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px"><button onClick="{{ bpPrev }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">上一步</button><button onClick="{{ bpNext }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">下一步</button><button onClick="{{ bpReset }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">重設</button><span style="flex:1"></span><span style="font-size:13px;color:#6a6a6a;white-space:nowrap;flex-shrink:0">第 {{ bpStep }} / 9 步</span></div>
+</div>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>反向傳播只要一次前向、一次反向，就能得到所有參數的梯度，成本和前向計算同一個量級。若改用「每個參數各推一下看看」的數值微分，70 億個參數就得做 70 億次前向計算。</p>
+<sc-if value="{{ showCode }}" hint-placeholder-val="{{ true }}"><div style="position:relative;background:#f6f6f3;border:.8px solid #c9c9c9;margin:12px 0 14px"><span style="position:absolute;top:4px;right:10px;font-family:'LMCaps',serif;font-size:11.5px;letter-spacing:.08em;color:#6a6a6a">Python</span><pre style="margin:0;padding:12px 14px;overflow-x:auto;font-family:'Inconsolata','Menlo',monospace;font-size:12.8px;line-height:1.6;text-align:left"><span style="color:#1c4c98;font-weight:600">import</span> torch
+w = torch.tensor(0.5, requires_grad=True)
+b = torch.tensor(0.3, requires_grad=True)
+x, y = 2.0, 2.0
+loss = (w * x + b - y) ** 2    <span style="color:#6a6a6a"># 前向：0.49</span>
+loss.backward()                <span style="color:#6a6a6a"># 反向傳播</span>
+w.grad, b.grad                 <span style="color:#6a6a6a"># (-2.8, -1.4)，和上圖一致</span></pre></div></sc-if>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">PyTorch、JAX 等框架的「自動微分」，就是在背後建立計算圖、執行反向傳播。前向時必須暫存每一層的中間值（<i>activations</i>），這是訓練比推論更吃記憶體的主要原因之一。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">5</footer>
+</section>
+
+<!-- p6 -->
+<section data-screen-label="06 梯度消失" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>連鎖律與反向傳播</span></header>
+<h3 id="s2-3" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">2.3</span>梯度消失與梯度爆炸</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">很多個數連乘，結果不是趨近 0，就是一飛衝天。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>梯度消失</span>（<i>vanishing gradient</i>）：若每一層的局部導數都小於 1，連乘幾十層之後，傳到前面幾層的梯度幾乎為 0，那些層就學不動。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>梯度爆炸</span>（<i>exploding gradient</i>）：反之，若都大於 1，梯度會指數成長，一次更新就可能讓模型崩壞。</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\frac{\partial\mathcal{L}}{\partial h_1}=\frac{\partial\mathcal{L}}{\partial h_L}\prod_{\ell=2}^{L}\frac{\partial h_\ell}{\partial h_{\ell-1}}\;\approx\;g\cdot a^{\,L-1}" data-display="1"></span></span></div>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#a1231e;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>殘差連接</span>（<i>residual connection</i>）：把每一層改成 <span data-tex="h_\ell=h_{\ell-1}+F(h_{\ell-1})"></span>，局部導數就變成 <span data-tex="1+F'"></span>。即使 <span data-tex="F'"></span> 很小，梯度也能透過那個「1」直接流回前面。</p>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span><p style="margin:0 0 8px;font-size:14px">24 層的網路，每層局部導數為 <span data-tex="a"></span>。梯度從右邊（損失）傳回左邊：</p>
+<svg viewBox="0 0 440 160" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="各層梯度大小（對數刻度）">
+<line x1="40" y1="130" x2="420" y2="130" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="40" y1="130" x2="40" y2="10" stroke="#1d1d1d" stroke-width="0.8"></line>
+<line x1="40" y1="15.0" x2="44" y2="15.0" stroke="#1d1d1d" stroke-width="0.7"></line><text x="35.0" y="18.5" font-size="10" text-anchor="end" fill="#6a6a6a">10⁴</text><line x1="40" y1="53.3" x2="420" y2="53.3" stroke="#6a6a6a" stroke-width="0.7" stroke-dasharray="3 2.5"></line><text x="35.0" y="56.8" font-size="10" text-anchor="end" fill="#6a6a6a">1</text><line x1="40" y1="91.7" x2="44" y2="91.7" stroke="#1d1d1d" stroke-width="0.7"></line><text x="35.0" y="95.2" font-size="10" text-anchor="end" fill="#6a6a6a">10⁻⁴</text><line x1="40" y1="130.0" x2="44" y2="130.0" stroke="#1d1d1d" stroke-width="0.7"></line><text x="35.0" y="133.5" font-size="10" text-anchor="end" fill="#6a6a6a">10⁻⁸</text>
+<sc-for list="{{ vBars }}" as="b" hint-placeholder-count="24"><rect x="{{ b.x }}" y="{{ b.y }}" width="11" height="{{ b.h }}" fill="#d1e4f3" stroke="#2a6190" stroke-width="0.8" style="transition:all .25s ease"></rect></sc-for>
+<text x="50.0" y="146.0" font-size="10.5" text-anchor="start" fill="#6a6a6a">第 1 層</text><text x="412.0" y="146.0" font-size="10.5" text-anchor="end" fill="#6a6a6a">第 24 層（靠近損失）</text>
+</svg>
+<div style="display:grid;grid-template-columns:auto minmax(0,1fr) 48px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px"><span style="white-space:nowrap">每層導數 <span data-tex="a"></span></span><input type="range" min="0.5" max="1.5" step="0.01" value="{{ va }}" onChange="{{ onVa }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ vaTxt }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px"><button onClick="{{ vRes }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:{{ resBg }};color:#1d1d1d;cursor:pointer">殘差連接：{{ resTxt }}</button><span style="flex:1"></span><span style="font-size:13px;color:#6a6a6a;white-space:nowrap">傳到第 1 層的倍率 <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ vFirst }}</span></span></div>
+<p style="margin:8px 0 0;font-size:14px;padding:4px 8px;background:{{ vBg }};transition:background .35s">{{ vVerdict }}</p>
+</div>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>開啟殘差連接後，示意圖假設分支 <span data-tex="F"></span> 只對主幹做小幅修正<span style="white-space:nowrap">（<span data-tex="F'=(a-1)/10"></span>）</span>，因此每層導數都貼近 1。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">早期的循環神經網路（RNN）深受梯度消失之苦，很難記住長距離的資訊。Transformer 的每個子層都包在殘差連接裡，再加上 LayerNorm 與梯度裁剪（<i>gradient clipping</i>，把過長的梯度縮到固定長度），才能穩定地疊到上百層。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">6</footer>
+</section>
+
+<!-- p7 -->
+<section data-screen-label="07 激活函數" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>LLM 裡的導數</span></header>
+<div id="ch3" style="position:relative;border:1px solid #1d1d1d;padding:20px 16px 14px;margin:14px 0 16px;text-align:center"><span style="position:absolute;top:-.85em;left:14px;background:#fff;padding:0 7px;font-size:12px;letter-spacing:.16em">第 3 章</span><h2 style="margin:0;font-size:25px;letter-spacing:.2em;line-height:1.3;font-weight:700">LLM 裡的導數</h2><div style="font-family:'LMCaps',serif;font-size:13.5px;letter-spacing:.08em;color:#6a6a6a">Derivatives Inside an LLM</div></div>
+<p style="margin:6px 0">最後來看幾個在 LLM 訓練中每一步都被微分的函數：讓網路有非線性能力的激活函數，以及位在最末端的 softmax 與交叉熵。</p>
+<h3 id="s3-1" style="font-size:17px;margin:22px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">3.1</span>激活函數與它們的導數</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">非線性讓網路能表達複雜規律；它的導數決定梯度能否通過。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>ReLU</span>：<span data-tex="\mathrm{ReLU}(x)=\max(0,x)"></span>。導數在 <span data-tex="x\gt 0"></span> 時是 1、<span data-tex="x\lt 0"></span> 時是 0，所以梯度要嘛原樣通過，要嘛完全被擋住。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>GELU</span>：<span data-tex="\mathrm{GELU}(x)=x\,\Phi(x)"></span>，<span data-tex="\Phi"></span> 是標準常態的累積分布函數（<a href="LLM%20統計學圖解.dc.html#s2-1">統計篇 2.1</a>）。它是 ReLU 的平滑版，負值區也留有一點梯度。</p>
+<p style="margin:14px 0 6px"><span style="font-weight:700;color:#1c4c98;white-space:nowrap"><svg viewBox="0 0 12 12" width="12" height="12" style="width:.78em;height:.78em;margin-right:.3em;vertical-align:-.02em" aria-hidden="true"><rect x="1" y="3.2" width="7.8" height="7.8" fill="none" stroke="currentColor" stroke-width="1.05"></rect><path d="M3.2 3.2 V1.2 H10.9 V8.9 H8.8" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Sigmoid</span>：<span data-tex="\sigma(x)=1/(1+e^{-x})"></span>，導數 <span data-tex="\sigma(x)\,(1-\sigma(x))"></span> 最大只有 0.25，兩端趨近 0，這是早期深層網路梯度消失的主因之一。</p>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span>
+<div style="display:flex;flex-wrap:wrap;gap:0;margin-bottom:10px"><sc-for list="{{ actBtns }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.on }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;margin-right:-.8px;background:{{ m.bg }};color:#1d1d1d;cursor:pointer">{{ m.label }}</button></sc-for></div>
+<svg viewBox="0 0 440 165" style="display:block;width:100%;max-width:440px;height:auto;margin:0 auto" role="img" aria-label="激活函數與導數">
+<line x1="40" y1="120" x2="400" y2="120" stroke="#1d1d1d" stroke-width="0.8"></line><line x1="220" y1="150" x2="220" y2="10" stroke="#1d1d1d" stroke-width="0.8"></line>
+<line x1="40" y1="75" x2="400" y2="75" stroke="#c9c9c9" stroke-width="0.7" stroke-dasharray="2 2"></line><text x="215.0" y="72.0" font-size="10" text-anchor="end" fill="#6a6a6a">1</text>
+<text x="40.0" y="134.0" font-size="10" text-anchor="middle" fill="#6a6a6a">−4</text><text x="130.0" y="134.0" font-size="10" text-anchor="middle" fill="#6a6a6a">−2</text><text x="310.0" y="134.0" font-size="10" text-anchor="middle" fill="#6a6a6a">2</text><text x="400.0" y="134.0" font-size="10" text-anchor="middle" fill="#6a6a6a">4</text>
+<path d="{{ actF }}" fill="none" stroke="#2a6190" stroke-width="1.6"></path>
+<path d="{{ actD }}" fill="none" stroke="#b0392c" stroke-width="1.4" stroke-dasharray="4 3"></path>
+<line x1="{{ actPx }}" y1="150" x2="{{ actPx }}" y2="10" stroke="#6a6a6a" stroke-width="0.6" stroke-dasharray="2 2"></line>
+<circle cx="{{ actPx }}" cy="{{ actPy }}" r="4" fill="#d1e4f3" stroke="#2a6190" stroke-width="1.2"></circle>
+<circle cx="{{ actPx }}" cy="{{ actQy }}" r="4" fill="#f7d6cf" stroke="#b0392c" stroke-width="1.2"></circle>
+<line x1="300" y1="22" x2="322" y2="22" stroke="#2a6190" stroke-width="1.6"></line><text x="328.0" y="26.0" font-size="11" text-anchor="start" fill="#2a6190">函數</text>
+<line x1="300" y1="40" x2="322" y2="40" stroke="#b0392c" stroke-width="1.4" stroke-dasharray="4 3"></line><text x="328.0" y="44.0" font-size="11" text-anchor="start" fill="#b0392c">導數</text>
+</svg>
+<div style="display:grid;grid-template-columns:auto minmax(0,1fr) 48px;gap:4px 12px;align-items:center;margin-top:8px;font-size:14px"><span style="white-space:nowrap"><span data-tex="x"></span></span><input type="range" min="-4" max="4" step="0.05" value="{{ ax }}" onChange="{{ onAx }}" style="width:100%;accent-color:#1c4c98"><span style="font-family:'Inconsolata',monospace;text-align:right">{{ axTxt }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:6px;font-size:13px;color:#6a6a6a"><span style="white-space:nowrap">函數值 <span style="font-family:'Inconsolata',monospace;color:#2a6190">{{ actFv }}</span></span><span style="white-space:nowrap">導數 <span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ actDv }}</span></span></div>
+</div>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">GPT-2 等許多 Transformer 的前饋層使用 GELU；Llama 系列改用 SwiGLU（由 SiLU 加上閘門組成）。它們的共同點是處處可微、導數大致落在 0 到 1 附近，讓梯度既不被完全擋住，也不會被放大太多。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">7</footer>
+</section>
+
+<!-- p8 -->
+<section data-screen-label="08 Softmax 梯度" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>LLM 裡的導數</span></header>
+<h3 id="s3-2" style="font-size:17px;margin:4px 0 2px;line-height:1.5;font-weight:700"><span style="margin-right:.9em">3.2</span>Softmax 與交叉熵的梯度</h3>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;margin:2px 0 8px">這是整個預訓練最重要的一個導數，算出來卻很簡單。</p>
+<p style="margin:6px 0">回顧統計篇：模型輸出分數 <span data-tex="z"></span>，經 softmax 得到機率 <span data-tex="p"></span>；正確答案是第 <span data-tex="y"></span> 個詞元，損失是 <span data-tex="\mathcal{L}=-\log p_y"></span>。對每個分數 <span data-tex="z_i"></span> 求導，連鎖律穿過對數與 softmax 之後，幾乎所有項都消掉了：</p>
+<div style="text-align:center;margin:10px 0 12px;overflow-x:auto;overflow-y:hidden;padding:2px 0"><span style="display:inline-block;padding:3px 10px;border:.8px solid #1d1d1d"><span data-tex="\frac{\partial\mathcal{L}}{\partial z_i}=p_i-\mathbb{1}[i=y]" data-display="1"></span></span></div>
+<p style="margin:6px 0">用白話說：正確詞元的梯度是 <span data-tex="p_y-1"></span>（負的，分數要調高）；其他詞元的梯度是 <span data-tex="p_i"></span>（正的，分數要調低），而且機率越高的錯誤答案被壓得越用力。</p>
+<div style="position:relative;border:.8px solid #2a6190;padding:18px 14px 12px;margin:20px 0 14px;text-align:left"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#2a6190;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">動手試試</span><p style="margin:0 0 8px;font-size:14px">點選一個詞元當作「正確答案」，再按「梯度下降一步」（學習率 1）：</p>
+<div style="max-width:430px;margin:0 auto">
+<div style="display:flex;gap:10px;align-items:flex-end;height:110px;border-bottom:.8px solid #1d1d1d">
+<sc-for list="{{ smBars }}" as="b" hint-placeholder-count="6"><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:12px;font-family:'Inconsolata',monospace">{{ b.pct }}</span><div style="width:70%;height:{{ b.h }};background:#f7d6cf;border:.8px solid #b0392c;transition:height .3s ease"></div></div></sc-for>
+</div>
+<div style="display:flex;gap:10px;margin:6px 0 4px">
+<sc-for list="{{ smBars }}" as="b" hint-placeholder-count="6"><div style="flex:1;text-align:center"><button onClick="{{ b.on }}" style="font-family:'Inconsolata',monospace;font-size:13px;border:1px dotted #1d1d1d;padding:0 .3em;line-height:1.6;white-space:nowrap;background:{{ b.bg }};color:#1d1d1d;cursor:pointer">{{ b.tok }}</button></div></sc-for>
+</div>
+<div style="font-size:12px;color:#6a6a6a;margin:8px 0 2px"><span data-tex="-\partial\mathcal{L}/\partial z_i"></span>：往上表示分數會被調高</div>
+<div style="position:relative;display:flex;gap:10px;height:84px">
+<div style="position:absolute;left:0;right:0;top:42px;border-top:.8px solid #1d1d1d"></div>
+<sc-for list="{{ smBars }}" as="b" hint-placeholder-count="6"><div style="flex:1;position:relative;height:84px"><div style="position:absolute;left:15%;width:70%;top:{{ b.gt }};height:{{ b.gh }};background:{{ b.gbg }};border:.8px solid {{ b.gbd }};transition:all .3s ease"></div></div></sc-for>
+</div>
+<div style="display:flex;gap:10px;margin-top:2px">
+<sc-for list="{{ smBars }}" as="b" hint-placeholder-count="6"><div style="flex:1;text-align:center;font-size:11px;font-family:'Inconsolata',monospace;color:{{ b.gbd }}">{{ b.gv }}</div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px"><button onClick="{{ smStep }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #2a6190;background:#d1e4f3;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">梯度下降一步</button><button onClick="{{ smReset }}" style="white-space:nowrap;flex-shrink:0;font-family:inherit;font-size:13px;padding:2px 12px;border:.8px solid #1d1d1d;background:#fff;color:#1d1d1d;cursor:pointer" style-hover="background:#fcefa2">重設</button><span style="flex:1"></span><span style="font-size:13px;color:#6a6a6a;display:flex;flex-wrap:wrap;gap:0 12px"><span style="white-space:nowrap">第 <span style="font-family:'Inconsolata',monospace;color:#1d1d1d">{{ smN }}</span> 步</span><span style="white-space:nowrap"><span data-tex="p_y"></span>＝<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ smPy }}</span></span><span style="white-space:nowrap"><span data-tex="\mathcal{L}"></span>＝<span style="font-family:'Inconsolata',monospace;color:#b0392c">{{ smLoss }}</span></span></span></div>
+</div>
+<p style="font-family:'LMRoman','LXGW WenKai TC','Kaiti TC',serif;font-style:italic;color:#584a9a;font-size:14.5px;margin:8px 0"><span style="font-style:normal">附註：</span>所有梯度加起來恰好是 0：調高正確答案的量，正好等於壓低其他答案的總量。這和 softmax 輸出加總為 1 是同一件事的兩面。</p>
+<sc-if value="{{ showAsides }}" hint-placeholder-val="{{ true }}"><aside style="position:relative;border:.8px solid #584a9a;padding:15px 14px 9px;margin:22px 0 12px"><span style="position:absolute;top:-.8em;left:12px;background:#fff;padding:0 6px;color:#584a9a;font-size:12.5px;letter-spacing:.12em;font-weight:700;white-space:nowrap">LLM 視角</span><p style="margin:0;text-align:left;font-size:14.6px;line-height:1.75">這個梯度 <span data-tex="p-\mathrm{onehot}(y)"></span> 就是反向傳播的起點：它從輸出層出發，經由 2.2 的機制傳回模型的每一個權重。每讀一個詞元，模型就把正確答案的分數往上推一點、把其他候選往下壓一點；預訓練中數兆次的更新，做的都是這件事。</p></aside></sc-if>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">8</footer>
+</section>
+
+<!-- p9 -->
+<section data-screen-label="09 速查表" style="max-width:660px;margin:0 auto 26px;background:#fff;padding:34px clamp(18px,7vw,58px) 22px;box-shadow:0 0 0 1px rgba(0,0,0,.04),0 6px 22px rgba(0,0,0,.07);text-align:justify;text-justify:inter-character">
+<header style="display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;margin:0 0 22px;font-family:'LMCaps','Noto Serif TC',serif"><span>圖解學習指南</span><span>速查表</span></header>
+<h3 id="cheat" style="font-size:22px;letter-spacing:.3em;margin:8px 0 14px;font-weight:700">速查表</h3>
+<p style="margin:6px 0">每個微積分概念，在 LLM 訓練中出現在哪裡。</p>
+<div style="overflow-x:auto;margin:12px 0 14px"><table style="border-collapse:collapse;margin:0 auto;font-size:13.8px;line-height:1.55;text-align:left;width:100%"><thead><tr><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">概念</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">在 LLM 中的角色</th><th style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center">節</th></tr></thead><tbody><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">導數</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">單一權重的變化對損失的影響</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s1-1">1.1</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">偏導數、梯度</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">所有權重的更新方向；梯度下降的依據</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s1-2">1.2</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">線性近似、海森矩陣</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">學習率為何不能太大；暖身與 Adam</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s1-3">1.3</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">連鎖律</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">穿過數十層求導的基本規則</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s2-1">2.1</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">計算圖、反向傳播</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">一次前向、一次反向算出全部梯度；自動微分</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s2-2">2.2</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">梯度消失／爆炸</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">殘差連接、LayerNorm、梯度裁剪的動機</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s2-3">2.3</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">激活函數的導數</td><td style="border:.8px solid #1d1d1d;padding:5px 9px">GELU、SwiGLU 讓梯度平順通過</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s3-1">3.1</a></td></tr><tr><td style="border:.8px solid #1d1d1d;padding:5px 9px;font-weight:700">Softmax＋交叉熵的梯度</td><td style="border:.8px solid #1d1d1d;padding:5px 9px"><span data-tex="p-\mathrm{onehot}(y)"></span>：反向傳播的起點</td><td style="border:.8px solid #1d1d1d;padding:5px 9px;text-align:center;white-space:nowrap"><a href="#s3-2">3.2</a></td></tr></tbody></table></div>
+<p style="margin:22px 0 6px;padding-top:12px;border-top:.6px solid #c9c9c9;font-size:13.5px;color:#6a6a6a">總結：訓練 LLM 的每一步，都是前向算出損失（統計篇），從 <span data-tex="p-\mathrm{onehot}(y)"></span> 出發（第 3 章），用連鎖律把梯度傳回每個權重（第 2 章），再沿著負梯度走一小步（第 1 章）。</p>
+<footer style="text-align:center;font-size:12.5px;margin-top:26px">9</footer>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAsides&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;內容&quot;},&quot;showCode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;內容&quot;}}">
+const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+const sci = (x, d = 2) => { if (x === 0) return '0'; const ax = Math.abs(x); if (ax >= 0.01 && ax < 1000) return x.toFixed(ax < 1 ? 3 : 2); const e = Math.floor(Math.log10(ax)); return (x / 10 ** e).toFixed(d) + '×10' + String(e).split('').map(c => SUP[c]).join(''); };
+const curve = (fn, x0, x1, X, Y, N) => { let d = ''; for (let i = 0; i <= N; i++) { const x = x0 + (x1 - x0) * i / N; d += (i ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(fn(x)).toFixed(1); } return d; };
+const f1 = v => (+v).toFixed(1);
+const arr = (x1, y1, x2, y2, s = 7) => { const a = Math.atan2(y2 - y1, x2 - x1), b = 0.42, len = Math.hypot(x2 - x1, y2 - y1); const k = len > 6 ? 5 : 0; return { x1: f1(x1), y1: f1(y1), x2: f1(x2 - k * Math.cos(a)), y2: f1(y2 - k * Math.sin(a)), h: len < 1 ? '' : 'M' + f1(x2) + ',' + f1(y2) + 'L' + f1(x2 - s * Math.cos(a - b)) + ',' + f1(y2 - s * Math.sin(a - b)) + 'L' + f1(x2 - s * Math.cos(a + b)) + ',' + f1(y2 - s * Math.sin(a + b)) + 'Z' }; };
+const segBtns = (items, cur, set) => items.map(([k, label]) => ({ label, bg: cur === k ? '#d1e4f3' : '#fff', on: () => set(k) }));
+
+const F1 = x => 0.15 * x ** 3 - 0.9 * x + 1.2, F1p = x => 0.45 * x * x - 0.9;
+const X1 = x => 40 + (x + 3) * 60, Y1 = y => 140 - (y + 0.3) * 45;
+const CX = a => 220 + a * 90, CY = b => 110 - b * 90;
+const BPV = { z: 'z = 1.00', yh: 'ŷ = 1.30', e: 'e = −0.70', L: '0.49', gL: '1', ge: '−1.40', gy: '−1.40', gz: '−1.40', gb: '∂ℒ/∂b = −1.40', gw: '∂ℒ/∂w = −2.80' };
+const BPS = [
+  ['準備', '按「下一步」開始前向計算。', []],
+  ['前向', 'z = w·x = 0.5 × 2 = 1.00', ['z'], 0],
+  ['前向', 'ŷ = z + b = 1.00 + 0.3 = 1.30', ['yh'], 1],
+  ['前向', 'e = ŷ − y = 1.30 − 2 = −0.70', ['e'], 2],
+  ['前向', 'ℒ = e² = 0.49。前向完成，接著從損失往回傳。', ['L'], 3],
+  ['反向', '起點：∂ℒ/∂ℒ = 1。', ['gL']],
+  ['反向', '平方的局部導數是 2e：1 × 2 × (−0.70) = −1.40', ['ge'], 3],
+  ['反向', '減法的局部導數是 1：梯度原樣往下傳，−1.40。', ['gy'], 2],
+  ['反向', '加法把梯度原樣分給兩個輸入：∂ℒ/∂z = ∂ℒ/∂b = −1.40。', ['gz', 'gb'], 1],
+  ['反向', '乘法的局部導數是「另一個輸入」：∂ℒ/∂w = −1.40 × x = −2.80。梯度為負，代表 w 應該調大。', ['gw'], 0]
+];
+const erf = x => { const sg = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + 0.3275911 * x); return sg * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x)); };
+const Phi = x => 0.5 * (1 + erf(x / Math.SQRT2)), phi = x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+const sig = x => 1 / (1 + Math.exp(-x));
+const XB = x => 40 + (x + 4) * 45, YB = y => 120 - Math.max(-0.8, Math.min(2.6, y)) * 45;
+const ACT = {
+  relu: { f: x => Math.max(0, x), d: x => x > 0 ? 1 : 0 },
+  gelu: { f: x => x * Phi(x), d: x => Phi(x) + x * phi(x) },
+  sigmoid: { f: sig, d: x => sig(x) * (1 - sig(x)) }
+};
+Object.keys(ACT).forEach(k => { ACT[k].fp = curve(ACT[k].f, -4, 4, XB, YB, 160); ACT[k].dp = k === 'relu' ? 'M40,' + YB(0) + 'L220,' + YB(0) + 'M220,' + YB(1) + 'L400,' + YB(1) : curve(ACT[k].d, -4, 4, XB, YB, 160); });
+const TOK = ['喝水', '休息', '散步', '覓食', '游泳', '唱歌'];
+const LOGIT = [2.4, 1.6, 0.9, 0.6, -0.3, -1.5];
+const softmax = z => { const m = Math.max(...z); const e = z.map(v => Math.exp(v - m)); const t = e.reduce((a, b) => a + b, 0); return e.map(v => v / t); };
+const pct = p => p >= 0.995 ? '100%' : (p * 100).toFixed(p < 0.1 ? 1 : 0) + '%';
+
+class Component extends DCLogic {
+  state = { x0: 0.8, h: 1.0, gp: [[1.6, 0.5]], bp: 0, va: 0.8, res: false, act: 'gelu', ax: -0.5, z: LOGIT.slice(), tgt: 0, smN: 0 };
+
+  componentDidMount() {
+    this.tex();
+    this.mo = new MutationObserver(() => { clearTimeout(this.tt); this.tt = setTimeout(() => this.tex(), 60); });
+    this.mo.observe(document.body, { childList: true, subtree: true });
+  }
+  componentWillUnmount() { if (this.mo) this.mo.disconnect(); Object.keys(this).filter(k => k.startsWith('iv')).forEach(k => this.stop(k)); }
+  tex() {
+    if (!window.katex) { setTimeout(() => this.tex(), 150); return; }
+    document.querySelectorAll('[data-tex]:not([data-k])').forEach(el => {
+      el.setAttribute('data-k', '1');
+      try { window.katex.render(el.getAttribute('data-tex'), el, { displayMode: el.hasAttribute('data-display'), throwOnError: false }); } catch (e) {}
+    });
+  }
+  stop(k) { if (this[k]) { clearInterval(this[k]); this[k] = null; } }
+
+  renderVals() {
+    const s = this.state;
+
+    // 1.1
+    const x0 = s.x0, h = s.h, y0 = F1(x0), xq = x0 + h, yq = F1(xq), ss = (yq - y0) / h, ts = F1p(x0);
+    const seg = (m, xa, xb) => ({ x1: f1(X1(xa)), y1: f1(Y1(y0 + m * (xa - x0))), x2: f1(X1(xb)), y2: f1(Y1(y0 + m * (xb - x0))) });
+    // 1.2
+    const gp = s.gp, [w1, w2] = gp[gp.length - 1];
+    const px = CX(w1), py = CY(w2);
+    let vx = 2 * w1 * 13.5, vy = -6 * w2 * 13.5; const vl = Math.hypot(vx, vy); if (vl > 60) { vx *= 60 / vl; vy *= 60 / vl; }
+    { let k = 1; if (vy < 0) k = Math.min(k, (py - 10) / -vy); if (vy > 0) k = Math.min(k, (210 - py) / vy); if (vx > 0) k = Math.min(k, (430 - px) / vx); if (vx < 0) k = Math.min(k, (px - 10) / -vx); if (-vy > 0) k = Math.min(k, (210 - py) / -vy); if (-vy < 0) k = Math.min(k, (py - 10) / vy); if (-vx > 0) k = Math.min(k, (430 - px) / -vx); if (-vx < 0) k = Math.min(k, (px - 10) / vx); k = Math.max(0.25, k); vx *= k; vy *= k; }
+    const setStart = (a, b) => this.setState({ gp: [[a, b]] });
+    // 2.2
+    const st = BPS[s.bp], shown = new Set(); BPS.slice(0, s.bp + 1).forEach(r => r[2].forEach(k => shown.add(k)));
+    const bp = { phase: st[0], txt: st[1], bg: s.bp === 0 ? '#f6f6f3' : s.bp <= 4 ? '#eef4fa' : '#fbeeee' };
+    Object.keys(BPV).forEach(k => bp['o' + k] = shown.has(k) ? 1 : 0);
+    [0, 1, 2, 3].forEach(i => bp['f' + i] = st[3] === i ? '#fcefa2' : '#fff');
+    // 2.3
+    const fct = s.res ? 1 + (s.va - 1) * 0.1 : s.va;
+    const yl = v => 130 - (Math.max(-8, Math.min(4, Math.log10(v))) + 8) / 12 * 115;
+    const vBars = Array.from({ length: 24 }, (_, i) => { const y = yl(Math.pow(fct, 23 - i)); return { x: f1(44 + i * 15.5), y: f1(y), h: f1(130 - y) }; });
+    const first = Math.pow(fct, 23);
+    // 3.1
+    const A = ACT[s.act];
+    // 3.2
+    const p = softmax(s.z), g = p.map((v, i) => v - (i === s.tgt ? 1 : 0));
+    const smBars = TOK.map((tok, i) => { const d = -g[i]; return { tok, pct: pct(p[i]), h: (p[i] * 100).toFixed(2) + '%', bg: i === s.tgt ? '#fcefa2' : '#fff', on: () => this.setState({ tgt: i }), gt: (d > 0 ? 42 - d * 42 : 42) + 'px', gh: (Math.abs(d) * 42) + 'px', gbg: d > 0 ? '#d6eed3' : '#f7d6cf', gbd: d > 0 ? '#3f8a48' : '#b0392c', gv: (d > 0 ? '+' : '−') + Math.abs(d).toFixed(2) }; });
+    return {
+      showAsides: this.props.showAsides ?? true, showCode: this.props.showCode ?? true,
+      x0, h, x0Txt: x0.toFixed(2), hTxt: h.toFixed(2), onX0: e => this.setState({ x0: +e.target.value }), onH: e => this.setState({ h: +e.target.value }),
+      sec: seg(ss, x0 - 1.3, xq + 1.3), tan: seg(ts, x0 - 1.3, x0 + 1.3),
+      dPath: 'M' + f1(X1(x0)) + ',' + f1(Y1(y0)) + 'L' + f1(X1(xq)) + ',' + f1(Y1(y0)) + 'L' + f1(X1(xq)) + ',' + f1(Y1(yq)),
+      hLab: { x: f1(X1(x0 + h / 2)), y: f1(Y1(y0) + (yq > y0 ? 13 : -5)) },
+      ptP: { x: f1(X1(x0)), y: f1(Y1(y0)) }, ptQ: { x: f1(X1(xq)), y: f1(Y1(yq)) },
+      secS: ss.toFixed(3), tanS: ts.toFixed(3), gapS: Math.abs(ss - ts).toFixed(3),
+      gw1: w1, gw2: w2, gw1Txt: w1.toFixed(2), gw2Txt: w2.toFixed(2),
+      onW1: e => setStart(+e.target.value, w2), onW2: e => setStart(w1, +e.target.value),
+      gP: { x: f1(px), y: f1(py) }, gA: arr(px, py, px + vx, py + vy), gD: arr(px, py, px - vx, py - vy),
+      gTrail: gp.map(([a, b]) => f1(CX(a)) + ',' + f1(CY(b))).join(' '),
+      gN: gp.length - 1, gG: '(' + (2 * w1).toFixed(2) + ', ' + (6 * w2).toFixed(2) + ')', gL: (w1 * w1 + 3 * w2 * w2).toFixed(3),
+      gStep: () => this.setState(t => { const [a, b] = t.gp[t.gp.length - 1]; return { gp: [...t.gp, [a - 0.6 * a, b - 1.8 * b]].slice(-30) }; }),
+      gReset: () => this.setState(t => ({ gp: [t.gp[0]] })),
+      bp, bpStep: s.bp,
+      bpPrev: () => this.setState(t => ({ bp: Math.max(0, t.bp - 1) })), bpNext: () => this.setState(t => ({ bp: Math.min(9, t.bp + 1) })), bpReset: () => this.setState({ bp: 0 }),
+      va: s.va, vaTxt: s.va.toFixed(2), onVa: e => this.setState({ va: +e.target.value }),
+      vRes: () => this.setState(t => ({ res: !t.res })), resTxt: s.res ? '開' : '關', resBg: s.res ? '#fcefa2' : '#fff',
+      vBars, vFirst: sci(first),
+      vVerdict: first < 1e-3 ? '梯度消失：傳到前面幾層時幾乎歸零，那些層學不到東西。' : first > 1e3 ? '梯度爆炸：前面幾層的更新大得失控。' : '梯度大致穩定地傳回每一層。',
+      vBg: first < 1e-3 || first > 1e3 ? '#f7d6cf' : '#d6eed3',
+      actBtns: segBtns([['relu', 'ReLU'], ['gelu', 'GELU'], ['sigmoid', 'Sigmoid']], s.act, k => this.setState({ act: k })),
+      actF: A.fp, actD: A.dp, ax: s.ax, axTxt: s.ax.toFixed(2), onAx: e => this.setState({ ax: +e.target.value }),
+      actPx: f1(XB(s.ax)), actPy: f1(YB(A.f(s.ax))), actQy: f1(YB(A.d(s.ax))), actFv: A.f(s.ax).toFixed(3), actDv: A.d(s.ax).toFixed(3),
+      smBars, smN: s.smN, smPy: p[s.tgt].toFixed(3), smLoss: (-Math.log(p[s.tgt])).toFixed(3),
+      smStep: () => this.setState(t => { const q = softmax(t.z); return { z: t.z.map((v, i) => v - (q[i] - (i === t.tgt ? 1 : 0))), smN: t.smN + 1 }; }),
+      smReset: () => this.setState({ z: LOGIT.slice(), smN: 0 })
+    };
+  }
+}
+</script>
+</body>
+</html>
