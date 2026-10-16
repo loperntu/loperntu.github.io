@@ -67,11 +67,13 @@ fi
 # Companion course syllabus (Appendix C). The source is a page fragment
 # (also published as a claude.ai Artifact), so wrap it in a full document:
 # everything up to the first </style> goes in <head>, the rest in <body>.
+# data-theme="light" keeps it light like the book and primers, which have no
+# dark mode; the Artifact copy still follows the viewer's theme.
 COURSE_SRC="$SCRIPT_DIR/course/syllabus.html"
 if [[ -f "$COURSE_SRC" ]]; then
   mkdir -p "$TARGET_DIR/course"
   {
-    printf '<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
+    printf '<!doctype html>\n<html lang="zh-Hant" data-theme="light">\n<head>\n<meta charset="utf-8">\n'
     printf '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
     printf '<style>body{margin:0}img{max-width:100%%}[hidden]{display:none!important}</style>\n'
     awk '{print} /<\/style>/{exit}' "$COURSE_SRC"
