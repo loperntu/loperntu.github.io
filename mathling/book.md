@@ -1711,6 +1711,8 @@ The chapters above introduce mathematical ideas *through linguistic questions*. 
 
 Open the primer hub: [foundations/index.html](foundations/index.html).
 
+Companion course: [Three Mathematics of Meaning, a six-day illustrated workshop](course/syllabus.html) (syllabus in Chinese). It uses this book as its text: six half-day sessions work through the three primers in this appendix (logic, graphs, vectors), each paired with chapter readings, and end with a capstone project modeled on §14.5.
+
 ### B.1 Logic for Formal Semantics
 
 A guided path from arguments and logical form to propositional and predicate logic, models and truth conditions, sets/relations/functions, semantic types and the λ-calculus, and compositional interpretation — including a workshop on typing and Mandarin examples. Pair with Chapter 3.
