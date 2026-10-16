@@ -1514,6 +1514,8 @@ The chapters above introduce mathematical ideas *through linguistic questions*. 
 
 Entrance: [Mathematical Foundations of Linguistics](foundations/index.html).
 
+Companion course: [Three Mathematics of Meaning, a six-day illustrated workshop](course/syllabus.html) (syllabus in Chinese). It uses this book as its text: six half-day sessions work through the booklet's logic, graph and vector modules, each paired with chapter readings, and end with a capstone project modeled on §14.5.
+
 # Selected Bibliography {#bibliography .unnumbered}
 
 ### Mathematical Background

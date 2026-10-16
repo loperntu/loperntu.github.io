@@ -64,6 +64,24 @@ if [[ -d "$SCRIPT_DIR/foundations" ]]; then
   echo "✅ Synced foundations/ → $TARGET_DIR/foundations/"
 fi
 
+# Companion course syllabus (Appendix C). The source is a page fragment
+# (also published as a claude.ai Artifact), so wrap it in a full document:
+# everything up to the first </style> goes in <head>, the rest in <body>.
+COURSE_SRC="$SCRIPT_DIR/course/syllabus.html"
+if [[ -f "$COURSE_SRC" ]]; then
+  mkdir -p "$TARGET_DIR/course"
+  {
+    printf '<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
+    printf '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+    printf '<style>body{margin:0}img{max-width:100%%}[hidden]{display:none!important}</style>\n'
+    awk '{print} /<\/style>/{exit}' "$COURSE_SRC"
+    printf '</head>\n<body>\n'
+    awk 'f{print} /<\/style>/{f=1}' "$COURSE_SRC"
+    printf '</body>\n</html>\n'
+  } > "$TARGET_DIR/course/syllabus.html"
+  echo "✅ Synced course/syllabus.html → $TARGET_DIR/course/"
+fi
+
 if [[ "${1:-}" == "--open" ]]; then
   if command -v open >/dev/null 2>&1; then
     open "$TARGET_HTML"
@@ -74,6 +92,6 @@ fi
 
 echo
 echo "Next steps:"
-echo "  git add docs/mathling/book.html docs/mathling/book-zh.html docs/mathling/foundations docs/mathling/figures docs/mathling/language_complexity_simulator.html docs/mathling/index.html"
+echo "  git add docs/mathling/book.html docs/mathling/book-zh.html docs/mathling/foundations docs/mathling/figures docs/mathling/language_complexity_simulator.html docs/mathling/course docs/mathling/index.html"
 echo "  git commit -m \"update mathling bilingual book\""
 echo "  git push origin main"

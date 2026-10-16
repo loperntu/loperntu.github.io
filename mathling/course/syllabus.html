@@ -1,0 +1,808 @@
+<title>語意的三種數學</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; a six-cell phase strip as the course map; each day a two-part block (reference rail + what you do). Tokens follow the Mathling foundations pages. */
+:root {
+  --paper: #FDFBF7;
+  --card: #FFFFFF;
+  --ink: #2C2825;
+  --muted: #6B635A;
+  --line: #E2DBD1;
+  --wash: #F5F0E8;
+  --logic: #8B4513;
+  --graph: #2F6563;
+  --vector: #4B4F8A;
+  --logic-wash: #F6EADF;
+  --graph-wash: #E4F0EF;
+  --vector-wash: #E9EAF5;
+  --f-display: "Cormorant Garamond", "Noto Serif TC", "Songti TC", serif;
+  --f-serif: "Noto Serif TC", "Songti TC", serif;
+  --f-body: "Source Sans 3", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1B1917; --card: #24211E; --ink: #ECE6DD; --muted: #A99F93; --line: #3A352F; --wash: #2A2622;
+    --logic: #DDA478; --graph: #84C2BE; --vector: #A8ACE4;
+    --logic-wash: #33271E; --graph-wash: #1E2D2C; --vector-wash: #25263A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1B1917; --card: #24211E; --ink: #ECE6DD; --muted: #A99F93; --line: #3A352F; --wash: #2A2622;
+  --logic: #DDA478; --graph: #84C2BE; --vector: #A8ACE4;
+  --logic-wash: #33271E; --graph-wash: #1E2D2C; --vector-wash: #25263A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.75;
+}
+a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--logic); outline-offset: 2px; border-radius: 3px; }
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- header ---------- */
+header.top { padding-block: 3.2rem 1.6rem; }
+.eyebrow { font-size: 0.8rem; letter-spacing: 0.2em; color: var(--muted); margin: 0; }
+h1 {
+  font-family: var(--f-serif);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  margin: 0.4rem 0 0.2rem;
+  text-wrap: balance;
+}
+.subtitle { font-family: var(--f-serif); font-size: 1.15rem; color: var(--muted); margin: 0 0 1.2rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; font-size: 0.92rem; color: var(--muted); margin: 0; padding: 0; list-style: none; }
+.meta b { color: var(--ink); font-weight: 600; margin-right: 0.35em; }
+
+/* ---------- day nav ---------- */
+nav.days {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+nav.days .wrap { display: flex; gap: 0.35rem; overflow-x: auto; padding-block: 0.55rem; scrollbar-width: none; }
+nav.days a {
+  flex: none;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+nav.days a:hover { background: var(--wash); }
+nav.days a.p-logic { border-color: color-mix(in srgb, var(--logic) 45%, var(--line)); }
+nav.days a.p-graph { border-color: color-mix(in srgb, var(--graph) 45%, var(--line)); }
+nav.days a.p-vector { border-color: color-mix(in srgb, var(--vector) 45%, var(--line)); }
+
+/* ---------- sections ---------- */
+main section { padding-block: 2.4rem 0.4rem; }
+h2 {
+  font-family: var(--f-serif);
+  font-weight: 700;
+  font-size: 1.45rem;
+  letter-spacing: 0.06em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+  display: flex; align-items: baseline; gap: 0.7rem;
+}
+h2 .sec-no { font-family: var(--f-display); font-weight: 600; font-size: 1.1rem; color: var(--muted); letter-spacing: 0; }
+h3 { font-size: 1.02rem; font-weight: 700; margin: 0 0 0.4rem; }
+p { margin: 0 0 0.9rem; max-width: 42em; }
+.lede { font-size: 1.06rem; }
+ul.plain { margin: 0 0 0.9rem; padding-left: 1.2em; }
+ul.plain li { margin-bottom: 0.25rem; }
+.note {
+  background: var(--wash);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 0.94rem;
+  max-width: 42em;
+}
+.note p:last-child { margin-bottom: 0; }
+
+/* ---------- phase strip ---------- */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1.4rem 0 1rem;
+}
+.phase {
+  border-radius: 10px;
+  padding: 0.9rem 0.95rem 0.8rem;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+  min-width: 0;
+}
+.phase.p-logic { background: var(--logic-wash); --c: var(--logic); }
+.phase.p-graph { background: var(--graph-wash); --c: var(--graph); }
+.phase.p-vector { background: var(--vector-wash); --c: var(--vector); }
+.phase-head { display: flex; align-items: center; gap: 0.6rem; }
+.phase-head svg { flex: none; width: 34px; height: 34px; color: var(--c); }
+.phase-head .k { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--c); font-weight: 600; margin: 0; }
+.phase-head .t { font-family: var(--f-serif); font-weight: 700; font-size: 1.05rem; margin: 0; line-height: 1.35; }
+.phase .tools { font-size: 0.86rem; color: var(--muted); margin: 0; line-height: 1.55; }
+.phase .dd { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.phase .dd a {
+  display: block;
+  background: var(--card);
+  border-radius: 6px;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.phase .dd a b { display: block; font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; color: var(--c); }
+.bridge { font-size: 0.9rem; color: var(--muted); margin: 0; }
+.bridge span { white-space: nowrap; }
+
+/* ---------- tables ---------- */
+.tbl-wrap { overflow-x: auto; margin: 0 0 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 0.82rem; letter-spacing: 0.06em; white-space: nowrap; }
+td.num { text-align: right; white-space: nowrap; }
+
+/* ---------- goals ---------- */
+ol.goals { counter-reset: g; list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; max-width: 44em; }
+ol.goals li { counter-increment: g; display: grid; grid-template-columns: 2rem 1fr; gap: 0.4rem; }
+ol.goals li::before { content: counter(g); font-family: var(--f-display); font-weight: 600; font-size: 1.25rem; color: var(--muted); line-height: 1.5; }
+
+/* ---------- module cards ---------- */
+.mods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+.mod { border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem 1rem; background: var(--card); display: grid; gap: 0.35rem; align-content: start; min-width: 0; }
+.mod .k { font-size: 0.75rem; letter-spacing: 0.14em; font-weight: 600; margin: 0; }
+.mod h3 { font-family: var(--f-serif); margin: 0; }
+.mod .links { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.9rem; }
+.mod .links .na { color: var(--muted); }
+.mod .cnt { font-size: 0.84rem; color: var(--muted); margin: 0; }
+
+/* ---------- schedule ---------- */
+.clock { display: grid; grid-template-columns: max-content 1fr; gap: 0.15rem 1.1rem; font-size: 0.93rem; margin: 0 0 1rem; max-width: 34em; }
+.clock dt { font-variant-numeric: tabular-nums; color: var(--muted); }
+.clock dd { margin: 0; }
+
+/* ---------- day blocks ---------- */
+.day {
+  --c: var(--logic); --w: var(--logic-wash);
+  border-top: 2px solid var(--c);
+  padding-top: 1.1rem;
+  margin-bottom: 2.6rem;
+  scroll-margin-top: 4.5rem;
+}
+.day.p-graph { --c: var(--graph); --w: var(--graph-wash); }
+.day.p-vector { --c: var(--vector); --w: var(--vector-wash); }
+.day-head { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.day-no { font-family: var(--f-display); font-weight: 600; font-size: 2.6rem; line-height: 1; color: var(--c); font-variant-numeric: lining-nums; }
+.day-no small { font-size: 0.95rem; letter-spacing: 0.12em; margin-right: 0.15rem; }
+.day-head .titles { min-width: 0; flex: 1 1 18rem; }
+.day-head .tag { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--c); font-weight: 600; margin: 0; }
+.day-head h3 { font-family: var(--f-serif); font-size: 1.3rem; margin: 0; line-height: 1.4; text-wrap: balance; }
+
+.day-body { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 1.6rem; }
+.rail { display: grid; gap: 1rem; align-content: start; font-size: 0.9rem; min-width: 0; }
+.rail h4, .main h4 { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--muted); font-weight: 600; margin: 0 0 0.3rem; }
+.rail ol { margin: 0; padding-left: 1.3em; line-height: 1.6; }
+.rail ol li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.rail .open { display: inline-block; margin-top: 0.4rem; font-weight: 600; color: var(--c); }
+.rail p { margin: 0; line-height: 1.6; }
+.rail .opt { color: var(--muted); }
+.main { display: grid; gap: 1.1rem; align-content: start; min-width: 0; }
+.main ul { margin: 0; padding-left: 1.2em; }
+.main ul li { margin-bottom: 0.2rem; }
+ul.ex { list-style: none; padding: 0; display: grid; gap: 0.3rem; }
+ul.ex li { display: grid; grid-template-columns: 3.6rem 1fr; gap: 0.5rem; align-items: baseline; }
+.exno { font-size: 0.78rem; font-weight: 600; color: var(--c); background: var(--w); border-radius: 4px; padding: 0.05rem 0.4rem; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.live { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: var(--card); background: var(--c); border-radius: 3px; padding: 0 0.35rem; margin-right: 0.4rem; vertical-align: 0.1em; }
+.hw { background: var(--w); border-radius: 8px; padding: 0.8rem 1rem; }
+.hw h4 { color: var(--c); }
+.hw p { margin: 0; }
+.next { font-size: 0.9rem; color: var(--muted); margin: 0; }
+.next b { color: var(--c); font-weight: 600; }
+
+/* ---------- capstone ---------- */
+.cap { border: 1px solid var(--line); border-radius: 10px; background: var(--card); overflow: hidden; }
+.cap-head { padding: 1.1rem 1.2rem 0.4rem; }
+.cap-head p { margin-bottom: 0.6rem; }
+.cap-rows { display: grid; }
+.cap-row { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 5.5rem; gap: 1rem; padding: 0.7rem 1.2rem; border-top: 1px solid var(--line); align-items: baseline; }
+.cap-row .lbl { font-family: var(--f-serif); font-weight: 700; }
+.cap-row .when { font-size: 0.84rem; color: var(--muted); text-align: right; white-space: nowrap; }
+.cap-row.r-logic .lbl { color: var(--logic); }
+.cap-row.r-graph .lbl { color: var(--graph); }
+.cap-row.r-vector .lbl { color: var(--vector); }
+.cap-foot { padding: 0.8rem 1.2rem 1rem; border-top: 1px solid var(--line); background: var(--wash); font-size: 0.92rem; }
+.cap-foot p { margin: 0 0 0.3rem; }
+.cap-foot p:last-child { margin: 0; }
+
+/* ---------- grading ---------- */
+.grade { display: grid; gap: 0.55rem; max-width: 40em; }
+.grade-row { display: grid; grid-template-columns: minmax(0, 1fr) 3.2rem; gap: 0.2rem 1rem; align-items: baseline; }
+.grade-row .bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--wash); overflow: hidden; }
+.grade-row .bar i { display: block; height: 100%; background: var(--muted); border-radius: 3px; }
+.grade-row .pct { font-family: var(--f-display); font-weight: 600; font-size: 1.3rem; text-align: right; font-variant-numeric: tabular-nums lining-nums; }
+.grade-row .what small { color: var(--muted); display: block; font-size: 0.85rem; line-height: 1.5; }
+
+footer { padding-block: 2.5rem 3rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); margin-top: 2.5rem; }
+footer p { margin: 0 0 0.3rem; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 760px) {
+  .strip, .mods { grid-template-columns: minmax(0, 1fr); }
+  .day-body { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; }
+  .rail { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.9rem 1.4rem; }
+  .cap-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .cap-row .lbl { grid-column: 1; }
+  .cap-row .when { grid-column: 2; grid-row: 1; }
+  .cap-row .what { grid-column: 1 / -1; }
+}
+</style>
+
+<header class="top wrap">
+  <p class="eyebrow"><a href="https://loperntu.github.io/mathling/book-zh.html#foundations">MATHLING</a> 輔助課程 · 課程綱要</p>
+  <h1>語意的三種數學</h1>
+  <p class="subtitle">六日圖解工作坊：從真值條件、關係網路到向量空間</p>
+  <ul class="meta">
+    <li><b>授課</b>謝舒凱</li>
+    <li><b>形式</b>六個半天，每次約 3 小時</li>
+    <li><b>先備</b>高中數學</li>
+    <li><b>教材</b><a href="https://loperntu.github.io/mathling/foundations/index.html" target="_blank" rel="noopener">語言學的數學基礎（圖解模組）</a></li>
+  </ul>
+</header>
+
+<nav class="days" aria-label="跳到">
+  <div class="wrap">
+    <a href="#intro">簡介</a>
+    <a href="#day1" class="p-logic">Day 1</a>
+    <a href="#day2" class="p-logic">Day 2</a>
+    <a href="#day3" class="p-graph">Day 3</a>
+    <a href="#day4" class="p-graph">Day 4</a>
+    <a href="#day5" class="p-vector">Day 5</a>
+    <a href="#day6" class="p-vector">Day 6</a>
+    <a href="#capstone">期末專題</a>
+    <a href="#grading">評量</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ===== 簡介 ===== -->
+  <section id="intro">
+    <h2><span class="sec-no">i</span>課程簡介</h2>
+    <p class="lede">語言學家談「意義」時，背後其實預設了不同的數學物件。這個工作坊以 Mathling 的三本圖解模組為主軸，用六天走過三種看待意義的方式，從<b>離散的符號</b>一路走到<b>連續的空間</b>。</p>
+
+    <div class="strip" role="list">
+      <div class="phase p-logic" role="listitem">
+        <div class="phase-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><text x="17" y="25" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="26" font-weight="600" fill="currentColor">λ</text></svg>
+          <div><p class="k">DAY 1–2 · 邏輯</p><p class="t">意義是真值條件</p></div>
+        </div>
+        <p class="tools">命題／謂詞邏輯、模型、語意型別、λ 演算</p>
+        <div class="dd">
+          <a href="#day1"><b>Day 1</b>邏輯形式與模型</a>
+          <a href="#day2"><b>Day 2</b>型別、組合與漢語</a>
+        </div>
+      </div>
+      <div class="phase p-graph" role="listitem">
+        <div class="phase-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><g stroke="currentColor" stroke-width="1.6" fill="none"><line x1="17" y1="7" x2="7" y2="26"/><line x1="17" y1="7" x2="27" y2="26"/><line x1="7" y1="26" x2="27" y2="26"/></g><g fill="currentColor"><circle cx="17" cy="7" r="3.6"/><circle cx="7" cy="26" r="3.6"/><circle cx="27" cy="26" r="3.6"/></g></svg>
+          <div><p class="k">DAY 3–4 · 圖論</p><p class="t">意義是關係網路</p></div>
+        </div>
+        <p class="tools">圖、樹、DAG、偏序與格、中心性、詞彙網路</p>
+        <div class="dd">
+          <a href="#day3"><b>Day 3</b>結構、距離、繼承</a>
+          <a href="#day4"><b>Day 4</b>詞網、相似度、圖嵌入</a>
+        </div>
+      </div>
+      <div class="phase p-vector" role="listitem">
+        <div class="phase-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"><line x1="6" y1="28" x2="27" y2="9"/><polyline points="20,8.5 27,9 26,16"/><line x1="6" y1="28" x2="29" y2="25" opacity=".55"/><polyline points="23.5,22 29,25 24,28.5" opacity=".55"/></g></svg>
+          <div><p class="k">DAY 5–6 · 向量</p><p class="t">意義是空間中的位置</p></div>
+        </div>
+        <p class="tools">內積、矩陣、SVD、PMI、詞嵌入、流形</p>
+        <div class="dd">
+          <a href="#day5"><b>Day 5</b>從共現到詞嵌入</a>
+          <a href="#day6"><b>Day 6</b>嵌入的幾何＋綜合</a>
+        </div>
+      </div>
+    </div>
+    <p class="bridge">每一階段的最後一節都是通往下一階段的橋：<span>λ 組合 → 句法樹也是圖</span>；<span>圖嵌入 → 向量空間</span>；<span>嵌入空間 → 流形與曲率</span>。</p>
+
+    <div class="note" style="margin-top:1.2rem">
+      <p><b>怎麼讀數學</b>　每個概念都依「先圖像、再句子、最後符號」的順序讀（本書 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-1-5" target="_blank" rel="noopener">§1.5</a>）：先看圖解，再用白話說出它在講什麼，最後才寫成公式。</p>
+    </div>
+  </section>
+
+  <!-- ===== 對象與目標 ===== -->
+  <section id="goals">
+    <h2><span class="sec-no">ii</span>修課對象與學習目標</h2>
+    <ul class="plain">
+      <li><b>對象</b>：語言學研究生、高年級大學生，或對計算語言學有興趣的人文社科背景學員。</li>
+      <li><b>先備</b>：高中數學即可。不需要微積分或線性代數，用到的部分模組都會從頭說明。修過語意學或句法學導論會更容易進入狀況，但不是必要條件。</li>
+    </ul>
+    <h3 style="margin-top:1.2rem">修完本課程後，你能夠：</h3>
+    <ol class="goals">
+      <li>把自然語言句子翻成邏輯式，並依句法樹、透過型別與 λ 演算一步步算出真值條件。</li>
+      <li>用圖、樹、偏序與格描述詞彙關係，並讀懂 WordNet／中文詞彙網路（CWN）的結構與相似度計算。</li>
+      <li>從共現矩陣、PMI 與 SVD 理解詞向量怎麼來，並解釋餘弦相似度、類比與降維的意義與侷限。</li>
+      <li>在直覺層次上理解「嵌入空間是流形」「階層適合放進雙曲空間」這類說法在講什麼。</li>
+      <li>對同一個中文詞，比較邏輯、圖、向量三種表徵各自能回答什麼問題，又回答不了什麼。</li>
+    </ol>
+  </section>
+
+  <!-- ===== 教材 ===== -->
+  <section id="materials">
+    <h2><span class="sec-no">iii</span>教材與環境</h2>
+    <p>三本圖解模組都在瀏覽器裡直接開，可以互動。請在 Day 1 前先打開確認能正常顯示。</p>
+    <div class="mods">
+      <div class="mod">
+        <p class="k" style="color:var(--logic)">DAY 1–2</p>
+        <h3>形式語義學的邏輯基礎</h3>
+        <div class="links">
+          <a href="https://loperntu.github.io/mathling/foundations/語意學的邏輯基礎.dc.html" target="_blank" rel="noopener">中文版</a>
+          <a href="https://loperntu.github.io/mathling/foundations/Logic%20for%20Formal%20Semantics.dc.html" target="_blank" rel="noopener">English</a>
+          <a href="https://loperntu.github.io/mathling/foundations/logic-standalone.html" target="_blank" rel="noopener">離線單檔版</a>
+        </div>
+        <p class="cnt">9 節 · 10 題練習</p>
+      </div>
+      <div class="mod">
+        <p class="k" style="color:var(--graph)">DAY 3–4</p>
+        <h3>語意學的圖論基礎</h3>
+        <div class="links">
+          <a href="https://loperntu.github.io/mathling/foundations/語意學的圖論基礎.dc.html" target="_blank" rel="noopener">中文版</a>
+          <a href="https://loperntu.github.io/mathling/foundations/Graph%20Theory%20for%20Semantics.dc.html" target="_blank" rel="noopener">English</a>
+        </div>
+        <p class="cnt">13 節 · 10 題練習</p>
+      </div>
+      <div class="mod">
+        <p class="k" style="color:var(--vector)">DAY 5–6</p>
+        <h3>語意學的向量基礎</h3>
+        <div class="links">
+          <a href="https://loperntu.github.io/mathling/foundations/語意學的向量基礎.dc.html" target="_blank" rel="noopener">中文版</a>
+          <span class="na">English 準備中</span>
+        </div>
+        <p class="cnt">13 節 · 8 題練習</p>
+      </div>
+    </div>
+    <ul class="plain">
+      <li><b>本書選讀</b>：<a href="https://loperntu.github.io/mathling/book-zh.html" target="_blank" rel="noopener">Mathling 中文版</a>（<a href="https://loperntu.github.io/mathling/book.html" target="_blank" rel="noopener">English</a>）。各日章節連結直接跳到該節。</li>
+      <li><b>工具</b>：紙筆為主。Day 5 起可用試算表（Excel／Google Sheets）手算小型共現矩陣，不需要寫程式。</li>
+    </ul>
+
+    <h3 style="margin-top:1.4rem">每次上課的時間配置（約 180 分鐘）</h3>
+    <dl class="clock">
+      <dt>0:00–0:15</dt><dd>回顧前一次作業、暖身題</dd>
+      <dt>0:15–1:15</dt><dd>圖解導讀（一）</dd>
+      <dt>1:15–1:25</dt><dd>休息</dd>
+      <dt>1:25–2:25</dt><dd>圖解導讀（二）＋課堂練習</dd>
+      <dt>2:25–3:00</dt><dd>練習討論、銜接下一次、作業說明</dd>
+    </dl>
+  </section>
+
+  <!-- ===== 每日 ===== -->
+  <section id="schedule">
+    <h2><span class="sec-no">iv</span>每日課程</h2>
+
+    <!-- Day 1 -->
+    <article class="day p-logic" id="day1">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>1</div>
+        <div class="titles"><p class="tag">邏輯（上）</p><h3>意義作為真值條件</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 1–5 節</h4>
+            <ol>
+              <li>論證與邏輯形式</li>
+              <li>命題邏輯</li>
+              <li>謂詞邏輯</li>
+              <li>模型與真值條件</li>
+              <li>集合、關係與函數</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的邏輯基礎.dc.html" target="_blank" rel="noopener">開啟邏輯模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><a href="https://loperntu.github.io/mathling/book-zh.html#ch2" target="_blank" rel="noopener">第 2 章</a> §2.1–2.4<br><a href="https://loperntu.github.io/mathling/book-zh.html#sec-3-1" target="_blank" rel="noopener">第 3 章</a> §3.1–3.3</p>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>分辨論證的「形式」與「內容」，看出有效推論為何只靠形式。</li>
+              <li>用謂詞、個體常項與量詞改寫中文句子。</li>
+              <li>給定一個小模型（論域＋解釋函數），判斷句子在其中的真假。</li>
+              <li>用集合、關係、函數描述語言現象，例如音韻特徵與詞形變化表。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂活動</h4>
+            <ul>
+              <li>「每個學生都讀了一本書」有幾種讀法？分別寫出量詞範疇不同的邏輯式。</li>
+              <li>小組各設計一個 4–5 個個體的迷你模型，彼此交換、互判真值。</li>
+              <li>「是…的上位詞」「與…同義」作為關係，是否具反身、對稱、遞移性？</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>作業 1</h4>
+            <p>挑 5 個中文句子（至少含 1 個否定、1 個全稱量詞、1 個存在量詞），寫出謂詞邏輯式，並建構一個讓其中 3 句為真、2 句為假的模型。</p>
+          </div>
+          <p class="next">下一步：真值條件說明了「句子」的意義，那「詞」怎麼貢獻意義？→ <b>Day 2</b> 的型別與 λ 演算。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Day 2 -->
+    <article class="day p-logic" id="day2">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>2</div>
+        <div class="titles"><p class="tag">邏輯（下）</p><h3>組合性、型別與漢語</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 6–9 節</h4>
+            <ol start="6">
+              <li>語意型別與 λ 演算</li>
+              <li>組合規則：從句法樹到真值</li>
+              <li>實戰演練：語意型別與詞彙分解</li>
+              <li>漢語句子的語意分析</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的邏輯基礎.dc.html" target="_blank" rel="noopener">開啟邏輯模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><a href="https://loperntu.github.io/mathling/book-zh.html#sec-3-4" target="_blank" rel="noopener">§3.4</a> λ 演算<br><a href="https://loperntu.github.io/mathling/book-zh.html#sec-3-6" target="_blank" rel="noopener">§3.6</a> 廣義量詞<br><span class="opt">選讀 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-3-5" target="_blank" rel="noopener">§3.5</a> 模態邏輯</span></p>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>為詞彙指派語意型別（e、t、⟨e,t⟩ …），並做型別檢查。</li>
+              <li>用函數應用與 β 化約，沿句法樹由下而上算出整句的真值條件。</li>
+              <li>用詞彙分解討論蘊涵與使動，並看出漢語的量詞、否定、並列在形式上帶來的問題。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂練習</h4>
+            <ul class="ex">
+              <li><span class="exno">練習 1</span>分解如何預測蘊涵</li>
+              <li><span class="exno">練習 2</span>「殺」等於「使死」嗎？</li>
+              <li><span class="exno">練習 3</span>型別檢查</li>
+              <li><span class="exno">練習 4</span>享受一杯咖啡、開始一本書</li>
+              <li><span class="exno">練習 5</span>每個謂詞選了哪一面？</li>
+              <li><span class="exno">練習 6</span>快的打字員、快的車、好刀</li>
+              <li><span class="exno">練習 7</span>「並且」「沒」與名詞組的「和」</li>
+              <li><span class="exno">練習 8</span>英語為什麼不需要量詞？</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>作業 2</h4>
+            <p>完成<b>練習 9</b>（張三讀那一本書）與<b>練習 10</b>（張三喜歡那一位教數學的老師）：畫出句法樹，標出每個節點的型別與語意值。</p>
+          </div>
+          <p class="next">下一步：句法樹本身就是一種圖。如果把整個詞彙看成一張網呢？→ <b>Day 3</b>。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Day 3 -->
+    <article class="day p-graph" id="day3">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>3</div>
+        <div class="titles"><p class="tag">圖論（上）</p><h3>結構、距離與繼承</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 1–6 節</h4>
+            <ol>
+              <li>圖的基本概念</li>
+              <li>有向圖、樹與有向無環圖</li>
+              <li>路徑、距離與最短路徑</li>
+              <li>偏序、格與繼承</li>
+              <li>中心性與圖的度量</li>
+              <li>語意網路：從 Quillian 到擴散激發</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的圖論基礎.dc.html" target="_blank" rel="noopener">開啟圖論模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><a href="https://loperntu.github.io/mathling/book-zh.html#sec-5-1" target="_blank" rel="noopener">§5.1–5.2</a> 樹與依存圖<br><a href="https://loperntu.github.io/mathling/book-zh.html#sec-5-4" target="_blank" rel="noopener">§5.4</a> 圖的性質與語言共性</p>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>分辨無向圖、有向圖、樹與 DAG，並說明各自適合表徵哪種語言結構。</li>
+              <li>計算最短路徑距離，理解「詞彙距離」的圖論定義。</li>
+              <li>用偏序與格理解分類階層與屬性繼承。</li>
+              <li>解讀中心性指標，並用擴散激發模型推論語意促發的反應時間。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂練習</h4>
+            <ul class="ex">
+              <li><span class="exno">練習 1</span>畫出分類圖</li>
+              <li><span class="exno">練習 2</span>算距離</li>
+              <li><span class="exno">練習 3</span>判斷關係的性質（呼應 Day 1 的關係性質討論）</li>
+              <li><span class="exno">練習 4</span>解讀中心性</li>
+              <li><span class="exno">練習 5</span>預測反應時間</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>作業 3</h4>
+            <p>從一個熟悉的語意場（親屬詞、烹飪動詞、顏色詞…）挑 8–12 個詞，畫出上下位與同義關係圖；指出它是不是樹、是不是 DAG，並找出中心性最高的節點。</p>
+          </div>
+          <p class="next">下一步：手繪的小網路怎麼擴充成真實的詞彙資源？→ <b>Day 4</b> 的 WordNet 與 CWN。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Day 4 -->
+    <article class="day p-graph" id="day4">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>4</div>
+        <div class="titles"><p class="tag">圖論（下）</p><h3>詞彙網路、相似度與圖嵌入</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 7–13 節</h4>
+            <ol start="7">
+              <li>知識圖譜與 RDF 三元組</li>
+              <li>WordNet 的結構</li>
+              <li>中文詞彙網路 CWN</li>
+              <li>語意相似度</li>
+              <li>詞義消歧</li>
+              <li>圖嵌入</li>
+              <li>實戰：小型詞網瀏覽器</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的圖論基礎.dc.html" target="_blank" rel="noopener">開啟圖論模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><a href="https://loperntu.github.io/mathling/book-zh.html#sec-5-3" target="_blank" rel="noopener">§5.3</a> 語意與篇章的圖<br><a href="https://loperntu.github.io/mathling/book-zh.html#sec-5-5" target="_blank" rel="noopener">§5.5</a> 從圖到矩陣<br><span class="opt">選讀 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-10-1" target="_blank" rel="noopener">§10.1–10.2</a> 拓撲</span></p>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>讀懂 WordNet／CWN 的同義詞集、詞義與關係類型。</li>
+              <li>比較以路徑為基礎的相似度計算，說明「相似」與「相關」的差別。</li>
+              <li>理解 Lesk 類詞義消歧的做法與弱點。</li>
+              <li>說明圖嵌入如何把節點變成向量。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂活動與練習</h4>
+            <ul class="ex">
+              <li><span class="exno">現場</span><span><span class="live">互動</span>模組最後一節「小型詞網瀏覽器」：點選節點設定起訖點，比較不同路徑與相似度。</span></li>
+              <li><span class="exno">練習 6</span>讀詞彙矩陣</li>
+              <li><span class="exno">練習 7</span>Lesk 的弱點</li>
+              <li><span class="exno">練習 8</span>同樣的路徑，不同的答案</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>作業 4</h4>
+            <p>完成<b>練習 9</b>（多重繼承）與<b>練習 10</b>（相似不等於相關）。另外在 CWN 查一個多義中文詞，記下它的義項與至少三種詞彙關係，這是期末專題「圖」部分的素材。</p>
+          </div>
+          <p class="next">下一步：圖嵌入把節點放進向量空間。如果不靠人工編的網路，直接從語料算向量呢？→ <b>Day 5</b>。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Day 5 -->
+    <article class="day p-vector" id="day5">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>5</div>
+        <div class="titles"><p class="tag">向量（上）</p><h3>從共現到詞嵌入</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 1–8 節</h4>
+            <ol>
+              <li>向量與向量空間</li>
+              <li>內積、範數與相似度</li>
+              <li>矩陣與線性映射</li>
+              <li>特徵分解、SVD 與低秩近似</li>
+              <li>分佈假說與共現矩陣</li>
+              <li>加權：PMI 與 tf-idf</li>
+              <li>降維：LSA 與語意空間</li>
+              <li>預測式詞嵌入：word2vec 與 GloVe</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的向量基礎.dc.html" target="_blank" rel="noopener">開啟向量模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><a href="https://loperntu.github.io/mathling/book-zh.html#sec-7-1" target="_blank" rel="noopener">§7.1–7.4</a> 分布假說到詞嵌入<br><span class="opt">選讀 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-6-3" target="_blank" rel="noopener">§6.3</a> 資訊理論（PMI 的背景）</span></p>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>計算內積、範數與餘弦相似度，並說明餘弦距離為何不滿足度量的條件。</li>
+              <li>把矩陣看成線性映射，理解 SVD 與最佳低秩近似的直覺。</li>
+              <li>從共現計數經 PMI／PPMI 加權、再降維，走完一條計數式詞向量的流程。</li>
+              <li>說明預測式嵌入與計數式方法的關係，以及類比題能證明什麼、不能證明什麼。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂練習</h4>
+            <ul class="ex">
+              <li><span class="exno">練習 1</span>計算相似度</li>
+              <li><span class="exno">練習 2</span>餘弦距離不是度量</li>
+              <li><span class="exno">練習 3</span>最佳秩 1 近似</li>
+              <li><span class="exno">練習 4</span>計算 PMI</li>
+              <li><span class="exno">練習 5</span>觀察 PPMI 的作用</li>
+              <li><span class="exno">練習 6</span>解類比題</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>作業 5</h4>
+            <p>用試算表為 6–8 個詞、約 10 句的小語料建共現矩陣，算出 PPMI；比較兩對詞在原始計數與 PPMI 下的餘弦相似度，寫一段說明。最好涵蓋你期末專題選的那個多義詞。</p>
+          </div>
+          <p class="next">下一步：一個詞只有一個向量，但它有好幾個義項。向量所在的空間真的是「平的」嗎？→ <b>Day 6</b>。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Day 6 -->
+    <article class="day p-vector" id="day6">
+      <div class="day-head">
+        <div class="day-no"><small>DAY</small>6</div>
+        <div class="titles"><p class="tag">向量（下）＋綜合</p><h3>嵌入空間的幾何，一個詞的三種數學</h3></div>
+      </div>
+      <div class="day-body">
+        <div class="rail">
+          <div>
+            <h4>模組章節　第 9–13 節</h4>
+            <ol start="9">
+              <li>語境化表徵與嵌入空間的幾何</li>
+              <li>流形：局部像平面的空間</li>
+              <li>切空間、黎曼度量與測地線</li>
+              <li>曲率與雙曲嵌入</li>
+              <li>流形學習與概念空間</li>
+            </ol>
+            <a class="open" href="https://loperntu.github.io/mathling/foundations/語意學的向量基礎.dc.html" target="_blank" rel="noopener">開啟向量模組 ↗</a>
+          </div>
+          <div>
+            <h4>本書閱讀</h4>
+            <p><b><a href="https://loperntu.github.io/mathling/book-zh.html#sec-14-5" target="_blank" rel="noopener">§14.5</a> 一個詞，多種數學（課前必讀）</b><br><a href="https://loperntu.github.io/mathling/book-zh.html#sec-9-1" target="_blank" rel="noopener">§9.1–9.3</a> 意義的幾何<br><span class="opt">選讀 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-8-2" target="_blank" rel="noopener">§8.2</a>、<a href="https://loperntu.github.io/mathling/book-zh.html#sec-8-5" target="_blank" rel="noopener">§8.5</a></span></p>
+          </div>
+          <div>
+            <h4>本日時間配置</h4>
+            <dl class="clock" style="margin:0">
+              <dt>0:00–1:20</dt><dd>模組第 9–13 節</dd>
+              <dt>1:20–1:30</dt><dd>休息</dd>
+              <dt>1:30–1:45</dt><dd>綜合講評</dd>
+              <dt>1:45–3:00</dt><dd>期末專題報告</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="main">
+          <div>
+            <h4>學習目標</h4>
+            <ul>
+              <li>理解「流形是局部像平面的空間」，以及切空間、度量、測地線的直覺。</li>
+              <li>說明為什麼樹狀階層適合放進雙曲空間（呼應 Day 3–4 的上下位結構）。</li>
+              <li>比較邏輯、圖、向量三種表徵各自回答的問題。</li>
+            </ul>
+          </div>
+          <div>
+            <h4>課堂活動與練習</h4>
+            <ul class="ex">
+              <li><span class="exno">現場</span><span><span class="live">互動</span>「切空間、黎曼度量與測地線」一節的滑桿：拖動夾角 θ，觀察度量如何改變長度與角度。</span></li>
+              <li><span class="exno">練習 7</span>球面的度量</li>
+              <li><span class="exno">練習 8</span>邊界附近的距離</li>
+              <li><span class="exno">綜合</span>以本書 §14.5 的表格回顧六天：同一個詞，在每個框架裡變成了什麼？</li>
+            </ul>
+          </div>
+          <div class="hw">
+            <h4>本日報告</h4>
+            <p>各組期末專題口頭報告，每組 8–10 分鐘。書面報告於一週內繳交。</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===== 期末專題 ===== -->
+  <section id="capstone">
+    <h2><span class="sec-no">v</span>期末專題：一個詞，三種數學</h2>
+    <div class="cap">
+      <div class="cap-head">
+        <p>本書 <a href="https://loperntu.github.io/mathling/book-zh.html#sec-14-5" target="_blank" rel="noopener">§14.5</a> 把英文 <i>bank</i> 放進每個數學框架，看它各變成什麼。請各組（2–3 人）照這個做法，挑<b>一個多義中文詞</b>，例如「打」「開」「花」「關係」，或自選後經老師同意，完成以下四部分。</p>
+      </div>
+      <div class="cap-rows">
+        <div class="cap-row r-logic"><span class="lbl">邏輯</span><span class="what">為兩個義項寫出語意型別與 λ 式，各用一個句子示範組合推導。</span><span class="when">Day 1–2</span></div>
+        <div class="cap-row r-graph"><span class="lbl">圖</span><span class="what">依 CWN 畫出該詞的局部子圖（義項、上下位、同義等），計算至少一組路徑距離。</span><span class="when">Day 3–4</span></div>
+        <div class="cap-row r-vector"><span class="lbl">向量</span><span class="what">用小語料的共現／PPMI（或現成詞向量）說明兩個義項的語境差異。</span><span class="when">Day 5</span></div>
+        <div class="cap-row"><span class="lbl">反思</span><span class="what">對照 §14.5 的表格：每種表徵回答了什麼問題？漏掉了什麼？</span><span class="when">Day 6</span></div>
+      </div>
+      <div class="cap-foot">
+        <p><b>時程</b>　Day 1 公布並分組；作業 2、4、5 會逐步累積專題素材；Day 6 口頭報告。</p>
+        <p><b>繳交</b>　書面報告約 4–6 頁，Day 6 後一週內繳交。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 評量 ===== -->
+  <section id="grading">
+    <h2><span class="sec-no">vi</span>評量方式</h2>
+    <div class="grade">
+      <div class="grade-row"><span class="what">每日作業（作業 1–5）<small>每份 8%。看推導過程與說明，不只看答案。</small></span><span class="pct">40%</span><span class="bar"><i style="width:40%"></i></span></div>
+      <div class="grade-row"><span class="what">期末專題書面報告<small>三種表徵的正確性，加上反思的深度。</small></span><span class="pct">25%</span><span class="bar"><i style="width:25%"></i></span></div>
+      <div class="grade-row"><span class="what">課堂參與與練習<small>每次課堂練習的完成與討論。</small></span><span class="pct">20%</span><span class="bar"><i style="width:20%"></i></span></div>
+      <div class="grade-row"><span class="what">期末專題口頭報告<small>Day 6 小組報告。</small></span><span class="pct">15%</span><span class="bar"><i style="width:15%"></i></span></div>
+    </div>
+  </section>
+
+  <!-- ===== 課程地圖 ===== -->
+  <section id="map">
+    <h2><span class="sec-no">vii</span>課程地圖</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>日次</th><th>圖解模組</th><th>模組節次</th><th>模組練習</th><th>本書章節</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#day1">Day 1</a></td><td style="color:var(--logic)">邏輯</td><td>1–5</td><td>課堂自編</td><td>Ch 2；§3.1–3.3</td></tr>
+          <tr><td><a href="#day2">Day 2</a></td><td style="color:var(--logic)">邏輯</td><td>6–9</td><td>1–10</td><td>§3.4、§3.6（§3.5 選讀）</td></tr>
+          <tr><td><a href="#day3">Day 3</a></td><td style="color:var(--graph)">圖論</td><td>1–6</td><td>1–5</td><td>§5.1–5.2、§5.4</td></tr>
+          <tr><td><a href="#day4">Day 4</a></td><td style="color:var(--graph)">圖論</td><td>7–13</td><td>6–10</td><td>§5.3、§5.5（Ch 10 選讀）</td></tr>
+          <tr><td><a href="#day5">Day 5</a></td><td style="color:var(--vector)">向量</td><td>1–8</td><td>1–6</td><td>§7.1–7.4（§6.3 選讀）</td></tr>
+          <tr><td><a href="#day6">Day 6</a></td><td style="color:var(--vector)">向量</td><td>9–13</td><td>7–8</td><td>§9.1–9.3、§14.5（Ch 8 選讀）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 延伸 ===== -->
+  <section id="further">
+    <h2><span class="sec-no">viii</span>課後延伸</h2>
+    <ul class="plain">
+      <li><b>機率與資訊理論</b>：本書 <a href="https://loperntu.github.io/mathling/book-zh.html#ch6" target="_blank" rel="noopener">第 6 章</a>，補上 Day 5 PMI 背後的資訊論。</li>
+      <li><b>形式語言與自動機</b>：本書 <a href="https://loperntu.github.io/mathling/book-zh.html#ch4" target="_blank" rel="noopener">第 4 章</a>，本課程沒有涵蓋喬姆斯基階層。</li>
+      <li><b>拓撲與微分幾何</b>：本書 <a href="https://loperntu.github.io/mathling/book-zh.html#ch10" target="_blank" rel="noopener">第 10</a>–<a href="https://loperntu.github.io/mathling/book-zh.html#ch11" target="_blank" rel="noopener">11 章</a>。</li>
+      <li><b>語言作為複雜系統</b>：本書 <a href="https://loperntu.github.io/mathling/book-zh.html#ch13" target="_blank" rel="noopener">第 13 章</a>與<a href="https://loperntu.github.io/mathling/language_complexity_simulator.html" target="_blank" rel="noopener">互動模擬器</a>。</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>語意的三種數學 · 六日圖解工作坊　課程綱要草案</p>
+    <p>教材：Mathling《語言學的數學基礎》圖解模組，以及 Mathling 本書 <i>The Geometry of Grammar</i></p>
+  </div>
+</footer>
