@@ -1510,43 +1510,9 @@ The CAS perspective of Chapter 13 reminds us that the mathematical frameworks su
 
 # Appendix B. Mathematical Foundations of Linguistics {#foundations .unnumbered}
 
-The chapters above introduce mathematical ideas *through linguistic questions*. This appendix reverses the direction and gathers the primers into a short book that can also be read on its own: build the toolkit first, then return to language. The table of contents is the entrance: [Mathematical Foundations of Linguistics](foundations/index.html).
+The chapters above introduce mathematical ideas *through linguistic questions*. This appendix reverses the direction and gathers the primers into a short book that can also be read on its own: build the toolkit first, then return to language.
 
-The short book has three parts. Part I is the mathematics of meaning itself. Part II puts the same tools inside a large language model. Part III reads the model as an architecture. Each primer can be read before the chapter it pairs with, or afterward as a workshop.
-
-### B.1 Part I · The Mathematics of Meaning
-
-**1. Logic for formal semantics.** From arguments and logical form through propositional and predicate logic, models and truth conditions, sets, relations, functions, semantic types, and the λ-calculus. Pair with Chapter 3.
-
-- Chinese: [形式語義學的邏輯基礎](foundations/語意學的邏輯基礎.dc.html)
-- English: [Logical Foundations of Formal Semantics](foundations/Logic%20for%20Formal%20Semantics.dc.html)
-- Offline bundle: [logic-standalone.html](foundations/logic-standalone.html)
-
-**2. Graph theory for semantics.** Graphs, trees, and DAGs; paths and distance; partial orders, lattices, and inheritance; semantic networks; WordNet and the Chinese Wordnet; similarity and graph embeddings. Pair with Chapters 5 and 10.
-
-- Chinese: [語意學的圖論基礎](foundations/語意學的圖論基礎.dc.html)
-- English: [Graph Theory for Semantics](foundations/Graph%20Theory%20for%20Semantics.dc.html)
-
-**3. Vector foundations for semantics.** Vectors and similarity, SVD and LSA, word embeddings, and a first look at manifolds, geodesics, curvature, and hyperbolic embeddings. Pair with Chapters 7 and 9. Chinese only for now: [語意學的向量基礎](foundations/語意學的向量基礎.dc.html).
-
-### B.2 Part II · The Mathematics inside a Model
-
-Read these four in order: statistics, calculus, linear algebra, differential geometry. The calculus primer assumes Chapter 3 of the statistics primer; the geometry primer assumes the linear-algebra and calculus primers. Chinese only for now.
-
-**4. [Statistics for LLMs](foundations/LLM%20統計學圖解.dc.html).** Probability, distributions and sampling, learning from data, evaluation and uncertainty. Pair with Chapter 6.
-
-**5. [Calculus for LLMs](foundations/LLM%20微積分圖解.dc.html).** Derivatives and gradients, the chain rule, and backpropagation. Pair with Chapter 8.
-
-**6. [Linear algebra for LLMs](foundations/LLM%20線性代數圖解.dc.html).** Embeddings, the matrix products inside attention, low-rank factorization, and the residual stream. Pair with Chapters 7 and 8.
-
-**7. [Differential geometry for LLMs](foundations/LLM%20微分幾何圖解.dc.html).** Manifolds, metrics, superposition, and feature directions. Pair with Chapters 9 and 11.
-
-### B.3 Part III · The Model Itself
-
-**8. [Transformers and large language models](foundations/圖解學習指南：Transformer%20與大型語言模型（全六章）.html).** Six chapters: foundations, embeddings, the architecture, large language models, applications, and mechanistic interpretability. Pair with Chapter 8. Its last chapter returns to the linear algebra, calculus, and geometry of Part II.
-
-> These primers run in the browser. They accompany the book; they do not replace the chapter arguments. Where an English edition is not yet written, read the Chinese primer or return to the paired chapter.
-{.intuition}
+Entrance: [Mathematical Foundations of Linguistics](foundations/index.html).
 
 # Selected Bibliography {#bibliography .unnumbered}
 

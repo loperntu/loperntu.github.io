@@ -1432,43 +1432,9 @@ CAS 觀點也照亮了大型語言模型（LLM）的行為。魏等人（Wei et 
 
 # Appendix C. 語言學的數學基礎 {#foundations .unnumbered}
 
-本書各章多半「從語言問題走進數學」。本附錄把方向倒過來，收成一本可以單獨閱讀的圖解小書：先把工具箱建好，再回到語言。目錄即入口：[語言學的數學基礎](foundations/index.html)。
+本書各章多半「從語言問題走進數學」。本附錄把方向倒過來，收成一本可以單獨閱讀的圖解小書：先把工具箱建好，再回到語言。
 
-小書分三部。第一部處理語意本身用到的數學；第二部把同一套工具放進大型語言模型裡看；第三部讀模型的架構。每一篇都可以對著下面標出的章節預習，也可以等讀完該章再回來當工作坊。
-
-### C.1 第一部　語意的數學
-
-**1. 形式語義學的邏輯基礎。** 從論證與邏輯形式出發，涵蓋命題／謂詞邏輯、模型與真值條件、集合／關係／函數、語意型別與 λ 演算。對照第 3 章。
-
-- 中文：[形式語義學的邏輯基礎](foundations/語意學的邏輯基礎.dc.html)
-- 英文：[Logical Foundations of Formal Semantics](foundations/Logic%20for%20Formal%20Semantics.dc.html)
-- 離線版：[logic-standalone.html](foundations/logic-standalone.html)
-
-**2. 語意學的圖論基礎。** 圖、樹與 DAG；路徑與距離；偏序、格與繼承；語意網路；WordNet 與中文詞彙網路；相似度與圖嵌入。對照第 5、10 章。
-
-- 中文：[語意學的圖論基礎](foundations/語意學的圖論基礎.dc.html)
-- 英文：[Graph Theory for Semantics](foundations/Graph%20Theory%20for%20Semantics.dc.html)
-
-**3. 語意學的向量基礎。** 向量與相似度、SVD／LSA、詞嵌入，以及流形、測地線、曲率與雙曲嵌入。對照第 7、9 章。目前只有中文：[語意學的向量基礎](foundations/語意學的向量基礎.dc.html)。
-
-### C.2 第二部　模型裡的數學
-
-四篇依序閱讀：統計、微積分、線性代數、微分幾何。微積分篇假設讀過統計篇第 3 章；幾何篇假設讀過線性代數篇與微積分篇。目前只有中文。
-
-**4. [LLM 的統計學](foundations/LLM%20統計學圖解.dc.html)。** 機率、分布與抽樣、從資料學習、評估與不確定性。對照第 6 章。
-
-**5. [LLM 的微積分](foundations/LLM%20微積分圖解.dc.html)。** 導數與梯度、連鎖律與反向傳播。對照第 8 章。
-
-**6. [LLM 的線性代數](foundations/LLM%20線性代數圖解.dc.html)。** 嵌入、注意力裡的矩陣乘法、低秩分解與殘差流。對照第 7、8 章。
-
-**7. [LLM 的微分幾何](foundations/LLM%20微分幾何圖解.dc.html)。** 流形、度量、疊加與特徵方向。對照第 9、11 章。
-
-### C.3 第三部　模型本身
-
-**8. [Transformer 與大型語言模型](foundations/圖解學習指南：Transformer%20與大型語言模型（全六章）.html)。** 六章：基礎、嵌入、架構、大型語言模型、應用、機制可解釋性。對照第 8 章。第 6 章接回第二部的線性代數、微積分與幾何。
-
-> 這些篇章在瀏覽器中閱讀，是本書的延伸，而非取代各章論證。英文版尚缺的篇目，先讀中文，或回到對應的章。
-{.intuition}
+入口頁：[語言學的數學基礎](foundations/index.html)。
 
 # 參考書目 {#bibliography .unnumbered}
 
